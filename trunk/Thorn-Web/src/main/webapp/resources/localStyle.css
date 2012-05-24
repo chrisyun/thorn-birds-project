@@ -1,0 +1,119 @@
+/**********************common style**********************/
+.msg .x-box-mc {
+	font-size: 14px;
+}
+
+#msg-div {
+	position: absolute;
+	left: 35%;
+	top: 10px;
+	width: 250px;
+	z-index: 20000;
+}
+
+.required {
+	font: 0.8em Verdana !important;
+	color: #f68622;
+	margin-top: 120px;
+}
+
+/**********************ico style**********************/
+/**btn ico*/
+.silk-add {
+	background-image: url(images/local/icons/add.png) !important;
+	background-repeat: no-repeat;
+}
+.silk-delete {
+	background-image: url(images/local/icons/delete.gif) !important;
+	background-repeat: no-repeat;
+}
+.silk-edit {
+	background-image: url(images/local/icons/edit.png) !important;
+	background-repeat: no-repeat;
+}
+.silk-save {
+	background-image: url(images/local/icons/save.gif) !important;
+	background-repeat: no-repeat;
+}
+.silk-tick {
+	background-image: url(images/local/icons/tick.png) !important;
+	background-repeat: no-repeat;
+}
+.silk-cross {
+	background-image: url(images/local/icons/cross.gif) !important;
+	background-repeat: no-repeat;
+}
+.silk-accept {
+	background-image: url(images/local/icons/accept.png) !important;
+	background-repeat: no-repeat;
+}
+.slik-close {
+	background-image: url(images/local/icons/close.png) !important;
+	background-repeat: no-repeat;
+}
+.slik-search {
+	background-image: url(images/local/icons/search.png) !important;
+	background-repeat: no-repeat;
+}
+.slik-refresh {
+	background-image: url(images/local/icons/refresh.png) !important;
+	background-repeat: no-repeat;
+}
+
+
+/**table ico*/
+.silk-nav {
+	background-image: url(images/local/icons/folder_go.png) !important;
+	background-repeat: no-repeat;
+}
+.silk-settings {
+	background-image: url(images/local/icons/folder_wrench.png) !important;
+	background-repeat: no-repeat;
+}
+.silk-table-refresh {
+	background-image: url(images/local/icons/table_refresh.png) !important;
+	background-repeat: no-repeat;
+}
+.silk-application-view-list {
+	background-image: url(images/local/icons/application_view_list.png)
+		!important;
+	background-repeat: no-repeat;
+}
+.silk-grid {
+	background-image: url(images/local/icons/grid.png) !important;
+	background-repeat: no-repeat;
+}
+.silk-app-go {
+	background-image: url(images/local/icons/application_go.png) !important;
+	background-repeat: no-repeat;
+}
+.silk-logout {
+	background-image: url(images/local/icons/logout.gif) !important;
+	background-repeat: no-repeat;
+}
+
+/**tree ico*/
+.tree-user {
+	background-image: url(images/local/icons/user.png) !important;
+	background-repeat: no-repeat;
+}
+.tree-org {
+	background-image: url(images/local/icons/org.png) !important;
+	background-repeat: no-repeat;
+}
+.tree-dd {
+	background-image: url(images/local/icons/dict.gif) !important;
+	background-repeat: no-repeat;
+}
+.tree-pwd {
+	background-image: url(images/local/icons/user-edit.gif) !important;
+	background-repeat: no-repeat;
+}
+.tree-role {
+	background-image: url(images/local/icons/icon-service.gif) !important;
+	background-repeat: no-repeat;
+}
+.tree-source {
+	background-image: url(images/local/icons/resources.gif) !important;
+	background-repeat: no-repeat;
+}
