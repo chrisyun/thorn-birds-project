@@ -1,0 +1,121 @@
+	/** *****************role window start************ */
+	var roleStore = new Ext.data.Store({
+				url : getAllRoleUrl,
+				reader : new Ext.data.JsonReader({
+							id : 'userId'
+						}, Ext.data.Record.create([{
+									name : 'roleCode',
+									type : 'string',
+									mapping : 'roleCode'
+								}, {
+									name : 'roleName',
+									type : 'string',
+									mapping : 'roleName'
+								}]))
+			});
+
+	var roleWindow = new Ext.Window({
+				width : 500,
+				height : 300,
+				shadow : true,
+				frame : true,
+				layout : 'fit',
+				title : '角色分配',
+				closeAction : 'hide',
+				modal : true,
+				closable : true,
+				items : [{
+					id : 'roleAuthFormPanel',
+					xtype : 'form',
+					layout : 'form',
+					frame : true,
+					items : [{
+								xtype : 'hidden',
+								name : 'userId',
+								id : 'userId'
+							}, {
+								xtype : 'hidden',
+								name : 'rolecnIns',
+								id : 'rolecnIns'
+							}, {
+								xtype : 'hidden',
+								name : 'rolecnOuts',
+								id : 'rolecnOuts'
+							}, {
+								xtype : 'twinpanelchooser',
+								id : 'twinpanelChooser',
+								titleLeft : '可选择的权限',
+								titleRight : '已授予的权限',
+								name : 'roles',
+								valueField : 'roleCode',
+								displayField : 'roleName',
+								store : roleStore,
+								invalidText : "请至少选择一个角色",
+								required : false,
+								doubleWidth : 185,
+								doubleHeight : 220,
+								nodeIcon : sys.path
+										+ '/resources/images/default/tree/folder.gif'
+							}]
+				}],
+				buttons : [{
+							text : '保存',
+							iconCls : 'icon_save',
+							handler : saveRoleHandler
+						}, {
+							text : '关闭',
+							iconCls : 'icon_close',
+							handler : function() {
+								roleWindow.hide();
+							}
+						}]
+			});
+	
+	function saveRoleHandler() {
+	
+	}		
+			
+	roleStore.addListener("load", function(thisStore, records, options) {
+				var userId = Ext.getCmp("roleAuthFormPanel").findById("userId")
+						.getValue();
+
+				var ajax = new CommonAjax(getUserRoleUrl);
+
+				ajax.requestData({
+							userId : userId
+						}, null, function(obj, userRoles) {
+							
+							var inRole = new Array();
+							
+							for (var i = 0; i < userRoles.length; i++) {
+								for (var j = 0; j < records.length; j++) {
+									if(userRoles[i].roleCode == records[j].get("roleCode")) {
+										inRole.push(userRoles[i]);
+										break;
+									}
+								}
+							}
+							
+							Ext.getCmp("twinpanelChooser").setValue(inRole);
+						});
+			});
+	
+	function roleHandler() {
+		if (grid.getSelectionModel().getCount() != 1) {
+			Ext.Msg.alert("提示信息", "请选择一条记录!");
+			return;
+		}
+		
+		roleWindow.show();
+		
+		var selectedRecord = grid.getSelectionModel().getSelected();
+		var userId = selectedRecord.get("userId")
+		
+		var thisForm = Ext.getCmp("roleAuthFormPanel").getForm();
+		thisForm.reset();
+		thisForm.setValues({userId : userId});
+		
+		roleStore.load();
+	}		
+			
+	/** *****************role window end************ */
