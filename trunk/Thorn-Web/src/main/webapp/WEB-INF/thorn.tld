@@ -9,7 +9,7 @@
 	<uri>/thorn</uri>
 	<tag>
 		<name>dd</name>
-		<tag-class>org.thorn.web.DDTag</tag-class>
+		<tag-class>org.thorn.web.tag.DDTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
 			<name>typeId</name>
