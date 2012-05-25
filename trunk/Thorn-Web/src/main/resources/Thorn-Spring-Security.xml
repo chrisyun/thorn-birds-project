@@ -44,14 +44,11 @@ http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 	</authentication-manager>
 	<beans:bean id="userDetailsService"
 		class="org.thorn.security.UserSecurityDetailsService">
-		<beans:property name="userService" ref="userService" />
-		<beans:property name="roleService" ref="roleService" />
-		<beans:property name="userCache" ref="userSecurityCache" />
 	</beans:bean>
 	<beans:bean id="securityMetadataSource"
 		class="org.thorn.security.InvocationSecurityMetadataSource">
 		<beans:constructor-arg index="0" ref="resourceService" />
-		<beans:constructor-arg index="1" ref="roleService" />
+		<beans:constructor-arg index="1" ref="authService" />
 	</beans:bean>
 	<beans:bean id="accessDecisionManager"
 		class="org.thorn.security.CoreAccessDecisionManager" />

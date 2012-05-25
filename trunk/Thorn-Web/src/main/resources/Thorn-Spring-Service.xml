@@ -28,4 +28,7 @@
 	
 	<bean id="orgDao" class="org.thorn.org.dao.OrgDaoImpl" />
 	<bean id="orgService" class="org.thorn.org.service.OrgServiceImpl" />
+	
+	<bean id="authDao" class="org.thorn.auth.dao.AuthDaoImpl" />
+	<bean id="authService" class="org.thorn.auth.service.AuthServiceImpl" />
 </beans>
