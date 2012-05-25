@@ -1,4 +1,4 @@
-package org.thorn.web;
+package org.thorn.web.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.List;
 
 /** 
  * @ClassName: FullTree 
- * @Description: 
+ * @Description: 能够完整表示tree的实体对象
  * @author chenyun
  * @date 2012-5-18 下午06:11:09 
  */

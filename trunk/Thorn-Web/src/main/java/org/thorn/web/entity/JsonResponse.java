@@ -1,7 +1,7 @@
-package org.thorn.web;
+package org.thorn.web.entity;
 /** 
  * @ClassName: JsonResponse 
- * @Description: 
+ * @Description: 表示数据结果的实体对象，供给前台使用。除了状态外，还返回了数据
  * @author chenyun
  * @date 2012-5-13 上午11:02:48 
  */

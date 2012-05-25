@@ -1,4 +1,4 @@
-package org.thorn.web;
+package org.thorn.web.util;
 
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.util.StringUtils;

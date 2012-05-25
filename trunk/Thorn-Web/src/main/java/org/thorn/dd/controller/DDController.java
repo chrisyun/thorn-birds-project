@@ -17,8 +17,8 @@ import org.thorn.dao.exception.DBAccessException;
 import org.thorn.dd.entity.Dict;
 import org.thorn.dd.entity.DictType;
 import org.thorn.dd.service.IDataDictService;
-import org.thorn.web.BaseController;
-import org.thorn.web.Status;
+import org.thorn.web.controller.BaseController;
+import org.thorn.web.entity.Status;
 
 /**
  * @ClassName: DDController
@@ -34,7 +34,20 @@ public class DDController extends BaseController {
 	@Autowired
 	@Qualifier("ddService")
 	private IDataDictService ddService;
-
+	
+	/**
+	 * 
+	 * @Description：分页获取字典类型
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 上午10:04:07
+	 * @param start	开始页（0开始）
+	 * @param limit	页数
+	 * @param sort  排序字段
+	 * @param dir	降序/升序
+	 * @param ename 类型英文名
+	 * @param cname 类型中文名
+	 * @return
+	 */
 	@RequestMapping("/dd/getDtPage")
 	@ResponseBody
 	public Page<DictType> getDtPage(long start, long limit, String sort,
@@ -51,6 +64,14 @@ public class DDController extends BaseController {
 		return page;
 	}
 	
+	/**
+	 * 
+	 * @Description：根据类型ID获取所有的字典数据项
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 上午10:05:53
+	 * @param typeId 类型ID
+	 * @return
+	 */
 	@RequestMapping("/dd/getDdList")
 	@ResponseBody
 	public Page<Dict> getDdList(String typeId) {
@@ -68,6 +89,15 @@ public class DDController extends BaseController {
 		return page;
 	}
 	
+	/**
+	 * 
+	 * @Description：新增或修改字典数据项
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 上午10:06:28
+	 * @param dd	   新增或修改的对象
+	 * @param opType 操作类型
+	 * @return
+	 */
 	@RequestMapping("/dd/saveOrModifyDd")
 	@ResponseBody
 	public Status saveOrModifyDd(Dict dd, String opType) {
@@ -92,6 +122,15 @@ public class DDController extends BaseController {
 		return status;
 	}
 	
+	/**
+	 * 
+	 * @Description：新增或修改字典类型
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 上午10:07:28
+	 * @param dt	   新增或修改的对象
+	 * @param opType 操作类型
+	 * @return
+	 */
 	@RequestMapping("/dd/saveOrModifyDt")
 	@ResponseBody
 	public Status saveOrModifyDt(DictType dt, String opType) {
@@ -116,6 +155,14 @@ public class DDController extends BaseController {
 		return status;
 	}
 	
+	/**
+	 * 
+	 * @Description：根据主键批量删除字典数据项
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 上午10:08:09
+	 * @param ids	主键字符串，格式id1,id2,
+	 * @return
+	 */
 	@RequestMapping("/dd/deleteDd")
 	@ResponseBody
 	public Status deleteDd(String ids) {
@@ -133,6 +180,14 @@ public class DDController extends BaseController {
 		return status;
 	}
 	
+	/**
+	 * 
+	 * @Description：根据主键批量删除字典类型项
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 上午10:09:06
+	 * @param ids	主键字符串，格式id1,id2,
+	 * @return
+	 */
 	@RequestMapping("/dd/deleteDt")
 	@ResponseBody
 	public Status deleteDt(String ids) {

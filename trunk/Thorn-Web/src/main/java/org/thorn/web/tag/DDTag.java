@@ -1,4 +1,4 @@
-package org.thorn.web;
+package org.thorn.web.tag;
 
 import java.util.List;
 
@@ -8,10 +8,11 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dd.entity.Dict;
+import org.thorn.web.util.DDUtils;
 
 /**
  * @ClassName: DDTag
- * @Description:
+ * @Description: 数据字典的标签解析类
  * @author chenyun
  * @date 2012-5-8 下午04:07:45
  */

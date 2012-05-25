@@ -1,22 +1,19 @@
-package org.thorn.web;
+package org.thorn.web.controller;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
-import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
+import org.thorn.web.util.CustomDefaultNumberEditor;
 
 /**
  * @ClassName: BaseController
- * @Description:
+ * @Description:controller的一个父类，对类型转换作了功能封装 1、允许数字对象类型的数据为空 2、对int类型的空值设置了默认值
  * @author chenyun
  * @date 2012-5-14 下午02:31:51
  */
@@ -27,11 +24,11 @@ public class BaseController {
 	 */
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) {
-		
-		//必须指定该类型与pojo中的类型一致
+
+		// 必须指定该类型与pojo中的类型一致
 		binder.registerCustomEditor(int.class, new CustomDefaultNumberEditor(
-				Integer.class, true));
-		
+				int.class, true));
+
 		binder.registerCustomEditor(Integer.class, new CustomNumberEditor(
 				Integer.class, true));
 		binder.registerCustomEditor(Long.class, new CustomNumberEditor(
