@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ResourceMapper">
+  <resultMap id="BaseResultMap" type="org.cy.thorn.resource.entity.Resource" >
+    <id column="RESID" property="resid" jdbcType="VARCHAR" />
+    <result column="SNAME" property="sname" jdbcType="VARCHAR" />
+    <result column="RESURL" property="resurl" jdbcType="VARCHAR" />
+    <result column="ISLEAF" property="isleaf" jdbcType="VARCHAR" />
+    <result column="ISSHOW" property="isshow" jdbcType="VARCHAR" />
+    <result column="PARENTRES" property="parentres" jdbcType="VARCHAR" />
+    <result column="ISMODULE" property="ismodule" jdbcType="VARCHAR" />
+    <result column="SORTNUM" property="sortnum" jdbcType="DECIMAL" />
+    <result column="ICONSCLS" property="iconscls" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    T_SYS_RES.RESID, SNAME, RESURL, ISLEAF, ISSHOW, PARENTRES, ISMODULE, SORTNUM, ICONSCLS
+  </sql>
+  
+  <sql id="Where_Clause">
+  	<where>
+  	  <if test="sname != null" >
+        AND SNAME = #{sname,jdbcType=VARCHAR}
+      </if>
+      <if test="isleaf != null" >
+        AND ISLEAF = #{isleaf,jdbcType=VARCHAR}
+      </if>
+      <if test="isshow != null" >
+        AND ISSHOW = #{isshow,jdbcType=VARCHAR}
+      </if>
+      <if test="parentres != null" >
+        AND PARENTRES = #{parentres,jdbcType=VARCHAR}
+      </if>
+      <if test="ismodule != null" >
+        AND ISMODULE = #{ismodule,jdbcType=VARCHAR}
+      </if>
+  	</where>
+  </sql>
+ 
+  <select id="select" parameterType="hashmap" resultMap="BaseResultMap">
+	select 
+		<include refid="Base_Column_List" />
+		from T_SYS_RES
+		<include refid="Where_Clause" />
+		order by PARENTRES ASC,SORTNUM ASC
+  </select>  
+  
+  <select id="selectByParent" parameterType="hashmap" resultMap="BaseResultMap">
+	select 
+		<include refid="Base_Column_List" />
+		  from T_SYS_RES, T_SYS_ROLE_RES RS
+ 		  where RS.RESID (+)= T_SYS_RES.RESID
+ 		  AND ISSHOW = 'YES' AND PARENTRES = #{parentres,jdbcType=VARCHAR}
+		<if test=" roleArray != null">
+			AND T_SYS_RES.RESID IN
+			<foreach item="roleId" collection="roleArray" open="(" separator="," close=")" >
+				#{roleId}
+			</foreach>
+		</if> 
+		order by PARENTRES ASC,SORTNUM ASC
+  </select> 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+
+  <delete id="deleteByPKs">
+    delete from T_SYS_RES
+    where RESID in 
+     <foreach collection="list" item="item" open="(" close=")"
+			separator=",">
+			#{resid,jdbcType=VARCHAR}
+	</foreach>
+  </delete>
+  
+  <insert id="insert" parameterType="org.cy.thorn.resource.entity.Resource" >
+    insert into T_SYS_RES
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="resid != null" >
+        RESID,
+      </if>
+      <if test="sname != null" >
+        SNAME,
+      </if>
+      <if test="resurl != null" >
+        RESURL,
+      </if>
+      <if test="isleaf != null" >
+        ISLEAF,
+      </if>
+      <if test="isshow != null" >
+        ISSHOW,
+      </if>
+      <if test="parentres != null" >
+        PARENTRES,
+      </if>
+      <if test="ismodule != null" >
+        ISMODULE,
+      </if>
+      <if test="sortnum != null" >
+        SORTNUM,
+      </if>
+      <if test="iconscls != null" >
+        ICONSCLS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="resid != null" >
+        #{resid,jdbcType=VARCHAR},
+      </if>
+      <if test="sname != null" >
+        #{sname,jdbcType=VARCHAR},
+      </if>
+      <if test="resurl != null" >
+        #{resurl,jdbcType=VARCHAR},
+      </if>
+      <if test="isleaf != null" >
+        #{isleaf,jdbcType=VARCHAR},
+      </if>
+      <if test="isshow != null" >
+        #{isshow,jdbcType=VARCHAR},
+      </if>
+      <if test="parentres != null" >
+        #{parentres,jdbcType=VARCHAR},
+      </if>
+      <if test="ismodule != null" >
+        #{ismodule,jdbcType=VARCHAR},
+      </if>
+      <if test="sortnum != null" >
+        #{sortnum,jdbcType=DECIMAL},
+      </if>
+      <if test="iconscls != null" >
+        #{iconscls,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="org.cy.thorn.resource.entity.Resource" >
+    update T_SYS_RES
+    <set >
+      <if test="sname != null" >
+        SNAME = #{sname,jdbcType=VARCHAR},
+      </if>
+      <if test="resurl != null" >
+        RESURL = #{resurl,jdbcType=VARCHAR},
+      </if>
+      <if test="isleaf != null" >
+        ISLEAF = #{isleaf,jdbcType=VARCHAR},
+      </if>
+      <if test="isshow != null" >
+        ISSHOW = #{isshow,jdbcType=VARCHAR},
+      </if>
+      <if test="parentres != null" >
+        PARENTRES = #{parentres,jdbcType=VARCHAR},
+      </if>
+      <if test="ismodule != null" >
+        ISMODULE = #{ismodule,jdbcType=VARCHAR},
+      </if>
+      <if test="sortnum != null" >
+        SORTNUM = #{sortnum,jdbcType=DECIMAL},
+      </if>
+      <if test="iconscls != null" >
+        ICONSCLS = #{iconscls,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where RESID = #{resid,jdbcType=VARCHAR}
+  </update>
+</mapper>

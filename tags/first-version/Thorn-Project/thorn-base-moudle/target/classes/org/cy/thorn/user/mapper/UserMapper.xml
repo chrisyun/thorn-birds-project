@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="UserMapper">
+	<resultMap id="BaseResultMap" type="org.cy.thorn.user.entity.User">
+		<id column="USERID" property="userid" jdbcType="VARCHAR" />
+		<result column="UNAME" property="uname" jdbcType="VARCHAR" />
+		<result column="SN" property="sn" jdbcType="VARCHAR" />
+		<result column="USERACCOUNT" property="useraccount" jdbcType="VARCHAR" />
+		<result column="USERPWD" property="userpwd" jdbcType="VARCHAR" />
+		<result column="GENDER" property="gender" jdbcType="VARCHAR" />
+		<result column="CUMAIL" property="cumail" jdbcType="VARCHAR" />
+		<result column="PHONE" property="phone" jdbcType="VARCHAR" />
+		<result column="COMPANYID" property="companyid" jdbcType="VARCHAR" />
+		<result column="COMPANYNAME" property="companyname" jdbcType="VARCHAR" />
+		<result column="ORGID" property="orgid" jdbcType="VARCHAR" />
+		<result column="ORGNAME" property="orgname" jdbcType="VARCHAR" />
+		<result column="ISVALID" property="isvalid" jdbcType="VARCHAR" />
+		<result column="ISDISABLED" property="isdisabled" jdbcType="VARCHAR" />
+		<result column="ISSHOW" property="isshow" jdbcType="VARCHAR" />
+		<result column="DEFAULTROLE" property="defaultrole" jdbcType="VARCHAR" />
+		<result column="SORTNUM" property="sortnum" jdbcType="DECIMAL" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		U.USERID, U.UNAME, U.SN, U.USERACCOUNT, 
+		U.USERPWD, U.GENDER, U.COMPANYID, U.ORGID,
+		U.DEFAULTROLE, U.CUMAIL, U.PHONE, U.ISVALID,
+		U.ISDISABLED, U.ISSHOW, U.SORTNUM,
+		O2.OU AS COMPANYNAME, O1.OU AS ORGNAME
+  	</sql>
+	<sql id="Where_Clause">
+		<where>
+			U.ORGID = O1.ORGID
+			AND U.COMPANYID = O2.ORGID
+			<if test="uname != null">
+				UNAME = #{uname,jdbcType=VARCHAR},
+      		</if>
+			<if test="sn != null">
+				SN = #{sn,jdbcType=VARCHAR},
+      		</if>
+			<if test="account != null">
+				USERACCOUNT = #{useraccount,jdbcType=VARCHAR},
+      		</if>
+			<if test="password != null">
+				USERPWD = #{userpwd,jdbcType=VARCHAR},
+      		</if>
+			<if test="gender != null">
+				GENDER = #{gender,jdbcType=VARCHAR},
+      		</if>
+			<if test="cumail != null">
+				CUMAIL = #{cumail,jdbcType=VARCHAR},
+      		</if>
+			<if test="phone != null">
+				PHONE = #{phone,jdbcType=VARCHAR},
+      		</if>
+			<if test="companyid != null">
+				COMPANYID = #{companyid,jdbcType=VARCHAR},
+      		</if>
+			<if test="orgid != null">
+				ORGID = #{orgid,jdbcType=VARCHAR},
+      		</if>
+			<if test="isvalid != null">
+				ISVALID = #{isvalid,jdbcType=VARCHAR},
+      		</if>
+			<if test="isdisabled != null">
+				ISDISABLED = #{isdisabled,jdbcType=VARCHAR},
+      		</if>
+			<if test="isshow != null">
+				ISSHOW = #{isshow,jdbcType=VARCHAR},
+      		</if>
+			<if test="defaultrole != null">
+				DEFAULTROLE = #{defaultrole,jdbcType=DECIMAL},
+      		</if>
+		</where>
+	</sql>
+
+
+	<select id="selectByPK" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from T_SYS_USER U,T_SYS_ORG O1,T_SYS_ORG O2
+		where USERID = #{userid,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- login use -->
+	<select id="selectByAccount" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from T_SYS_USER U,T_SYS_ORG O1,T_SYS_ORG O2
+		where USERACCOUNT = #{useraccount,jdbcType=VARCHAR}
+				AND U.ORGID = O1.ORGID
+				AND U.COMPANYID = O2.ORGID
+	</select>
+
+	
+	<select id="selectPage" parameterType="hashmap"
+		resultMap="BaseResultMap">
+		<include refid="CommonMapper.PagingStart"/>
+		select
+		<include refid="Base_Column_List" />
+		from T_SYS_USER U,T_SYS_ORG O1,T_SYS_ORG O2
+		<include refid="Where_Clause" />
+		<include refid="CommonMapper.SortInfo"/>
+		<include refid="CommonMapper.PagingEnd"/>
+	</select>
+	
+	<select id="selectCount" parameterType="hashmap"
+		resultType="java.lang.Integer">
+		select count(*) from T_SYS_USER
+		<include refid="Where_Clause" />
+  	</select>	
+	
+	<delete id="deleteByPKs">
+		delete from T_SYS_USER where USERID in 
+		<foreach collection="list" item="item" open="(" close=")"
+			separator=",">
+			#{userid,jdbcType=VARCHAR}
+		</foreach>
+  	</delete>
+
+	<insert id="insert" parameterType="org.cy.thorn.user.entity.User">
+		insert into T_SYS_USER
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userid != null">
+				USERID,
+      		</if>
+			<if test="uname != null">
+				UNAME,
+      		</if>
+			<if test="sn != null">
+				SN,
+      		</if>
+			<if test="useraccount != null">
+				USERACCOUNT,
+      		</if>
+			<if test="userpwd != null">
+				USERPWD,
+      		</if>
+			<if test="gender != null">
+				GENDER,
+      		</if>
+			<if test="cumail != null">
+				CUMAIL,
+      		</if>
+			<if test="phone != null">
+				PHONE,
+      		</if>
+			<if test="companyid != null">
+				COMPANYID,
+      		</if>
+			<if test="orgid != null">
+				ORGID,
+      		</if>
+			<if test="isvalid != null">
+				ISVALID,
+      		</if>
+			<if test="isdisabled != null">
+				ISDISABLED,
+      		</if>
+			<if test="isshow != null">
+				ISSHOW,
+      		</if>
+      		<if test="defaultrole != null">
+				DEFAULTROLE,
+      		</if>
+			<if test="sortnum != null">
+				SORTNUM,
+      		</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userid != null">
+				#{userid,jdbcType=VARCHAR},
+      		</if>
+			<if test="uname != null">
+				#{uname,jdbcType=VARCHAR},
+      		</if>
+			<if test="sn != null">
+				#{sn,jdbcType=VARCHAR},
+      		</if>
+			<if test="useraccount != null">
+				#{useraccount,jdbcType=VARCHAR},
+      		</if>
+			<if test="userpwd != null">
+				#{userpwd,jdbcType=VARCHAR},
+      		</if>
+			<if test="gender != null">
+				#{gender,jdbcType=VARCHAR},
+      		</if>
+			<if test="cumail != null">
+				#{cumail,jdbcType=VARCHAR},
+      		</if>
+			<if test="phone != null">
+				#{phone,jdbcType=VARCHAR},
+      		</if>
+			<if test="companyid != null">
+				#{companyid,jdbcType=VARCHAR},
+      		</if>
+			<if test="orgid != null">
+				#{orgid,jdbcType=VARCHAR},
+      		</if>
+			<if test="isvalid != null">
+				#{isvalid,jdbcType=VARCHAR},
+      		</if>
+			<if test="isdisabled != null">
+				#{isdisabled,jdbcType=VARCHAR},
+      		</if>
+			<if test="isshow != null">
+				#{isshow,jdbcType=VARCHAR},
+      		</if>
+      		<if test="defaultrole != null">
+				#{defaultrole,jdbcType=DECIMAL},
+      		</if>
+			<if test="sortnum != null">
+				#{sortnum,jdbcType=DECIMAL},
+      		</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="org.cy.thorn.user.entity.User">
+		update T_SYS_USER
+		<set>
+			<if test="uname != null">
+				UNAME = #{uname,jdbcType=VARCHAR},
+      		</if>
+			<if test="sn != null">
+				SN = #{sn,jdbcType=VARCHAR},
+      		</if>
+			<if test="useraccount != null">
+				USERACCOUNT = #{useraccount,jdbcType=VARCHAR},
+      		</if>
+			<if test="userpwd != null">
+				USERPWD = #{userpwd,jdbcType=VARCHAR},
+      		</if>
+			<if test="gender != null">
+				GENDER = #{gender,jdbcType=VARCHAR},
+      		</if>
+			<if test="cumail != null">
+				CUMAIL = #{cumail,jdbcType=VARCHAR},
+      		</if>
+			<if test="phone != null">
+				PHONE = #{phone,jdbcType=VARCHAR},
+      		</if>
+			<if test="companyid != null">
+				COMPANYID = #{companyid,jdbcType=VARCHAR},
+      		</if>
+			<if test="orgid != null">
+				ORGID = #{orgid,jdbcType=VARCHAR},
+      		</if>
+			<if test="isvalid != null">
+				ISVALID = #{isvalid,jdbcType=VARCHAR},
+      		</if>
+			<if test="isdisabled != null">
+				ISDISABLED = #{isdisabled,jdbcType=VARCHAR},
+      		</if>
+			<if test="isshow != null">
+				ISSHOW = #{isshow,jdbcType=VARCHAR},
+      		</if>
+      		<if test="defaultrole != null">
+				DEFAULTROLE = #{defaultrole,jdbcType=DECIMAL},
+      		</if>
+			<if test="sortnum != null">
+				SORTNUM = #{sortnum,jdbcType=DECIMAL},
+      		</if>
+		</set>
+		where USERID = #{userid,jdbcType=VARCHAR}
+	</update>
+</mapper>
