@@ -1,0 +1,21 @@
+{
+	"filter" : {
+		"mao" : 123,
+		"mao1" : 1234
+	},
+	"page" : {
+		"pageSize" : 20,
+		"pageNo" : 1,
+		"doAction" : "current.page",
+		"skipPage" : 0
+	},
+	"sorting" : {
+		"mySort" : [{
+					"order" : "desc",
+					"sortName" : "a"
+				}, {
+					"order" : "desc",
+					"sortName" : "a"
+				}]
+	}
+}
