@@ -19,12 +19,6 @@ public interface IUserDao {
 	
 	public int save(User user) throws DBAccessException;
 	
-	public int saveUserRole(Map<String, String> ur) throws DBAccessException;
-	
-	public int deleteUserRole(Map<String, Object> filter) throws DBAccessException;
-	
-	public int deleteUserAllRole(String userId) throws DBAccessException;
-	
 	public int modify(User user) throws DBAccessException;
 
 	public int delete(List<String> ids) throws DBAccessException;
@@ -32,9 +26,5 @@ public interface IUserDao {
 	public int disabled(Map<String, Object> filter) throws DBAccessException;
 	
 	public Page<User> queryPage(Map<String, Object> filter) throws DBAccessException;
-	
-	public Page<User> queryPageByRole(Map<String, Object> filter) throws DBAccessException;
-	
-	public Page<User> queryPageNotInRole(Map<String, Object> filter) throws DBAccessException;
 }
 

@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.thorn.dao.core.Page;
@@ -20,8 +18,6 @@ import org.thorn.dd.entity.DictType;
  * @date 2012-5-7 上午10:46:30
  */
 public class DataDictDaoImpl implements IDataDictDao {
-
-	static Logger log = LoggerFactory.getLogger(DataDictDaoImpl.class);
 
 	private final static String nameSpace = "DictMapper.";
 

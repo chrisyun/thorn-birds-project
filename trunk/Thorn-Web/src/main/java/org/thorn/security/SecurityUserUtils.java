@@ -13,12 +13,19 @@ import org.thorn.user.entity.User;
 
 /**
  * @ClassName: SecurityUserUtil
- * @Description:
+ * @Description: security User工具类，提供对session中的user数据获取方法
  * @author chenyun
  * @date 2012-5-6 下午10:56:26
  */
 public class SecurityUserUtils {
-
+	
+	/**
+	 * 
+	 * @Description：获取当前session中的user用户
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 下午01:41:23
+	 * @return
+	 */
 	public static User getCurrentUser() {
 		Authentication auth = SecurityContextHolder.getContext()
 				.getAuthentication();
@@ -31,7 +38,14 @@ public class SecurityUserUtils {
 		User user = us.getUser();
 		return user;
 	}
-
+	
+	/**
+	 * 
+	 * @Description：获取用户的角色列表
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 下午01:41:41
+	 * @return
+	 */
 	public static List<String> getRoleList() {
 		List<String> list = new ArrayList<String>();
 
@@ -51,7 +65,14 @@ public class SecurityUserUtils {
 
 		return list;
 	}
-
+	
+	/**
+	 * 
+	 * @Description：判断用户是否系统管理员
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 下午01:43:12
+	 * @return
+	 */
 	public static boolean isSysAdmin() {
 		List<String> list = getRoleList();
 

@@ -2,16 +2,18 @@ package org.thorn.security;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.thorn.auth.service.IAuthService;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.role.entity.Role;
-import org.thorn.role.service.IRoleService;
 import org.thorn.security.entity.UserSecurity;
 import org.thorn.user.entity.User;
 import org.thorn.user.service.IUserService;
@@ -25,35 +27,18 @@ import org.thorn.user.service.IUserService;
  *
  */
 public class UserSecurityDetailsService implements UserDetailsService {
+	
+	@Autowired
+	@Qualifier("userSecurityCache")
 	private UserCache userCache;
-
+	
+	@Autowired
+	@Qualifier("userService")
 	private IUserService userService;
-
-	private IRoleService roleService;
-
-	public UserCache getUserCache() {
-		return userCache;
-	}
-
-	public void setUserCache(UserCache userCache) {
-		this.userCache = userCache;
-	}
-
-	public IUserService getUserService() {
-		return userService;
-	}
-
-	public void setUserService(IUserService userService) {
-		this.userService = userService;
-	}
-
-	public IRoleService getRoleService() {
-		return roleService;
-	}
-
-	public void setRoleService(IRoleService roleService) {
-		this.roleService = roleService;
-	}
+	
+	@Autowired
+	@Qualifier("authService")
+	private IAuthService authService;
 
 	public UserDetails loadUserByUsername(String arg0)
 			throws UsernameNotFoundException, DataAccessException {
@@ -66,7 +51,7 @@ public class UserSecurityDetailsService implements UserDetailsService {
 				us = new UserSecurity(userService.queryUserByLogin(arg0));
 				User user = us.getUser();
 				if (user != null && LocalStringUtils.isNotEmpty(user.getUserId())) {
-					List<Role> roles = roleService.queryRolesByUser(user
+					List<Role> roles = authService.queryRoleByUser(user
 							.getUserId());
 
 					us.initUserAuth(roles);

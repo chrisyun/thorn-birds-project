@@ -14,11 +14,11 @@ import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.util.AntUrlPathMatcher;
 import org.springframework.security.web.util.UrlMatcher;
+import org.thorn.auth.service.IAuthService;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.resource.entity.Resource;
 import org.thorn.resource.service.IResourceService;
 import org.thorn.role.entity.Role;
-import org.thorn.role.service.IRoleService;
 
 /**
  * 
@@ -41,10 +41,10 @@ public class InvocationSecurityMetadataSource implements
 	 * 资源ID与资源URL关系map，key为ID,URL为value
 	 */
 	private static Map<String, String> resourceMap = null;
-
+	
+	private IAuthService authService;
+	
 	private IResourceService resourceService;
-
-	private IRoleService roleService;
 
 	/**
 	 * 初始化该类时，加载资源列表URL与资源ID
@@ -52,15 +52,15 @@ public class InvocationSecurityMetadataSource implements
 	 * @throws DBAccessException
 	 */
 	public InvocationSecurityMetadataSource(IResourceService resourceService,
-			IRoleService roleService) throws DBAccessException {
+			IAuthService authService) throws DBAccessException {
 		
 //		System.out.println(SecurityEncoderUtils.encodeUserPassword("wwwwww", "ADMIN"));
 		
 		resourceMap = new HashMap<String, String>();
 
 		this.resourceService = resourceService;
-		this.roleService = roleService;
-
+		this.authService = authService;
+		
 		List<Resource> sources = this.resourceService.queryAllLeaf();
 
 		for (Resource source : sources) {
@@ -98,7 +98,7 @@ public class InvocationSecurityMetadataSource implements
 
 		if (source.size() > 0) {
 			try {
-				List<Role> roles = roleService.queryRolesByResource(source);
+				List<Role> roles = authService.queryRoleBySource(source);
 
 				for (Role role : roles) {
 					ConfigAttribute ca = new SecurityConfig(role.getRoleCode());

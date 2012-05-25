@@ -25,15 +25,6 @@ public class RoleServiceImpl implements IRoleService {
 	@Qualifier("roleDao")
 	private IRoleDao roleDao;
 	
-	public List<Role> queryRolesByResource(List<String> source)
-			throws DBAccessException {
-		return roleDao.queryRolesByResource(source);
-	}
-
-	public List<Role> queryRolesByUser(String userId) throws DBAccessException {
-		return roleDao.queryRolesByUser(userId);
-	}
-
 	public void save(Role role) throws DBAccessException {
 		roleDao.save(role);
 	}
@@ -59,23 +50,6 @@ public class RoleServiceImpl implements IRoleService {
 		filter.put(Configuration.ORDER_NAME, dir);
 		
 		return roleDao.queryPage(filter);
-	}
-
-	public void saveAuth(String roleCode, String sourceIds)
-			throws DBAccessException {
-		List<String> list = LocalStringUtils.splitStr2Array(sourceIds);
-		
-		roleDao.deleteRoleSource(roleCode);
-		
-		if(list != null && list.size() > 0) {
-			Map<String, String> rs = new HashMap<String, String>();
-			for(String sourceCode : list) {
-				rs.put("roleCode", roleCode);
-				rs.put("sourceCode", sourceCode);
-				
-				roleDao.saveRoleSource(rs);
-			}
-		}
 	}
 
 	public List<Role> queryAllRoles() throws DBAccessException {

@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.thorn.core.util.LocalStringUtils;
@@ -24,8 +22,6 @@ import org.thorn.resource.entity.Resource;
  *
  */
 public class ResourceServiceImpl implements IResourceService {
-	
-	static Logger log = LoggerFactory.getLogger(ResourceServiceImpl.class);
 	
 	@Autowired
 	@Qualifier("resourceDao")
@@ -108,11 +104,6 @@ public class ResourceServiceImpl implements IResourceService {
 		}
 		
 		return list.get(0);
-	}
-
-	public List<String> queryResourceByRole(String roleId)
-			throws DBAccessException {
-		return resourceDao.queryResourceByRole(roleId);
 	}
 
 }
