@@ -1,0 +1,4 @@
+#Tue Oct 18 14:12:47 CST 2011
+eclipse.preferences.version=1
+encoding//src/main/java/org/cy/thorn/security/CustomAccessDecisionManager.java=GBK
+encoding//src/main/java/org/cy/thorn/security/CustomFilterSecurityInterceptor.java=UTF-8
