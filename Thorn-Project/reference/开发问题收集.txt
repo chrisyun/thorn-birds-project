@@ -1,0 +1,15 @@
+1、spring-MVC与spring security集成
+	security配置xml中的context与listener。加载的配置文件不加载与mvc相关的配置文件。该
+	mvc配置web.xml中的xml，指定加载的spring-servlet配置文件，该配置文件只配置mvc相关的。
+	原因：Spring会创建一个全局的WebApplicationContext上下文，称为根上下文 ，保存在 ServletContext中。
+		 DispatcherServlet是一个Servlet,可以同时配置多个，每个 DispatcherServlet有一个自己的 WebApplicationContext上下文，这个上下文继承了 根上下文 中所有东西。
+		保存在 ServletContext中，key是"org.springframework.web.servlet.FrameworkServlet.CONTEXT"+Servlet名称。
+		当一个Request对象产生时，会把这个 WebApplicationContext上下文保存在Request对象中，key是DispatcherServlet.class.getName() + ".CONTEXT"。
+		可以使用工具类取出上下文：RequestContextUtils.getWebApplicationContext(request); 
+		Spring中的 ApplicationContext实例可以被限制在不同的作用域（scope）中。
+		在web MVC框架中，每个 DispatcherServlet有它自己的WebApplicationContext ，这个context继承了根 WebApplicationContext 的所有bean定义。
+		这些继承的bean也可以在每个serlvet自己的所属的域中被覆盖（override），覆盖后的bean 可以被设置上只有这个servlet实例自己使用的属性。
+		
+2、ext中TextField的fieldLabel属性只在layout为‘form’时显示。
+
+	
