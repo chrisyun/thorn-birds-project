@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- Common Mapper -->
+<mapper namespace="CommonMapper">
+	<!-- Paging Start -->
+	<sql id="PagingStart">
+		SELECT * FROM (SELECT rownum AS rn, t.* FROM( 
+	</sql>
+	
+	
+	<!-- Paging End -->
+	<sql id="PagingEnd">
+		 ) t WHERE rownum &lt;= ${endRow}) pgrs WHERE pgrs.rn &gt;= ${startRow}
+	</sql>
+	
+	<!-- query result Sort information -->
+	<sql id="SortInfo">
+		<if test="sort != null and sort != ''">
+		${sort}
+		</if>
+	</sql>
+</mapper>
