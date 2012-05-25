@@ -2,7 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="DictMapper">
 	
-	<cache-ref namespace="ResourceMapper" />
+	<cache eviction="LRU" type="org.thorn.dao.mybatis.cache.CustomCache">
+		<property name="springBean" value="ehcacheService" />
+	</cache>
 	
 	<resultMap id="DictResultMap" type="org.thorn.dd.entity.Dict">
 		<id column="DNAME" jdbcType="VARCHAR" property="dname" />
