@@ -1,0 +1,19 @@
+.silk-add { background-image: url(../images/icons/add.gif) !important; background-repeat: no-repeat; }
+.silk-edit { background-image: url(../images/icons/edit.png) !important; background-repeat: no-repeat; }
+.silk-delete { background-image: url(../images/icons/delete.gif) !important; background-repeat: no-repeat; }
+.silk-save { background-image: url(../images/icons/save.gif) !important; background-repeat: no-repeat; }
+.silk-accept { background-image: url(../images/icons/accept.png) !important; background-repeat: no-repeat; }
+.slik-close { background-image: url(../images/icons/close.png) !important; background-repeat: no-repeat; }
+.slik-search { background-image: url(../images/icons/search.png) !important; background-repeat: no-repeat; }
+.slik-refresh { background-image: url(../images/icons/refresh.png) !important; background-repeat: no-repeat; }
+/**
+ *	main
+ */
+.silk-nav { background-image: url(../images/icons/folder_go.png) !important; background-repeat: no-repeat; }
+.silk-settings { background-image: url(../images/icons/folder_wrench.png) !important; background-repeat: no-repeat; }
+.silk-table-refresh { background-image: url(../images/icons/table_refresh.png) !important; background-repeat: no-repeat; }
+
+.silk-application-view-list { background-image: url(../images/icons/application_view_list.png) !important; background-repeat: no-repeat; }
+.silk-grid { background-image: url(../images/icons/grid.png) !important; background-repeat: no-repeat; }
+
+.silk-logout { background-image: url(../images/icons/logout.gif) !important; background-repeat: no-repeat; }
