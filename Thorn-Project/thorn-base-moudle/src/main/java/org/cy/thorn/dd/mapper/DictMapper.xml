@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DictMapper">
+
+	<resultMap id="BaseResultMap" type="org.cy.thorn.dd.entity.Dict">
+		<id column="DNAME" jdbcType="VARCHAR" property="dname" />
+		<result column="DVALUE" jdbcType="VARCHAR" property="dvalue" />
+		<result column="SORT" jdbcType="DECIMAL" property="sort" />
+		<result column="TYPEID" jdbcType="VARCHAR" property="typeid" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		DNAME, DVALUE, SORT, TYPEID
+  	</sql>
+
+	<sql id="Where_Clause">
+		<where>
+			<if test="typeid != null and typeid != ''">
+				AND TYPEID = #{typeid,jdbcType=VARCHAR}
+      		</if>
+			<if test="dname != null and dname != ''">
+				AND DNAME = #{dname,jdbcType=VARCHAR}
+      		</if>
+		</where>
+	</sql>
+
+	<!-- select -->
+	<select id="select" parameterType="hashmap"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SYS_DICT
+		<include refid="Where_Clause" />
+		order by SORT DESC
+	</select>
+	
+	<delete id="deleteByTypeIds">
+		delete from T_SYS_DICT where TYPEID in
+		<foreach collection="list" item="item" open="(" close=")"
+			separator=",">
+			#{item,jdbcType=VARCHAR}
+		</foreach>
+	</delete>
+	
+	<!-- insert -->
+	<insert id="insert" parameterType="org.cy.thorn.dd.entity.Dict">
+		insert into T_SYS_DICT
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="dname != null and dname != ''">DNAME,</if>
+			<if test="dvalue != null and dvalue != ''">DVALUE,</if>
+			<if test="sort != null and sort != ''">SORT,</if>
+			<if test="typeid != null and typeid != ''">TYPEID,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="dname != null and dname != ''">#{dname,jdbcType=VARCHAR},</if>
+			<if test="dvalue != null and dvalue != ''">#{dvalue,jdbcType=VARCHAR},</if>
+			<if test="sort != null and sort != ''">#{sort,jdbcType=DECIMAL},</if>
+			<if test="typeid != null and typeid != ''">#{typeid,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>	
+	
+	<!-- delete by pks -->
+	<delete id="deleteByPKs">
+		delete from T_SYS_DICT where DNAME in
+		<foreach collection="list" item="item" open="(" close=")"
+			separator=",">
+			#{item,jdbcType=VARCHAR}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="org.cy.thorn.dd.entity.Dict">
+		update T_SYS_DICT
+		<set>
+			<if test="dvalue != null and dvalue != ''">DVALUE = #{dvalue,jdbcType=VARCHAR},</if>
+			<if test="sort != null">SORT = #{sort,jdbcType=DECIMAL},</if>
+			<if test="typeid != null and typeid != ''">TYPEID = #{typeid,jdbcType=VARCHAR},</if>
+		</set>
+		where DNAME = #{dname,jdbcType=VARCHAR}
+	</update>
+</mapper>

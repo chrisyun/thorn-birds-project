@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="AuthorityMapper" >
+  <resultMap id="BaseResultMap" type="org.cy.thorn.role.entity.Authority" >
+    <id column="RID" property="rid" jdbcType="VARCHAR" />
+    <id column="RERESID" property="reresid" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATTIME" property="creattime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    RID, RESID, REMARK, to_char(CREATTIME,'YYYY-MM-DD') as CREATTIME
+  </sql>
+
+  <select id="selectByRes" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_ROLE_RES
+    where RESID = #{resid,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByRole" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_ROLE_RES
+    where RID = #{rid,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByRes">
+    delete from T_SYS_ROLE_RES where RID in 
+    <foreach collection="list" item="item" open="(" close=")"
+			separator=",">
+			#{rid,jdbcType=VARCHAR}
+	</foreach>
+  </delete>
+
+  <delete id="deleteByRoles">
+    delete from T_SYS_ROLE_RES where RID in 
+    <foreach collection="list" item="item" open="(" close=")"
+			separator=",">
+			#{rid,jdbcType=VARCHAR}
+	</foreach>
+  </delete>  
+
+  <insert id="insert" parameterType="org.cy.thorn.role.entity.Authority" >
+    insert into T_SYS_ROLE_RES
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rid != null" >
+        RID,
+      </if>
+      <if test="resid != null" >
+        RESID,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="creattime != null" >
+        CREATTIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rid != null" >
+        #{rid,jdbcType=VARCHAR},
+      </if>
+      <if test="resid != null" >
+        #{resid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="creattime != null" >
+        to_date(#{creattime,jdbcType=VARCHAR},'YYYY-MM-DD'),
+      </if>
+    </trim>
+  </insert>
+</mapper>

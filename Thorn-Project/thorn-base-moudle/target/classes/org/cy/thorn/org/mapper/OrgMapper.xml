@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OrgMapper">
+  <resultMap id="BaseResultMap" type="org.cy.thorn.org.entity.Org">
+    <id column="ORGID" jdbcType="VARCHAR" property="orgid" />
+    <result column="OU" jdbcType="VARCHAR" property="ou" />
+    <result column="PARENTORG" jdbcType="VARCHAR" property="parentorg" />
+    <result column="SHOWNAME" jdbcType="VARCHAR" property="showname" />
+    <result column="ORGTYPE" jdbcType="VARCHAR" property="orgtype" />
+    <result column="ORGMAIL" jdbcType="VARCHAR" property="orgmail" />
+    <result column="SORTNUM" jdbcType="DECIMAL" property="sortnum" />
+    <result column="ISSHOW" jdbcType="VARCHAR" property="isshow" />
+    <result column="ISVALID" jdbcType="VARCHAR" property="isvalid" />
+    <result column="ISDISABLED" jdbcType="VARCHAR" property="isdisabled" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ORGID, OU, PARENTORG, SHOWNAME, ORGTYPE, ORGMAIL, SORTNUM, ISSHOW, ISVALID, ISDISABLED
+  </sql>
+  
+  <sql id="Where_Clause">
+	<where>
+	  <if test="orgid != null">
+        ORGID = #{orgid,jdbcType=VARCHAR},
+      </if>
+	  <if test="ou != null">
+        OU = #{ou,jdbcType=VARCHAR},
+      </if>
+      <if test="parentorg != null">
+        PARENTORG = #{parentorg,jdbcType=VARCHAR},
+      </if>
+      <if test="showname != null">
+        SHOWNAME = #{showname,jdbcType=VARCHAR},
+      </if>
+      <if test="orgtype != null">
+        ORGTYPE = #{orgtype,jdbcType=VARCHAR},
+      </if>
+      <if test="orgmail != null">
+        ORGMAIL = #{orgmail,jdbcType=VARCHAR},
+      </if>
+      <if test="sortnum != null">
+        SORTNUM = #{sortnum,jdbcType=DECIMAL},
+      </if>
+      <if test="isshow != null">
+        ISSHOW = #{isshow,jdbcType=VARCHAR},
+      </if>
+      <if test="isvalid != null">
+        ISVALID = #{isvalid,jdbcType=VARCHAR},
+      </if>
+      <if test="isdisabled != null">
+        ISDISABLED = #{isdisabled,jdbcType=VARCHAR},
+      </if>
+	</where>
+  </sql>
+  
+  <select id="selectByPK" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_ORG
+    where ORGID = #{orgid,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="select" parameterType="hashmap" resultMap="BaseResultMap">
+	select
+		<include refid="Base_Column_List" />
+		from T_SYS_ORG
+		<include refid="Where_Clause" />
+		order by SORTNUM ASC
+	</select>
+
+  <select id="selectByParent" parameterType="java.lang.String" resultMap="BaseResultMap">
+	select
+		<include refid="Base_Column_List" />
+		from T_SYS_ORG where PARENTORG = #{parentorg,jdbcType=VARCHAR}
+		order by SORTNUM ASC
+	</select>
+ 
+  <delete id="deleteByPKs">
+    delete from T_SYS_ORG
+    where ORGID in
+    <foreach collection="list" item="item" open="(" close=")"
+			separator=",">
+			#{orgid,jdbcType=VARCHAR}
+	</foreach> or PARENTORG in
+	<foreach collection="list" item="item" open="(" close=")"
+			separator=",">
+			#{orgid,jdbcType=VARCHAR}
+	</foreach>
+  </delete>
+ 
+  
+  <insert id="insert" parameterType="org.cy.thorn.org.entity.Org">
+    insert into T_SYS_ORG
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orgid != null">
+        ORGID,
+      </if>
+      <if test="ou != null">
+        OU,
+      </if>
+      <if test="parentorg != null">
+        PARENTORG,
+      </if>
+      <if test="showname != null">
+        SHOWNAME,
+      </if>
+      <if test="orgtype != null">
+        ORGTYPE,
+      </if>
+      <if test="orgmail != null">
+        ORGMAIL,
+      </if>
+      <if test="sortnum != null">
+        SORTNUM,
+      </if>
+      <if test="isshow != null">
+        ISSHOW,
+      </if>
+      <if test="isvalid != null">
+        ISVALID,
+      </if>
+      <if test="isdisabled != null">
+        ISDISABLED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orgid != null">
+        #{orgid,jdbcType=VARCHAR},
+      </if>
+      <if test="ou != null">
+        #{ou,jdbcType=VARCHAR},
+      </if>
+      <if test="parentorg != null">
+        #{parentorg,jdbcType=VARCHAR},
+      </if>
+      <if test="showname != null">
+        #{showname,jdbcType=VARCHAR},
+      </if>
+      <if test="orgtype != null">
+        #{orgtype,jdbcType=VARCHAR},
+      </if>
+      <if test="orgmail != null">
+        #{orgmail,jdbcType=VARCHAR},
+      </if>
+      <if test="sortnum != null">
+        #{sortnum,jdbcType=DECIMAL},
+      </if>
+      <if test="isshow != null">
+        #{isshow,jdbcType=VARCHAR},
+      </if>
+      <if test="isvalid != null">
+        #{isvalid,jdbcType=VARCHAR},
+      </if>
+      <if test="isdisabled != null">
+        #{isdisabled,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="update" parameterType="org.cy.thorn.org.entity.Org">
+    update T_SYS_ORG
+    <set>
+      <if test="ou != null">
+        OU = #{ou,jdbcType=VARCHAR},
+      </if>
+      <if test="parentorg != null">
+        PARENTORG = #{parentorg,jdbcType=VARCHAR},
+      </if>
+      <if test="showname != null">
+        SHOWNAME = #{showname,jdbcType=VARCHAR},
+      </if>
+      <if test="orgtype != null">
+        ORGTYPE = #{orgtype,jdbcType=VARCHAR},
+      </if>
+      <if test="orgmail != null">
+        ORGMAIL = #{orgmail,jdbcType=VARCHAR},
+      </if>
+      <if test="sortnum != null">
+        SORTNUM = #{sortnum,jdbcType=DECIMAL},
+      </if>
+      <if test="isshow != null">
+        ISSHOW = #{isshow,jdbcType=VARCHAR},
+      </if>
+      <if test="isvalid != null">
+        ISVALID = #{isvalid,jdbcType=VARCHAR},
+      </if>
+      <if test="isdisabled != null">
+        ISDISABLED = #{isdisabled,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ORGID = #{orgid,jdbcType=VARCHAR}
+  </update>
+</mapper>

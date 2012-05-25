@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+
+	<http access-denied-page="/common/accessDenied.jsp" entry-point-ref="authenticationProcessingFilterEntryPoint">
+		<intercept-url pattern="/core/**" filters="none" />
+		<intercept-url pattern="/common/**" filters="none" />
+		<intercept-url pattern="/plugins/**" filters="none" />
+		<intercept-url pattern="/login.jsp*" filters="none"/>
+		<!-- 
+		<form-login login-page="/login.jsp"
+			authentication-failure-url="/login.jsp?error=true"
+			default-target-url="/system/main.jsp" /> -->
+
+		<!-- "记住我"功能，采用持久化策略（将用户的登录信息存放在数据库表中）,默认生效值是2周-->
+		<remember-me data-source-ref="dataSource" token-validity-seconds="604800000"/>
+
+		<!-- 检测失效的sessionId,超时时定位到另外一个URL -->
+		<session-management invalid-session-url="/common/sessionTimeout.jsp">
+			 <!-- 第二次登录将被阻止 -->
+			<concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>
+			<!-- 防止一个用户重复登录好几次-第二次登录会让第一次登录失效
+			<concurrency-control max-sessions="1" /> -->
+		</session-management>
+		
+		<logout logout-success-url="/login.jsp" invalidate-session="true"/>
+		
+		<custom-filter ref="validateCodeAuthenticationFilter"
+			position="FORM_LOGIN_FILTER" />
+		<!--
+			增加一个自定义的filter，放在FILTER_SECURITY_INTERCEPTOR之前， 
+			实现用户、角色、权限、资源的数据库管理。
+		-->
+		<custom-filter ref="customFilter" before="FILTER_SECURITY_INTERCEPTOR" />
+	</http>
+
+	<!-- ******************************************************************** -->
+	<beans:bean id="validateCodeAuthenticationFilter"
+		class="org.cy.thorn.security.ValidateCodeUsernamePasswordAuthenticationFilter">
+		<beans:property name="authenticationSuccessHandler"
+			ref="loginLogAuthenticationSuccessHandler" />
+		<beans:property name="authenticationFailureHandler"
+			ref="simpleUrlAuthenticationFailureHandler" />
+		<beans:property name="allowEmptyValidateCode" value="false" />
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+	</beans:bean>
+
+	<beans:bean id="loginLogAuthenticationSuccessHandler"
+		class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+		<beans:property name="defaultTargetUrl" value="/system/main.jsp"></beans:property>
+	</beans:bean>
+	<beans:bean id="simpleUrlAuthenticationFailureHandler"
+		class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+		<beans:property name="defaultFailureUrl" value="/login.jsp?error=true"></beans:property>
+	</beans:bean>
+
+	<beans:bean id="authenticationProcessingFilterEntryPoint"
+		class="org.springframework.security.web.authentication.AuthenticationProcessingFilterEntryPoint">
+		<beans:property name="loginFormUrl" value="/login.jsp"></beans:property>
+	</beans:bean>
+
+	<!-- ******************************************************************** -->
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider user-service-ref='userDetailsManager'>
+			<password-encoder ref="passwordEncoder">
+				<!-- 将username作为“盐”值加密 -->
+				<salt-source user-property="username" />
+			</password-encoder>
+		</authentication-provider>
+	</authentication-manager>
+	
+	<!-- 用户详细信息管理：数据源、用户缓存（通过数据库管理用户、角色、资源） -->
+	<beans:bean id="userDetailsManager" class="org.cy.thorn.security.CustomUserDetailsService">
+		<beans:property name="userService" ref="userService" />
+		<beans:property name="roleService" ref="roleService" />
+		<beans:property name="userCache" ref="userCache" />
+	</beans:bean> 
+	
+	<!-- ******************************************************************** -->
+	
+	<!-- 访问决策器，决定某个用户具有的角色，是否有足够的权限去访问某个资源。 -->
+	<beans:bean id="customAccessDecisionManager"
+		class="org.cy.thorn.security.CustomAccessDecisionManager">
+	</beans:bean>  
+	
+	<!-- ******************************************************************** -->
+	
+	<!-- 资源源数据定义，将所有的资源和角色对应关系建立起来，即定义某一资源可以被哪些角色去访问。
+		通过构造函数注入
+	-->
+	<beans:bean id="customSecurityMetadataSource"
+		class="org.cy.thorn.security.CustomInvocationSecurityMetadataSourceService">
+		<beans:constructor-arg index="0" ref="resourcesService"/>
+		<beans:constructor-arg index="1" ref="roleService"/>
+	</beans:bean> 
+	
+	<!-- ******************************************************************** -->
+
+	<!--
+		一个自定义的filter，必须包含authenticationManager,
+		accessDecisionManager,securityMetadataSource三个属性。
+	-->
+	<beans:bean id="customFilter"
+		class="org.cy.thorn.security.CustomFilterSecurityInterceptor">
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+		<beans:property name="accessDecisionManager" ref="customAccessDecisionManager" />
+		<beans:property name="securityMetadataSource" ref="customSecurityMetadataSource" />
+	</beans:bean>
+
+	<!-- 定义上下文返回的消息的国际化。（新版本） 11/3/23 -->
+	<beans:bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<beans:property name="basename"
+			value="classpath:org/cy/thorn/spring/messages_local_CN"/>
+	</beans:bean>
+
+	<!--
+		事件监听:实现了 ApplicationListener监听接口,
+		包括AuthenticationCredentialsNotFoundEvent 事件，
+		AuthorizationFailureEvent事件，AuthorizedEvent事件， PublicInvocationEvent事
+		件。 -->
+	<beans:bean class="org.springframework.security.authentication.event.LoggerListener" />
+
+	<!-- 用户的密码加密或解密 -->
+	<beans:bean id="passwordEncoder"
+		class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
+	<!-- 
+	<beans:bean id="securityPwdUtil" class="org.cy.thorn.util.SecurityEncoderUtil">
+		<beans:property name="passwordEncoder" ref="passwordEncoder"/>
+	</beans:bean> -->
+
+
+	<!-- 启用用户的缓存功能 -->
+	<beans:bean id="userCache"
+		class="org.springframework.security.core.userdetails.cache.EhCacheBasedUserCache">
+		<beans:property name="cache" ref="userEhCache" />
+	</beans:bean>
+	
+	<beans:bean id="userEhCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<beans:property name="cacheName" value="userCache" />
+		<beans:property name="cacheManager" ref="cacheManager" />
+	</beans:bean>
+	
+
+	<!-- acl（access control list）缓存管理 -->
+	<beans:bean id="aclCache"
+		class="org.springframework.security.acls.domain.EhCacheBasedAclCache">
+		<beans:constructor-arg ref="aclEhCache" />
+	</beans:bean>
+	
+	<beans:bean id="aclEhCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<beans:property name="cacheManager" ref="cacheManager" />
+		<beans:property name="cacheName" value="aclCache" />
+	</beans:bean>
+
+</beans:beans>
+
