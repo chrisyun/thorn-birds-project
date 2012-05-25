@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+     http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+	<!-- enable autowire 配置scan可以取消
+	<context:annotation-config />
+	 
+	<context:component-scan base-package="org.cy.thorn" use-default-filters="false">
+		<context:include-filter type="regex" expression="org.cy.thorn.dao.orm"/>
+		<context:include-filter type="regex" expression="org.cy.thorn.*.dao"/>
+	</context:component-scan>-->
+	<!--
+	<bean id="dataSourceIbatis" class="org.springframework.jndi.JndiObjectFactoryBean"> 
+		<property name="jndiName" value="${jdbc.jndi}"></property> 
+	</bean>
+	-->
+	
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="${jdbc.driver}" />
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<property name="user" value="${jdbc.user}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+
+	<!-- define the MyBatis SqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="mapperLocations">
+			<list>
+				<value>classpath*:org/cy/thorn/*/mapper/*Mapper.xml</value>
+			</list>
+		</property> 
+		<!-- <property name="mapperLocations" value="classpath*:org/cy/thorn/dao/*Mapper.xml" /> -->
+	</bean>
+	
+	<!-- 配置Mybatis模版 -->
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory"/>
+		<!-- <property name="sqlSessionFactory" ref="sqlSessionFactory"></property> -->
+	</bean>
+	
+	<!-- 可以执行批量操作 -->
+	<!-- 
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+		<constructor-arg index="1" value="BATCH" />
+	</bean>
+	 -->
+
+	<!-- transaction manager, use JtaTransactionManager for global tx -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- 启用Spring对@AspectJ的支持：需要在你的应用程序的classpath中引入两个AspectJ库：
+			aspectjweaver.jar 和 aspectjrt.jar。
+			另外，如果想强制使用CGLIB代理，
+			需要将 <aop:aspectj-autoproxy> 的 proxy-target-class 属性设为true。
+	--> 
+	<aop:aspectj-autoproxy />
+	<!-- 以AspectJ方式 定义 AOP -->
+	<aop:config proxy-target-class="true">
+		<aop:pointcut id="tracationMethods"
+			expression="execution(* org.cy.thorn.*.*.*DAOImpl.*(..))" />
+		<aop:advisor pointcut-ref="tracationMethods" advice-ref="txAdvice" />
+	</aop:config>
+	
+	<!--
+		支持 @Transactional 标记
+		基本事务定义,使用transactionManager作事务管理,
+		默认get*方法的事务为readonly,其余方法按默认设置.
+		默认的设置请参考Spring文档事务一章.
+	-->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="find*" read-only="true" />
+			<tx:method name="search*" read-only="true" />
+			<tx:method name="*" propagation="REQUIRED" rollback-for="DBAccessException" />
+		</tx:attributes>
+	</tx:advice>
+	
+	<!-- 数据库主键增长器
+	<bean id="viewIncrementer" class="org.cy.thorn.dao.incrementer.ViewIncrementer">
+		<property name="cache" ref="cacheManage"/>
+		<property name="dataSource" ref="dataSource"/>
+		<property name="cacheSize" value="100"/>
+	</bean>
+	
+	<bean id="tableIncrementer" class="org.cy.thorn.dao.incrementer.TableIncrementer">
+		<property name="cache" ref="cacheManage"/>
+		<property name="dataSource" ref="dataSource"/>
+		<property name="cacheSize" value="100"/>
+	</bean>
+	 -->
+	<bean id="genericDao" class="org.cy.thorn.dao.orm.GenericDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"/>
+	</bean>
+	
+</beans>
