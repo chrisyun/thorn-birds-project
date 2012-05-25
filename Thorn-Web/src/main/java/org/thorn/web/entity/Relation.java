@@ -1,10 +1,10 @@
-package org.thorn.web;
+package org.thorn.web.entity;
 
 import java.io.Serializable;
 
 /** 
  * @ClassName: Relation 
- * @Description: 
+ * @Description: 表示2个对象间是否有关系
  * @author chenyun
  * @date 2012-5-22 下午09:35:22 
  */

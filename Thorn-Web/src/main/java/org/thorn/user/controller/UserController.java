@@ -16,8 +16,8 @@ import org.thorn.dao.exception.DBAccessException;
 import org.thorn.security.entity.UserSecurity;
 import org.thorn.user.entity.User;
 import org.thorn.user.service.IUserService;
-import org.thorn.web.BaseController;
-import org.thorn.web.Status;
+import org.thorn.web.controller.BaseController;
+import org.thorn.web.entity.Status;
 
 /**
  * @ClassName: UserController

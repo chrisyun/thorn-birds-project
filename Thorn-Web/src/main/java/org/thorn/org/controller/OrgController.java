@@ -16,10 +16,10 @@ import org.thorn.dao.core.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.org.entity.Org;
 import org.thorn.org.service.IOrgService;
-import org.thorn.web.BaseController;
-import org.thorn.web.JsonResponse;
-import org.thorn.web.Status;
-import org.thorn.web.Tree;
+import org.thorn.web.controller.BaseController;
+import org.thorn.web.entity.JsonResponse;
+import org.thorn.web.entity.Status;
+import org.thorn.web.entity.Tree;
 
 /**
  * @ClassName: OrgController

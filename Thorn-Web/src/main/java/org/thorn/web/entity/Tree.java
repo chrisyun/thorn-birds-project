@@ -1,4 +1,4 @@
-package org.thorn.web;
+package org.thorn.web.entity;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -6,7 +6,7 @@ import java.util.Map;
 
 /**
  * @ClassName: Tree
- * @Description:
+ * @Description:表示Tree上一个元素的实体对象，根据leaf区分是叶子还是根
  * @author chenyun
  * @date 2012-5-6 下午10:48:47
  */

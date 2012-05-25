@@ -16,10 +16,10 @@ import org.thorn.dao.core.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.role.entity.Role;
 import org.thorn.role.service.IRoleService;
-import org.thorn.web.BaseController;
-import org.thorn.web.JsonResponse;
-import org.thorn.web.Relation;
-import org.thorn.web.Status;
+import org.thorn.web.controller.BaseController;
+import org.thorn.web.entity.JsonResponse;
+import org.thorn.web.entity.Relation;
+import org.thorn.web.entity.Status;
 
 /**
  * @ClassName: RoleController
