@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.thorn.dao.core.Page;
@@ -19,8 +17,6 @@ import org.thorn.org.entity.Org;
  * @date 2012-5-10 下午02:43:57
  */
 public class OrgDaoImpl implements IOrgDao {
-
-	static Logger log = LoggerFactory.getLogger(OrgDaoImpl.class);
 
 	private final static String nameSpace = "OrgMapper.";
 

@@ -2,9 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="ResourceMapper">
 	
-	<cache eviction="LRU" type="org.thorn.dao.mybatis.cache.CustomCache">
-		<property name="springBean" value="ehcacheService" />
-	</cache>
+	<cache-ref namespace="DictMapper" />
 
 	<resultMap id="BaseResultMap" type="org.thorn.resource.entity.Resource">
 		<id column="SOURCECODE" property="sourceCode" jdbcType="VARCHAR" />
@@ -87,7 +85,6 @@
 			#{item,jdbcType=VARCHAR}
 		</foreach>
 	</delete>
-	
 		
 	<select id="queryList" parameterType="hashmap" resultMap="BaseResultMap">
 		select
@@ -96,7 +93,6 @@
 		<include refid="Where_Clause" />
 		<include refid="MySQLCommonMapper.sortInfo" />
 	</select>
-	
 	
 	<select id="selectPage" resultMap="BaseResultMap" parameterType="hashmap">
 		<include refid="MySQLCommonMapper.pagingStart"/>
@@ -113,9 +109,5 @@
 		select count(*) from T_SYS_RESOURCE s
 		<include refid="Where_Clause" />
 	</select>
-	
-	
-	<select id="queryByRole" parameterType="string" resultType="string">
-		select r.SOURCECODE from T_SYS_ROLE_RES r where r.ROLECODE = #{roleCode,jdbcType=VARCHAR}
-	</select>
+
 </mapper>

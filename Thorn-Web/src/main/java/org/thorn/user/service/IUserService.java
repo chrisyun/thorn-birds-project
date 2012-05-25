@@ -30,21 +30,4 @@ public interface IUserService {
 	public void changePwd(String userId, String newPwd)
 			throws DBAccessException;
 
-	public Page<User> queryPageByRole(String userName, String orgCode,
-			String roleCode, String userAccount, long start, long limit,
-			String sort, String dir) throws DBAccessException;
-
-	public Page<User> queryPageNotInRole(String orgCode, String roleCode,
-			long start, long limit, String sort, String dir)
-			throws DBAccessException;
-
-	public void saveUserRole(String roleCode, String userIds)
-			throws DBAccessException;
-
-	public void saveRoleByUser(String userId, String roleCodes)
-			throws DBAccessException;
-
-	public void deleteUserRole(String roleCode, String userIds)
-			throws DBAccessException;
-
 }

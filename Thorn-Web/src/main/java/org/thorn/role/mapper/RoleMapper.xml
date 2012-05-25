@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="RoleMapper">
 
-	<cache-ref namespace="ResourceMapper" />
+	<cache-ref namespace="DictMapper" />
 
 	<resultMap id="BaseResultMap" type="org.thorn.role.entity.Role">
 		<id column="ROLECODE" property="roleCode" jdbcType="VARCHAR" />
@@ -61,33 +61,6 @@
 		</foreach>
 	</delete>
 	
-	<delete id="deleteSourceByRole" parameterType="string">
-		delete from T_SYS_ROLE_RES where ROLECODE = #{code,jdbcType=VARCHAR}
-	</delete>
-	
-	<insert id="insertRoleSource" parameterType="hashmap">
-		insert into T_SYS_ROLE_RES(ROLECODE,SOURCECODE) 
-		values(#{roleCode,jdbcType=VARCHAR},#{sourceCode,jdbcType=VARCHAR})
-	</insert>
-
-
-	<select id="queryByUser" resultMap="BaseResultMap"
-		parameterType="string">
-		select ROLECODE from T_SYS_USER_ROLE
-		where USERID =
-		#{userid,jdbcType=VARCHAR}
-	</select>
-
-	<select id="queryBySource" resultMap="BaseResultMap">
-		select distinct ROLECODE from T_SYS_ROLE_RES
-		where SOURCECODE in
-		<foreach collection="list" item="item" open="(" close=")"
-			separator=",">
-			#{item,jdbcType=VARCHAR}
-		</foreach>
-	</select>
-
-
 	<select id="selectPage" resultMap="BaseResultMap" parameterType="hashmap">
 		<include refid="MySQLCommonMapper.pagingStart" />
 		select

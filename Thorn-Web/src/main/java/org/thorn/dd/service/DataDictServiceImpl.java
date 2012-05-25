@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.thorn.core.util.LocalStringUtils;
@@ -23,8 +21,6 @@ import org.thorn.dd.entity.DictType;
  * @date 2012-5-7 上午11:01:06
  */
 public class DataDictServiceImpl implements IDataDictService {
-
-	static Logger log = LoggerFactory.getLogger(DataDictServiceImpl.class);
 
 	@Autowired
 	@Qualifier("ddDao")

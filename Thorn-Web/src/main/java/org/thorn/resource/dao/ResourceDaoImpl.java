@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.thorn.dao.core.Page;
@@ -19,8 +17,6 @@ import org.thorn.resource.entity.Resource;
  * @date 2012-5-6 上午10:24:53
  */
 public class ResourceDaoImpl implements IResourceDao {
-
-	static Logger log = LoggerFactory.getLogger(ResourceDaoImpl.class);
 
 	private final static String nameSpace = "ResourceMapper.";
 
@@ -48,8 +44,8 @@ public class ResourceDaoImpl implements IResourceDao {
 			page.setTotal(count);
 
 			if (count > 0) {
-				page.setReslutSet((List<Resource>) sqlSessionTemplate.selectList(
-						nameSpace + "selectPage", filter));
+				page.setReslutSet((List<Resource>) sqlSessionTemplate
+						.selectList(nameSpace + "selectPage", filter));
 			}
 
 			return page;
@@ -79,16 +75,6 @@ public class ResourceDaoImpl implements IResourceDao {
 			return sqlSessionTemplate.delete(nameSpace + "delete", ids);
 		} catch (Exception e) {
 			throw new DBAccessException("ResourceDaoImpl", "delete", e);
-		}
-	}
-
-	public List<String> queryResourceByRole(String roleId)
-			throws DBAccessException {
-		try {
-			return (List<String>) sqlSessionTemplate.selectList(nameSpace
-					+ "queryByRole", roleId);
-		} catch (Exception e) {
-			throw new DBAccessException("ResourceDaoImpl", "queryResourceByRole", e);
 		}
 	}
 

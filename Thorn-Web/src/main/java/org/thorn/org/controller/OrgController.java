@@ -35,7 +35,15 @@ public class OrgController extends BaseController {
 	@Autowired
 	@Qualifier("orgService")
 	private IOrgService orgService;
-
+	
+	/**
+	 * 
+	 * @Description：获取组织树
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 上午10:52:02
+	 * @param pid 上级组织code
+	 * @return
+	 */
 	@RequestMapping("/org/getOrgTree")
 	@ResponseBody
 	public List<Tree> getOrgTree(String pid) {
@@ -59,7 +67,16 @@ public class OrgController extends BaseController {
 
 		return tree;
 	}
-
+	
+	/**
+	 * 
+	 * @Description：新增或修改组织
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 上午10:53:22
+	 * @param org	   组织对象
+	 * @param opType 操作类型
+	 * @return
+	 */
 	@RequestMapping("/org/saveOrModifyOrg")
 	@ResponseBody
 	public Status saveOrModifyOrg(Org org, String opType) {
@@ -83,7 +100,15 @@ public class OrgController extends BaseController {
 
 		return status;
 	}
-
+	
+	/**
+	 * 
+	 * @Description：根据主键批量删除组织
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 上午10:54:09
+	 * @param ids	主键字符串，格式id1,id2,
+	 * @return
+	 */
 	@RequestMapping("/org/deleteOrg")
 	@ResponseBody
 	public Status deleteOrg(String ids) {
@@ -101,6 +126,21 @@ public class OrgController extends BaseController {
 		return status;
 	}
 	
+	/**
+	 * 
+	 * @Description：分页获取组织数据
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 上午10:54:41
+	 * @param start
+	 * @param limit
+	 * @param sort
+	 * @param dir
+	 * @param pid		上级组织编码
+	 * @param orgCode	组织编码
+	 * @param orgName	组织名称
+	 * @param orgType   组织类型
+	 * @return
+	 */
 	@RequestMapping("/org/getOrgPage")
 	@ResponseBody
 	public Page<Org> getOrgPage(long start, long limit, String sort,
@@ -118,6 +158,15 @@ public class OrgController extends BaseController {
 		return page;
 	}
 	
+	/**
+	 * 
+	 * @Description：根据orgCode或者orgId查询组织
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 上午10:55:35
+	 * @param orgCode	组织编码
+	 * @param orgId		组织ID
+	 * @return
+	 */
 	@RequestMapping("/org/getOrg")
 	@ResponseBody
 	public JsonResponse<Org> getOrg(String orgCode, String orgId) {

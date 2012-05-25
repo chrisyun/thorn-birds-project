@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.thorn.auth.service.IAuthService;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
 import org.thorn.dao.core.Page;
@@ -34,6 +35,10 @@ public class UserController extends BaseController {
 	@Qualifier("userService")
 	private IUserService service;
 
+	@Autowired
+	@Qualifier("authService")
+	private IAuthService authService;
+	
 	@RequestMapping("/user/saveOrModifyUser")
 	@ResponseBody
 	public Status saveOrModifyUser(User user, String opType) {
@@ -162,7 +167,7 @@ public class UserController extends BaseController {
 		Page<User> page = new Page<User>();
 
 		try {
-			page = service.queryPageByRole(userName, orgCode, roleCode,
+			page = authService.queryPageByRole(userName, orgCode, roleCode,
 					userAccount, start, limit, sort, dir);
 		} catch (DBAccessException e) {
 			log.error("getUserPageByRole[User] - " + e.getMessage(), e);
@@ -178,7 +183,7 @@ public class UserController extends BaseController {
 		Page<User> page = new Page<User>();
 
 		try {
-			page = service.queryPageNotInRole(orgCode, roleCode, start, limit,
+			page = authService.queryPageNotInRole(orgCode, roleCode, start, limit,
 					sort, dir);
 		} catch (DBAccessException e) {
 			log.error("getUserPageNotInRole[User] - " + e.getMessage(), e);
@@ -193,7 +198,7 @@ public class UserController extends BaseController {
 		Status status = new Status();
 
 		try {
-			service.saveUserRole(roleCode, userIds);
+			authService.saveUserRole(roleCode, userIds);
 			status.setMessage("角色增加用户成功！");
 		} catch (DBAccessException e) {
 			status.setSuccess(false);
@@ -210,7 +215,7 @@ public class UserController extends BaseController {
 		Status status = new Status();
 
 		try {
-			service.saveRoleByUser(userId, roleCodes);
+			authService.saveRoleByUser(userId, roleCodes);
 			status.setMessage("用户绑定角色成功！");
 		} catch (DBAccessException e) {
 			status.setSuccess(false);
@@ -228,7 +233,7 @@ public class UserController extends BaseController {
 		Status status = new Status();
 
 		try {
-			service.deleteUserRole(roleCode, userIds);
+			authService.deleteUserRole(roleCode, userIds);
 			status.setMessage("角色删除用户成功！");
 		} catch (DBAccessException e) {
 			status.setSuccess(false);

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.thorn.auth.service.IAuthService;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
 import org.thorn.dao.core.Page;
@@ -36,6 +37,18 @@ public class RoleController extends BaseController {
 	@Qualifier("roleService")
 	private IRoleService service;
 
+	@Autowired
+	@Qualifier("authService")
+	private IAuthService authService;
+	
+	/**
+	 * 
+	 * @Description：
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 上午11:54:08
+	 * @param ids
+	 * @return
+	 */
 	@RequestMapping("/role/deleteRole")
 	@ResponseBody
 	public Status deleteRole(String ids) {
@@ -52,7 +65,20 @@ public class RoleController extends BaseController {
 
 		return status;
 	}
-
+	
+	/**
+	 * 
+	 * @Description：
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 上午11:54:21
+	 * @param start
+	 * @param limit
+	 * @param sort
+	 * @param dir
+	 * @param roleCode	角色编码
+	 * @param roleName	角色名称
+	 * @return
+	 */
 	@RequestMapping("/role/getRolePage")
 	@ResponseBody
 	public Page<Role> getRolePage(long start, long limit, String sort,
@@ -68,7 +94,14 @@ public class RoleController extends BaseController {
 
 		return page;
 	}
-
+	
+	/**
+	 * 
+	 * @Description：获取所有的角色
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 上午11:54:37
+	 * @return
+	 */
 	@RequestMapping("/role/getAllRole")
 	@ResponseBody
 	public List<Role> getAllRole() {
@@ -82,7 +115,15 @@ public class RoleController extends BaseController {
 
 		return list;
 	}
-
+	
+	/**
+	 * 
+	 * @Description：获取用户与所有角色的关系
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 上午11:54:53
+	 * @param userId
+	 * @return
+	 */
 	@RequestMapping("/role/getUserRole")
 	@ResponseBody
 	public JsonResponse<List<Relation>> getUserRoles(String userId) {
@@ -92,7 +133,7 @@ public class RoleController extends BaseController {
 
 		try {
 			// 只有rolecode
-			List<Role> userRole = service.queryRolesByUser(userId);
+			List<Role> userRole = authService.queryRoleByUser(userId);
 
 			List<Role> role = service.queryAllRoles();
 			for (Role r : role) {
@@ -124,14 +165,23 @@ public class RoleController extends BaseController {
 
 		return json;
 	}
-
+	
+	/**
+	 * 
+	 * @Description：授权资源给角色
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 上午11:55:19
+	 * @param roleCode	角色编码
+	 * @param ids		资源主键id	
+	 * @return
+	 */
 	@RequestMapping("/role/saveAuth")
 	@ResponseBody
 	public Status saveAuth(String roleCode, String ids) {
 		Status status = new Status();
 
 		try {
-			service.saveAuth(roleCode, ids);
+			authService.saveRoleAuth(roleCode, ids);
 			status.setMessage("角色授权成功！");
 		} catch (DBAccessException e) {
 			status.setSuccess(false);
@@ -141,7 +191,16 @@ public class RoleController extends BaseController {
 
 		return status;
 	}
-
+	
+	/**
+	 * 
+	 * @Description：
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 上午11:56:21
+	 * @param role
+	 * @param opType
+	 * @return
+	 */
 	@RequestMapping("/role/saveOrModifyRole")
 	@ResponseBody
 	public Status saveOrModifyRole(Role role, String opType) {

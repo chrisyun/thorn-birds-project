@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.thorn.auth.service.IAuthService;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
 import org.thorn.dao.core.Page;
@@ -36,7 +37,19 @@ public class ResourceController extends BaseController {
 	@Autowired
 	@Qualifier("resourceService")
 	private IResourceService service;
-
+	
+	@Autowired
+	@Qualifier("authService")
+	private IAuthService authService;
+	
+	/**
+	 * 
+	 * @Description：获取系统左边菜单树
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 上午11:03:59
+	 * @param pid	上级资源ID
+	 * @return
+	 */
 	@RequestMapping("/resource/getLeftTree")
 	@ResponseBody
 	public List<Tree> getLeftTree(String pid) {
@@ -68,6 +81,14 @@ public class ResourceController extends BaseController {
 		return tree;
 	}
 	
+	/**
+	 * 
+	 * @Description：一次性获取整个资源树，无需层级加载
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 上午11:05:00
+	 * @param pid
+	 * @return
+	 */
 	@RequestMapping("/resource/getSourceTree")
 	@ResponseBody
 	public List<FullTree> getSourceTree(String pid) {
@@ -104,6 +125,14 @@ public class ResourceController extends BaseController {
 		return ft;
 	}
 	
+	/**
+	 * 
+	 * @Description：对资源进行递归排序，按照顺序放到fullTree上
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 上午11:05:56
+	 * @param source	待排序的资源
+	 * @param tree		非叶子节点树
+	 */
 	private void sortTree(List<Resource> source, FullTree tree) {
 		
 		for(Resource res : source) {
@@ -127,19 +156,26 @@ public class ResourceController extends BaseController {
 				if(node.getChildren().size() == 0) {
 					node.setLeaf(true);
 				}
-				
 			}
 		}
 		
 	}
 	
+	/**
+	 * 
+	 * @Description：获取角色授权的资源列表
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 上午11:07:59
+	 * @param roleCode 角色编码
+	 * @return
+	 */
 	@RequestMapping("/resource/getSourceCodeByRole")
 	@ResponseBody
 	public JsonResponse<List> getSourceCodeByRole(String roleCode) {
 		JsonResponse<List> json = new JsonResponse<List>();
 		
 		try {
-			List<String> list = service.queryResourceByRole(roleCode);
+			List<String> list = authService.queryResourceByRole(roleCode);
 			json.setObj(list);
 			
 		} catch (DBAccessException e) {
@@ -151,6 +187,15 @@ public class ResourceController extends BaseController {
 		return json;
 	}
 	
+	/**
+	 * 
+	 * @Description：新增或修改资源
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 上午11:15:10
+	 * @param source	资源对象
+	 * @param opType	操作类型
+	 * @return
+	 */
 	@RequestMapping("/resource/saveOrModifySource")
 	@ResponseBody
 	public Status saveOrModifySource(Resource source, String opType) {
@@ -175,6 +220,14 @@ public class ResourceController extends BaseController {
 		return status;
 	}
 	
+	/**
+	 * 
+	 * @Description：根据主键批量删除资源
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 上午11:16:09
+	 * @param ids	主键字符串，格式id1,id2,
+	 * @return
+	 */
 	@RequestMapping("/resource/deleteSource")
 	@ResponseBody
 	public Status deleteSource(String ids) {
@@ -192,6 +245,20 @@ public class ResourceController extends BaseController {
 		return status;
 	}
 	
+	/**
+	 * 
+	 * @Description：分页获取资源数据
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 上午11:16:50
+	 * @param start
+	 * @param limit
+	 * @param sort
+	 * @param dir
+	 * @param pid		上级资源code
+	 * @param sourceCode资源code
+	 * @param sourceName资源名称
+	 * @return
+	 */
 	@RequestMapping("/resource/getSourcePage")
 	@ResponseBody
 	public Page<Resource> getSourcePage(long start, long limit, String sort,
@@ -208,6 +275,14 @@ public class ResourceController extends BaseController {
 		return page;
 	}
 	
+	/**
+	 * 
+	 * @Description：根据资源code获取单个资源对象
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 上午11:17:25
+	 * @param sourceCode
+	 * @return
+	 */
 	@RequestMapping("/resource/getResource")
 	@ResponseBody
 	public JsonResponse<Resource> getResource(String sourceCode) {
