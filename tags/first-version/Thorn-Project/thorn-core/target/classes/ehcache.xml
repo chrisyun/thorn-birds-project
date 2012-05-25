@@ -1,0 +1,23 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../config/ehcache.xsd">
+
+	<diskStore path="java.io.tmpdir" />
+
+	<defaultCache name="defaultCache" maxElementsInMemory="10000"
+		eternal="false" timeToIdleSeconds="120" timeToLiveSeconds="120"
+		overflowToDisk="true" maxElementsOnDisk="10000000" diskPersistent="false"
+		diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU" />
+
+	<cache name="basicCache" maxElementsInMemory="10000"
+		maxElementsOnDisk="0" eternal="true" overflowToDisk="false"
+		diskPersistent="false" timeToIdleSeconds="0" timeToLiveSeconds="0"
+		diskExpiryThreadIntervalSeconds="0" memoryStoreEvictionPolicy="LRU" />
+
+	<!-- spring security's cache config. sparta 10/6/20 10:56 -->
+	<cache name="userCache" maxElementsInMemory="100" eternal="false"
+		timeToIdleSeconds="600" timeToLiveSeconds="3600" overflowToDisk="true" />
+
+	<!-- spring security's acls cache config. sparta 10/6/22 15:41 -->
+	<cache name="aclCache" maxElementsInMemory="1000" eternal="false"
+		timeToIdleSeconds="600" timeToLiveSeconds="3600" overflowToDisk="true" />
+</ehcache>

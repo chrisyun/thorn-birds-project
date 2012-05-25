@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>-- Properties --</comment>
+	
+	<!--  For LDAP Login Module -->
+	
+	<!-- JDBC -->
+	<entry key="jdbc.url">jdbc:oracle:thin:@localhost:1521:orcl</entry>
+	<entry key="jdbc.driver">com.p6spy.engine.spy.P6SpyDriver</entry> 
+	<!-- <entry key="jdbc.driver">oracle.jdbc.OracleDriver</entry>-->
+	<entry key="jdbc.user">thorn</entry>
+	<entry key="jdbc.password">thorn</entry>
+	
+	
+	<entry key=""></entry>
+	<entry key=""></entry>
+	<entry key=""></entry>
+	<entry key=""></entry>
+	<entry key=""></entry>
+	<entry key=""></entry>
+	<entry key=""></entry>
+
+</properties>
