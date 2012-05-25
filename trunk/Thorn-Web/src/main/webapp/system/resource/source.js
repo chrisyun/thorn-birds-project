@@ -60,6 +60,7 @@ Ext.onReady(function() {
 	});
 
 	var tree = new Ext.tree.TreePanel( {
+		title : "资源面板(右键添加)",
 		region : 'west',
 		autoScroll : true,
 		collapsible : true,

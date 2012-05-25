@@ -27,7 +27,7 @@ public class BaseController {
 
 		// 必须指定该类型与pojo中的类型一致
 		binder.registerCustomEditor(int.class, new CustomDefaultNumberEditor(
-				int.class, true));
+				Integer.class, true));
 
 		binder.registerCustomEditor(Integer.class, new CustomNumberEditor(
 				Integer.class, true));

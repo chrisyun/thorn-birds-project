@@ -19,9 +19,9 @@ body {
 
 	document.title = "SYS - Login";
 
-	var iSerror = '${param.error}';
-	var error = '${sessionScope['SPRING_SECURITY_LAST_EXCEPTION'].message}';
-	var userName = '${sessionScope['SPRING_SECURITY_LAST_USERNAME']}';
+	var iSerror = "${param.error}";
+	var error = "${sessionScope['SPRING_SECURITY_LAST_EXCEPTION'].message}";
+	var userName = "${sessionScope['SPRING_SECURITY_LAST_USERNAME']}";
 	var loginUrl = sys.path + "/j_spring_security_check";
 	var indexUrl = sys.path + "/system/main.jsp";
 	var authCodeUrl = sys.path + "/resources/ImageValidateCodeServlet";
@@ -36,14 +36,14 @@ body {
 		}
 		
 		var loginPanel = new Ext.FormPanel( {
-			bodyStyle : 'padding-top: 30px',
+			bodyStyle : "padding-top: 30px",
 			labelWidth : 100,
 			border: false,
 			labelAlign : "right",
 			onSubmit: Ext.emptyFn, 
 			submit: function() { 
 				this.getEl().dom.action = loginUrl; 
-				this.getEl().dom.method = 'post'; 
+				this.getEl().dom.method = "post"; 
 				this.getEl().dom.submit(); 
 			}, 
 			defaults : {
@@ -61,17 +61,17 @@ body {
 				fieldLabel : "密码",
 				inputType : "password"
 			}, {
-				xtype:'panel',
+				xtype:"panel",
 				width: 370,
 				border: false,
-				layout : 'column',
+				layout : "column",
 				items : [{
-					xtype:'panel',
+					xtype:"panel",
 					layout : "form",
 					border: false,
 					columnWidth : 0.5,
 					items: [{
-						xtype:'textfield',
+						xtype:"textfield",
 						name : "ValidateCode",
 						width : 70,
 						fieldLabel : "验证码",
@@ -91,7 +91,7 @@ body {
 				},{
 					id : "codeLabel",
 					hidden : true,
-					xtype:'label',
+					xtype:"label",
 					html:'<img alt="验证码" id="authImage" align="middle" width="80" height="24">&nbsp;<a href="javascript:refresh();">看不清</a>'
 				}]
 				
@@ -100,7 +100,7 @@ body {
 				name : "_spring_security_remember_me",
 				boxLabel : "两周内不再登录"
 			},{
-				xtype:'panel',
+				xtype:"panel",
 				width: 370,
 				border: false,
 				html : '<div id="loginMsg" class="error"></div>'
@@ -111,7 +111,7 @@ body {
 			title:"SYS - Login",
 			closable:false,
 			draggable:false,
-			layout : 'fit',
+			layout : "fit",
 			resizable : false,
 			width:370,
 			height:250,
@@ -144,7 +144,7 @@ body {
 		}
 		
 		
-		if(iSerror == 'true' && !Ext.isEmpty(error) ) {
+		if(iSerror == "true" && !Ext.isEmpty(error) ) {
 			Message.showErrorMsgBox(error,"登陆失败");
 			//Ext.getDom("loginMsg").innerHTML = error;
 		}

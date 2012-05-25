@@ -39,7 +39,7 @@
 		 	loader: loader,
 			root : new Ext.tree.AsyncTreeNode({
 				text : "系统菜单",
-				id: 'SYS',
+				id: "SYS",
 				leaf: false
 			})
 		});
@@ -51,54 +51,54 @@
 			loader: loader,
 			root : new Ext.tree.AsyncTreeNode({
 				text : "应用菜单",
-				id: 'NAV',
+				id: "NAV",
 				leaf: false
 			})
 		});
 		
 		var menuPanel = new Ext.Panel( {
-			region : 'west',
-			title : '当前用户：' + user.userName,
+			region : "west",
+			title : "当前用户：" + user.userName,
 			split : true,
 			width : 200,
 			minSize : 175,
 			maxSize : 400,
 			collapsible : true,
-			margins : '2 0 2 0',
+			margins : "2 0 2 0",
 			layout : {
-				type : 'accordion',
+				type : "accordion",
 				animate : true
 			},
 			items : [ {
-				title : '导航菜单',
+				title : "应用菜单",
 				border : false,
-				iconCls : 'silk-nav',
+				iconCls : "silk-nav",
 				items : [navMenuTree]
 			}, {
-				title : '系统管理',
-				html : '',
+				title : "系统菜单",
+				html : "",
 				border : false,
-				iconCls : 'silk-settings',
+				iconCls : "silk-settings",
 				items : [sysMenuTree]
 			} ],
 			tbar : [ {
-				text : '选项',
-				iconCls : 'silk-application-view-list',
+				text : "选项",
+				iconCls : "silk-application-view-list",
 				menu : new Ext.menu.Menu( {
 					items : [ {
-						text : '更换皮肤',
+						text : "更换皮肤",
 					 	menu: {
                				items: skinItemArray
                			}
 					}, {
-						text : '注销',
-						iconCls : 'silk-logout',
+						text : "注销",
+						iconCls : "silk-logout",
 						handler : logout
 					} ]
 				})
 				}, "-", {
 					text : "刷新",
-					iconCls : 'silk-table-refresh',
+					iconCls : "silk-table-refresh",
 					handler: function(){
 						sysMenuTree.getRootNode().reload();
 						navMenuTree.getRootNode().reload();
@@ -107,9 +107,9 @@
 		});
 
 		var mainTab = new Ext.TabPanel( {
-			region : 'center',
+			region : "center",
 			activeTab : 0,
-			margins : '2 0 2 0',
+			margins : "2 0 2 0",
 			resizeTabs : true,
 			border : false,
 			minTabWidth : 200,
@@ -128,9 +128,9 @@
 			}
 
 			if(!Ext.isEmpty(openUrl)){
-    			var prefix = '?';
-    			if (openUrl.indexOf('?') > -1) {
-    				prefix = '&'
+    			var prefix = "?";
+    			if (openUrl.indexOf("?") > -1) {
+    				prefix = "&"
         		}
     			openUrl = openUrl + prefix + "random=" + Math.random();
            	}
@@ -156,11 +156,11 @@
 			mainTab.activate(node.id);
 		}
 		
-		navMenuTree.on('click',function(node, ev){
+		navMenuTree.on("click",function(node, ev){
 			treeClick(node,ev);
 		});
 
-		sysMenuTree.on('click',function(node, ev){
+		sysMenuTree.on("click",function(node, ev){
 			treeClick(node,ev);
        	});
 		
@@ -169,7 +169,7 @@
 			items : [ {
 				region : "north",
 				height : 67,
-				contentEl: 'header'
+				contentEl: "header"
 			}, menuPanel, mainTab/*, {
 				region : "south",
 				height : 50,
@@ -189,7 +189,7 @@
 			title : "注销提示",
 			icon : Ext.Msg.WARNING,
 			fn : function(btn) {
-				if ('yes' == btn) {
+				if ("yes" == btn) {
 					window.location.href = logoutUrl;
 				}
 			}
