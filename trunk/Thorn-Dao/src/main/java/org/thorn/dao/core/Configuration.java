@@ -23,6 +23,11 @@ public interface Configuration {
 	public final static String DB_YES = "YES";
 	/** NO **/
 	public final static String DB_NO = "NO";
+	/** SUCCESS **/
+	public final static String DB_SUCCESS = "SUCCESS";
+	/** FAILURE **/
+	public final static String DB_FAILURE = "FAILURE";
+	
 	
 	public final static String OP_SAVE = "save";
 	
