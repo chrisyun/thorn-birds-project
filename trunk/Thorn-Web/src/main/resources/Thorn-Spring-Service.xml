@@ -13,7 +13,12 @@
 	<context:component-scan base-package="org.thorn" />
 	<!-- 默认的注解映射的支持 -->
 	<mvc:annotation-driven />
-
+	
+	<!-- 开启基于aspectj注解的代理，并使用cglib的方式-->
+	<aop:aspectj-autoproxy proxy-target-class="true" /> 
+	<bean class="org.thorn.log.AppLogAdvisor" />
+	
+	
 	<bean id="roleDao" class="org.thorn.role.dao.RoleDaoImpl" />
 	<bean id="roleService" class="org.thorn.role.service.RoleServiceImpl" />
 
@@ -31,4 +36,7 @@
 	
 	<bean id="authDao" class="org.thorn.auth.dao.AuthDaoImpl" />
 	<bean id="authService" class="org.thorn.auth.service.AuthServiceImpl" />
+	
+	<bean id="logDao" class="org.thorn.log.dao.AppLogDaoImpl" />
+	<bean id="logService" class="org.thorn.log.service.AppLogServiceImpl" />
 </beans>

@@ -129,3 +129,19 @@ function getCheckbox(id, text, isChecked) {
 
 	return checkbox;
 }
+
+function getDateText(id, text, width, initValue, maxValue) {
+	var date = new Object();
+	
+	date.xtype = "datefield";
+	date.format="Y-m-d";
+	date.emptyText="请选择日期";
+	 
+	date.fieldLabel = text;
+	date.id = id;
+	date.width = width;
+	date.value = initValue || new Date().add(Date.DAY, 1);
+	date.maxValue = maxValue || new Date().add(Date.DAY, 1);
+
+	return date;
+}

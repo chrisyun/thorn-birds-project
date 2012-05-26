@@ -1,22 +1,25 @@
 function WindowUtil(winAttr, form, saveHandler) {
+	
+	this.saveBtn = getButton({
+		text : "保存",
+		iconCls : "silk-accept",
+		scope : this,
+		handler : saveHandler
+	});
+	
 	this.win = new Ext.Window( {
-		closeAction : 'hide',
+		closeAction : "hide",
 		modal : true,
 		shadow : true,
 		closable : true,
-		layout : 'fit',
+		layout : "fit",
 		width : 350,
 		height : 210,
 		items : [ form ],
 		buttonAlign : "center",
-		buttons : [ {
-			text : '保存',
-			iconCls : 'silk-accept',
-			scope : this,
-			handler : saveHandler
-		}, {
-			text : '关闭',
-			iconCls : 'slik-close',
+		buttons : [ this.saveBtn, {
+			text : "关闭",
+			iconCls : "slik-close",
 			scope : this,
 			handler : function() {
 				this.win.hide();
@@ -39,4 +42,12 @@ WindowUtil.prototype.hide = function() {
 
 WindowUtil.prototype.getWindow = function() {
 	return this.win;
+}
+
+WindowUtil.prototype.hideSaveBtn = function() {
+	return this.saveBtn.hide();
+}
+
+WindowUtil.prototype.showSaveBtn = function() {
+	return this.saveBtn.show();
 }

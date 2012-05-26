@@ -137,6 +137,10 @@
 			
 			var activateId = mainTab.getActiveTab().getItemId();
 			
+			if(activateId == node.id) {
+				return ;
+			}
+			
 			if(tabNum < 2) {
 				tabNum++;
 			} else if(activateId != node.id) {
