@@ -35,9 +35,9 @@
 	</bean>
 
 	<!-- 通过AOP定义的事务增强切面 -->
-	<aop:config>
+	<aop:config proxy-target-class="true">
 		<aop:pointcut id="tracationMethods"
-			expression="execution(* org.thorn.*.service.*.*(..))" />
+			expression="execution(public * org.thorn.*.service.*ServiceImpl.*(..))" />
 		<aop:advisor pointcut-ref="tracationMethods" advice-ref="txAdvice" />
 	</aop:config>
 
