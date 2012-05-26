@@ -59,7 +59,7 @@ public class AuthDaoImpl implements IAuthDao {
 			return (List<Role>) sqlSessionTemplate.selectList(nameSpace
 					+ "queryRoleBySource", source);
 		} catch (Exception e) {
-			throw new DBAccessException("RoleDaoImpl", "queryRolesByResource",
+			throw new DBAccessException("AuthDaoImpl", "queryRolesByResource",
 					e);
 		}
 	}
@@ -69,7 +69,7 @@ public class AuthDaoImpl implements IAuthDao {
 			return (List<Role>) sqlSessionTemplate.selectList(nameSpace
 					+ "queryRoleByUser", userId);
 		} catch (Exception e) {
-			throw new DBAccessException("RoleDaoImpl", "queryByUser", e);
+			throw new DBAccessException("AuthDaoImpl", "queryRoleByUser", e);
 		}
 	}
 
@@ -89,7 +89,7 @@ public class AuthDaoImpl implements IAuthDao {
 
 			return page;
 		} catch (Exception e) {
-			throw new DBAccessException("UserDaoImpl", "queryPageByRole", e);
+			throw new DBAccessException("AuthDaoImpl", "queryPageByRole", e);
 		}
 	}
 
@@ -97,7 +97,7 @@ public class AuthDaoImpl implements IAuthDao {
 		try {
 			return sqlSessionTemplate.insert(nameSpace + "insertUserRole", ur);
 		} catch (Exception e) {
-			throw new DBAccessException("UserDaoImpl", "saveUserRole", e);
+			throw new DBAccessException("AuthDaoImpl", "saveUserRole", e);
 		}
 	}
 
@@ -107,7 +107,7 @@ public class AuthDaoImpl implements IAuthDao {
 			return sqlSessionTemplate.delete(nameSpace + "deleteUserRole",
 					filter);
 		} catch (Exception e) {
-			throw new DBAccessException("UserDaoImpl", "deleteUserRole", e);
+			throw new DBAccessException("UserDaoImpl", "deleteUserInRole", e);
 		}
 	}
 
@@ -127,7 +127,7 @@ public class AuthDaoImpl implements IAuthDao {
 
 			return page;
 		} catch (Exception e) {
-			throw new DBAccessException("UserDaoImpl", "queryPageNotInRole", e);
+			throw new DBAccessException("AuthDaoImpl", "queryPageNotInRole", e);
 		}
 	}
 
@@ -136,7 +136,7 @@ public class AuthDaoImpl implements IAuthDao {
 			return sqlSessionTemplate.delete(nameSpace + "deleteUserAllRole",
 					userId);
 		} catch (Exception e) {
-			throw new DBAccessException("UserDaoImpl", "deleteUserAllRole", e);
+			throw new DBAccessException("AuthDaoImpl", "deleteUserAllRole", e);
 		}
 	}
 

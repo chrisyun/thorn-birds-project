@@ -91,7 +91,8 @@ if(auth != null) {
 		<script type="text/javascript">document.getElementById('loading-msg').innerHTML = 'Loading Core API...';</script>
         <script type="text/javascript" src="<%=path %>/plugins/ext-3.2.1/adapter/ext/ext-base.js" ></script>
         <script type="text/javascript">document.getElementById('loading-msg').innerHTML = 'Loading UI Components...';</script>
-        <script type="text/javascript" src="<%=path %>/plugins/ext-3.2.1/ext-all-debug.js"></script>
+        <!-- <script type="text/javascript" src="<%=path %>/plugins/ext-3.2.1/ext-all-debug.js"></script> -->
+        <script type="text/javascript" src="<%=path %>/plugins/ext-3.2.1/ext-all.js"></script>
         <script type="text/javascript" src="<%=path %>/plugins/ext-3.2.1/ux/SearchField.js"></script>
         
         <script type="text/javascript" src="<%=path %>/plugins/local/globalConfig.js" ></script>
