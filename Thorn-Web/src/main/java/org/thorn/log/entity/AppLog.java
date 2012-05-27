@@ -69,7 +69,7 @@ public class AppLog implements Serializable {
 		this.userId = userId;
 	}
 	
-	public String isHandleResult() {
+	public String getHandleResult() {
 		return handleResult;
 	}
 
