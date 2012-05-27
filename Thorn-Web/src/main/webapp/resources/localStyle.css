@@ -59,7 +59,18 @@
 	background-image: url(images/local/icons/refresh.png) !important;
 	background-repeat: no-repeat;
 }
-
+.silk-pdf {
+	background-image: url(images/local/icons/pdf.gif) !important;
+	background-repeat: no-repeat;
+}
+.silk-word {
+	background-image: url(images/local/icons/page_word.png) !important;
+	background-repeat: no-repeat;
+}
+.silk-excel {
+	background-image: url(images/local/icons/page_excel.png) !important;
+	background-repeat: no-repeat;
+}
 
 /**table ico*/
 .silk-nav {
@@ -75,12 +86,15 @@
 	background-repeat: no-repeat;
 }
 .silk-application-view-list {
-	background-image: url(images/local/icons/application_view_list.png)
-		!important;
+	background-image: url(images/local/icons/application_view_list.png) !important;
 	background-repeat: no-repeat;
 }
 .silk-grid {
 	background-image: url(images/local/icons/grid.png) !important;
+	background-repeat: no-repeat;
+}
+.silk-home {
+	background-image: url(images/local/icons/application_home.png) !important;
 	background-repeat: no-repeat;
 }
 .silk-app-go {
@@ -119,5 +133,9 @@
 }
 .tree-auth {
 	background-image: url(images/local/icons/user_comment.png) !important;
+	background-repeat: no-repeat;
+}
+.tree-appLog {
+	background-image: url(images/local/icons/accessmode-open.gif) !important;
 	background-repeat: no-repeat;
 }
