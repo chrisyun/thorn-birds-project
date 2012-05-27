@@ -23,7 +23,9 @@
 		<property name="suffix" value=".jsp" />
 		<property name="contentType" value="text/html;charset=UTF-8" />
 	</bean>
-
+	<!-- 自定义json错误的拦截 -->
+	<bean class="org.thorn.web.controller.JsonExceptionResolver" />
+	
 	<!-- 主题皮肤 -->
 	<bean id="themeSource"
 		class="org.springframework.ui.context.support.ResourceBundleThemeSource">

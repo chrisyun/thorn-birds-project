@@ -8,7 +8,7 @@
 		<result column="METHODNAME" property="methodName" jdbcType="VARCHAR" />
 		<result column="PARAMETERS" property="parameters" jdbcType="VARCHAR" />
 		<result column="USERID" property="userId" jdbcType="VARCHAR" />
-		<result column="HANDLERESULT" property="handleResult" jdbcType="BOOLEAN" />
+		<result column="HANDLERESULT" property="handleResult" jdbcType="VARCHAR" />
 		<result column="ERRORMSG" property="errorMsg" jdbcType="VARCHAR" />
 		<result column="EXECUTETIME" property="executeTime" jdbcType="TIMESTAMP" />
 	</resultMap>
@@ -24,7 +24,7 @@
 				and l.MODULENAME = #{moduleName,jdbcType=VARCHAR}
       		</if>
       		<if test="handleResult != null and handleResult != ''">
-				and l.HANDLERESULT = #{handleResult,jdbcType=BOOLEAN}
+				and l.HANDLERESULT = #{handleResult,jdbcType=VARCHAR}
       		</if>
       		<if test="startTime != null and startTime != ''">
 				and l.EXECUTETIME &gt;= #{startTime,jdbcType=VARCHAR}
