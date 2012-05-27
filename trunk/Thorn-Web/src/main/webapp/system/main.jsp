@@ -115,6 +115,7 @@
 			minTabWidth : 200,
 			items : [ {
 				title : "首页",
+				iconCls : "silk-home",
 				autoScroll : true
 			}]
 		});

@@ -51,11 +51,13 @@
 		<result column="SORTNUM" property="sortNum" jdbcType="DECIMAL" />
 	</resultMap>
 	
+	<!-- 过滤掉禁用的角色 -->
 	<select id="queryRoleByUser" resultMap="RoleResultMap"
 		parameterType="string">
-		select ROLECODE from T_SYS_USER_ROLE
-		where USERID =
-		#{userid,jdbcType=VARCHAR}
+		select U.ROLECODE from T_SYS_USER_ROLE U,T_SYS_ROLE R
+		where U.USERID = #{userid,jdbcType=VARCHAR} 
+		AND U.ROLECODE = R.ROLECODE 
+		AND R.ISDISABLED = 'YES'
 	</select>
 	
 	<delete id="deleteUserAllRole" parameterType="string">
