@@ -39,8 +39,6 @@ public class AppLogController extends BaseController {
 	@Qualifier("logService")
 	private IAppLogService logService;
 
-	private HttpServletResponse response;
-
 	@RequestMapping("/log/getLogPage")
 	@ResponseBody
 	public Page<AppLog> getLogPage(long start, long limit, String sort,
@@ -66,6 +64,8 @@ public class AppLogController extends BaseController {
 		try {
 			list = logService.queryList(moduleName, handleResult, startTime,
 					endTime);
+			
+			// 可对结果集进行数据字典转换
 			
 			ResponseHeaderUtils.setExcelResponse(response, "系统操作日志");
 			
