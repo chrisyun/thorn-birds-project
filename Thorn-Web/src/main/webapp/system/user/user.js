@@ -18,9 +18,9 @@ Ext.onReady(function() {
 				labelWidth : 70
 			};
 			var query_form = new FormUtil(query_attr);
-			query_form.addComp(getText("query_code", "用户编号", 120), 0.23, true);
-			query_form.addComp(getText("query_name", "用户名称", 120), 0.23, true);
-			query_form.addComp(getText("query_mail", "用户邮箱", 120), 0.23, true);
+			query_form.addComp(getText("query_code", "用户编码", 120), 0.23, true);
+			query_form.addComp(getText("query_name", "姓名", 120), 0.23, true);
+			query_form.addComp(getText("query_mail", "邮箱", 120), 0.23, true);
 			query_form.addComp(getQueryBtn(onSubmitQueryHandler), 0.3, true);
 			/** ****************query panel end*************** */
 
@@ -31,8 +31,8 @@ Ext.onReady(function() {
 					getRecord(null, "sortNum", "string"),
 					getRecord(null, "userAccount", "string"),
 					getRecord(null, "sn", "string"),
-					getRecord("用户编号", "userId", "string", 100, true),
-					getRecord("用户名称", "userName", "string", 100, true),
+					getRecord("用户编码", "userId", "string", 100, true),
+					getRecord("姓名", "userName", "string", 100, true),
 					getRecord("性别", "gender", "string", 70, true, genderRender),
 					getRecord("邮箱", "cumail", "string", 120),
 					getRecord("电话", "phone", "string", 70),
@@ -126,7 +126,7 @@ Ext.onReady(function() {
 				labelWidth : 100,
 				border : false
 			});
-			user_form.addComp(getText("userId", "用户编号", 150), 0.5, false);
+			user_form.addComp(getText("userId", "用户编码", 150), 0.5, false);
 			user_form.addComp(getText("sn", "姓", 150), 0.5, true);
 			user_form.addComp(getText("userAccount", "账号", 150), 0.5, false);
 			user_form.addComp(getText("userName", "姓名", 150), 0.5, false);

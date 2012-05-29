@@ -27,7 +27,7 @@ Ext.onReady(function() {
 	/** ****************query panel end*************** */
 
 	/** ****************dtGrid panel start************ */
-	var recordArray_dt = [ getRecord("字典类型编号", "ename", "string", 70, true),
+	var recordArray_dt = [ getRecord("字典类型编码", "ename", "string", 70, true),
 			getRecord("字典类型名称", "cname", "string", 100, true),
 			getRecord("描述", "typeDesc", "string", 300) ];
 	var grid_dt = new GridUtil(dtPageUrl, recordArray_dt, pageSize);
