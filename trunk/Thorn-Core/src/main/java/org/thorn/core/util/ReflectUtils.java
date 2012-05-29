@@ -20,15 +20,17 @@ import org.slf4j.LoggerFactory;
 public class ReflectUtils {
 
 	static Logger log = LoggerFactory.getLogger(ReflectUtils.class);
-	
+
 	/**
 	 * 
 	 * @Description：将map映射为javabean对象
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-2 下午02:30:19
 	 * @param <T>
-	 * @param map	映射数据源，field对应value
-	 * @param bean	对象的类型
+	 * @param map
+	 *            映射数据源，field对应value
+	 * @param bean
+	 *            对象的类型
 	 * @return
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
@@ -54,11 +56,11 @@ public class ReflectUtils {
 
 		return obj;
 	}
-	
+
 	/**
 	 * 
 	 * @Description：将javabean对象映射为map
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-2 下午02:31:50
 	 * @param obj
 	 * @return
@@ -66,12 +68,12 @@ public class ReflectUtils {
 	public static Map<String, Object> object2Map(Object obj) {
 
 		Class objCl = obj.getClass();
-		Field[] fields = objCl.getFields();
+		Field[] fields = objCl.getDeclaredFields();
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		for (Field field : fields) {
 			String fieldName = field.getName();
-			String getMethod = "get" + fieldName.substring(0, 1)
+			String getMethod = "get" + fieldName.substring(0, 1).toUpperCase()
 					+ fieldName.substring(1);
 
 			try {
@@ -87,15 +89,15 @@ public class ReflectUtils {
 
 		return map;
 	}
-	
+
 	/**
 	 * 
 	 * @Description：将javabean的list数组转换成list的object数组
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-2 下午02:32:29
 	 * @param <T>
 	 * @param listBean
-	 * @return	数据源为空则为null，否则第一列为javabean的field数组
+	 * @return 数据源为空则为null，否则第一列为javabean的field数组
 	 */
 	public static <T> List<Object[]> object2Array(List<T> listBean) {
 
@@ -107,7 +109,7 @@ public class ReflectUtils {
 		List<Object[]> list = new ArrayList<Object[]>();
 
 		// set field
-		Field[] fieldArray = cls.getFields();
+		Field[] fieldArray = cls.getDeclaredFields();
 		String[] header = new String[fieldArray.length];
 
 		for (int i = 0; i < header.length; i++) {
@@ -120,7 +122,8 @@ public class ReflectUtils {
 			Object[] objArray = new Object[header.length];
 
 			for (int i = 0; i < header.length; i++) {
-				String getMethod = "get" + header[i].substring(0, 1)
+				String getMethod = "get"
+						+ header[i].substring(0, 1).toUpperCase()
 						+ header[i].substring(1);
 
 				try {
@@ -138,11 +141,11 @@ public class ReflectUtils {
 
 		return list;
 	}
-	
+
 	/**
 	 * 
 	 * @Description：将object数组的list集合转换为javabean的list集合
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-2 下午02:34:25
 	 * @param <T>
 	 * @param array
