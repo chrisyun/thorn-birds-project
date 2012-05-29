@@ -71,4 +71,11 @@
 		<include refid="Where_Clause" />
 	</select>
 
+	<select id="selectList" resultMap="BaseResultMap" parameterType="hashmap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SYS_LOG l
+		<include refid="Where_Clause" />
+	</select>
+
 </mapper>

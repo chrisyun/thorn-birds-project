@@ -1,5 +1,7 @@
 package org.thorn.log.service;
 
+import java.util.List;
+
 import org.thorn.dao.core.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.log.entity.AppLog;
@@ -41,4 +43,19 @@ public interface IAppLogService {
 	public Page<AppLog> queryPage(String moduleName, String handleResult,
 			String startTime, String endTime, long start, long limit,
 			String sort, String dir) throws DBAccessException;
+	
+	/**
+	 * 
+	 * @Description：
+	 * @author：chenyun 	        
+	 * @date：2012-5-29 下午07:47:26
+	 * @param moduleName
+	 * @param handleResult
+	 * @param startTime
+	 * @param endTime
+	 * @return
+	 * @throws DBAccessException
+	 */
+	public List<AppLog> queryList(String moduleName, String handleResult,
+			String startTime, String endTime) throws DBAccessException;
 }
