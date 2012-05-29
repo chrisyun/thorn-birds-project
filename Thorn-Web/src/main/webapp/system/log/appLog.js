@@ -1,4 +1,5 @@
 var logPageUrl = sys.path + "/log/getLogPage.jmt";
+var exportUrl = sys.path + "/log/exportLogExcel.jmt";
 
 var pageSize = 20;
 
@@ -15,12 +16,13 @@ Ext.onReady(function() {
 
 	var query_form = new FormUtil(query_attr);
 
-	query_form.addComp(getDateText("query_startTime", "开始日期", 120, new Date().add(Date.MONTH, -1)), 0.2, true);
+	query_form.addComp(getDateText("query_startTime", "开始日期", 120, new Date()
+							.add(Date.MONTH, -1)), 0.2, true);
 	query_form.addComp(getDateText("query_endTime", "结束日期", 120), 0.2, true);
 	query_form.addComp(getComboBox("query_module", "模块", 120, module, false),
 			0.2, true);
-	query_form.addComp(getComboBox("query_result", "操作结果", 120, handleResult, false),
-			0.2, true);		
+	query_form.addComp(getComboBox("query_result", "操作结果", 120, handleResult,
+					false), 0.2, true);
 	query_form.addComp(getQueryBtn(onSubmitQueryHandler), 0.2, true);
 	/** ****************query panel end*************** */
 
@@ -28,17 +30,27 @@ Ext.onReady(function() {
 	var msgRender = function(remark, metadata, record, rowIndex, colIndex) {
 		return Render.detailRender(remark, log_grid.cm, colIndex);
 	};
-	
-	var recordArray = [getRecord(null, "id", "string"),
+
+	var recordArray = [
+			getRecord(null, "id", "string"),
 			getRecord(null, "parameters", "string"),
 			getRecord("模块名称", "moduleName", "string", 100, false, moduleRender),
 			getRecord("方法名称", "methodName", "string", 180, true),
 			getRecord("操作人", "userId", "string", 70, true),
 			getRecord("操作时间", "executeTime", "string", 100, true),
-			getRecord("操作结果", "handleResult", "string", 50, true, handleResultRender),
+			getRecord("操作结果", "handleResult", "string", 50, true,
+					handleResultRender),
 			getRecord("错误信息", "errorMsg", "string", 300, false, msgRender)];
 	var log_grid = new GridUtil(logPageUrl, recordArray, pageSize);
-	log_grid.setBottomBar();
+
+	var bar = [{
+				text : "导出Excel",
+				iconCls : "silk-excel",
+				minWidth : Configuration.minBtnWidth,
+				handler : exportHandler
+			}];
+
+	log_grid.setBottomBar(bar);
 
 	var listeners = {
 		celldblclick : function(thisGrid, rowIndex, columnIndex, ev) {
@@ -64,17 +76,17 @@ Ext.onReady(function() {
 				labelWidth : 100,
 				border : false
 			});
-			
+
 	log_form.addComp(getComboBox("moduleName", "模块名称", 180, module, true), 0.5,
-			true);		
+			true);
 	log_form.addComp(getText("methodName", "方法名称", 180), 0.5, true);
 	log_form.addComp(getTextArea("parameters", "方法参数", 500, 60), 1.0, true);
 	log_form.addComp(getText("userId", "操作人", 180), 0.5, true);
 	log_form.addComp(getText("executeTime", "操作时间", 180), 0.5, true);
-	log_form.addComp(getComboBox("handleResult", "操作结果", 180, handleResult, true), 0.5,
-			true);
+	log_form.addComp(getComboBox("handleResult", "操作结果", 180, handleResult,
+					true), 0.5, true);
 	log_form.addComp(getTextArea("errorMsg", "错误信息", 500, 60), 1.0, true);
-	
+
 	var log_win = new WindowUtil({
 				width : 650,
 				height : 340
@@ -87,11 +99,10 @@ Ext.onReady(function() {
 			Ext.Msg.alert("提示信息", "请选择一条记录!");
 			return;
 		}
-		
-		//不显示保存按钮
+
+		// 不显示保存按钮
 		log_win.hideSaveBtn();
-		
-		
+
 		log_win.show("日志详情");
 		log_form.getForm().reset();
 
@@ -108,14 +119,29 @@ Ext.onReady(function() {
 		log_form.getForm().setValues(values);
 	}
 
-	function onSubmitQueryHandler() {
-		var thisForm = query_form.getForm();
-		
-		var startTime = Ext.getCmp("query_startTime").getValue().format("Y-m-d");
+	function exportHandler() {
+		var startTime = Ext.getCmp("query_startTime").getValue()
+				.format("Y-m-d");
 		var endTime = Ext.getCmp("query_endTime").getValue().format("Y-m-d");
 		var moduleName = Ext.getCmp("show_query_module").getValue();
 		var handleResult = Ext.getCmp("show_query_result").getValue();
+
+		var excelUrl = exportUrl + "?moduleName=" + moduleName
+				+ "&handleResult=" + handleResult
+		"&startTime=" + startTime + "&endTime=" + endTime;
 		
+		document.getElementById("excelFrame").src = excelUrl;
+	}
+
+	function onSubmitQueryHandler() {
+		var thisForm = query_form.getForm();
+
+		var startTime = Ext.getCmp("query_startTime").getValue()
+				.format("Y-m-d");
+		var endTime = Ext.getCmp("query_endTime").getValue().format("Y-m-d");
+		var moduleName = Ext.getCmp("show_query_module").getValue();
+		var handleResult = Ext.getCmp("show_query_result").getValue();
+
 		store.baseParams.moduleName = moduleName;
 		store.baseParams.handleResult = handleResult;
 		store.baseParams.startTime = startTime;
@@ -134,7 +160,7 @@ Ext.onReady(function() {
 				layout : "border",
 				items : [query_form.getPanel(), log_grid.getGrid()]
 			});
-			
+
 	onSubmitQueryHandler();
 	completePage();
 });

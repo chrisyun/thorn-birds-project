@@ -18,4 +18,5 @@
 	};
 	
 </script>
+<iframe id="excelFrame" src="" style="display:none;"></iframe>
 <jsp:include page="../../reference/footer.jsp"></jsp:include>
