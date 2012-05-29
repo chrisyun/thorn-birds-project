@@ -47,18 +47,19 @@ public class ExcelStyle {
 		cellStyle.setLeftBorderColor(HSSFColor.RED.index);
 		cellStyle.setRightBorderColor(HSSFColor.RED.index);
 		// 设置单元格背景色及填充方式
-		cellStyle.setFillForegroundColor(HSSFColor.SEA_GREEN.index);
+		cellStyle.setFillForegroundColor(HSSFColor.WHITE.index);
 		cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 
 		HSSFFont font = workBook.createFont();
 		font.setFontName("幼圆");
 		font.setFontHeightInPoints((short) 9);
-		font.setColor(HSSFColor.YELLOW.index);
+		font.setColor(HSSFColor.BLACK.index);
 		font.setBoldweight(font.BOLDWEIGHT_BOLD);
 		font.setItalic(true);
 		//删除线
 //		font.setStrikeout(true);
-		font.setUnderline((byte) 1);
+		//下划线
+//		font.setUnderline((byte) 1);
 		// 将字体格式设置到HSSFCellStyle上
 		cellStyle.setFont(font);
 		//单元格对齐方式水平居中

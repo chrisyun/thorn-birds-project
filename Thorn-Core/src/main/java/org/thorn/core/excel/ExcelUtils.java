@@ -48,14 +48,16 @@ public class ExcelUtils {
 		HSSFWorkbook workBook = new HSSFWorkbook();
 		// init style
 		style.initCellStyle(workBook);
-
+		
+		// set column width
 		HSSFSheet sheet = workBook.createSheet(sheetName);
 		for (int i = 0; i < widthArray.length; i++) {
 			sheet.setColumnWidth(i, (int) (widthArray[i] * 35.7));
 		}
-
+		
 		// creat excel txt header
 		HSSFRow header = sheet.createRow(0);
+		header.setHeight((short) 340);
 		addColumn2Row(header, adapter.getHeader(), HSSFCell.CELL_TYPE_STRING,
 				style);
 
@@ -66,7 +68,7 @@ public class ExcelUtils {
 		for (int i = 0; i < excelColumn; i++) {
 			// 0 is txt header
 			HSSFRow row = sheet.createRow(i + 1);
-
+			row.setHeight((short) 320);
 			addColumn2Row(row, adapter.getRow(i), -1, style);
 		}
 
