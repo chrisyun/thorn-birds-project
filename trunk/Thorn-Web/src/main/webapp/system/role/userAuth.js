@@ -19,7 +19,7 @@ Ext.onReady(function() {
 	};
 	var query_form = new FormUtil(query_attr);
 
-	query_form.addComp(getText("query_code", "用户编号", 120), 0.23, true);
+	query_form.addComp(getText("query_code", "用户编码", 120), 0.23, true);
 	query_form.addComp(getText("query_name", "用户姓名", 120), 0.23, true);
 
 	var role = {
@@ -53,7 +53,7 @@ Ext.onReady(function() {
 
 	/** *******************User Role Grid start********************* */
 	var recordArray = [
-			getRecord("用户编号", "userId", "string", 100, true),
+			getRecord("用户编码", "userId", "string", 100, true),
 			getRecord("姓名", "userName", "string", 100, true),
 			getRecord("邮箱", "cumail", "string", 120),
 			getRecord("默认角色", "defaultRole", "string", 70, true,

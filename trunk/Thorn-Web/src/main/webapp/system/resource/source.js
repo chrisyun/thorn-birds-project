@@ -26,7 +26,7 @@ Ext.onReady(function() {
 	/** ****************Grid panel start************ */
 	var recordArray = [ getRecord(null, "sortNum", "string"),
 			getRecord(null, "parentSource", "string"),
-			getRecord("资源编号", "sourceCode", "string", 100, true),
+			getRecord("资源编码", "sourceCode", "string", 100, true),
 			getRecord("资源名称", "sourceName", "string", 150, false),
 			getRecord("是否叶子节点", "isleaf", "string", 70, true, yesOrNoRender),
 			getRecord("图标样式", "iconsCls", "string", 70, false, iconClsRender),
@@ -117,7 +117,7 @@ Ext.onReady(function() {
 		labelWidth : 100,
 		border : false
 	});
-	source_form.addComp(getText("sourceCode", "资源编号", 150), 0.5, false);
+	source_form.addComp(getText("sourceCode", "资源编码", 150), 0.5, false);
 	source_form.addComp(getText("sourceName", "资源名称", 150), 0.5, false);
 	source_form.addComp(getText("sourceUrl", "菜单访问入口", 150), 0.5, true);
 	source_form.addComp(getComboBox("iconsCls", "菜单图标", 150, iconCls, false),

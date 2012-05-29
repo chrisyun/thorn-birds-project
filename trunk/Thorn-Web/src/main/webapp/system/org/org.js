@@ -33,7 +33,7 @@ Ext.onReady(function() {
 			getRecord(null, "orgName", "string"),
 			getRecord(null, "orgCode", "string"),
 			getRecord(null, "sortNum", "string"),
-			getRecord("组织编号", "orgCode", "string", 100, true),
+			getRecord("组织编码", "orgCode", "string", 100, true),
 			getRecord("组织名称", "showName", "string", 150, true),
 			getRecord("组织类型", "orgType", "string", 70, true,orgTypeRender),
 			getRecord("组织邮箱", "orgMail", "string", 120),
