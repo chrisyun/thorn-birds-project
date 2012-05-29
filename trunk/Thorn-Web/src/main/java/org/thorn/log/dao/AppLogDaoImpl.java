@@ -53,5 +53,15 @@ public class AppLogDaoImpl implements IAppLogDao {
 		}
 	}
 
+	public List<AppLog> queryList(Map<String, Object> filter)
+			throws DBAccessException {
+		try {
+			return (List<AppLog>) sqlSessionTemplate.selectList(
+					nameSpace + "selectList", filter);
+		} catch (Exception e) {
+			throw new DBAccessException("AppLogDaoImpl", "queryList", e);
+		}
+	}
+
 }
 

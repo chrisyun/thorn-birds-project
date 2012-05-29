@@ -1,6 +1,7 @@
 package org.thorn.log.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,21 @@ public class AppLogServiceImpl implements IAppLogService {
 		}
 		
 		return logDao.queryPage(filter);
+	}
+
+	public List<AppLog> queryList(String moduleName, String handleResult,
+			String startTime, String endTime) throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+		
+		filter.put("moduleName", moduleName);
+		filter.put("handleResult", handleResult);
+		filter.put("startTime", startTime);
+		filter.put("endTime", endTime);
+		
+		filter.put(Configuration.SROT_NAME, "EXECUTETIME");
+		filter.put(Configuration.ORDER_NAME, Configuration.ORDER_ASC);
+		
+		return logDao.queryList(filter);
 	}
 
 }
