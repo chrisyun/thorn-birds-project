@@ -33,8 +33,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<table align="center" width="100%">
   		<tr><td align="center"> 
   			<div class="error">
-    			访问被拒绝：${requestScope['SPRING_SECURITY_403_EXCEPTION'].message}<br/>
-    			您无权限访问本页面，请联系管理员为您分配相应的访问权限后！
+    			访问被拒绝：${requestScope['SPRING_SECURITY_403_EXCEPTION']}<br/>
+    			您无权限访问本页面，请联系管理员为您分配相应的访问权限！
     		</div>
     	</td></tr>
   	</table>
