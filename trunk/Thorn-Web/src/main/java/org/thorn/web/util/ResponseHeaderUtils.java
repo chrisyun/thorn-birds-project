@@ -14,6 +14,8 @@ public class ResponseHeaderUtils {
 
 	private static final String EXCEL_CONTENT_TYPE = "application/vnd.ms-excel";
 	
+	private static final String JSON_CONTENT_TYPE = "text/javascript;charset=utf-8"; 
+	
 	/**
 	 * 
 	 * @Description：
@@ -39,6 +41,10 @@ public class ResponseHeaderUtils {
 		response.setCharacterEncoding("UTF-8");
 		response.addHeader("Content-Disposition", "attachment;filename=" + name
 				+ "\"");
+	}
+	
+	public static void setJsonResponse(HttpServletResponse response) {
+		response.setContentType(JSON_CONTENT_TYPE);
 	}
 
 }
