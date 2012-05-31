@@ -40,6 +40,8 @@ public interface SecurityConfiguration {
 	 */
 	public static final String SYS_ADMIN_ROLE = "SYSADMIN";
 	
+	public static final String COMMON_USER_ROLE = "COMMONUSER";
+	
 	public static final String SPRING_ENCODER_BEAN = "passwordEncoder";
 }
 

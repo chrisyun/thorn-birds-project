@@ -10,15 +10,16 @@ import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.thorn.core.util.LocalStringUtils;
 
 /**
- *AccessdecisionManager在Spring security中是很重要的。
+ * AccessdecisionManager在Spring security中是很重要的。
  * 
- *在验证部分简略提过了，所有的Authentication实现需要保存在一个GrantedAuthority对象数组中。 这就是赋予给主体的权限。
+ * 在验证部分简略提过了，所有的Authentication实现需要保存在一个GrantedAuthority对象数组中。 这就是赋予给主体的权限。
  * GrantedAuthority对象通过AuthenticationManager 保存到
  * Authentication对象里，然后从AccessDecisionManager读出来，进行授权判断。
  * 
- *Spring Security提供了一些拦截器，来控制对安全对象的访问权限，例如方法调用或web请求。
+ * Spring Security提供了一些拦截器，来控制对安全对象的访问权限，例如方法调用或web请求。
  * 一个是否允许执行调用的预调用决定，是由AccessDecisionManager实现的。 这个 AccessDecisionManager
  * 被AbstractSecurityInterceptor调用， 它用来作最终访问控制的决定。
  * 这个AccessDecisionManager接口包含三个方法：
@@ -47,13 +48,23 @@ public class CoreAccessDecisionManager implements AccessDecisionManager {
 		if (configAttributes == null) {
 			return;
 		}
-
+		
+		if (authentication == null || authentication.getAuthorities().size() == 0) {
+			throw new AccessDeniedException("该用户未登陆");
+		}
+		
 		Iterator<ConfigAttribute> ite = configAttributes.iterator();
 
 		while (ite.hasNext()) {
 
 			ConfigAttribute ca = ite.next();
 			String needRole = ((SecurityConfig) ca).getAttribute();
+			
+			//对于需要commonuser权限的，直接放行
+			if (LocalStringUtils.equals(needRole,
+							SecurityConfiguration.COMMON_USER_ROLE)) {
+				return;
+			}
 
 			// ga 为用户所被赋予的权限。 needRole 为访问相应的资源应该具有的权限。
 			for (GrantedAuthority ga : authentication.getAuthorities()) {
@@ -67,7 +78,7 @@ public class CoreAccessDecisionManager implements AccessDecisionManager {
 
 		}
 
-		throw new AccessDeniedException("");
+		throw new InsufficientAuthenticationException("");
 
 	}
 
