@@ -51,6 +51,11 @@ http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 		class="org.thorn.security.InvocationSecurityMetadataSource">
 		<beans:constructor-arg index="0" ref="resourceService" />
 		<beans:constructor-arg index="1" ref="authService" />
+		<beans:property name="commonAuthUrl">
+			<beans:list>
+				<beans:value>/system/main.jsp</beans:value>
+			</beans:list>
+		</beans:property>
 	</beans:bean>
 	<beans:bean id="accessDecisionManager"
 		class="org.thorn.security.CoreAccessDecisionManager" />

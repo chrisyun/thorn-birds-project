@@ -42,6 +42,8 @@ public class InvocationSecurityMetadataSource implements
 	 */
 	private static Map<String, String> resourceMap = null;
 	
+	private List<String> commonAuthUrl = new ArrayList<String>();
+	
 	private IAuthService authService;
 	
 	private IResourceService resourceService;
@@ -80,21 +82,28 @@ public class InvocationSecurityMetadataSource implements
 
 		// object 是一个URL，被用户请求的url。
 		String url = ((FilterInvocation) object).getRequestUrl();
-
+		
 		int firstQuestionMarkIndex = url.indexOf("?");
 
 		if (firstQuestionMarkIndex != -1) {
 			url = url.substring(0, firstQuestionMarkIndex);
 		}
-
+		
+		Collection<ConfigAttribute> collection = new ArrayList<ConfigAttribute>();
+		
+		for(String commonUrl : commonAuthUrl) {
+			if(urlMatcher.pathMatchesUrl(commonUrl, url)) {
+				ConfigAttribute ca = new SecurityConfig(SecurityConfiguration.COMMON_USER_ROLE);
+				collection.add(ca);
+			}
+		}
+		
 		List<String> source = new ArrayList<String>();
 		for (String id : resourceMap.keySet()) {
 			if (urlMatcher.pathMatchesUrl(resourceMap.get(id), url)) {
 				source.add(id);
 			}
 		}
-
-		Collection<ConfigAttribute> collection = new ArrayList<ConfigAttribute>();
 
 		if (source.size() > 0) {
 			try {
@@ -114,6 +123,10 @@ public class InvocationSecurityMetadataSource implements
 
 	public boolean supports(Class<?> arg0) {
 		return true;
+	}
+
+	public void setCommonAuthUrl(List<String> commonAuthUrl) {
+		this.commonAuthUrl = commonAuthUrl;
 	}
 	
 //	public static void main(String[] args) {
