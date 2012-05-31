@@ -6,8 +6,7 @@ http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 http://www.springframework.org/schema/security
 http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 
-	<http access-denied-page="/AlertAccessDenied.jsp"
-		entry-point-ref="authenticationProcessingFilterEntryPoint">
+	<http entry-point-ref="authenticationProcessingFilterEntryPoint">
 		<intercept-url pattern="/reference/**" filters="none" />
 		<intercept-url pattern="/resources/**" filters="none" />
 		<intercept-url pattern="/plugins/**" filters="none" />
@@ -18,16 +17,19 @@ http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 		<session-management invalid-session-url="/AlertTimeOut.jsp">
 			<!-- 第二次登录将被阻止error-if-maximum-exceeded="true" -->
 			<!-- 第二次登录会让第一次登录失效 -->
-			<concurrency-control max-sessions="1"/> 
+			<concurrency-control max-sessions="1" />
 		</session-management>
-		
+
+		<!-- 自定义权限认证失败的处理类 -->
+		<access-denied-handler ref="accessDeniedHandler" />
+
 		<!-- logout需要清除cookie及数据库信息，必须配置rememberme节点 -->
-		<remember-me data-source-ref="dataSource-jdbc"/>
-		<logout logout-success-url="/login.jsp" invalidate-session="true"/>
-		
+		<remember-me data-source-ref="dataSource-jdbc" />
+		<logout logout-success-url="/login.jsp" invalidate-session="true" />
+
 		<custom-filter ref="loginFilter" position="FORM_LOGIN_FILTER" />
 		<custom-filter ref="permissionFilter" before="FILTER_SECURITY_INTERCEPTOR" />
-		<custom-filter ref="rememberMeFilter" after="PRE_AUTH_FILTER"/>
+		<custom-filter ref="rememberMeFilter" after="PRE_AUTH_FILTER" />
 	</http>
 
 	<!-- ************************************************* -->
@@ -113,6 +115,10 @@ http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 	</beans:bean>
 
 
+	<beans:bean id="accessDeniedHandler"
+		class="org.thorn.security.AccessDeniedWithJsonAndJspHandler" >
+		<beans:property name="errorPage" value="/AlertAccessDenied.jsp"/>
+	</beans:bean>
 
 	<beans:bean id="authenticationProcessingFilterEntryPoint"
 		class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
