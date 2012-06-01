@@ -41,7 +41,17 @@ public class InvocationSecurityMetadataSource implements
 	 * 资源ID与资源URL关系map，key为ID,URL为value
 	 */
 	private static Map<String, String> resourceMap = null;
-
+	
+	/**
+	 * 上次加载资源的时间
+	 */
+	private long lastReloadDate = 0L;
+	
+	/**
+	 * 重新加载资源的时间，默认为10分钟
+	 */
+	private long raloadTime = 1000*60*10;
+	
 	private IAuthService authService;
 
 	private IResourceService resourceService;
@@ -54,21 +64,55 @@ public class InvocationSecurityMetadataSource implements
 	public InvocationSecurityMetadataSource(IResourceService resourceService,
 			IAuthService authService) throws DBAccessException {
 
-//		 System.out.println(SecurityEncoderUtils.encodeUserPassword("wwwwww",
-//		 "AINAN"));
-
 		resourceMap = new HashMap<String, String>();
-
 		this.resourceService = resourceService;
 		this.authService = authService;
 
+		loadSource();
+	}
+	
+	/**
+	 * 
+	 * @Description：加载资源到map中
+	 * @author：chenyun 	        
+	 * @date：2012-6-1 下午05:06:29
+	 * @throws DBAccessException
+	 */
+	private synchronized void loadSource() throws DBAccessException {
+		
+		if(System.currentTimeMillis() - lastReloadDate < raloadTime) {
+			return ;
+		}
+		// 刷新修改时间
+		lastReloadDate = System.currentTimeMillis();
+		
 		List<Resource> sources = this.resourceService.queryAllLeaf();
 
 		for (Resource source : sources) {
 			resourceMap.put(source.getSourceCode(), source.getSourceUrl());
 		}
 	}
-
+	
+	/**
+	 * 
+	 * @Description：根据url在map中找到对应的sourceCode
+	 * @author：chenyun 	        
+	 * @date：2012-6-1 下午05:06:52
+	 * @param url
+	 * @return
+	 */
+	public List<String> getSourceCodeByUrl(String url) {
+		List<String> source = new ArrayList<String>();
+		for (String id : resourceMap.keySet()) {
+			if (urlMatcher.pathMatchesUrl(resourceMap.get(id), url)) {
+				source.add(id);
+			}
+		}
+		
+		return source;
+	}
+	
+	
 	public Collection<ConfigAttribute> getAllConfigAttributes() {
 		return null;
 	}
@@ -88,15 +132,18 @@ public class InvocationSecurityMetadataSource implements
 			url = url.substring(0, firstQuestionMarkIndex);
 		}
 
-		Collection<ConfigAttribute> collection = new ArrayList<ConfigAttribute>();
-
-		List<String> source = new ArrayList<String>();
-		for (String id : resourceMap.keySet()) {
-			if (urlMatcher.pathMatchesUrl(resourceMap.get(id), url)) {
-				source.add(id);
+		if(System.currentTimeMillis() - lastReloadDate >= raloadTime) {
+			try {
+				loadSource();
+			} catch (DBAccessException e) {
+				log.error("reload source exception", e);
 			}
 		}
-
+		
+		Collection<ConfigAttribute> collection = new ArrayList<ConfigAttribute>();
+		List<String> source = getSourceCodeByUrl(url);
+		source = getSourceCodeByUrl(url);
+		
 		if (source.size() > 0) {
 			try {
 				List<Role> roles = authService.queryRoleBySource(source);
@@ -111,6 +158,10 @@ public class InvocationSecurityMetadataSource implements
 		}
 
 		return collection;
+	}
+	
+	public void setRaloadTime(long raloadTime) {
+		this.raloadTime = raloadTime;
 	}
 
 	public boolean supports(Class<?> arg0) {
