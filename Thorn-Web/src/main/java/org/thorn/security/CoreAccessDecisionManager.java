@@ -44,42 +44,80 @@ public class CoreAccessDecisionManager implements AccessDecisionManager {
 	public void decide(Authentication authentication, Object object,
 			Collection<ConfigAttribute> configAttributes)
 			throws AccessDeniedException, InsufficientAuthenticationException {
-
-		if (configAttributes == null) {
-			return;
-		}
 		
-		if (authentication == null || authentication.getAuthorities().size() == 0) {
-			throw new AccessDeniedException("该用户未登陆");
-		}
+		StringBuilder needRoles = new StringBuilder();
+		int scaler = 0;
 		
-		Iterator<ConfigAttribute> ite = configAttributes.iterator();
-
-		while (ite.hasNext()) {
-
-			ConfigAttribute ca = ite.next();
-			String needRole = ((SecurityConfig) ca).getAttribute();
+		for (GrantedAuthority ga : authentication.getAuthorities()) {
+			String userRole = ga.getAuthority().trim();
 			
-			//对于需要commonuser权限的，直接放行
-			if (LocalStringUtils.equals(needRole,
-							SecurityConfiguration.COMMON_USER_ROLE)) {
+			if (LocalStringUtils.equals(userRole,
+					SecurityConfiguration.SYS_ADMIN_ROLE)) {
 				return;
 			}
-
-			// ga 为用户所被赋予的权限。 needRole 为访问相应的资源应该具有的权限。
-			for (GrantedAuthority ga : authentication.getAuthorities()) {
-
-				if (needRole.trim().equals(ga.getAuthority().trim())) {
-
+			
+			for(ConfigAttribute ca : configAttributes) {
+				String needRole = ((SecurityConfig) ca).getAttribute().trim();
+				
+				if (LocalStringUtils.equals(needRole, userRole)) {
 					return;
 				}
-
+				
+				if(scaler == 0) {
+					needRoles.append(needRole).append(" ");
+				}
 			}
-
+			
+			// 匿名访问用户需要登录才能访问资源
+			if (LocalStringUtils.equals(
+					SecurityConfiguration.ANONY_MOUS_ROLE, userRole)
+					&& configAttributes.size() == 1) {
+				throw new InsufficientAuthenticationException("用户未登录！");
+			}
+			
+			scaler++;
 		}
+		
+		throw new AccessDeniedException("所需要的权限为：" + needRoles.toString());
+		
+		
+//		if (configAttributes == null) {
+//			return;
+//		}
 
-		throw new InsufficientAuthenticationException("");
-
+//		// 访问资源需要的权限集合
+//		Iterator<ConfigAttribute> ite = configAttributes.iterator();
+//
+//		StringBuilder needRoles = new StringBuilder();
+//
+//		while (ite.hasNext()) {
+//
+//			ConfigAttribute ca = ite.next();
+//			String needRole = ((SecurityConfig) ca).getAttribute().trim();
+//
+//			needRoles.append(needRole).append(" ");
+//
+//			// ga 为用户所被赋予的权限。 needRole 为访问相应的资源应该具有的权限。
+//			for (GrantedAuthority ga : authentication.getAuthorities()) {
+//
+//				String userRole = ga.getAuthority().trim();
+//
+//				if (LocalStringUtils.equals(userRole,
+//						SecurityConfiguration.SYS_ADMIN_ROLE)) {
+//					return;
+//				} else if (LocalStringUtils.equals(needRole, userRole)) {
+//					return;
+//				}
+//
+//				// 匿名访问用户需要登录才能访问资源
+//				if (LocalStringUtils.equals(
+//						SecurityConfiguration.ANONY_MOUS_ROLE, userRole)
+//						&& configAttributes.size() == 1) {
+//					throw new InsufficientAuthenticationException("用户未登录！");
+//				}
+//
+//			}
+//		}
 	}
 
 	public boolean supports(ConfigAttribute attribute) {
@@ -90,7 +128,6 @@ public class CoreAccessDecisionManager implements AccessDecisionManager {
 
 	public boolean supports(Class<?> clazz) {
 		return true;
-
 	}
 
 }

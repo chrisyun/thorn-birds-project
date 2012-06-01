@@ -22,12 +22,12 @@ import org.thorn.role.entity.Role;
 
 /**
  * 
- * @ClassName: InvocationSecurityMetadataSource 
+ * @ClassName: InvocationSecurityMetadataSource
  * @Description: 最核心的地方，就是提供某个资源对应的权限定义，即getAttributes方法返回的结果。
  *               此类在初始化时，应该取到所有资源及其对应角色的定义。
  * @author chenyun
- * @date 2012-5-5 下午08:40:08 
- *
+ * @date 2012-5-5 下午08:40:08
+ * 
  */
 public class InvocationSecurityMetadataSource implements
 		FilterInvocationSecurityMetadataSource {
@@ -41,11 +41,9 @@ public class InvocationSecurityMetadataSource implements
 	 * 资源ID与资源URL关系map，key为ID,URL为value
 	 */
 	private static Map<String, String> resourceMap = null;
-	
-	private List<String> commonAuthUrl = new ArrayList<String>();
-	
+
 	private IAuthService authService;
-	
+
 	private IResourceService resourceService;
 
 	/**
@@ -55,14 +53,15 @@ public class InvocationSecurityMetadataSource implements
 	 */
 	public InvocationSecurityMetadataSource(IResourceService resourceService,
 			IAuthService authService) throws DBAccessException {
-		
-//		System.out.println(SecurityEncoderUtils.encodeUserPassword("wwwwww", "ADMIN"));
-		
+
+//		 System.out.println(SecurityEncoderUtils.encodeUserPassword("wwwwww",
+//		 "AINAN"));
+
 		resourceMap = new HashMap<String, String>();
 
 		this.resourceService = resourceService;
 		this.authService = authService;
-		
+
 		List<Resource> sources = this.resourceService.queryAllLeaf();
 
 		for (Resource source : sources) {
@@ -82,22 +81,15 @@ public class InvocationSecurityMetadataSource implements
 
 		// object 是一个URL，被用户请求的url。
 		String url = ((FilterInvocation) object).getRequestUrl();
-		
+
 		int firstQuestionMarkIndex = url.indexOf("?");
 
 		if (firstQuestionMarkIndex != -1) {
 			url = url.substring(0, firstQuestionMarkIndex);
 		}
-		
+
 		Collection<ConfigAttribute> collection = new ArrayList<ConfigAttribute>();
-		
-		for(String commonUrl : commonAuthUrl) {
-			if(urlMatcher.pathMatchesUrl(commonUrl, url)) {
-				ConfigAttribute ca = new SecurityConfig(SecurityConfiguration.COMMON_USER_ROLE);
-				collection.add(ca);
-			}
-		}
-		
+
 		List<String> source = new ArrayList<String>();
 		for (String id : resourceMap.keySet()) {
 			if (urlMatcher.pathMatchesUrl(resourceMap.get(id), url)) {
@@ -125,17 +117,13 @@ public class InvocationSecurityMetadataSource implements
 		return true;
 	}
 
-	public void setCommonAuthUrl(List<String> commonAuthUrl) {
-		this.commonAuthUrl = commonAuthUrl;
-	}
-	
-//	public static void main(String[] args) {
-//		String a = "/amk/cddlk/kl.jsp";
-//		String b = "/**";
-//
-//		UrlMatcher urlMatcher = new AntUrlPathMatcher();
-//		System.out.println(urlMatcher.pathMatchesUrl(b, a));
-//
-//	}
+	// public static void main(String[] args) {
+	// String a = "/amk/cddlk/kl.jsp";
+	// String b = "/**";
+	//
+	// UrlMatcher urlMatcher = new AntUrlPathMatcher();
+	// System.out.println(urlMatcher.pathMatchesUrl(b, a));
+	//
+	// }
 
 }

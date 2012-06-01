@@ -36,8 +36,10 @@ public class AccessDeniedWithJsonAndJspHandler extends AccessDeniedHandlerImpl {
 		log.debug("the request uri : {}", uri);
 
 		if (uri.indexOf(json_suffix) > 0) {
-			StringBuilder json = new StringBuilder("{\"success\":true,");
-			json.append("\"message\":\"访问被拒绝，您无权限访问本页面！\"}");
+			StringBuilder json = new StringBuilder("{\"success\":false,");
+			json.append("\"message\":\"访问被拒绝，");
+			json.append(accessDeniedException.getMessage());
+			json.append(" 您无权限访问本页面！\"}");
 			
 			ResponseHeaderUtils.setJsonResponse(response);
 			response.getWriter().write(json.toString());
