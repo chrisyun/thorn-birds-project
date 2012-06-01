@@ -116,14 +116,4 @@ public class InvocationSecurityMetadataSource implements
 	public boolean supports(Class<?> arg0) {
 		return true;
 	}
-
-	// public static void main(String[] args) {
-	// String a = "/amk/cddlk/kl.jsp";
-	// String b = "/**";
-	//
-	// UrlMatcher urlMatcher = new AntUrlPathMatcher();
-	// System.out.println(urlMatcher.pathMatchesUrl(b, a));
-	//
-	// }
-
 }
