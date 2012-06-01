@@ -162,4 +162,9 @@ public class AuthServiceImpl implements IAuthService {
 		userCache.removeUserFromCache(userId);
 	}
 
+	public List<String> queryResourceByRole(List<String> roleIds)
+			throws DBAccessException {
+		return authDao.queryResourceByRole(roleIds);
+	}
+
 }

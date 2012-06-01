@@ -35,6 +35,16 @@ public class AuthDaoImpl implements IAuthDao {
 		}
 	}
 
+	public List<String> queryResourceByRole(List<String> roleIds)
+			throws DBAccessException {
+		try {
+			return (List<String>) sqlSessionTemplate.selectList(nameSpace
+					+ "querySourceByRoleList", roleIds);
+		} catch (Exception e) {
+			throw new DBAccessException("AuthDaoImpl", "queryResourceByRole", e);
+		}
+	}
+
 	public int deleteRoleSource(String roleCode) throws DBAccessException {
 		try {
 			return sqlSessionTemplate.delete(nameSpace + "deleteSourceByRole",
