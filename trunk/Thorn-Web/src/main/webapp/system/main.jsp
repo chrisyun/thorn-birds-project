@@ -122,7 +122,7 @@
 
 		var treeClick = function(node, ev){
 			var isLeaf = node.leaf;
-			var openUrl = sys.basePath + node.attributes.targetUrl;
+			var openUrl = sys.path + node.attributes.targetUrl;
 			
 			if(isLeaf == false || Ext.isEmpty(openUrl)) {
 				return ;

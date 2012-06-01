@@ -42,6 +42,8 @@ public interface SecurityConfiguration {
 	
 	public static final String COMMON_USER_ROLE = "COMMONUSER";
 	
+	public static final String ANONY_MOUS_ROLE = "ROLE_ANONYMOUS";
+	
 	public static final String SPRING_ENCODER_BEAN = "passwordEncoder";
 }
 
