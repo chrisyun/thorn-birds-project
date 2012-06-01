@@ -15,11 +15,11 @@ import org.thorn.user.entity.User;
  * @date 2012-5-25 上午11:35:32
  */
 public interface IAuthDao {
-	
+
 	/**
 	 * 
 	 * @Description：根据角色ID查询授权资源
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-25 下午01:56:22
 	 * @param roleId
 	 * @return
@@ -30,8 +30,20 @@ public interface IAuthDao {
 	
 	/**
 	 * 
-	 * @Description：查询资源集合被授权的角色集合，对角色作去重
+	 * @Description：根据角色集合查询授权的资源集合，对资源去重
 	 * @author：chenyun 	        
+	 * @date：2012-6-1 下午04:21:50
+	 * @param roleIds
+	 * @return
+	 * @throws DBAccessException
+	 */
+	public List<String> queryResourceByRole(List<String> roleIds)
+			throws DBAccessException;
+
+	/**
+	 * 
+	 * @Description：查询资源集合被授权的角色集合，对角色作去重
+	 * @author：chenyun
 	 * @date：2012-5-25 下午01:56:19
 	 * @param source
 	 * @return
@@ -39,22 +51,22 @@ public interface IAuthDao {
 	 */
 	public List<Role> queryRoleBySource(List<String> source)
 			throws DBAccessException;
-	
+
 	/**
 	 * 
 	 * @Description：取消角色对资源的所有授权
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-25 下午01:56:15
 	 * @param roleCode
 	 * @return
 	 * @throws DBAccessException
 	 */
 	public int deleteRoleSource(String roleCode) throws DBAccessException;
-	
+
 	/**
 	 * 
 	 * @Description：对角色进行授权
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-25 下午01:56:12
 	 * @param rs
 	 * @return
@@ -72,59 +84,63 @@ public interface IAuthDao {
 	 * @throws DBAccessException
 	 */
 	public List<Role> queryRoleByUser(String userId) throws DBAccessException;
-	
+
 	/**
 	 * 
 	 * @Description：对用户授权
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-25 下午01:55:43
 	 * @param ur
 	 * @return
 	 * @throws DBAccessException
 	 */
 	public int saveUserRole(Map<String, String> ur) throws DBAccessException;
-	
+
 	/**
 	 * 
 	 * @Description：删除角色下的用户
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-25 下午01:55:46
-	 * @param filter rolecode + user集合
+	 * @param filter
+	 *            rolecode + user集合
 	 * @return
 	 * @throws DBAccessException
 	 */
-	public int deleteUserInRole(Map<String, Object> filter) throws DBAccessException;
-	
+	public int deleteUserInRole(Map<String, Object> filter)
+			throws DBAccessException;
+
 	/**
 	 * 
 	 * @Description：取消用户的所有角色授权
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-25 下午01:55:50
 	 * @param userId
 	 * @return
 	 * @throws DBAccessException
 	 */
 	public int deleteUserAllRole(String userId) throws DBAccessException;
-	
+
 	/**
 	 * 
 	 * @Description：
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-25 下午01:55:54
 	 * @param filter
 	 * @return
 	 * @throws DBAccessException
 	 */
-	public Page<User> queryPageByRole(Map<String, Object> filter) throws DBAccessException;
-	
+	public Page<User> queryPageByRole(Map<String, Object> filter)
+			throws DBAccessException;
+
 	/**
 	 * 
 	 * @Description：
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-25 下午01:55:58
 	 * @param filter
 	 * @return
 	 * @throws DBAccessException
 	 */
-	public Page<User> queryPageNotInRole(Map<String, Object> filter) throws DBAccessException;
+	public Page<User> queryPageNotInRole(Map<String, Object> filter)
+			throws DBAccessException;
 }

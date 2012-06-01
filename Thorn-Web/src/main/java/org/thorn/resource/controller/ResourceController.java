@@ -17,6 +17,7 @@ import org.thorn.dao.core.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.resource.entity.Resource;
 import org.thorn.resource.service.IResourceService;
+import org.thorn.security.SecurityUserUtils;
 import org.thorn.web.controller.BaseController;
 import org.thorn.web.entity.FullTree;
 import org.thorn.web.entity.JsonResponse;
@@ -44,7 +45,7 @@ public class ResourceController extends BaseController {
 	
 	/**
 	 * 
-	 * @Description：获取系统左边菜单树
+	 * @Description：获取系统左边菜单树，带权限控制
 	 * @author：chenyun 	        
 	 * @date：2012-5-25 上午11:03:59
 	 * @param pid	上级资源ID
@@ -54,10 +55,18 @@ public class ResourceController extends BaseController {
 	@ResponseBody
 	public List<Tree> getLeftTree(String pid) {
 		List<Tree> tree = new ArrayList<Tree>();
-
+		
+		List<String> userSource = SecurityUserUtils.getSoucrceList();
+		
 		try {
 			List<Resource> source = service.queryLeftTree(pid);
 			for (Resource res : source) {
+				
+				if(! SecurityUserUtils.isSysAdmin() 
+						&& !userSource.contains(res.getSourceCode())) {
+					continue;
+				}
+				
 				Tree node = new Tree();
 				node.setId(res.getSourceCode());
 				node.setText(res.getSourceName());

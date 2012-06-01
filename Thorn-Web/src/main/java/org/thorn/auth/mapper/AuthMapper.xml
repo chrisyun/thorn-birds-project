@@ -14,6 +14,15 @@
 		select r.SOURCECODE from T_SYS_ROLE_RES r where r.ROLECODE = #{roleCode,jdbcType=VARCHAR}
 	</select>
 
+	<select id="querySourceByRoleList" resultType="string">
+		select distinct SOURCECODE from T_SYS_ROLE_RES
+		where ROLECODE in
+		<foreach collection="list" item="item" open="(" close=")"
+			separator=",">
+			#{item,jdbcType=VARCHAR}
+		</foreach>
+	</select>
+
 	<select id="queryRoleBySource" resultMap="RoleResultMap">
 		select distinct ROLECODE from T_SYS_ROLE_RES
 		where SOURCECODE in

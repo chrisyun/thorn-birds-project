@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.thorn.auth.service.IAuthService;
+import org.thorn.core.context.SpringContext;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.security.entity.UserSecurity;
 import org.thorn.user.entity.User;
@@ -18,6 +22,8 @@ import org.thorn.user.entity.User;
  * @date 2012-5-6 下午10:56:26
  */
 public class SecurityUserUtils {
+	
+	static Logger log = LoggerFactory.getLogger(SecurityUserUtils.class);
 	
 	/**
 	 * 
@@ -64,6 +70,27 @@ public class SecurityUserUtils {
 		}
 
 		return list;
+	}
+	
+	/**
+	 * 
+	 * @Description：获取用户的资源集合
+	 * @author：chenyun 	        
+	 * @date：2012-6-1 下午04:27:23
+	 * @return
+	 */
+	public static List<String> getSoucrceList() {
+		List<String> roleList = getRoleList();
+		IAuthService service = SpringContext.getBean("authService");
+		
+		List<String> source = new ArrayList<String>();
+		try {
+			source = service.queryResourceByRole(roleList);
+		} catch (Exception e) {
+			log.error("query user auth exception", e);
+		}
+		
+		return source;
 	}
 	
 	/**

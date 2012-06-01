@@ -26,6 +26,18 @@ public interface IAuthService {
 	 */
 	public List<String> queryResourceByRole(String roleId)
 			throws DBAccessException;
+	
+	/**
+	 * 
+	 * @Description：根据角色集合查找授权的资源集合
+	 * @author：chenyun 	        
+	 * @date：2012-6-1 下午04:24:04
+	 * @param roleIds
+	 * @return
+	 * @throws DBAccessException
+	 */
+	public List<String> queryResourceByRole(List<String> roleIds)
+			throws DBAccessException;
 
 	/**
 	 * 
@@ -40,11 +52,11 @@ public interface IAuthService {
 	 */
 	public void saveRoleAuth(String roleCode, String sourceIds)
 			throws DBAccessException;
-	
+
 	/**
 	 * 
 	 * @Description：根据用户查找授权的角色
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-25 下午01:24:04
 	 * @param userId
 	 * @return
@@ -63,16 +75,20 @@ public interface IAuthService {
 	 */
 	public List<Role> queryRoleBySource(List<String> source)
 			throws DBAccessException;
-	
+
 	/**
 	 * 
 	 * @Description：分页查询角色中的用户
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-25 下午02:03:45
-	 * @param userName	姓名
-	 * @param orgCode	组织编码
-	 * @param roleCode	角色编码
-	 * @param userAccount	用户ID或账号
+	 * @param userName
+	 *            姓名
+	 * @param orgCode
+	 *            组织编码
+	 * @param roleCode
+	 *            角色编码
+	 * @param userAccount
+	 *            用户ID或账号
 	 * @param start
 	 * @param limit
 	 * @param sort
@@ -83,14 +99,16 @@ public interface IAuthService {
 	public Page<User> queryPageByRole(String userName, String orgCode,
 			String roleCode, String userAccount, long start, long limit,
 			String sort, String dir) throws DBAccessException;
-	
+
 	/**
 	 * 
 	 * @Description：分页查询不在角色中的用户
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-25 下午02:04:37
-	 * @param orgCode	组织编码
-	 * @param roleCode	角色编码
+	 * @param orgCode
+	 *            组织编码
+	 * @param roleCode
+	 *            角色编码
 	 * @param start
 	 * @param limit
 	 * @param sort
@@ -101,23 +119,24 @@ public interface IAuthService {
 	public Page<User> queryPageNotInRole(String orgCode, String roleCode,
 			long start, long limit, String sort, String dir)
 			throws DBAccessException;
-	
+
 	/**
 	 * 
 	 * @Description：向角色中添加用户
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-25 下午02:05:05
 	 * @param roleCode
-	 * @param userIds	多个用户ID分隔字符串
+	 * @param userIds
+	 *            多个用户ID分隔字符串
 	 * @throws DBAccessException
 	 */
 	public void saveUserRole(String roleCode, String userIds)
 			throws DBAccessException;
-	
+
 	/**
 	 * 
 	 * @Description：用户绑定角色
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-25 下午02:06:02
 	 * @param userId
 	 * @param roleCodes
@@ -125,18 +144,18 @@ public interface IAuthService {
 	 */
 	public void saveRoleByUser(String userId, String roleCodes)
 			throws DBAccessException;
-	
+
 	/**
 	 * 
 	 * @Description：删除角色中的用户
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-25 下午02:06:26
 	 * @param roleCode
-	 * @param userIds	多个用户ID分隔字符串
+	 * @param userIds
+	 *            多个用户ID分隔字符串
 	 * @throws DBAccessException
 	 */
 	public void deleteUserRole(String roleCode, String userIds)
 			throws DBAccessException;
-	
-	
+
 }
