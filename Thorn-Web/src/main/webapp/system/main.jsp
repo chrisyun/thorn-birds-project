@@ -1,5 +1,4 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <jsp:include page="/springTag/header.jmt"></jsp:include>
 <%
 	String path = request.getContextPath();
@@ -17,8 +16,6 @@
 <script type="text/javascript" src="<%=path %>/plugins/local/theme.js" ></script>
 <script type="text/javascript">
 	var tabNum = 0;
-	
-	var a = '<sec:authorize url="/system/koiuy.jsp">aaaaa</sec:authorize>';
 	
 	document.title = "Home - Page";
 	
