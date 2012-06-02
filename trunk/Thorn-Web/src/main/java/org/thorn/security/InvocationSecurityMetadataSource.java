@@ -52,6 +52,8 @@ public class InvocationSecurityMetadataSource implements
 	 */
 	private long raloadTime = 1000*60*10;
 	
+	private boolean needReload = false;
+	
 	private IAuthService authService;
 
 	private IResourceService resourceService;
@@ -131,8 +133,9 @@ public class InvocationSecurityMetadataSource implements
 		if (firstQuestionMarkIndex != -1) {
 			url = url.substring(0, firstQuestionMarkIndex);
 		}
-
-		if(System.currentTimeMillis() - lastReloadDate >= raloadTime) {
+		
+		// 判断是否需要重新加载资源，默认启动加载即可
+		if(needReload && System.currentTimeMillis() - lastReloadDate >= raloadTime) {
 			try {
 				loadSource();
 			} catch (DBAccessException e) {
@@ -162,6 +165,10 @@ public class InvocationSecurityMetadataSource implements
 	
 	public void setRaloadTime(long raloadTime) {
 		this.raloadTime = raloadTime;
+	}
+	
+	public void setNeedReload(boolean needReload) {
+		this.needReload = needReload;
 	}
 
 	public boolean supports(Class<?> arg0) {
