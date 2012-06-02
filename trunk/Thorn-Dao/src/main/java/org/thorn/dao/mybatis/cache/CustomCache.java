@@ -1,13 +1,14 @@
 package org.thorn.dao.mybatis.cache;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.apache.ibatis.cache.Cache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 import org.thorn.core.cache.CacheException;
 import org.thorn.core.cache.CacheService;
 import org.thorn.core.context.SpringContext;
@@ -27,10 +28,10 @@ public class CustomCache implements Cache {
 	private String id;
 
 	private CacheService cacheService;
-	
+
 	private String springBean;
-	
-	private List<String> cacheKeys = new ArrayList<String>();
+
+	private Set<Integer> cacheKeys = new HashSet<Integer>();
 
 	public CustomCache(String id) {
 		this.id = id;
@@ -43,6 +44,8 @@ public class CustomCache implements Cache {
 	public void setSpringBean(String springBean) {
 		this.springBean = springBean;
 		cacheService = SpringContext.getBean(springBean);
+
+		Assert.notNull(cacheService);
 	}
 
 	public String getId() {
@@ -54,10 +57,10 @@ public class CustomCache implements Cache {
 	}
 
 	public void putObject(Object key, Object value) {
-		String hashKye = String.valueOf(key.hashCode());
+		int hashKye = key.hashCode();
 
 		try {
-			cacheService.set(hashKye, value);
+			cacheService.set(id + "-" + hashKye, value);
 			cacheKeys.add(hashKye);
 		} catch (CacheException e) {
 			log.error("myBatis cache put exception", e);
@@ -65,12 +68,12 @@ public class CustomCache implements Cache {
 	}
 
 	public Object getObject(Object key) {
-		String hashKye = String.valueOf(key.hashCode());
+		int hashKye = key.hashCode();
 
 		if (cacheKeys.contains(hashKye)) {
 
 			try {
-				return cacheService.get(hashKye);
+				return cacheService.get(id + "-" + hashKye);
 			} catch (CacheException e) {
 				log.error("myBatis cache get exception", e);
 			}
@@ -80,10 +83,10 @@ public class CustomCache implements Cache {
 	}
 
 	public Object removeObject(Object key) {
-		String hashKye = String.valueOf(key.hashCode());
+		int hashKye = key.hashCode();
 
 		try {
-			cacheService.delete(hashKye);
+			cacheService.delete(id + "-" + hashKye);
 		} catch (CacheException e) {
 			log.error("myBatis cache remove exception", e);
 		}
@@ -93,12 +96,7 @@ public class CustomCache implements Cache {
 	}
 
 	public void clear() {
-		try {
-			cacheService.flush();
-		} catch (CacheException e) {
-			log.error("myBatis cache clear exception", e);
-		}
-
+		// 不需要真正去刷新缓存
 		cacheKeys.clear();
 	}
 
