@@ -6,11 +6,11 @@ function GridUtil(dataUrl, recordArray, pageSize) {
 	var storeArray = new Array();
 
 	var columnArray = new Array();
-	columnArray.push(new Ext.grid.RowNumberer( {}));
-	this.sm = new Ext.grid.CheckboxSelectionModel( {});
+	columnArray.push(new Ext.grid.RowNumberer({}));
+	this.sm = new Ext.grid.CheckboxSelectionModel({});
 	columnArray.push(this.sm);
 
-	for ( var i = 0; i < recordArray.length; i++) {
+	for (var i = 0; i < recordArray.length; i++) {
 		var store = new Object();
 		store.name = recordArray[i].id;
 		store.type = recordArray[i].type;
@@ -31,14 +31,14 @@ function GridUtil(dataUrl, recordArray, pageSize) {
 		columnArray.push(column);
 	}
 
-	this.dataStore = new Ext.data.Store( {
-		url : dataUrl,
-		remoteSort : true,
-		reader : new Ext.data.JsonReader( {
-			totalProperty : "total",
-			root : "reslutSet"
-		}, Ext.data.Record.create(storeArray))
-	});
+	this.dataStore = new Ext.data.Store({
+				url : dataUrl,
+				remoteSort : true,
+				reader : new Ext.data.JsonReader({
+							totalProperty : "total",
+							root : "reslutSet"
+						}, Ext.data.Record.create(storeArray))
+			});
 
 	this.cm = new Ext.grid.ColumnModel(columnArray);
 }
@@ -52,22 +52,22 @@ GridUtil.prototype.setBottomBar = function(arrays) {
 	if (Ext.isEmpty(this.pageSize) || this.pageSize <= 0) {
 		this.bbar = arrays;
 	} else {
-		this.bbar = new Ext.PagingToolbar( {
-			store : this.dataStore,
-			pageSize : this.pageSize,
-			items : arrays,
-			displayInfo : true,
-			displayMsg : "当前显示{0}-{1}条,共{2}条",
-			emptyMsg : "没有找到相关记录",
-			emptyMsg : "没有找到相关记录",
-			firstText : "第一页",
-			prevText : "上一页",
-			nextText : "下一页",
-			lastText : "最后页",
-			refreshText : "刷新",
-			afterPageText : "页,共{0}页",
-			beforePageText : "当前第"
-		});
+		this.bbar = new Ext.PagingToolbar({
+					store : this.dataStore,
+					pageSize : this.pageSize,
+					items : arrays,
+					displayInfo : true,
+					displayMsg : "当前显示{0}-{1}条,共{2}条",
+					emptyMsg : "没有找到相关记录",
+					emptyMsg : "没有找到相关记录",
+					firstText : "第一页",
+					prevText : "上一页",
+					nextText : "下一页",
+					lastText : "最后页",
+					refreshText : "刷新",
+					afterPageText : "页,共{0}页",
+					beforePageText : "当前第"
+				});
 	}
 }
 
@@ -77,25 +77,25 @@ GridUtil.prototype.setListeners = function(array) {
 
 GridUtil.prototype.setGridPanel = function(gridAttr) {
 
-	this.grid = new Ext.grid.GridPanel( {
-		height : Configuration.bodyHight,
-		collapsible : true,
-		iconCls : "silk-grid",
-		margins : "0 0 0 0",
-		loadMask : true,
-		split : true,
-		store : this.dataStore,
-		cm : this.cm,
-		sm : this.sm,
-		bbar : this.bbar,
-		tbar : this.tbar,
-		viewConfig : {
-			forceFit : true
-		},
-		listeners : this.listeners
-	});
+	this.grid = new Ext.grid.GridPanel({
+				height : Configuration.bodyHight,
+				collapsible : true,
+				iconCls : "silk-grid",
+				margins : "0 0 0 0",
+				loadMask : true,
+				split : true,
+				store : this.dataStore,
+				cm : this.cm,
+				sm : this.sm,
+				bbar : this.bbar,
+				tbar : this.tbar,
+				viewConfig : {
+					forceFit : true
+				},
+				listeners : this.listeners
+			});
 
-	for ( var attr in gridAttr) {
+	for (var attr in gridAttr) {
 		this.grid[attr] = gridAttr[attr];
 	}
 }
@@ -108,36 +108,52 @@ GridUtil.prototype.getStore = function() {
 	return this.dataStore;
 }
 
-function getCommonBar(saveHandler, modifyHandler, deleteHandler) {
+function getCommonBar(saveHandler, modifyHandler, deleteHandler, userPermission) {
 	var bar = new Array();
-	if (saveHandler != null) {
-		bar.push("-");
-		bar.push( {
-			text : "增加",
-			iconCls : "silk-add",
-			minWidth : Configuration.minBtnWidth,
-			handler : saveHandler
-		});
+
+	var save = true, modify = true, remove = true;
+
+	if (userPermission != null && userPermission.SAVE != null
+			&& userPermission.SAVE != "true") {
+		save = false;
+	}
+	if (userPermission != null && userPermission.MODIFY != null
+			&& userPermission.MODIFY != "true") {
+		modify = false;
+	}
+	if (userPermission != null && userPermission.REMOVE != null
+			&& userPermission.REMOVE != "true") {
+		remove = false;
 	}
 
-	if (modifyHandler != null) {
+	if (saveHandler != null && save) {
 		bar.push("-");
-		bar.push( {
-			text : "修改",
-			iconCls : "silk-edit",
-			minWidth : Configuration.minBtnWidth,
-			handler : modifyHandler
-		});
+		bar.push({
+					text : "增加",
+					iconCls : "silk-add",
+					minWidth : Configuration.minBtnWidth,
+					handler : saveHandler
+				});
 	}
 
-	if (deleteHandler != null) {
+	if (modifyHandler != null && modify) {
 		bar.push("-");
-		bar.push( {
-			text : "删除",
-			iconCls : "silk-delete",
-			minWidth : Configuration.minBtnWidth,
-			handler : deleteHandler
-		});
+		bar.push({
+					text : "修改",
+					iconCls : "silk-edit",
+					minWidth : Configuration.minBtnWidth,
+					handler : modifyHandler
+				});
+	}
+
+	if (deleteHandler != null && remove) {
+		bar.push("-");
+		bar.push({
+					text : "删除",
+					iconCls : "silk-delete",
+					minWidth : Configuration.minBtnWidth,
+					handler : deleteHandler
+				});
 	}
 
 	return bar;

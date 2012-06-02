@@ -17,6 +17,7 @@ import org.thorn.dao.core.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.role.entity.Role;
 import org.thorn.role.service.IRoleService;
+import org.thorn.security.SecurityConfiguration;
 import org.thorn.web.controller.BaseController;
 import org.thorn.web.entity.JsonResponse;
 import org.thorn.web.entity.Relation;
@@ -40,11 +41,11 @@ public class RoleController extends BaseController {
 	@Autowired
 	@Qualifier("authService")
 	private IAuthService authService;
-	
+
 	/**
 	 * 
 	 * @Description：
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-25 上午11:54:08
 	 * @param ids
 	 * @return
@@ -65,18 +66,20 @@ public class RoleController extends BaseController {
 
 		return status;
 	}
-	
+
 	/**
 	 * 
 	 * @Description：
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-25 上午11:54:21
 	 * @param start
 	 * @param limit
 	 * @param sort
 	 * @param dir
-	 * @param roleCode	角色编码
-	 * @param roleName	角色名称
+	 * @param roleCode
+	 *            角色编码
+	 * @param roleName
+	 *            角色名称
 	 * @return
 	 */
 	@RequestMapping("/role/getRolePage")
@@ -94,11 +97,11 @@ public class RoleController extends BaseController {
 
 		return page;
 	}
-	
+
 	/**
 	 * 
 	 * @Description：获取所有的角色
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-25 上午11:54:37
 	 * @return
 	 */
@@ -115,11 +118,11 @@ public class RoleController extends BaseController {
 
 		return list;
 	}
-	
+
 	/**
 	 * 
 	 * @Description：获取用户与所有角色的关系
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-25 上午11:54:53
 	 * @param userId
 	 * @return
@@ -137,6 +140,14 @@ public class RoleController extends BaseController {
 
 			List<Role> role = service.queryAllRoles();
 			for (Role r : role) {
+				//不显示默认角色
+				if (LocalStringUtils.equals(r.getRoleCode(),
+						SecurityConfiguration.COMMON_USER_ROLE)
+						|| LocalStringUtils.equals(r.getRoleCode(),
+								SecurityConfiguration.SYS_ADMIN_ROLE)) {
+					continue;
+				}
+
 				Relation relation = new Relation();
 				relation.setSubject(userId);
 				relation.setObject(r);
@@ -155,7 +166,7 @@ public class RoleController extends BaseController {
 					}
 				}
 			}
-			
+
 			json.setObj(list);
 		} catch (DBAccessException e) {
 			json.setSuccess(false);
@@ -165,14 +176,16 @@ public class RoleController extends BaseController {
 
 		return json;
 	}
-	
+
 	/**
 	 * 
 	 * @Description：授权资源给角色
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-25 上午11:55:19
-	 * @param roleCode	角色编码
-	 * @param ids		资源主键id	
+	 * @param roleCode
+	 *            角色编码
+	 * @param ids
+	 *            资源主键id
 	 * @return
 	 */
 	@RequestMapping("/role/saveAuth")
@@ -191,11 +204,11 @@ public class RoleController extends BaseController {
 
 		return status;
 	}
-	
+
 	/**
 	 * 
 	 * @Description：
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-25 上午11:56:21
 	 * @param role
 	 * @param opType

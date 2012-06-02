@@ -61,11 +61,16 @@ Ext.onReady(function() {
 			getRecord("是否显示", "isShow", "string", 70, true, yesOrNoRender),
 			getRecord("是否禁用", "isDisabled", "string", 70, true, yesOrNoRender)];
 	var member_grid = new GridUtil(userRolePageUrl, recordArray, pageSize);
-	member_grid.setBottomBar({
-				text : "角色删除用户",
-				iconCls : "silk-delete",
-				handler : removeUsersHandler
-			});
+	
+	var removeBar = null;
+	if(userPermission.REMOVEAUTH == "true") {
+		removeBar = {
+			text : "角色删除用户",
+			iconCls : "silk-delete",
+			handler : removeUsersHandler
+		};
+	}
+	member_grid.setBottomBar(removeBar);
 
 	member_grid.setGridPanel({
 				title : "角色成员列表",
@@ -73,12 +78,16 @@ Ext.onReady(function() {
 			});
 
 	var notIn_grid = new GridUtil(userNotInRolePageUrl, recordArray, pageSize);
-	notIn_grid.setBottomBar({
-				text : "角色增加用户",
-				iconCls : "silk-add",
-				minWidth : Configuration.minBtnWidth,
-				handler : saveUsersHandler
-			});
+	var saveBar = null;
+	if(userPermission.SAVEAUTH == "true") {
+		saveBar = {
+			text : "角色增加用户",
+			iconCls : "silk-add",
+			minWidth : Configuration.minBtnWidth,
+			handler : saveUsersHandler
+		};
+	}
+	notIn_grid.setBottomBar(saveBar);
 
 	notIn_grid.setGridPanel({
 				title : "非角色成员列表",

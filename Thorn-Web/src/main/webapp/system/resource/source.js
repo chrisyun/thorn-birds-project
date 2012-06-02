@@ -34,12 +34,14 @@ Ext.onReady(function() {
 			getRecord("菜单访问入口", "sourceUrl", "string", 200, false) ];
 	var grid_rs = new GridUtil(sourcePageUrl, recordArray, pageSize);
 
-	var grid_Bar = getCommonBar(null, modifyHandler, deleteHandler);
+	var grid_Bar = getCommonBar(null, modifyHandler, deleteHandler, userPermission);
 	grid_rs.setBottomBar(grid_Bar);
 
 	var listeners = {
 		celldblclick : function(thisGrid, rowIndex, columnIndex, ev) {
-			modifyHandler();
+			if(userPermission.MODIFY == "true") {
+				modifyHandler();
+			}
 		}
 	};
 	grid_rs.setListeners(listeners);
@@ -90,20 +92,21 @@ Ext.onReady(function() {
 			}
 		});
 	});
-
-	var menu = new Ext.menu.Menu( {
-		items : [ {
-			text : "增加子资源",
-			iconCls : "silk-add",
-			handler : saveHandler
-		} ]
-	});
-	tree.on("contextmenu", function(node, ev) {
-		ev.preventDefault();
-		node.select();
-		currentActiveNode = node;
-		menu.showAt(ev.getXY());
-	});
+	if(userPermission.SAVE == "true") {
+		var menu = new Ext.menu.Menu( {
+			items : [ {
+				text : "增加子资源",
+				iconCls : "silk-add",
+				handler : saveHandler
+			} ]
+		});
+		tree.on("contextmenu", function(node, ev) {
+			ev.preventDefault();
+			node.select();
+			currentActiveNode = node;
+			menu.showAt(ev.getXY());
+		});
+	}
 	tree.getRootNode().expand(false, false);
 	/** ****************tree panel start************ */
 

@@ -56,12 +56,14 @@ Ext.onReady(function() {
 			getRecord("角色成员", "roleUserColumn", "string", 70, false, userRender)];
 	role_grid = new GridUtil(rolePageUrl, recordArray, pageSize);
 
-	var grid_Bar = getCommonBar(saveHandler, modifyHandler, deleteHandler);
+	var grid_Bar = getCommonBar(saveHandler, modifyHandler, deleteHandler, userPermission);
 	role_grid.setBottomBar(grid_Bar);
 
 	var listeners = {
 		celldblclick : function(thisGrid, rowIndex, columnIndex, ev) {
-			modifyHandler();
+			if(userPermission.MODIFY == "true") {
+				modifyHandler();
+			}
 		}
 	};
 	role_grid.setListeners(listeners);
@@ -277,20 +279,27 @@ Ext.onReady(function() {
 				}, true, null, function() {
 				});
 	}
-
+	
+	var authTbar = new Array();
+	if(userPermission.AUTH == "true") {
+		authTbar.push("-");
+		authTbar.push({
+			id : "save-nav",
+			text : "保存",
+			iconCls : "silk-save",
+			minWidth : Configuration.btnWidth.MIN,
+			handler : saveAuthHandler
+		});
+		authTbar.push("-");
+	}
+	
 	var authTab = new Ext.TabPanel({
 				border : false,
 				activeTab : 0,
 				resizeTabs : true,
 				tabWidth : 100,
 				deferredRender : false,
-				tbar : ["-", {
-							id : "save-nav",
-							text : "保存",
-							iconCls : "silk-save",
-							minWidth : Configuration.btnWidth.MIN,
-							handler : saveAuthHandler
-						}, "-"],
+				tbar : authTbar,
 				items : [sysMenuTree, navMenuTree]
 			});
 

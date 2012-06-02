@@ -66,7 +66,7 @@
 		select U.ROLECODE from T_SYS_USER_ROLE U,T_SYS_ROLE R
 		where U.USERID = #{userid,jdbcType=VARCHAR} 
 		AND U.ROLECODE = R.ROLECODE 
-		AND R.ISDISABLED = 'YES'
+		AND R.ISDISABLED = 'NO'
 	</select>
 	
 	<delete id="deleteUserAllRole" parameterType="string">

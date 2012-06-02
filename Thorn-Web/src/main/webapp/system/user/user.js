@@ -43,46 +43,68 @@ Ext.onReady(function() {
 					getRecord("是否禁用", "isDisabled", "string", 70, true,
 							yesOrNoRender) ];
 			var user_grid = new GridUtil(userPageUrl, recordArray, pageSize);
-
-			var grid_Bar = getCommonBar();
-			user_grid.setBottomBar(grid_Bar);
-
-			var top_Bar = [ "-", {
-				text : "修改",
-				iconCls : "silk-edit",
-				minWidth : Configuration.minBtnWidth,
-				handler : modifyHandler
-			}, "-", {
-				text : "删除",
-				iconCls : "silk-delete",
-				minWidth : Configuration.minBtnWidth,
-				handler : deleteHandler
-			}, "-", {
-				text : "启用",
-				iconCls : "silk-tick",
-				minWidth : Configuration.minBtnWidth,
-				handler : unDisabledHandler
-			}, "-", {
-				text : "禁用",
-				iconCls : "silk-cross",
-				minWidth : Configuration.minBtnWidth,
-				handler : disabledHandler
-			}, "-", {
-				text : "修改密码",
-				iconCls : "tree-pwd",
-				minWidth : Configuration.minBtnWidth,
-				handler : pwdHandler
-			}, "-", {
-				text : "用户授权",
-				iconCls : "tree-pwd",
-				minWidth : Configuration.minBtnWidth,
-				handler : roleHandler
-			} ];
+			user_grid.setBottomBar();
+			
+			var top_Bar = new Array();
+			if(userPermission.MODIFY == "true") {
+				top_Bar.push("-");
+				top_Bar.push({
+					text : "修改",
+					iconCls : "silk-edit",
+					minWidth : Configuration.minBtnWidth,
+					handler : modifyHandler
+				});
+			}
+			if(userPermission.REMOVE == "true") {
+				top_Bar.push("-");
+				top_Bar.push({
+					text : "删除",
+					iconCls : "silk-delete",
+					minWidth : Configuration.minBtnWidth,
+					handler : deleteHandler
+				});
+			}
+			if(userPermission.DISABLED == "true") {
+				top_Bar.push("-");
+				top_Bar.push({
+					text : "启用",
+					iconCls : "silk-tick",
+					minWidth : Configuration.minBtnWidth,
+					handler : unDisabledHandler
+				});
+				top_Bar.push("-");
+				top_Bar.push({
+					text : "禁用",
+					iconCls : "silk-cross",
+					minWidth : Configuration.minBtnWidth,
+					handler : disabledHandler
+				});
+			}
+			if(userPermission.CHANGEPWD == "true") {
+				top_Bar.push("-");
+				top_Bar.push({
+					text : "修改密码",
+					iconCls : "tree-pwd",
+					minWidth : Configuration.minBtnWidth,
+					handler : pwdHandler
+				});
+			}
+			if(userPermission.AUTH == "true") {
+				top_Bar.push("-");
+				top_Bar.push({
+					text : "用户授权",
+					iconCls : "tree-auth",
+					minWidth : Configuration.minBtnWidth,
+					handler : roleHandler
+				});
+			}
 			user_grid.setTopBar(top_Bar);
 
 			var listeners = {
 				celldblclick : function(thisGrid, rowIndex, columnIndex, ev) {
-					modifyHandler();
+					if(userPermission.MODIFY == "true") {
+						modifyHandler();
+					}
 				}
 			};
 			user_grid.setListeners(listeners);
@@ -96,14 +118,16 @@ Ext.onReady(function() {
 			var grid = user_grid.getGrid();
 			var store = user_grid.getStore();
 			/** ****************org tree setting start************ */
-			menuTop = new Ext.menu.Menu( {
-				items : [ {
-					text : "增加用户",
-					iconCls : "silk-add",
-					handler : saveHandler
-				} ]
-			});
-			menu = menuTop;
+			if(userPermission.SAVE == "true") {
+				menuTop = new Ext.menu.Menu( {
+					items : [ {
+						text : "增加用户",
+						iconCls : "silk-add",
+						handler : saveHandler
+					} ]
+				});
+				menu = menuTop;
+			}
 
 			doStore = function(node) {
 				store.baseParams = {
@@ -209,7 +233,7 @@ Ext.onReady(function() {
 						var role = relationArray[i].object;
 						var cb = getCheckbox(role.roleCode, role.roleName,
 								relationArray[i].relevance)
-						role_form.addComp(cb, 0.3, true);
+						role_form.addComp(cb, 0.5, true);
 					}
 					thisForm.doLayout();
 					role_win.show("用户授权");

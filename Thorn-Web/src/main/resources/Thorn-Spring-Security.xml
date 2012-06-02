@@ -5,7 +5,12 @@
 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 http://www.springframework.org/schema/security
 http://www.springframework.org/schema/security/spring-security-3.0.xsd">
-
+	
+	<!-- 目的使用security标签时采用自定义的filter -->
+	<beans:bean class="org.springframework.security.web.access.DefaultWebInvocationPrivilegeEvaluator">
+		<beans:constructor-arg index="0" ref="permissionFilter" />
+	</beans:bean>
+	
 	<http entry-point-ref="authenticationProcessingFilterEntryPoint">
 		<intercept-url pattern="/reference/**" filters="none" />
 		<intercept-url pattern="/resources/**" filters="none" />

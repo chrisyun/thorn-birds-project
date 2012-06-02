@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="thorn" uri="/thorn"%>
 <jsp:include page="/springTag/header.jmt"></jsp:include>
 
@@ -18,6 +19,12 @@
 	var areaRender = function(str) {
 		return Render.dictRender(area, str);
 	};
+	
+	var userPermission = {
+		SAVE : '<sec:authorize url="/resource/saveOrModify*.jmt">true</sec:authorize>',
+		MODIFY : '<sec:authorize url="/resource/saveOrModify*.jmt">true</sec:authorize>',
+		REMOVE : '<sec:authorize url="/resource/deleteOrg.jmt">true</sec:authorize>',
+	}
 	
 </script>
 <jsp:include page="../../reference/footer.jsp"></jsp:include>
