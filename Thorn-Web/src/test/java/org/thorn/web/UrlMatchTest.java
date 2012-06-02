@@ -13,7 +13,7 @@ import junit.framework.TestCase;
  */
 public class UrlMatchTest extends TestCase {
 
-	public void jsTest(String[] args) {
+	public void testjs() {
 		String a = "/amk/cddlk/kl.js";
 		String b = "/**/*.js";
 
