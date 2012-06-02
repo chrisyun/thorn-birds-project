@@ -44,7 +44,7 @@ public class AppLogServiceImpl implements IAppLogService {
 		
 		if(LocalStringUtils.isEmpty(sort)) {
 			filter.put(Configuration.SROT_NAME, "EXECUTETIME");
-			filter.put(Configuration.ORDER_NAME, Configuration.ORDER_ASC);
+			filter.put(Configuration.ORDER_NAME, Configuration.ORDER_DESC);
 		} else {
 			filter.put(Configuration.SROT_NAME, sort);
 			filter.put(Configuration.ORDER_NAME, dir);

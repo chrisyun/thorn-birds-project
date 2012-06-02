@@ -32,12 +32,14 @@ Ext.onReady(function() {
 			getRecord("描述", "typeDesc", "string", 300) ];
 	var grid_dt = new GridUtil(dtPageUrl, recordArray_dt, pageSize);
 
-	var dt_Bar = getCommonBar(dtSaveHandler, dtModifyHandler, dtDeleteHandler);
+	var dt_Bar = getCommonBar(dtSaveHandler, dtModifyHandler, dtDeleteHandler, userPermission);
 	grid_dt.setBottomBar(dt_Bar);
 
 	var dt_listeners = {
 		celldblclick : function(thisGrid, rowIndex, columnIndex, ev) {
-			dtModifyHandler();
+			if(userPermission.SAVE == 'true') {
+				dtModifyHandler();
+			}
 		},
 		cellclick : function(thisGrid, rowIndex, columnIndex, ev) {
 			var record = thisGrid.getStore().getAt(rowIndex);
@@ -64,12 +66,14 @@ Ext.onReady(function() {
 			getRecord(null, "typeId", "string", null) ];
 	var grid_dd = new GridUtil(ddListUrl, recordArray_dd);
 
-	var dd_Bar = getCommonBar(ddSaveHandler, ddModifyHandler, ddDeleteHandler);
+	var dd_Bar = getCommonBar(ddSaveHandler, ddModifyHandler, ddDeleteHandler, userPermission);
 	grid_dd.setBottomBar(dd_Bar);
 
 	var dd_listeners = {
 		celldblclick : function(thisGrid, rowIndex, columnIndex, ev) {
-			ddModifyHandler();
+			if(userPermission.SAVE == 'true') {
+				ddModifyHandler();
+			}
 		}
 	};
 	grid_dd.setListeners(dd_listeners);

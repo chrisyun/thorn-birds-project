@@ -42,12 +42,14 @@ Ext.onReady(function() {
 			getRecord("是否禁用", "isDisabled", "string", 70, true,yesOrNoRender) ];
 	var org_grid = new GridUtil(orgPageUrl, recordArray, pageSize);
 
-	var grid_Bar = getCommonBar(saveHandler, modifyHandler, deleteHandler);
+	var grid_Bar = getCommonBar(saveHandler, modifyHandler, deleteHandler, userPermission);
 	org_grid.setBottomBar(grid_Bar);
 
 	var listeners = {
 		celldblclick : function(thisGrid, rowIndex, columnIndex, ev) {
-			modifyHandler();
+			if(userPermission.MODIFY == "true") {
+				modifyHandler();
+			}
 		}
 	};
 	org_grid.setListeners(listeners);
@@ -63,28 +65,65 @@ Ext.onReady(function() {
 	var store = org_grid.getStore();
 
 	/** ****************org tree setting start************ */
-	menuTop = new Ext.menu.Menu( {
-		items : [ {
+	var menuArray = new Array();
+	
+	if(userPermission.SAVE == "true") {
+		menuArray.push({
 			text : "增加子组织",
 			iconCls : "silk-add",
 			handler : saveHandler
-		} ]
-	});
-	menu = new Ext.menu.Menu( {
-		items : [ {
-			text : "增加子组织",
-			iconCls : "silk-add",
-			handler : saveHandler
-		}, "-", {
-			text : "修改组织",
-			iconCls : "silk-edit",
-			handler : modifyMenuHandler
-		}, "-", {
+		});
+		menuTop = new Ext.menu.Menu( {
+			items : [menuArray[0]]
+		});
+	}
+	if(userPermission.REMOVE == "true") {
+		menuArray.push({
 			text : "删除组织",
 			iconCls : "silk-delete",
 			handler : deleteMenuHandler
-		} ]
-	});
+		});
+	}
+	if(userPermission.MODIFY == "true") {
+		menuArray.push({
+			text : "修改组织",
+			iconCls : "silk-edit",
+			handler : modifyMenuHandler
+		});
+	}
+	
+	if(menuArray.length == 2) {
+		menu = new Ext.menu.Menu( {
+			items : [menuArray[0],"-",menuArray[1]]
+		});
+	} else if(menuArray.length == 3) {
+		menu = new Ext.menu.Menu( {
+			items : [menuArray[0],"-",menuArray[1],"-",menuArray[2]]
+		});
+	}
+	
+//	menuTop = new Ext.menu.Menu( {
+//		items : ["-", {
+//			text : "增加子组织",
+//			iconCls : "silk-add",
+//			handler : saveHandler
+//		}, "-" ]
+//	});
+//	menu = new Ext.menu.Menu( {
+//		items : [ {
+//			text : "增加子组织",
+//			iconCls : "silk-add",
+//			handler : saveHandler
+//		}, "-", {
+//			text : "修改组织",
+//			iconCls : "silk-edit",
+//			handler : modifyMenuHandler
+//		}, "-", {
+//			text : "删除组织",
+//			iconCls : "silk-delete",
+//			handler : deleteMenuHandler
+//		} ]
+//	});
 	
 	doStore = function(node) {
 		store.baseParams = {
