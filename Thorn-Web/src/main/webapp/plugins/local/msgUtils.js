@@ -1,4 +1,4 @@
-Message = {
+var Message = {
 	showProcessMsgBox : function(_msg) {
 		var msg = _msg || "数据提交中，请等候...";
 		Ext.MessageBox.show({
