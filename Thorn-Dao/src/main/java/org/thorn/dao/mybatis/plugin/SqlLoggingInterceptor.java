@@ -35,7 +35,7 @@ public class SqlLoggingInterceptor implements Interceptor {
 		BoundSql boundSql = statementHandler.getBoundSql();
 
 		// 预编译sql
-		String preparedSql = boundSql.getSql();
+		String preparedSql = boundSql.getSql().replaceAll("\n|\r", "");
 		log.debug("the boundSql:{}", preparedSql);
 
 		// 根据过滤器判定是否需要执行handler

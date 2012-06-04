@@ -39,5 +39,11 @@ public class UtilTest extends TestCase {
 		System.out.println(m.matches());
 	}
 	
+	public void testTab() {
+		String a = "a\n\nasdds\rnji";
+		
+		System.out.print(a.replaceAll("\n|\r", ""));
+	}
+	
 }
 
