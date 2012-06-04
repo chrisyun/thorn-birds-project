@@ -34,7 +34,7 @@ public class ConfiguratorService extends Observable {
 	private Map<String, File> configs = new HashMap<String, File>();
 
 	private synchronized void initConfigs() {
-		if (configs == null) {
+		if (configs == null || configs.size() == 0) {
 			ConfigurationContext configurer = SpringContext
 					.getBean("propertyConfigurer");
 			Resource[] resource = configurer.getResource();
@@ -50,7 +50,7 @@ public class ConfiguratorService extends Observable {
 	}
 
 	public Set<String> getConfigName() {
-		if (configs == null) {
+		if (configs == null || configs.size() == 0) {
 			initConfigs();
 		}
 

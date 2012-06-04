@@ -39,4 +39,6 @@
 	
 	<bean id="logDao" class="org.thorn.log.dao.AppLogDaoImpl" />
 	<bean id="logService" class="org.thorn.log.service.AppLogServiceImpl" />
+	
+	<bean id="configuratorService" class="org.thorn.configurator.service.ConfiguratorService" />
 </beans>
