@@ -1,28 +1,10 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@page import="org.springframework.security.core.Authentication"%>
-<%@page import="org.springframework.security.core.context.SecurityContextHolder"%>
-<%@page import="org.thorn.security.entity.UserSecurity"%>
-<%@page import="org.thorn.user.entity.User"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="thorn" uri="/thorn"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-
-Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-String userId = "";
-String userName = "";
-String cumail = "";
-String phone = "";
-
-if(auth != null) {
-	UserSecurity us = (UserSecurity) auth.getPrincipal();
-	User user = us.getUser();
-	userId = user.getUserId();
-	userName = user.getUserName();
-	cumail = user.getCumail();
-	phone = user.getPhone();
-}
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -117,10 +99,10 @@ if(auth != null) {
 				};
 			
 				var user = {
-					userId 		: "<%=userId%>",
-					userName 	: "<%=userName%>",
-					cumail 		: "<%=cumail%>",
-					phone 		: "<%=phone%>"
+					userId 		: "<sec:authentication property="principal.username" />",
+					userName 	: "<sec:authentication property="principal.user.userName" />",
+					cumail 		: "<sec:authentication property="principal.user.cumail" />",
+					phone 		: "<sec:authentication property="principal.user.phone" />"
 				}
 				
 				var yesOrNo = <thorn:dd  typeId="YESORNO" />;
