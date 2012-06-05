@@ -1,4 +1,6 @@
 var cfGetAllUrl = sys.path + "/cf/getConfigName.jmt";
+var cfGetConfigUrl = sys.path + "/cf/getConfig.jmt";
+var cfmodifyConfigUrl = sys.path + "/cf/modifyConfig.jmt";
 
 Ext.onReady(function() {
 	Ext.QuickTips.init();
@@ -23,31 +25,61 @@ Ext.onReady(function() {
 		width : 300,
 		emptyText : "---请先选择配置文件---",
 		fieldLabel : "配置文件",
-		store : []
+		valueField : "id",
+		displayField : "name",
+		store : new Ext.data.Store({
+			url : getAllRoleUrl,
+			reader : new Ext.data.JsonReader({}, Ext.data.Record
+							.create([{
+										name : 'id',
+										type : 'string'
+									}, {
+										name : 'name',
+										type : 'string'
+									}]))
+		})
 	};
-	
-	var store = new Ext.data.Store({
-            proxy: new Ext.data.MemoryProxy(["jdbcsas","ouu"]),
-            reader: new Ext.data.ArrayReader({}, Ext.data.Record.create(["k"]))
-    });
-	store.load();
-//	alert(Message.debugJsonDetail(store.getAt(1).data));
-	alert(store.collect("k"));
-
-    
     
 	query_form.addComp(configNames, 0.4, false);
 	query_form.addComp(getQueryBtn(onSubmitQueryHandler), 0.3, true);
 	/** ****************query panel end*************** */
 
-	/** ****************role Grid panel start************ */
-
+	/** ****************Grid panel start************** */
+	var propsGrid = new Ext.grid.PropertyGrid({
+		region : "center",
+		iconCls : "silk-app-go",
+		bodyStyle : "padding-top: 7px;",
+		margins : "2 0 0 0",
+		collapsible : true,
+		title: "Property Grid",
+		loadMask : true,
+    	autoHeight: true,
+    	width: 400,
+		buttonAlign : "center",
+		buttons : [{
+			id : "save-nav",
+			text : "保存",
+			iconCls : "silk-save",
+			minWidth : Configuration.btnWidth.MIN,
+			handler : saveCfHandler
+		}]
+	});
+	
+	/** ****************Grid panel end************** */
 	var viewport = new Ext.Viewport({
 				border : false,
-				layout : "fit",
+				layout : "border",
 				items : [query_form.getPanel()]
 			});
 	
+	function saveCfHandler() {
+		var source = propsGrid.getSource;
+		alert(source);
+		
+		
+		var ajax = new AjaxUtil(cfmodifyConfigUrl);
+		ajax.request(null, true, propsGrid);
+	}
 			
 	function onSubmitQueryHandler() {
 		var thisForm = query_form.getForm();
@@ -58,7 +90,10 @@ Ext.onReady(function() {
 		}
 		
 		var name = Ext.getCmp("show_configPath").getValue();
-		alert(name);
+		var ajax = new AjaxUtil(cfGetConfigUrl);
+		ajax.getData({"name":name}, propsGrid, function(obj, data) {
+			propsGrid.setSource(data);
+		});
 	}			
 
 	completePage();	

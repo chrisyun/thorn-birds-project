@@ -63,7 +63,7 @@ public class ConfiguratorService extends Observable {
 		if (configs == null) {
 			initConfigs();
 		}
-		
+
 		File config = configs.get(name);
 		Map<String, String> property = new HashMap<String, String>();
 
@@ -81,33 +81,33 @@ public class ConfiguratorService extends Observable {
 
 		return property;
 	}
-	
-	public synchronized void modifyConfig(String name, Map<String, String> property) throws DocumentException, IOException {
+
+	public synchronized void modifyConfig(String name,
+			Map<String, String> property) throws DocumentException, IOException {
 		if (configs == null) {
 			initConfigs();
 		}
-		
+
 		SAXReader saxReader = new SAXReader();
-		
+
 		File config = configs.get(name);
 		Document doc = saxReader.read(config);
 		Element root = doc.getRootElement();
-		
+
 		Element comment = root.element("comment");
 		comment.setText(property.get("comment"));
-		
+
 		List<Element> entryList = root.elements("entry");
 		for (Element entry : entryList) {
 			String key = entry.attributeValue("key");
 			entry.setText(property.get(key));
 		}
-		
+
 		OutputFormat format = new OutputFormat("    ", true);
-        XMLWriter xmlWriter = new XMLWriter(new FileWriter(config), format);
-        
-        xmlWriter.write(doc);
-        xmlWriter.close();
+		XMLWriter xmlWriter = new XMLWriter(new FileWriter(config), format);
+
+		xmlWriter.write(doc);
+		xmlWriter.close();
 	}
-	
-	
+
 }
