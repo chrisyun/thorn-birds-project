@@ -25,15 +25,12 @@ Ext.onReady(function() {
 		width : 300,
 		emptyText : "---请先选择配置文件---",
 		fieldLabel : "配置文件",
-		valueField : "id",
+		valueField : "name",
 		displayField : "name",
 		store : new Ext.data.Store({
-			url : getAllRoleUrl,
+			url : cfGetAllUrl,
 			reader : new Ext.data.JsonReader({}, Ext.data.Record
 							.create([{
-										name : 'id',
-										type : 'string'
-									}, {
 										name : 'name',
 										type : 'string'
 									}]))
@@ -47,38 +44,50 @@ Ext.onReady(function() {
 	/** ****************Grid panel start************** */
 	var propsGrid = new Ext.grid.PropertyGrid({
 		region : "center",
-		iconCls : "silk-app-go",
-		bodyStyle : "padding-top: 7px;",
-		margins : "2 0 0 0",
+		iconCls : "silk-grid",
 		collapsible : true,
-		title: "Property Grid",
+		title: "配置项",
 		loadMask : true,
-    	autoHeight: true,
-    	width: 400,
+    	width : 400,
 		buttonAlign : "center",
 		buttons : [{
 			id : "save-nav",
-			text : "保存",
+			text : "保&nbsp;&nbsp;&nbsp;&nbsp;存",
 			iconCls : "silk-save",
-			minWidth : Configuration.btnWidth.MIN,
+			width : 300,
 			handler : saveCfHandler
 		}]
+	});
+	
+	var tipsPanel = new Ext.Panel({
+		title : "提示",
+		region : "east",
+		collapsible : true,
+		margins : "0 0 0 2",
+		width : 300,
+		html : "<div class='tips'>1、部分应用服务器修改配置文件后会自动重启。<br>2、配置文件如果没有配置监听，需要重启应用才能生效。</div>"
 	});
 	
 	/** ****************Grid panel end************** */
 	var viewport = new Ext.Viewport({
 				border : false,
 				layout : "border",
-				items : [query_form.getPanel()]
+				items : [query_form.getPanel(),propsGrid,tipsPanel]
 			});
 	
 	function saveCfHandler() {
-		var source = propsGrid.getSource;
-		alert(source);
+		var source = propsGrid.getSource();
 		
+		var name = Ext.getCmp("show_configPath").getValue();
+		if(Ext.isEmpty(name)) {
+			Ext.Msg.alert("提示信息", "请选择配置文件!");
+			return;
+		}
+		
+		source.name = name;
 		
 		var ajax = new AjaxUtil(cfmodifyConfigUrl);
-		ajax.request(null, true, propsGrid);
+		ajax.request(source, true);
 	}
 			
 	function onSubmitQueryHandler() {

@@ -17,6 +17,12 @@
 	margin-top: 120px;
 }
 
+.tips {
+	font: 1.0em Verdana !important;
+	color: #f68622;
+	padding : 10px 10px 0 10px;
+}
+
 /**********************ico style**********************/
 /**btn ico*/
 .silk-add {

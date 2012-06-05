@@ -40,5 +40,14 @@
 	<bean id="logDao" class="org.thorn.log.dao.AppLogDaoImpl" />
 	<bean id="logService" class="org.thorn.log.service.AppLogServiceImpl" />
 	
-	<bean id="configuratorService" class="org.thorn.configurator.service.ConfiguratorService" />
+	<bean id="mailConfigListener" class="org.thorn.configurator.listeners.MailConfiguratorListener">
+		<property name="configName" value="mail-config.xml"/>
+	</bean>
+	<bean id="configuratorService" class="org.thorn.configurator.service.ConfiguratorService">
+		<constructor-arg index="0">
+			<list>
+				<ref bean="mailConfigListener"/>
+			</list>
+		</constructor-arg>
+	</bean>
 </beans>

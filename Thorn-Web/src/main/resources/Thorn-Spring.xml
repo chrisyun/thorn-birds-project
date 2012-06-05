@@ -12,6 +12,7 @@
 		<property name="locations">
 			<list>
 				<value>classpath:jdbc-config.xml</value>
+				<value>classpath:mail-config.xml</value>
 			</list>
 		</property>
 	</bean>

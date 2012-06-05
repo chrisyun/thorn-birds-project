@@ -1,9 +1,13 @@
 package org.thorn.configurator.controller;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.dom4j.DocumentException;
 import org.slf4j.Logger;
@@ -36,15 +40,17 @@ public class ConfigController extends BaseController {
 	
 	@RequestMapping("/cf/getConfigName")
 	@ResponseBody
-	public Map<String,String> getAvailableConfig() {
+	public List<Map<String,String>> getAvailableConfig() {
 		Set<String> names = service.getConfigName();
+		List<Map<String,String>> json = new ArrayList<Map<String,String>>();
 		
-		Map<String,String> map = new HashMap<String, String>();
-		for(String key : names) {
-			map.put(key, key);
+		for(String name : names) {
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("name", name);
+			json.add(map);
 		}
 		
-		return map;
+		return json;
 	}
 
 	@RequestMapping("/cf/getConfig")
@@ -71,12 +77,20 @@ public class ConfigController extends BaseController {
 	
 	@RequestMapping("/cf/modifyConfig")
 	@ResponseBody
-	public Status modifyConfig(String name, Map<String, String> map) {
+	public Status modifyConfig(String name, HttpServletRequest request) {
+		Enumeration<String> parames = request.getParameterNames();
+		Map<String, String> parameters = new HashMap<String, String>();
+		
+		while(parames.hasMoreElements()) {
+			String key = parames.nextElement();
+			parameters.put(key, request.getParameter(key));
+		}
 		
 		Status status = new Status();
 		
 		try {
-			service.modifyConfig(name, map);
+			service.modifyConfig(name, parameters);
+			status.setMessage("更新配置文件成功！");
 		} catch (Exception e) {
 			status.setMessage("更新配置文件内容发生错误："+ e.getMessage());
 			status.setSuccess(false);

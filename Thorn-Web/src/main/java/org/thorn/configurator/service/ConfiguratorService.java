@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
+import java.util.Observer;
 import java.util.Set;
 
 import org.dom4j.Document;
@@ -32,7 +33,14 @@ public class ConfiguratorService extends Observable {
 	static Logger log = LoggerFactory.getLogger(ConfiguratorService.class);
 
 	private Map<String, File> configs = new HashMap<String, File>();
-
+	
+	public ConfiguratorService(List<Observer> servers) {
+		super();
+		for(Observer server : servers) {
+			super.addObserver(server);
+		}
+	}
+	
 	private synchronized void initConfigs() {
 		if (configs == null || configs.size() == 0) {
 			ConfigurationContext configurer = SpringContext
@@ -60,7 +68,7 @@ public class ConfiguratorService extends Observable {
 
 	public Map<String, String> getConfigProperty(String name)
 			throws DocumentException {
-		if (configs == null) {
+		if (configs == null || configs.size() == 0) {
 			initConfigs();
 		}
 
@@ -84,7 +92,7 @@ public class ConfiguratorService extends Observable {
 
 	public synchronized void modifyConfig(String name,
 			Map<String, String> property) throws DocumentException, IOException {
-		if (configs == null) {
+		if (configs == null || configs.size() == 0) {
 			initConfigs();
 		}
 
@@ -108,6 +116,9 @@ public class ConfiguratorService extends Observable {
 
 		xmlWriter.write(doc);
 		xmlWriter.close();
+		
+		super.setChanged();
+		super.notifyObservers(property);
 	}
 
 }
