@@ -1,16 +1,17 @@
 var uploadUrl;
-var downloadUrl;
 var queryAttsUrl;
 
-function UploadUtil(id) {
+function UploadUtil(id, type) {
 	this.id = id;
-
+	this.type = type || "read";
+	
 	this.uploadForm = new Ext.FormPanel({
 				fileUpload : true,
 				border : false,
 				autoHeight : true,
 				bodyStyle : "padding: 10px 10px 0 10px;",
 				labelWidth : 80,
+				height : 130,
 				defaults : {
 					anchor : "95%",
 					allowBlank : false,
@@ -35,26 +36,7 @@ function UploadUtil(id) {
 							buttonCfg : {
 								iconCls : "upload-icon"
 							}
-						}]
-			});
-
-	this.uploadForm.findById(id).addListener("fileselected",
-			function(field, value) {
-				var file_name = value.substring(value.lastIndexOf("\\") + 1,
-						value.length);
-				this.uploadForm.getForm().findField("fileName")
-						.setValue(file_name);
-			}, this);
-
-	this.uploadWin = new Ext.Window({
-				closeAction : "hide",
-				modal : true,
-				shadow : true,
-				closable : true,
-				layout : "fit",
-				width : 500,
-				height : 130,
-				items : [this.uploadForm],
+						}],
 				buttonAlign : "center",
 				buttons : [{
 					text : "上传",
@@ -74,7 +56,6 @@ function UploadUtil(id) {
 									var att = new Object();
 									att.id = result.obj;
 									att.name = form.getValues().name;
-									att.downUrl = "";
 
 								},
 								failure : function(form, action) {
@@ -97,11 +78,41 @@ function UploadUtil(id) {
 					}
 				}]
 			});
+	
+	this.uploadForm.findById(id).addListener("fileselected",
+			function(field, value) {
+				var file_name = value.substring(value.lastIndexOf("\\") + 1,
+						value.length);
+				this.uploadForm.getForm().findField("fileName")
+						.setValue(file_name);
+			}, this);
+	
+//	this.selectPanel = new Ext.Panel({
+//		border : false,
+//		autoHeight : true,
+//		layout : "form",
+//		items : [{
+//			xtype : "multiselect",
+//			name: 'uploadAtts',
+//			id : id + "_multiSel",
+//			width: 400,
+//            height: 200
+//		}]
+//	});		
+			
+	this.uploadWin = new Ext.Window({
+				closeAction : "hide",
+				modal : true,
+				shadow : true,
+				closable : true,
+				layout : "fit",
+				width : 400,
+				autoHeight : true,
+				items : [this.uploadForm]
+			});
 }
 
-UploadUtil.prototype.initShowPanel = function(attrObj, type, ids) {
-	this.type = type || "read";
-
+UploadUtil.prototype.initShowPanel = function(attrObj, ids) {
 	this.showPanel = new Ext.Panel({
 				id : this.id + "_show",
 				html : "<div id='" + this.id + "_show_div'></div>"
@@ -138,13 +149,18 @@ UploadUtil.prototype.show = function(title) {
 	this.uploadWin.show();
 }
 
+function getDownloadUrl(att) {
+	var downloadUrl = "";
+	return downloadUrl + "?id=" + att.id;
+}
+
 UploadUtil.prototype.addAtt = function(att) {
 	var hiddenIds = this.uploadForm.findById(this.id + "_ids").getValue();
 	this.uploadForm.findById(this.id + "_ids").setValue(hiddenIds + ","
 			+ att.id);
 
 	var attHtml = "<span id='" + this.id + "_" + att.id + "'><a href=\""
-			+ att.downUrl + "\" title=\"下载\" target=\"_blank\">" + att.name
+			+ getDownloadUrl(att) + "\" title=\"下载\" target=\"_blank\">" + att.name
 			+ "</a></span>";
 
 	Ext.getDom(this.id + "_show_div").innerHTML += attHtml;
