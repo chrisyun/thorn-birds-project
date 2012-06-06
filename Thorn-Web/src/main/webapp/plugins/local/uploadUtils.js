@@ -1,5 +1,5 @@
-var uploadUrl;
-var queryAttsUrl;
+var uploadUrl = sys.path + "/att/upload.jmt";
+var queryAttsUrl = sys.path + "";
 
 function UploadUtil(id, type) {
 	this.id = id;
@@ -42,32 +42,13 @@ function UploadUtil(id, type) {
 					text : "上传",
 					iconCls : "silk-accept",
 					scope : this,
+					handler : upload
+				}, {
+					text : "删除",
+					iconCls : "silk-delete",
+					scope : this,
 					handler : function() {
-						if (this.uploadForm.getForm().isValid()) {
-
-							this.uploadForm.getForm().submit({
-								url : uploadUrl,
-								timeout : 10 * 60 * 1000,
-								method : "POST",
-								success : function(form, action) {
-									Message.hideProcessMsgBox();
-									TopShow.msg("成功提示", action.result.message);
-
-									var att = new Object();
-									att.id = result.obj;
-									att.name = form.getValues().name;
-
-								},
-								failure : function(form, action) {
-									Message.hideProcessMsgBox();
-									var failMsg = Ext
-											.isEmpty(action.result.message)
-											? "文件上传失败."
-											: action.result.message;
-									Message.showErrorMsgBox(failMsg);
-								}
-							});
-						}
+						this.uploadWin.hide();
 					}
 				}, {
 					text : "关闭",
@@ -87,18 +68,51 @@ function UploadUtil(id, type) {
 						.setValue(file_name);
 			}, this);
 	
-//	this.selectPanel = new Ext.Panel({
-//		border : false,
-//		autoHeight : true,
-//		layout : "form",
-//		items : [{
-//			xtype : "multiselect",
-//			name: 'uploadAtts',
-//			id : id + "_multiSel",
-//			width: 400,
-//            height: 200
-//		}]
-//	});		
+	function upload() {
+		if (this.uploadForm.getForm().isValid()) {
+
+			this.uploadForm.getForm().submit({
+				url : uploadUrl,
+				timeout : 600000,
+				method : "POST",
+				success : function(form, action) {
+					Message.hideProcessMsgBox();
+					TopShow.msg("成功提示", action.result.message);
+
+					var att = new Object();
+					att.id = result.obj;
+					att.name = form.getValues().name;
+
+				},
+				failure : function(form, action) {
+					Message.hideProcessMsgBox();
+					var failMsg = Ext
+							.isEmpty(action.result.message)
+							? "文件上传失败."
+							: action.result.message;
+					Message.showErrorMsgBox(failMsg);
+				}
+			});
+		}	
+	}		
+			
+			
+	this.selectPanel = new Ext.Panel({
+		border : false,
+		autoHeight : true,
+		layout : "form",
+		items : [{
+			xtype : "multiselect",
+			name: 'uploadAtts',
+			id : id + "_multiSel",
+			width: 390,
+            height: 130,
+            hideLabel : true,
+            store: [[123,'One Hundred Twenty Three'],
+                    ['1', 'One'], ['2', 'Two'], ['3', 'Three'], ['4', 'Four'], ['5', 'Five'],
+                    ['6', 'Six'], ['7', 'Seven'], ['8', 'Eight'], ['9', 'Nine']]
+		}]
+	});		
 			
 	this.uploadWin = new Ext.Window({
 				closeAction : "hide",
@@ -108,7 +122,7 @@ function UploadUtil(id, type) {
 				layout : "fit",
 				width : 400,
 				autoHeight : true,
-				items : [this.uploadForm]
+				items : [this.uploadForm, this.selectPanel]
 			});
 }
 
