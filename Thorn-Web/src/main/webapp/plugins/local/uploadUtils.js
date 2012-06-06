@@ -1,18 +1,19 @@
 function UploadUtil(uploadUrl, id) {
 	this.uploadForm = new Ext.FormPanel({
 		fileUpload : true,
-		frame : true,
+		border : false,
 		autoHeight : true,
 		bodyStyle : "padding: 10px 10px 0 10px;",
 		labelWidth : 80,
 		defaults : {
 			anchor : "95%",
 			allowBlank : false,
-			msgTarget : "side"
+			blankText : Validate.empty
 		},
 		items : [{
 					xtype : "textfield",
 					id : id + "_name",
+					name : "fileName",
 					fieldLabel : "文件名"
 				}, {
 					xtype : "fileuploadfield",
@@ -23,27 +24,27 @@ function UploadUtil(uploadUrl, id) {
 					buttonText : "",
 					buttonCfg : {
 						iconCls : "upload-icon"
-					},
-					listeners : {
-						"change" : function(Field, newValue, oldValue) {
-							alert(newValue);
-						}
 					}
 				}]
 	});
-
+	
+	this.uploadForm.findById(id).addListener("fileselected",function(field, value) {
+		var file_name = value.substring(value.lastIndexOf("\\")+1,value.length);
+		this.uploadForm.getForm().findField("fileName").setValue(file_name);
+	}, this);
+	
 	this.uploadWin = new Ext.Window({
 				closeAction : "hide",
 				modal : true,
 				shadow : true,
 				closable : true,
 				layout : "fit",
-				width : 400,
-				height : 210,
+				width : 500,
+				height : 130,
 				items : [this.uploadForm],
 				buttonAlign : "center",
 				buttons : [{
-					text : "保存",
+					text : "上传",
 					iconCls : "silk-accept",
 					scope : this,
 					handler : function() {
