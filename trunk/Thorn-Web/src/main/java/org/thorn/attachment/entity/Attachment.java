@@ -19,6 +19,8 @@ public class Attachment implements Serializable {
 	
 	private String filePath;
 	
+	private byte[] file;
+	
 	private String saveType;
 	
 	private String fileType;
@@ -81,6 +83,14 @@ public class Attachment implements Serializable {
 
 	public void setUploader(String uploader) {
 		this.uploader = uploader;
+	}
+
+	public byte[] getFile() {
+		return file;
+	}
+
+	public void setFile(byte[] file) {
+		this.file = file;
 	}
 }
 
