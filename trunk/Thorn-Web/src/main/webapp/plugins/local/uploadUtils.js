@@ -1,5 +1,5 @@
 var uploadUrl = sys.path + "/att/upload.jmt";
-var queryAttsUrl = sys.path + "";
+var queryAttsUrl = sys.path + "/att/queryAtts.jmt";
 
 function UploadUtil(id, type) {
 	this.id = id;
@@ -47,9 +47,7 @@ function UploadUtil(id, type) {
 					text : "删除",
 					iconCls : "silk-delete",
 					scope : this,
-					handler : function() {
-						this.uploadWin.hide();
-					}
+					handler : remove
 				}, {
 					text : "关闭",
 					iconCls : "slik-close",
@@ -68,6 +66,29 @@ function UploadUtil(id, type) {
 						.setValue(file_name);
 			}, this);
 	
+	var util = this;		
+	
+	function remove() {
+		// 移除下拉列表中的数据
+		var multiSel = this.selectPanel.findById(this.id + "_multiSel");
+		var store = this.selectPanel.findById(this.id + "_multiSel").store;	
+		var ids = multiSel.getValue();
+		
+		if(Ext.isEmpty(ids)) {
+			return ;
+		}
+		
+		var idsArray = ids.split(",");
+		for(var i=0;i<idsArray.length;i++) {
+			this.removeAtt(idsArray[i]);
+		}	
+		
+		var selectionsArray = multiSel.view.getSelectedIndexes();
+		for(var i=0;i<selectionsArray.length;i++) {
+			store.removeAt(selectionsArray[i]);
+		}		
+	}
+	
 	function upload() {
 		if (this.uploadForm.getForm().isValid()) {
 
@@ -80,9 +101,10 @@ function UploadUtil(id, type) {
 					TopShow.msg("成功提示", action.result.message);
 
 					var att = new Object();
-					att.id = result.obj;
-					att.name = form.getValues().name;
-
+					att.id = action.result.obj;
+					att.name = form.getValues().fileName;
+					
+					util.addAtt(att);
 				},
 				failure : function(form, action) {
 					Message.hideProcessMsgBox();
@@ -108,9 +130,7 @@ function UploadUtil(id, type) {
 			width: 390,
             height: 130,
             hideLabel : true,
-            store: [[123,'One Hundred Twenty Three'],
-                    ['1', 'One'], ['2', 'Two'], ['3', 'Three'], ['4', 'Four'], ['5', 'Five'],
-                    ['6', 'Six'], ['7', 'Seven'], ['8', 'Eight'], ['9', 'Nine']]
+            store: [[]]
 		}]
 	});		
 			
@@ -149,8 +169,7 @@ UploadUtil.prototype.initShowPanel = function(attrObj, ids) {
 						var att = new Object();
 						att.id = result.id;
 						att.name = result.fileName;
-						att.downUrl = "";
-
+						
 						this.addAtt(att);
 					}
 				});
@@ -163,11 +182,6 @@ UploadUtil.prototype.show = function(title) {
 	this.uploadWin.show();
 }
 
-function getDownloadUrl(att) {
-	var downloadUrl = "";
-	return downloadUrl + "?id=" + att.id;
-}
-
 UploadUtil.prototype.addAtt = function(att) {
 	var hiddenIds = this.uploadForm.findById(this.id + "_ids").getValue();
 	this.uploadForm.findById(this.id + "_ids").setValue(hiddenIds + ","
@@ -178,6 +192,10 @@ UploadUtil.prototype.addAtt = function(att) {
 			+ "</a></span>";
 
 	Ext.getDom(this.id + "_show_div").innerHTML += attHtml;
+	
+	// 向下拉列表中添加数据
+	var store = this.selectPanel.findById(this.id + "_multiSel").store;
+	store.loadData([[att.id,att.name]],true);
 }
 
 UploadUtil.prototype.removeAtt = function(id) {
@@ -187,4 +205,9 @@ UploadUtil.prototype.removeAtt = function(id) {
 	
 	Ext.getDom(this.id + "_" + id).innerHTML = "";
 	Ext.getDom(this.id + "_" + id).removeNode();
+}
+
+function getDownloadUrl(att) {
+	var downloadUrl = "";
+	return downloadUrl + "?id=" + att.id;
 }
