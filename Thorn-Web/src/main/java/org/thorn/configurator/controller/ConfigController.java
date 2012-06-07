@@ -40,17 +40,10 @@ public class ConfigController extends BaseController {
 	
 	@RequestMapping("/cf/getConfigName")
 	@ResponseBody
-	public List<Map<String,String>> getAvailableConfig() {
+	public Set<String> getAvailableConfig() {
 		Set<String> names = service.getConfigName();
-		List<Map<String,String>> json = new ArrayList<Map<String,String>>();
 		
-		for(String name : names) {
-			Map<String, String> map = new HashMap<String, String>();
-			map.put("name", name);
-			json.add(map);
-		}
-		
-		return json;
+		return names;
 	}
 
 	@RequestMapping("/cf/getConfig")

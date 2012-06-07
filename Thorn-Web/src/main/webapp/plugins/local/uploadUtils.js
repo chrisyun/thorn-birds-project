@@ -126,6 +126,7 @@ function UploadUtil(id, type) {
 		items : [ {
 			xtype : "multiselect",
 			name : 'uploadAtts',
+			draggable : false,
 			id : id + "_multiSel",
 			width : 390,
 			height : 130,
@@ -144,21 +145,13 @@ function UploadUtil(id, type) {
 		autoHeight : true,
 		items : [ this.uploadForm, this.selectPanel ]
 	});
-	
-	if(type == "read") {
-		var multiSel = this.selectPanel.findById(this.id + "_multiSel");
-		multiSel.disable();
-		
-		var delBtn = this.uploadForm.findById(this.id + "_delBtn");
-		delBtn.disable();
-	}
-	
-	
 }
 
 UploadUtil.prototype.initShowPanel = function(attrObj, ids) {
 	this.showPanel = new Ext.Panel( {
 		id : this.id + "_show",
+		autoHeight : true,
+		autoWidth : true,
 		html : "<div id='" + this.id + "_show_div'></div>"
 	});
 
@@ -190,6 +183,15 @@ UploadUtil.prototype.initShowPanel = function(attrObj, ids) {
 
 UploadUtil.prototype.show = function(title) {
 	this.uploadWin.show();
+	if(this.type == "read") {
+		var multiSel = this.selectPanel.findById(this.id + "_multiSel");
+		multiSel.disable();
+		
+		var delBtn = Ext.getCmp(this.id + "_delBtn");
+		delBtn.disable();
+	}
+	
+	
 }
 
 UploadUtil.prototype.addAtt = function(att) {
@@ -197,9 +199,9 @@ UploadUtil.prototype.addAtt = function(att) {
 	this.uploadForm.findById(this.id + "_ids").setValue(
 			hiddenIds + "," + att.id);
 
-	var attHtml = "<span id='" + this.id + "_" + att.id + "'><a href=\""
+	var attHtml = "<div id='" + this.id + "_" + att.id + "' class='uploadArea'><a href=\""
 			+ getDownloadUrl(att) + "\" title=\"下载\" target=\"_blank\">"
-			+ att.name + "</a></span>";
+			+ att.name + "</a></div>";
 
 	Ext.getDom(this.id + "_show_div").innerHTML += attHtml;
 
