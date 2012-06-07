@@ -31,7 +31,7 @@ public class AttachmentCotroller extends BaseController {
 			HttpServletResponse response) throws IOException {
 
 		StringBuilder json = new StringBuilder("{\"success\":true,");
-		json.append("\"message\":\"附件上传成功.\",");
+		json.append("\"message\":\"附件上传成功！\",");
 		json.append("\"obj\":\"").append(fileName).append("\"}");
 
 		ResponseHeaderUtils.setHtmlResponse(response);
@@ -44,7 +44,7 @@ public class AttachmentCotroller extends BaseController {
 	public Status removeAtt(String ids) {
 		Status status = new Status();
 		
-		status.setMessage("附件删除成功.");
+		status.setMessage("附件删除成功！");
 		return status;
 	}
 	
@@ -53,7 +53,7 @@ public class AttachmentCotroller extends BaseController {
 	public JsonResponse<List<Attachment>> queryAtts(String ids) {
 		JsonResponse<List<Attachment>> json = new JsonResponse<List<Attachment>>();
 		
-		json.setMessage("附件加载成功.");
+		json.setMessage("附件加载成功！");
 		
 		
 		return json;

@@ -1,4 +1,11 @@
-
+/** 让按钮字体大小不随鼠标滑动变化*/
+.x-btn-text-icon .x-btn-icon-small-left .x-btn-text{
+    background-position: 0 center;/*默认*/
+    background-repeat: no-repeat;/*默认*/
+    padding-left:18px;/*默认*/
+    height:16px;/*默认*/
+    font-size:13px;/*字体大小设置*/
+}
 .ux-mselect{
     overflow:auto;
     background:white;
@@ -69,6 +76,13 @@
 	top: 10px;
 	width: 250px;
 	z-index: 20000;
+}
+
+.uploadArea {
+	float: left;
+	padding: 4px 20px 4px 20px;
+    font-size: 13px;
+	width: 300px;
 }
 
 .required {

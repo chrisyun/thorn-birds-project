@@ -27,13 +27,9 @@ Ext.onReady(function() {
 		fieldLabel : "配置文件",
 		valueField : "name",
 		displayField : "name",
-		store : new Ext.data.Store({
+		store : new Ext.data.ArrayStore({
 			url : cfGetAllUrl,
-			reader : new Ext.data.JsonReader({}, Ext.data.Record
-							.create([{
-										name : 'name',
-										type : 'string'
-									}]))
+			fields: ["name"]
 		})
 	};
     
