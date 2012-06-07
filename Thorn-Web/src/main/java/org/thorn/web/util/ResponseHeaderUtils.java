@@ -16,6 +16,7 @@ public class ResponseHeaderUtils {
 	
 	private static final String JSON_CONTENT_TYPE = "text/javascript;charset=utf-8"; 
 	
+	private static final String HTML_CONTENT_TYPE = "text/html;charset=utf-8"; 
 	/**
 	 * 
 	 * @Description：
@@ -45,6 +46,10 @@ public class ResponseHeaderUtils {
 	
 	public static void setJsonResponse(HttpServletResponse response) {
 		response.setContentType(JSON_CONTENT_TYPE);
+	}
+	
+	public static void setHtmlResponse(HttpServletResponse response) {
+		response.setContentType(HTML_CONTENT_TYPE);
 	}
 
 }

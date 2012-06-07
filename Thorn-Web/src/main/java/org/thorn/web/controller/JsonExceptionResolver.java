@@ -6,9 +6,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
+import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.jasperreports.JasperReportsHtmlView;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
+import org.thorn.web.util.ResponseHeaderUtils;
 
 /**
  * @ClassName: JSONExceptionResolver
@@ -40,6 +43,10 @@ public class JsonExceptionResolver implements HandlerExceptionResolver, Ordered 
 			mv.setView(new MappingJacksonJsonView());
 			mv.addObject("success", false);
 			mv.addObject("message", ex.getMessage());
+			
+			if(request instanceof DefaultMultipartHttpServletRequest) {
+//				mv.setView(new JasperReportsHtmlView());
+			}
 			
 			return mv;
 		}
