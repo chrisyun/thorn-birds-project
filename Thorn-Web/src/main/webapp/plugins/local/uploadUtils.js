@@ -230,6 +230,10 @@ UploadUtil.prototype.removeAtt = function(id) {
 	Ext.getDom(this.id + "_" + id).removeNode();
 }
 
+UploadUtil.prototype.getUploadAttIds = function() {
+	return this.uploadForm.findById(this.id + "_ids").getValue();
+}
+
 function getDownloadUrl(att) {
 	return downloadUrl + "?id=" + att.id;
 }
