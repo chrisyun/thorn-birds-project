@@ -30,12 +30,14 @@ public class AppLogAdvisor {
 	 * @author：chenyun 	        
 	 * @date：2012-5-26 下午09:56:51
 	 */
-	@Pointcut("!within(org.thorn.log..*) " +
-			"&& !execution(public * org.thorn..*.*ServiceImpl.query*(..)) " +
-			"&& execution(public * org.thorn..*.*ServiceImpl.*(..)) " +
+	@Pointcut("execution(public * org.thorn..*.*ServiceImpl.*(..)) " +
 			"|| @annotation(org.thorn.log.Logging)")
 	private void loggingPointcut(){}
 	
+	@Pointcut("!within(org.thorn.log..*) " +
+			"&& !execution(public * org.thorn..*.*ServiceImpl.query*(..)) " +
+			"&& !@annotation(org.thorn.log.NoLogging)")
+	private void noLoggingPointcut(){}
 	/**
 	 * 
 	 * @Description：方法正确执行时拦截
@@ -43,7 +45,7 @@ public class AppLogAdvisor {
 	 * @date：2012-5-26 下午09:57:09
 	 * @param jp
 	 */
-	@AfterReturning("loggingPointcut()")
+	@AfterReturning("loggingPointcut() && noLoggingPointcut()")
 	public void successLog(JoinPoint jp) {
 		AppLog log = getAppLog(jp);
 		log.setHandleResult(Configuration.DB_SUCCESS);
