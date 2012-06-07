@@ -1,16 +1,27 @@
 package org.thorn.attachment.controller;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.thorn.attachment.entity.Attachment;
+import org.thorn.attachment.service.IAttachmentService;
+import org.thorn.core.util.LocalStringUtils;
+import org.thorn.dao.exception.DBAccessException;
+import org.thorn.security.SecurityUserUtils;
+import org.thorn.user.entity.User;
 import org.thorn.web.controller.BaseController;
 import org.thorn.web.entity.JsonResponse;
 import org.thorn.web.entity.Status;
@@ -25,44 +36,102 @@ import org.thorn.web.util.ResponseHeaderUtils;
 @Controller
 public class AttachmentCotroller extends BaseController {
 
+	static Logger log = LoggerFactory.getLogger(AttachmentCotroller.class);
+
+	@Autowired
+	@Qualifier("attService")
+	private IAttachmentService attService;
+
 	@RequestMapping("/att/upload")
 	public void upload(String fileName,
 			@RequestParam("attach") MultipartFile attach,
 			HttpServletResponse response) throws IOException {
 
-		StringBuilder json = new StringBuilder("{\"success\":true,");
-		json.append("\"message\":\"附件上传成功！\",");
-		json.append("\"obj\":\"").append(fileName).append("\"}");
+		Attachment att = new Attachment();
+		att.setFileName(fileName);
+
+		User user = SecurityUserUtils.getCurrentUser();
+		att.setUploader(user.getUserId());
+
+		StringBuilder json = new StringBuilder();
+
+		try {
+			attService.uploadAtt(att, attach);
+			json.append("{\"success\":true,");
+			json.append("\"message\":\"附件上传成功！\",");
+			json.append("\"obj\":").append(att.getId()).append("}");
+		} catch (DBAccessException e) {
+			json.append("{\"success\":false,");
+			json.append("\"message\":\"附件上传失败：" + e.getMessage() + "\",");
+			json.append("\"obj\":null}");
+			
+			log.error("upload[Attachment] - " + e.getMessage(), e);
+		}
 
 		ResponseHeaderUtils.setHtmlResponse(response);
 		response.getWriter().write(json.toString());
 		response.getWriter().flush();
 	}
-	
+
 	@RequestMapping("/att/delete")
 	@ResponseBody
 	public Status removeAtt(String ids) {
 		Status status = new Status();
 		
-		status.setMessage("附件删除成功！");
+		try {
+			attService.delete(ids);
+			status.setMessage("附件删除成功！");
+		} catch (DBAccessException e) {
+			status.setMessage("附件删除失败：" + e.getMessage());
+			status.setSuccess(false);
+			log.error("removeAtt[String] - " + e.getMessage(), e);
+		}
+		
 		return status;
 	}
-	
+
 	@RequestMapping("/att/queryAtts")
 	@ResponseBody
 	public JsonResponse<List<Attachment>> queryAtts(String ids) {
 		JsonResponse<List<Attachment>> json = new JsonResponse<List<Attachment>>();
 		
-		json.setMessage("附件加载成功！");
-		
-		
+		try {
+			List<Attachment> atts = attService.queryAtts(ids);
+			json.setObj(atts);
+			json.setMessage("附件加载成功！");
+		} catch (DBAccessException e) {
+			json.setMessage("附件加载失败：" + e.getMessage());
+			json.setSuccess(false);
+			log.error("queryAtts[Attachment] - " + e.getMessage(), e);
+		}
+
 		return json;
 	}
-	
+
 	@RequestMapping("/att/download")
-	public void download(String id) {
+	public void download(Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		Attachment att = new Attachment();
+		
+		try {
+			att = attService.downloadAtt(id);
+			
+			if(LocalStringUtils.equals("DB", att.getSaveType())) {
+				ResponseHeaderUtils.setFileResponse(response, att.getFileName());
+				
+				OutputStream out = response.getOutputStream();
+				out.write(att.getFile());
+				out.flush();
+			} else {
+				response.sendRedirect(att.getFilePath());
+			}
+			
+		} catch (DBAccessException e) {
+			log.error("queryAtts[Attachment] - " + e.getMessage(), e);
+			ResponseHeaderUtils.setHtmlResponse(response);
+			response.getWriter().write("附件下载失败：" + e.getMessage());
+			response.getWriter().flush();
+		}
 		
 	}
-	
-	
+
 }

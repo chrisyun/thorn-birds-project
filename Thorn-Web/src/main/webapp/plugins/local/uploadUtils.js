@@ -1,5 +1,8 @@
 var uploadUrl = sys.path + "/att/upload.jmt";
 var queryAttsUrl = sys.path + "/att/queryAtts.jmt";
+var downloadUrl = sys.path + "/att/download.jmt";
+var removeAttsUrl = sys.path + "/att/delete.jmt";
+
 
 function UploadUtil(id, type) {
 	this.id = id;
@@ -79,16 +82,21 @@ function UploadUtil(id, type) {
 		if (Ext.isEmpty(ids)) {
 			return;
 		}
-
-		var idsArray = ids.split(",");
-		for ( var i = 0; i < idsArray.length; i++) {
-			this.removeAtt(idsArray[i]);
-		}
-
-		var selectionsArray = multiSel.view.getSelectedIndexes();
-		for ( var i = 0; i < selectionsArray.length; i++) {
-			store.removeAt(selectionsArray[i]);
-		}
+		
+		var ajax = new AjaxUtil(removeAttsUrl);
+		ajax.request({
+					"ids" : ids
+				}, true, util, function(obj) {
+			var idsArray = ids.split(",");
+			for ( var i = 0; i < idsArray.length; i++) {
+				obj.removeAtt(idsArray[i]);
+			}
+	
+			var selectionsArray = multiSel.view.getSelectedIndexes();
+			for ( var i = 0; i < selectionsArray.length; i++) {
+				store.removeAt(selectionsArray[i]);
+			}
+		});
 	}
 
 	function upload() {
@@ -158,8 +166,10 @@ UploadUtil.prototype.initShowPanel = function(attrObj, ids) {
 	for ( var attr in attrObj) {
 		this.showPanel[attr] = attrObj[attr];
 	}
-
+	
 	if (!Ext.isEmpty(ids)) {
+		var util = this;
+		
 		var ajax = new AjaxUtil(queryAttsUrl);
 		ajax.getData( {
 			"ids" : ids
@@ -170,10 +180,10 @@ UploadUtil.prototype.initShowPanel = function(attrObj, ids) {
 
 			for ( var i = 0; i < result.length; i++) {
 				var att = new Object();
-				att.id = result.id;
-				att.name = result.fileName;
+				att.id = result[i].id;
+				att.name = result[i].fileName;
 
-				this.addAtt(att);
+				util.addAtt(att);
 			}
 		});
 	}
@@ -221,6 +231,5 @@ UploadUtil.prototype.removeAtt = function(id) {
 }
 
 function getDownloadUrl(att) {
-	var downloadUrl = "";
 	return downloadUrl + "?id=" + att.id;
 }

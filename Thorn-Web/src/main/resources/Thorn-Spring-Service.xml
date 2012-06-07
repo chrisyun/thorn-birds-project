@@ -40,6 +40,10 @@
 	<bean id="logDao" class="org.thorn.log.dao.AppLogDaoImpl" />
 	<bean id="logService" class="org.thorn.log.service.AppLogServiceImpl" />
 	
+	<bean id="attDao" class="org.thorn.attachment.dao.AttachmentDaoImpl" />
+	<bean id="attService" class="org.thorn.attachment.service.AttachmentDBServiceImpl" />
+	
+	
 	<bean id="mailConfigListener" class="org.thorn.configurator.listeners.MailConfiguratorListener">
 		<property name="configName" value="mail-config.xml"/>
 	</bean>

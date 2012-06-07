@@ -12,7 +12,7 @@
 	Ext.onReady(function() {
 		Ext.QuickTips.init();
 		var upload = new UploadUtil("demo1", "edit");
-		var panel = upload.initShowPanel({title : "附件显示区域"});
+		var panel = upload.initShowPanel({title : "附件显示区域"},"1,2,3");
 		panel.render("attShow");
 		upload.show();
 		

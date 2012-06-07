@@ -1,6 +1,7 @@
 package org.thorn.web.util;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,14 +14,17 @@ import javax.servlet.http.HttpServletResponse;
 public class ResponseHeaderUtils {
 
 	private static final String EXCEL_CONTENT_TYPE = "application/vnd.ms-excel";
+
+	private static final String JSON_CONTENT_TYPE = "text/javascript;charset=utf-8";
+
+	private static final String HTML_CONTENT_TYPE = "text/html;charset=utf-8";
 	
-	private static final String JSON_CONTENT_TYPE = "text/javascript;charset=utf-8"; 
+	private static final String FILE_CONTENT_TYPE = "application/octet-stream";
 	
-	private static final String HTML_CONTENT_TYPE = "text/html;charset=utf-8"; 
 	/**
 	 * 
 	 * @Description：
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-29 下午10:26:57
 	 * @param response
 	 * @param excelName
@@ -43,13 +47,28 @@ public class ResponseHeaderUtils {
 		response.addHeader("Content-Disposition", "attachment;filename=" + name
 				+ "\"");
 	}
-	
+
 	public static void setJsonResponse(HttpServletResponse response) {
 		response.setContentType(JSON_CONTENT_TYPE);
 	}
-	
+
 	public static void setHtmlResponse(HttpServletResponse response) {
 		response.setContentType(HTML_CONTENT_TYPE);
+	}
+
+	public static void setFileResponse(HttpServletResponse response,
+			String fileName) {
+		response.setContentType(FILE_CONTENT_TYPE);
+
+		String urlName = "";
+		try {
+			urlName = URLEncoder.encode(fileName, "UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			urlName = fileName;
+		}
+
+		response.addHeader("Content-Disposition", (new StringBuilder(
+				"attachment;filename=").append(urlName).toString()));
 	}
 
 }
