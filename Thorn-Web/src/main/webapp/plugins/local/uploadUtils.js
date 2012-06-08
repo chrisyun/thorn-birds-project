@@ -113,8 +113,8 @@ function UploadUtil(id, type) {
 				TopShow.msg("成功提示", action.result.message);
 
 				var att = new Object();
-				att.id = action.result.obj;
-				att.name = form.getValues().fileName;
+				att.id = action.result.obj.id;
+				att.name = action.result.obj.name;
 
 				util.addAtt(att);
 			},

@@ -59,7 +59,8 @@ public class AttachmentCotroller extends BaseController {
 			attService.uploadAtt(att, attach);
 			json.append("{\"success\":true,");
 			json.append("\"message\":\"附件上传成功！\",");
-			json.append("\"obj\":").append(att.getId()).append("}");
+			json.append("\"obj\":{\"id\":").append(att.getId());
+			json.append(",\"name\":\"").append(att.getFileName()).append("\"}}");
 		} catch (DBAccessException e) {
 			json.append("{\"success\":false,");
 			json.append("\"message\":\"附件上传失败：" + e.getMessage() + "\",");
