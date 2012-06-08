@@ -85,11 +85,11 @@ public class CustomCache implements Cache {
 	public Object removeObject(Object key) {
 		int hashKye = key.hashCode();
 
-		try {
-			cacheService.delete(id + "-" + hashKye);
-		} catch (CacheException e) {
-			log.error("myBatis cache remove exception", e);
-		}
+//		try {
+//			cacheService.delete(id + "-" + hashKye);
+//		} catch (CacheException e) {
+//			log.error("myBatis cache remove exception", e);
+//		}
 
 		cacheKeys.remove(hashKye);
 		return null;
