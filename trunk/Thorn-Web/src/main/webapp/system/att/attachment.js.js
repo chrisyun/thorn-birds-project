@@ -59,7 +59,7 @@ Ext.onReady(function() {
             '<ul>',
                 '<tpl for=".">',
                     '<li class="att">',
-                        '<img width="64" height="64" src="'+ sys.path + '"/resources/images/local/icons/file-{fileType}.png" />',
+                        '<img width="64" height="64" src="'+ sys.path + '"/resources/images/fileType/{fileType}.ico" />',
                         '<strong>{fileName}</strong>',
                         '<span>{uploader} - {uploadTime}</span>',
                     '</li>',
