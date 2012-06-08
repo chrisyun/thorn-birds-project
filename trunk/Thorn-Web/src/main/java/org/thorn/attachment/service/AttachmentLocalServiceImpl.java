@@ -83,8 +83,8 @@ public class AttachmentLocalServiceImpl extends AttachmentDBServiceImpl
 	@Override
 	public Attachment downloadAtt(Integer id) throws DBAccessException {
 		Attachment att = super.downloadAtt(id);
-		
-		String url = httpPath + att.getFilePath().replaceAll(File.separator, "/");
+		// 转换路径分隔符为http url的分隔符
+		String url = httpPath + att.getFilePath().replaceAll("\\\\", "/");
 		att.setFilePath(url);
 		
 		return att;
