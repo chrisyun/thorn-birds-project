@@ -27,7 +27,7 @@
 				and UPLOADER = #{uploader,jdbcType=VARCHAR}
       		</if>
 			<if test="FILETYPE != null and FILETYPE != ''">
-				and FILETYPE = #{FILETYPE,jdbcType=VARCHAR}
+				and FILETYPE = #{fileType,jdbcType=VARCHAR}
       		</if>
 			<if test="startTime != null and startTime != ''">
 				and UPLOADTIME &gt;= #{startTime,jdbcType=VARCHAR}
