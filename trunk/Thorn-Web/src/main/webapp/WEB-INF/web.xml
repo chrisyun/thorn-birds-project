@@ -89,4 +89,15 @@
 	<welcome-file-list>
 		<welcome-file>login.jsp</welcome-file>
 	</welcome-file-list>
+	
+	<!-- 错误页面 ,错误页面必须指定 isErrorPage="true" -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/Alert404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/Alert500.jsp</location>
+	</error-page>
+	
 </web-app>

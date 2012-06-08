@@ -1,8 +1,7 @@
-var uploadUrl = sys.path + "/att/upload.jmt";
-var queryAttsUrl = sys.path + "/att/queryAtts.jmt";
+var uploadUrl = sys.path + "/att/getUpload.jmt";
+var queryAttsUrl = sys.path + "/att/getAtts.jmt";
 var downloadUrl = sys.path + "/att/download.jmt";
 var removeAttsUrl = sys.path + "/att/delete.jmt";
-
 
 function UploadUtil(id, type) {
 	this.id = id;
@@ -93,12 +92,21 @@ function UploadUtil(id, type) {
 			}
 	
 			var selectionsArray = multiSel.view.getSelectedIndexes();
+			//对数组排序，先删高位的
+			selectionsArray = selectionsArray.sort(sortNumber);
+			alert(selectionsArray);
 			for ( var i = 0; i < selectionsArray.length; i++) {
 				store.removeAt(selectionsArray[i]);
 			}
 		});
 	}
-
+	
+	// 实现反序
+	function sortNumber(a, b) {
+		return b - a;
+	}
+	
+	
 	function upload() {
 		if (!this.uploadForm.getForm().isValid()) {
 			return;

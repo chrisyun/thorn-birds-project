@@ -9,6 +9,7 @@ import java.util.Date;
 
 import org.springframework.web.multipart.MultipartFile;
 import org.thorn.attachment.entity.Attachment;
+import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.log.NoLogging;
 
@@ -31,6 +32,10 @@ public class AttachmentLocalServiceImpl extends AttachmentDBServiceImpl
 	@Override
 	public void uploadAtt(Attachment att, MultipartFile file)
 			throws DBAccessException {
+		if(LocalStringUtils.isEmpty(att.getSaveType())) {
+			att.setSaveType(saveType);
+		}
+		
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		String date = df.format(new Date());
 		
@@ -51,12 +56,14 @@ public class AttachmentLocalServiceImpl extends AttachmentDBServiceImpl
 			name = new String[]{att.getFileName(),""};
 		}
 		
+		String onlyName = att.getFileName();
 		String fileName = path.toString() + att.getFileName();
 		File attfile = new File(fileName);
 		
 		int i = 1;
 		while(attfile.exists()) {
-			fileName = path.toString() + name[0] + "_" + i + name[1];
+			onlyName = name[0] + "_" + i + name[1];
+			fileName = path.toString() + onlyName;
 			attfile = new File(fileName);
 			i++;
 		}
@@ -74,20 +81,26 @@ public class AttachmentLocalServiceImpl extends AttachmentDBServiceImpl
 		StringBuilder savepath = new StringBuilder();
 		savepath.append(File.separator).append(date);
 		savepath.append(File.separator).append(att.getUploader());
-		savepath.append(File.separator).append(name[0] + "_" + i + name[1]);
+		savepath.append(File.separator).append(onlyName);
 		att.setFilePath(savepath.toString());
 		
 		super.uploadAtt(att, file);
 	}
 	
+	@NoLogging
 	@Override
 	public Attachment downloadAtt(Integer id) throws DBAccessException {
 		Attachment att = super.downloadAtt(id);
-		// 转换路径分隔符为http url的分隔符
-		String url = httpPath + att.getFilePath().replaceAll("\\\\", "/");
-		att.setFilePath(url);
 		
-		return att;
+		if(att != null) {
+			// 转换路径分隔符为http url的分隔符
+			String url = httpPath + att.getFilePath().replaceAll("\\\\", "/");
+			att.setFilePath(url);
+			
+			return att;
+		} 
+		
+		return null;
 	}
 
 	public String getSavePath() {

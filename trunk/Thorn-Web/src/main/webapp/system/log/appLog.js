@@ -42,14 +42,17 @@ Ext.onReady(function() {
 					handleResultRender),
 			getRecord("错误信息", "errorMsg", "string", 300, false, msgRender)];
 	var log_grid = new GridUtil(logPageUrl, recordArray, pageSize);
-
-	var bar = ["-",{
-				text : "日志导出",
-				iconCls : "silk-excel",
-				minWidth : Configuration.minBtnWidth,
-				handler : exportHandler
-			}];
-
+	
+	var bar = null;
+	if(userPermission.EXPORT == "true") {
+		var bar = ["-",{
+					text : "日志导出",
+					iconCls : "silk-excel",
+					minWidth : Configuration.minBtnWidth,
+					handler : exportHandler
+				}];
+	}
+				
 	log_grid.setBottomBar(bar);
 
 	var listeners = {

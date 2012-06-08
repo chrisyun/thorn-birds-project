@@ -33,7 +33,9 @@ public class AttachmentDBServiceImpl implements IAttachmentService {
 	@NoLogging
 	public void uploadAtt(Attachment att, MultipartFile file)
 			throws DBAccessException {
-		att.setSaveType(saveType);
+		if(LocalStringUtils.isEmpty(att.getSaveType())) {
+			att.setSaveType(saveType);
+		}
 
 		String name = att.getFileName();
 		if (name.indexOf(".") > 0) {
@@ -41,7 +43,7 @@ public class AttachmentDBServiceImpl implements IAttachmentService {
 			att.setFileType(name.substring(index).toLowerCase());
 		}
 
-		if (LocalStringUtils.equals("DB", saveType)) {
+		if (LocalStringUtils.equals(att.getSaveType(), saveType)) {
 			try {
 				att.setFile(file.getBytes());
 			} catch (IOException e) {
@@ -52,7 +54,8 @@ public class AttachmentDBServiceImpl implements IAttachmentService {
 
 		attDao.save(att);
 	}
-
+	
+	@NoLogging
 	public Attachment downloadAtt(Integer id) throws DBAccessException {
 		return attDao.queryAtt(id);
 	}
