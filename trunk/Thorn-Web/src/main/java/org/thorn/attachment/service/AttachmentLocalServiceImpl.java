@@ -21,9 +21,9 @@ import org.thorn.log.NoLogging;
 public class AttachmentLocalServiceImpl extends AttachmentDBServiceImpl
 		implements IAttachmentService {
 	
-	private String savePath = "";
+	private String savePath;
 	
-	private String httpPath = "";
+	private String httpPath;
 	
 	String saveType = "Local";
 	
