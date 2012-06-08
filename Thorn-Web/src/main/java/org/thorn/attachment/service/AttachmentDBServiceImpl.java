@@ -38,7 +38,7 @@ public class AttachmentDBServiceImpl implements IAttachmentService {
 		String name = att.getFileName();
 		if (name.indexOf(".") > 0) {
 			int index = name.lastIndexOf(".") + 1;
-			att.setFileType(name.substring(index));
+			att.setFileType(name.substring(index).toLowerCase());
 		}
 
 		if (LocalStringUtils.equals("DB", saveType)) {
