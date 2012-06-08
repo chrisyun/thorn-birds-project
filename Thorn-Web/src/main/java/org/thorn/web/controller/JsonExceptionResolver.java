@@ -1,5 +1,7 @@
 package org.thorn.web.controller;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,6 +13,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.jasperreports.JasperReportsHtmlView;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
+import org.thorn.core.util.LocalStringUtils;
 import org.thorn.web.util.ResponseHeaderUtils;
 
 /**
@@ -44,8 +47,20 @@ public class JsonExceptionResolver implements HandlerExceptionResolver, Ordered 
 			mv.addObject("success", false);
 			mv.addObject("message", ex.getMessage());
 			
-			if(request instanceof DefaultMultipartHttpServletRequest) {
-//				mv.setView(new JasperReportsHtmlView());
+			// 针对附件上传的错误做特殊处理
+			if(uri.indexOf("getupload.jmt") > 0) {
+				mv.setView(null);
+				StringBuilder json = new StringBuilder();
+				json.append("{\"success\":false,");
+				json.append("\"message\":\"附件上传失败：" + ex.getMessage() + "\"}");
+				
+				ResponseHeaderUtils.setHtmlResponse(response);
+				try {
+					response.getWriter().write(json.toString());
+					response.getWriter().flush();
+				} catch (IOException e) {
+					log.warn("write response json exception:", e);
+				}
 			}
 			
 			return mv;
