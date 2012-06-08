@@ -8,9 +8,7 @@
 	document.title = "Configurator - Manager";
 	
 	var userPermission = {
-		SAVE : '<sec:authorize url="/dd/saveOrModify*.jmt">true</sec:authorize>',
-		MODIFY : '<sec:authorize url="/dd/saveOrModify*.jmt">true</sec:authorize>',
-		REMOVE : '<sec:authorize url="/dd/delete*.jmt">true</sec:authorize>',
+		MODIFY : '<sec:authorize url="/cf/modifyConfig.jmt">true</sec:authorize>'
 	}
 </script>
 <jsp:include page="../../reference/footer.jsp"></jsp:include>

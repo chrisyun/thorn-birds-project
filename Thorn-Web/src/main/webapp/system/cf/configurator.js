@@ -42,6 +42,17 @@ Ext.onReady(function() {
 	/** ****************query panel end*************** */
 
 	/** ****************Grid panel start************** */
+	var saveBtn = null;
+	if(userPermission.MODIFY == "true") {
+		saveBtn = {
+			id : "save-nav",
+			text : "保&nbsp;&nbsp;&nbsp;&nbsp;存",
+			iconCls : "silk-save",
+			width : 300,
+			handler : saveCfHandler
+		};
+	}
+	
 	var propsGrid = new Ext.grid.PropertyGrid({
 		region : "center",
 		iconCls : "silk-grid",
@@ -50,13 +61,7 @@ Ext.onReady(function() {
 		loadMask : true,
     	width : 400,
 		buttonAlign : "center",
-		buttons : [{
-			id : "save-nav",
-			text : "保&nbsp;&nbsp;&nbsp;&nbsp;存",
-			iconCls : "silk-save",
-			width : 300,
-			handler : saveCfHandler
-		}]
+		buttons : [saveBtn]
 	});
 	
 	var tipsPanel = new Ext.Panel({

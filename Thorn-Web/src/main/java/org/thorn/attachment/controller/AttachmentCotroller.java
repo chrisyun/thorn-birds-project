@@ -42,7 +42,7 @@ public class AttachmentCotroller extends BaseController {
 	@Qualifier("attService")
 	private IAttachmentService attService;
 
-	@RequestMapping("/att/upload")
+	@RequestMapping("/att/getUpload")
 	public void upload(String fileName,
 			@RequestParam("attach") MultipartFile attach,
 			HttpServletResponse response) throws IOException {
@@ -134,8 +134,12 @@ public class AttachmentCotroller extends BaseController {
 
 		try {
 			att = attService.downloadAtt(id);
-
-			if (LocalStringUtils.equals("DB", att.getSaveType())) {
+			
+			if(att == null) {
+				ResponseHeaderUtils.setHtmlResponse(response);
+				// 跳到一个不存在的页面去
+				response.sendRedirect("../Alert_Page_Not_Found.jsp");
+			} else if (LocalStringUtils.equals("DB", att.getSaveType())) {
 				ResponseHeaderUtils
 						.setFileResponse(response, att.getFileName());
 

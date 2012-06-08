@@ -4,7 +4,6 @@
 
 <script type="text/javascript" src="../../plugins/ext-3.2.1/ux/FileUploadField.js"></script>
 <script type="text/javascript" src="../../plugins/ext-3.2.1/ux/MultiSelect.js"></script>
-<script type="text/javascript" src="../../plugins/ext-3.2.1/ux/DataViewTransition.js"></script>
 <script type="text/javascript" src="../../plugins/local/uploadUtils.js"></script>
 <script type="text/javascript" src="attachment.js"></script>
 
@@ -29,7 +28,7 @@
     float: left;
     padding: 8px 17px;
     margin: 5px;
-/*    margin: 10px 0 0 25px;*/
+    margin: 10px 0 0 10px;
     text-align: center;
     line-height: 1.25em;
     color: #333;
@@ -41,20 +40,14 @@
     cursor: pointer;
 }
 
-/*#attManager ul li.phone-hover {
-    background-color: #eee;
-}*/
+#attManager ul li.over-hover {
+    background-color: #7CC7F2;
+}
 
 #attManager ul li.x-view-selected {
-    background-color: rgba(100, 100, 100, .15);
-    -moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
-    border-top: 1px solid rgba(0, 0, 0, .15);
+    background-color: #61C7E0;
 }
 
-#attManager ul li img {
-/*    display: block;*/
-}
 
 #attManager li strong {
     color: #000;
@@ -62,6 +55,7 @@
 }
 
 #attManager li span {
+	font-size: 9px;
     color: #999;
 }	
 </style>
@@ -69,6 +63,11 @@
 <script type="text/javascript">
 
 	document.title = "attachment - Manager";
+	
+	var userPermission = {
+		DOWNLOAD : '<sec:authorize url="/att/download.jmt">true</sec:authorize>',
+		DELETE : '<sec:authorize url="/att/delete.jmt">true</sec:authorize>'
+	}
 	
 </script>
 <jsp:include page="../../reference/footer.jsp"></jsp:include>
