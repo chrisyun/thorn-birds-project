@@ -6,7 +6,7 @@
 <script type="text/javascript" src="../../plugins/ext-3.2.1/ux/MultiSelect.js"></script>
 <script type="text/javascript" src="../../plugins/ext-3.2.1/ux/DataViewTransition.js"></script>
 <script type="text/javascript" src="../../plugins/local/uploadUtils.js"></script>
-<script type="text/javascript" src="../../plugins/local/attachment.js"></script>
+<script type="text/javascript" src="attachment.js"></script>
 
 <style type="text/css">
 #attManager {
