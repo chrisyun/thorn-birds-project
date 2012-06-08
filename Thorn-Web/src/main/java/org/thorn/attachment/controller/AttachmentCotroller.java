@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -19,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.thorn.attachment.entity.Attachment;
 import org.thorn.attachment.service.IAttachmentService;
 import org.thorn.core.util.LocalStringUtils;
+import org.thorn.dao.core.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.security.SecurityUserUtils;
 import org.thorn.user.entity.User;
@@ -60,12 +60,13 @@ public class AttachmentCotroller extends BaseController {
 			json.append("{\"success\":true,");
 			json.append("\"message\":\"附件上传成功！\",");
 			json.append("\"obj\":{\"id\":").append(att.getId());
-			json.append(",\"name\":\"").append(att.getFileName()).append("\"}}");
+			json.append(",\"name\":\"").append(att.getFileName())
+					.append("\"}}");
 		} catch (DBAccessException e) {
 			json.append("{\"success\":false,");
 			json.append("\"message\":\"附件上传失败：" + e.getMessage() + "\",");
 			json.append("\"obj\":null}");
-			
+
 			log.error("upload[Attachment] - " + e.getMessage(), e);
 		}
 
@@ -78,7 +79,7 @@ public class AttachmentCotroller extends BaseController {
 	@ResponseBody
 	public Status removeAtt(String ids) {
 		Status status = new Status();
-		
+
 		try {
 			attService.delete(ids);
 			status.setMessage("附件删除成功！");
@@ -87,15 +88,15 @@ public class AttachmentCotroller extends BaseController {
 			status.setSuccess(false);
 			log.error("removeAtt[String] - " + e.getMessage(), e);
 		}
-		
+
 		return status;
 	}
 
-	@RequestMapping("/att/queryAtts")
+	@RequestMapping("/att/getAtts")
 	@ResponseBody
-	public JsonResponse<List<Attachment>> queryAtts(String ids) {
+	public JsonResponse<List<Attachment>> getAtts(String ids) {
 		JsonResponse<List<Attachment>> json = new JsonResponse<List<Attachment>>();
-		
+
 		try {
 			List<Attachment> atts = attService.queryAtts(ids);
 			json.setObj(atts);
@@ -109,30 +110,49 @@ public class AttachmentCotroller extends BaseController {
 		return json;
 	}
 
+	@RequestMapping("/att/getAttsPage")
+	@ResponseBody
+	public Page<Attachment> getAttsPage(String uploader, String startTime,
+			String endTime, String fileType, long start, long limit,
+			String sort, String dir) {
+		Page<Attachment> page = new Page<Attachment>();
+
+		try {
+			page = attService.queryPage(uploader, startTime, endTime, fileType,
+					start, limit, sort, dir);
+		} catch (DBAccessException e) {
+			log.error("getAttsPage[Attachment] - " + e.getMessage(), e);
+		}
+
+		return page;
+	}
+
 	@RequestMapping("/att/download")
-	public void download(Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public void download(Integer id, HttpServletResponse response)
+			throws IOException {
 		Attachment att = new Attachment();
-		
+
 		try {
 			att = attService.downloadAtt(id);
-			
-			if(LocalStringUtils.equals("DB", att.getSaveType())) {
-				ResponseHeaderUtils.setFileResponse(response, att.getFileName());
-				
+
+			if (LocalStringUtils.equals("DB", att.getSaveType())) {
+				ResponseHeaderUtils
+						.setFileResponse(response, att.getFileName());
+
 				OutputStream out = response.getOutputStream();
 				out.write(att.getFile());
 				out.flush();
 			} else {
 				response.sendRedirect(att.getFilePath());
 			}
-			
+
 		} catch (DBAccessException e) {
 			log.error("queryAtts[Attachment] - " + e.getMessage(), e);
 			ResponseHeaderUtils.setHtmlResponse(response);
 			response.getWriter().write("附件下载失败：" + e.getMessage());
 			response.getWriter().flush();
 		}
-		
+
 	}
 
 }
