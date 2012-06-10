@@ -14,12 +14,12 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	
+
 	<!-- spring security获取session生存周期事件 -->
 	<listener>
 		<listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
 	</listener>
-	
+
 	<!-- Spring 刷新Introspector防止内存泄露 -->
 	<listener>
 		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
@@ -78,6 +78,17 @@
 		<servlet-name>ImageValidateCodeServlet</servlet-name>
 		<url-pattern>/resources/ImageValidateCodeServlet</url-pattern>
 	</servlet-mapping>
+	
+	<!-- http查看日志 -->
+	<servlet>
+		<servlet-name>ViewLastLog</servlet-name>
+		<servlet-class>org.thorn.log.controller.SysLogController</servlet-class>
+	</servlet>
+  	<servlet-mapping>
+    	<servlet-name>ViewLastLog</servlet-name>
+    	<url-pattern>/system/lastLog/*</url-pattern>
+  	</servlet-mapping>
+
 
 	<jsp-config>
 		<taglib>
@@ -89,7 +100,7 @@
 	<welcome-file-list>
 		<welcome-file>login.jsp</welcome-file>
 	</welcome-file-list>
-	
+
 	<!-- 错误页面 ,错误页面必须指定 isErrorPage="true" -->
 	<error-page>
 		<error-code>404</error-code>
@@ -99,5 +110,5 @@
 		<error-code>500</error-code>
 		<location>/Alert500.jsp</location>
 	</error-page>
-	
+
 </web-app>

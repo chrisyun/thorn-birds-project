@@ -54,7 +54,7 @@ function setActiveStyleSheet(_theme) {
 	
 	var params = {theme : _theme};
 	
-	var ajax = new CommonAjax(sys.path + "/theme/change.jmt");
+	var ajax = new AjaxUtil(sys.path + "/theme/change.jmt");
 	ajax.request(params, false, null, function(){
 		setTimeout("window.location.reload()", 1000);
 	})
