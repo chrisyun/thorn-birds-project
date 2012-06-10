@@ -219,6 +219,10 @@
 	background-image: url(images/local/icons/accessmode-open.gif) !important;
 	background-repeat: no-repeat;
 }
+.tree-sysLog {
+	background-image: url(images/local/icons/accessmode.gif) !important;
+	background-repeat: no-repeat;
+}
 .tree-config {
 	background-image: url(images/local/icons/plugin.gif) !important;
 	background-repeat: no-repeat;
