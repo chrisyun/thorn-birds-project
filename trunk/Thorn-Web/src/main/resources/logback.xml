@@ -44,11 +44,19 @@
 		</rollingPolicy>
 
 	</appender>
+	
+	<!-- HTTP访问日志的appender -->
+   <appender name="CYCLIC"
+            class="ch.qos.logback.core.read.CyclicBufferAppender"> 
+     <MaxSize>512</MaxSize>
+  </appender>
+
 
 	<!-- 日志输出级别 ，最多一个root-->
 	<root level="DEBUG">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="FILE" />
+		<appender-ref ref="CYCLIC" /> 
 	</root>
 
 	<!-- 下面配置一些第三方包的日志过滤级别，用于避免刷屏 -->
