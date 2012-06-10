@@ -48,7 +48,7 @@
 	<!-- HTTP访问日志的appender -->
    <appender name="CYCLIC"
             class="ch.qos.logback.core.read.CyclicBufferAppender"> 
-     <MaxSize>512</MaxSize>
+     <MaxSize>100</MaxSize>
   </appender>
 
 

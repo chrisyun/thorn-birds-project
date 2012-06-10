@@ -61,13 +61,19 @@ public class SysLogController extends HttpServlet {
 
 		output.append(layout.getFileHeader());
 		output.append("<h2>Last logging events</h2>");
-		output.append("<div class=\"refresh\"><a href=\"javaScript:location.reload();\">Refresh</a></div>");
+		
+		output.append("<table class=\"nav\">");
+	    output.append("<tr><td class=\"sexy\">");
+	    output.append("<a href=\"javaScript:location.reload();\" class=\"sexy\">Refresh Log</a>");
+	    output.append("</td></tr><tr>");
+	    output.append("<td class=\"sexy\"><a href=\"#bottom\" class=\"sexy\">Jump to bottom</a>");
+	    output.append("</td></tr></table>");
 		
 		output.append("<div class=\"logContent\">");
 		output.append(layout.getPresentationHeader());
 		printLogs(output);
 		output.append(layout.getPresentationFooter());
-		output.append("</div>");
+		output.append("<a name=\"bottom\" /></div>");
 		output.append(layout.getFileFooter());
 
 		output.flush();

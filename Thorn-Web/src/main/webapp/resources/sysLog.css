@@ -1,5 +1,5 @@
 body {
-	margin-top: -20px;
+	margin-top: -10px;
 	margin-left: 0;
 	margin-right: 0;
 }
@@ -9,25 +9,26 @@ h2 {
  margin-top: 1em;
 }
 
-div.refresh {
-	margin-top: -20px;
-	text-align: center;
-	margin-left: 300px;
-	font-size: 17px;
+table.nav {
+ margin-top: 10px;
+ margin-left: 20px;
+ margin-right: 20px;
+ width: 10em;
+ float: right;
+ overflow: auto;
 }
 
 div.logContent {
-
+ 	margin-top: 40px;
 }
 
 div.logContent p {
 	margin-left: 20px;
+	fint-size: 16px;
 }
 
 div.logContent hr {
-	width: 99%;
-	border-width: 2px;
-	border-color: EAEAEA;
+	margin-left: 8px;
 }
 
 table {
@@ -59,16 +60,18 @@ td.Date {
  text-align: center;
  font-family: courier, monospace;
  font-size: smaller;
- width: 20%;
+ width: 18%;
 }
 
 td.Thread {
  text-align: left;
- width: 10%;
+ width: 17%;
 }
 
 td.Level {
  text-align: right;
+ font-family: courier, monospace;
+ font-size: smaller; 
  width: 5%;
 }
 
