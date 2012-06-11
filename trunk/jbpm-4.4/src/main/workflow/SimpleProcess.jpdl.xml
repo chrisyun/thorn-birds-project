@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process name="SimpleProcess" xmlns="http://jbpm.org/4.4/jpdl">
+   <start g="194,49,48,48" name="start1">
+      <transition g="-81,-12" name="to 张三审批" to="张三审批"/>
+   </start>
+   <end g="192,344,48,48" name="end"/>
+   <task g="193,153,92,52" name="张三审批">
+      <transition g="-69,-22" name="to 李四审批" to="李四审批"/>
+   </task>
+   <task g="190,243,92,52" name="李四审批">
+      <transition name="to end" to="end" g="-43,-22"/>
+   </task>
+</process>
