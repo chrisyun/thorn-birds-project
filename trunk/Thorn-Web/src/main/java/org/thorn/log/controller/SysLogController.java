@@ -1,124 +1,64 @@
 package org.thorn.log.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.thorn.web.controller.BaseController;
+import org.thorn.web.entity.Status;
 
+import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.classic.html.HTMLLayout;
-import ch.qos.logback.classic.html.UrlCssBuilder;
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.classic.spi.LoggingEvent;
-import ch.qos.logback.core.read.CyclicBufferAppender;
 
-/** 
- * @ClassName: SysLogController 
- * @Description: 
+/**
+ * @ClassName: SysLogController
+ * @Description:
  * @author chenyun
- * @date 2012-6-10 下午09:56:17 
+ * @date 2012-6-10 下午09:56:17
  */
-public class SysLogController extends HttpServlet {
+@Controller
+public class SysLogController extends BaseController {
 
-	private static final long serialVersionUID = -3551928133801157219L;
+	Logger log = LoggerFactory.getLogger(SysLogController.class);
+	
+	@RequestMapping("/log/modifyLogLevel")
+	@ResponseBody
+	public Status modifyLogLevel(int level) {
+		Status status = new Status();
 
-	private static final String CYCLIC_BUFFER_APPENDER_NAME = "CYCLIC";
-
-	Logger logger = LoggerFactory.getLogger(SysLogController.class);
-
-	CyclicBufferAppender<ILoggingEvent> cyclicBufferAppender;
-	HTMLLayout layout;
-	static String PATTERN = "%d%thread%level%logger{25}%msg";
-
-	@Override
-	public void init() throws ServletException {
-		LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
-		initialize(lc);
-		super.init();
-	}
-
-	void reacquireCBA() {
-		LoggerContext context = (LoggerContext) LoggerFactory
-				.getILoggerFactory();
-		cyclicBufferAppender = (CyclicBufferAppender<ILoggingEvent>) context
-				.getLogger(Logger.ROOT_LOGGER_NAME).getAppender(
-						CYCLIC_BUFFER_APPENDER_NAME);
-	}
-
-	protected void service(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-
-		reacquireCBA();
-
-		resp.setContentType("text/html");
-		PrintWriter output = resp.getWriter();
-
-		output.append(layout.getFileHeader());
-		output.append("<h2>Last logging events</h2>");
-		
-		output.append("<table class=\"nav\">");
-	    output.append("<tr><td class=\"sexy\">");
-	    output.append("<a href=\"javaScript:location.reload();\" class=\"sexy\">Refresh Log</a>");
-	    output.append("</td></tr><tr>");
-	    output.append("<td class=\"sexy\"><a href=\"#bottom\" class=\"sexy\">Jump to bottom</a>");
-	    output.append("</td></tr></table>");
-		
-		output.append("<div class=\"logContent\">");
-		output.append(layout.getPresentationHeader());
-		printLogs(output);
-		output.append(layout.getPresentationFooter());
-		output.append("<a name=\"bottom\" /></div>");
-		output.append(layout.getFileFooter());
-
-		output.flush();
-		output.close();
-	}
-
-	private void printLogs(PrintWriter output) {
-		int count = -1;
-		if (cyclicBufferAppender != null) {
-			count = cyclicBufferAppender.getLength();
+		try {
+			LoggerContext context = (LoggerContext) LoggerFactory
+					.getILoggerFactory();
+			ch.qos.logback.classic.Logger rootLogger = context
+					.getLogger(Logger.ROOT_LOGGER_NAME);
+			rootLogger.setLevel(Level.toLevel(level));
+			status.setMessage("修改日志级别成功！");
+		} catch (Exception e) {
+			status.setSuccess(false);
+			status.setMessage("修改日志级别失败：" + e.getMessage());
+			log.error("modifyLogLevel[int] - " + e.getMessage(), e);
 		}
 
-		if (count == -1) {
-			output.append("<tr><td>Failed to locate CyclicBuffer</td></tr>\r\n");
-		} else if (count == 0) {
-			output.append("<tr><td>No logging events to display</td></tr>\r\n");
-		} else {
-			LoggingEvent le;
-			for (int i = 0; i < count; i++) {
-				le = (LoggingEvent) cyclicBufferAppender.get(i);
-				output.append(layout.doLayout(le) + "\r\n");
-			}
-		}
+		return status;
 	}
-
-	private void initialize(LoggerContext context) {
-		logger.debug("Initializing ViewLastLog Servlet");
-		cyclicBufferAppender = (CyclicBufferAppender<ILoggingEvent>) context
-				.getLogger(Logger.ROOT_LOGGER_NAME).getAppender(
-						CYCLIC_BUFFER_APPENDER_NAME);
-
-		layout = new HTMLLayout();
-		layout.setContext(context);
-		UrlCssBuilder cssBuilder = new UrlCssBuilder();
-		cssBuilder.setUrl("../../resources/sysLog.css");
-		layout.setCssBuilder(cssBuilder);
-		layout.setPattern(PATTERN);
-		layout.setTitle("Last Logging Events");
-		layout.start();
+	
+	@RequestMapping("/log/getLogLevel")
+	@ResponseBody
+	public Map<Integer, String> getLogBackLevel() {
+		Map<Integer, String> level = new HashMap<Integer, String>();
+		level.put(Level.ALL.toInteger(), Level.ALL.toString());
+		level.put(Level.TRACE.toInteger(), Level.TRACE.toString());
+		level.put(Level.DEBUG.toInteger(), Level.DEBUG.toString());
+		level.put(Level.INFO.toInteger(), Level.INFO.toString());
+		level.put(Level.WARN.toInteger(), Level.WARN.toString());
+		level.put(Level.ERROR.toInteger(), Level.ERROR.toString());
+		level.put(Level.OFF.toInteger(), Level.OFF.toString());
+		
+		return level;
 	}
-
-	public boolean isResetResistant() {
-		return false;
-	}
-
-	public void onStop(LoggerContext arg0) {
-	}
+	
 }
