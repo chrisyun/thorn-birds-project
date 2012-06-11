@@ -15,6 +15,7 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
 import org.springframework.security.web.util.AntUrlPathMatcher;
 import org.springframework.security.web.util.UrlMatcher;
 import org.thorn.auth.service.IAuthService;
+import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.resource.entity.Resource;
 import org.thorn.resource.service.IResourceService;
@@ -91,7 +92,9 @@ public class InvocationSecurityMetadataSource implements
 		List<Resource> sources = this.resourceService.queryAllLeaf();
 
 		for (Resource source : sources) {
-			resourceMap.put(source.getSourceCode(), source.getSourceUrl());
+			if(LocalStringUtils.isNotEmpty(source.getSourceUrl())) {
+				resourceMap.put(source.getSourceCode(), source.getSourceUrl());
+			}
 		}
 	}
 	

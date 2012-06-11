@@ -258,18 +258,18 @@ Ext.onReady(function() {
 		var checkNodes = rootNode.getUI().getCheckedNodes(rootNode);
 		for (var i = 0; i < checkNodes.length; i++) {
 
-			if (!Ext.isEmpty(checkNodes[i].attributes.targetUrl)) {
+//			if (!Ext.isEmpty(checkNodes[i].attributes.targetUrl)) {
 				resIds += checkNodes[i].id + ",";
-			}
+//			}
 		}
 
 		var rootNode = navMenuTree.getNodeById("NAV");
 		var checkNodes = rootNode.getUI().getCheckedNodes(rootNode);
 		for (var i = 0; i < checkNodes.length; i++) {
 
-			if (!Ext.isEmpty(checkNodes[i].attributes.targetUrl)) {
+//			if (!Ext.isEmpty(checkNodes[i].attributes.targetUrl)) {
 				resIds += checkNodes[i].id + ",";
-			}
+//			}
 		}
 
 		var ajax = new AjaxUtil(roleSaveAuthUrl);
