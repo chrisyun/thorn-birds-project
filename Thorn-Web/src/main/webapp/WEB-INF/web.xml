@@ -86,7 +86,7 @@
 	</servlet>
   	<servlet-mapping>
     	<servlet-name>ViewLastLog</servlet-name>
-    	<url-pattern>/system/lastLog/*</url-pattern>
+    	<url-pattern>/system/log/sysLogView.jsp</url-pattern>
   	</servlet-mapping>
 
 
