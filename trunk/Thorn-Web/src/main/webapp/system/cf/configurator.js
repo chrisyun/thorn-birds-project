@@ -42,7 +42,7 @@ Ext.onReady(function() {
 	/** ****************query panel end*************** */
 
 	/** ****************Grid panel start************** */
-	var saveBtn = null;
+	var saveBtn = "";
 	if(userPermission.MODIFY == "true") {
 		saveBtn = {
 			id : "save-nav",

@@ -32,7 +32,7 @@ public class ConfiguratorService extends Observable {
 
 	static Logger log = LoggerFactory.getLogger(ConfiguratorService.class);
 
-	private Map<String, File> configs = new HashMap<String, File>();
+	private volatile Map<String, File> configs = new HashMap<String, File>();
 	
 	public ConfiguratorService(List<Observer> servers) {
 		super();

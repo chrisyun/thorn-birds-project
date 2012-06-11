@@ -60,7 +60,7 @@ public class SysLogViewController extends HttpServlet {
 		PrintWriter output = resp.getWriter();
 
 		output.append(layout.getFileHeader());
-		output.append("<h2>Last logging events</h2>");
+//		output.append("<h2>Last logging events</h2>");
 		
 		output.append("<table class=\"nav\">");
 	    output.append("<tr><td class=\"sexy\">");

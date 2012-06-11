@@ -49,11 +49,12 @@ public class ResourceController extends BaseController {
 	 * @author：chenyun 	        
 	 * @date：2012-5-25 上午11:03:59
 	 * @param pid	上级资源ID
+	 * @param isSourcePanel 请求是否来自资源面板	YES
 	 * @return
 	 */
 	@RequestMapping("/resource/getLeftTree")
 	@ResponseBody
-	public List<Tree> getLeftTree(String pid) {
+	public List<Tree> getLeftTree(String pid, String isSourcePanel) {
 		List<Tree> tree = new ArrayList<Tree>();
 		
 		List<String> userSource = SecurityUserUtils.getSoucrceList();
@@ -62,9 +63,11 @@ public class ResourceController extends BaseController {
 			List<Resource> source = service.queryLeftTree(pid);
 			for (Resource res : source) {
 				
-				if(! SecurityUserUtils.isSysAdmin() 
-						&& !userSource.contains(res.getSourceCode())) {
-					continue;
+				if(! LocalStringUtils.equals("YES", isSourcePanel)) {
+					if(! SecurityUserUtils.isSysAdmin() 
+							&& !userSource.contains(res.getSourceCode())) {
+						continue;
+					}
 				}
 				
 				Tree node = new Tree();
