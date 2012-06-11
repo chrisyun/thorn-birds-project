@@ -82,7 +82,7 @@
 	<!-- http查看日志 -->
 	<servlet>
 		<servlet-name>ViewLastLog</servlet-name>
-		<servlet-class>org.thorn.log.controller.SysLogController</servlet-class>
+		<servlet-class>org.thorn.log.controller.SysLogViewController</servlet-class>
 	</servlet>
   	<servlet-mapping>
     	<servlet-name>ViewLastLog</servlet-name>

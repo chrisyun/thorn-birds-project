@@ -16,7 +16,20 @@ function getQueryBtn(queryHandler) {
 	queryBtn.minWidth = 80;
 	queryBtn.handler = queryHandler;
 
-	return queryBtn
+	return queryBtn;
+}
+
+function getSaveBtn(saveHandler) {
+	var saveBtn = new Object();
+
+	saveBtn.id = "saveBtn";
+	saveBtn.iconCls = "silk-save";
+	saveBtn.text = "保存";
+	saveBtn.xtype = "button";
+	saveBtn.minWidth = 80;
+	saveBtn.handler = saveHandler;
+
+	return saveBtn;
 }
 
 function getHidden(id, value) {
