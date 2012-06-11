@@ -59,6 +59,7 @@ Ext.onReady(function() {
 	});
 	loader.on("beforeload", function(loader, node) {
 		loader.baseParams.pid = node.id;
+		loader.baseParams.isSourcePanel = "YES";
 	});
 
 	var tree = new Ext.tree.TreePanel( {

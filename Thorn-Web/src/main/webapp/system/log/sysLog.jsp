@@ -19,10 +19,11 @@
 		var level_attr = {
 			title : "调整日志级别",
 			region : "north",
+			margins : "2 0 0 0",
 			height : 70,
 			labelWidth : 100
 		};
-		var level_form = new FormUtil(query_attr);	
+		var level_form = new FormUtil(level_attr);	
 		
 		var level = {
 			xtype : "combo",
@@ -49,10 +50,10 @@
 												}]))
 					})
 		};		
-		query_form.addComp(role, 0.3, false);
-		query_form.addComp(getSaveBtn(saveHandler), 0.3, true);
+		level_form.addComp(level, 0.3, false);
+		level_form.addComp(getSaveBtn(saveHandler), 0.3, true);
 			
-		var saveHandler = function() {
+		function saveHandler() {
 			var form = level_form.getForm();
 
 			if (!form.isValid()) {
@@ -64,20 +65,26 @@
 		}
 		
 		var logPanel = new Ext.Panel({
+		    title : "系统日志",
+		    iconCls : "silk-grid",
 			region : "center",
+			margins : "2 0 2 0",
 			html : "<iframe src='"+ sys.path + "/system/log/sysLogView.jsp' width='100%' height='100%' frameborder='0'></iframe>"
 		});
 		
-		var levelPanel = null;
 		if(userPermission.MODIFY == "true") {
-			levelPanel = level_form.getPanel();
+			var viewport = new Ext.Viewport({
+				border : false,
+				layout : "border",
+				items : [level_form.getPanel(), logPanel]
+			});
+		} else {
+			var viewport = new Ext.Viewport({
+				border : false,
+				layout : "border",
+				items : [logPanel]
+			});
 		}
-		
-		var viewport = new Ext.Viewport({
-			border : false,
-			layout : "border",
-			items : [levelPanel, logPanel]
-		});
 		
 		completePage();
 	});

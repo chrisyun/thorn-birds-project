@@ -1,6 +1,8 @@
 package org.thorn.log.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -48,17 +50,46 @@ public class SysLogController extends BaseController {
 	
 	@RequestMapping("/log/getLogLevel")
 	@ResponseBody
-	public Map<Integer, String> getLogBackLevel() {
-		Map<Integer, String> level = new HashMap<Integer, String>();
-		level.put(Level.ALL.toInteger(), Level.ALL.toString());
-		level.put(Level.TRACE.toInteger(), Level.TRACE.toString());
-		level.put(Level.DEBUG.toInteger(), Level.DEBUG.toString());
-		level.put(Level.INFO.toInteger(), Level.INFO.toString());
-		level.put(Level.WARN.toInteger(), Level.WARN.toString());
-		level.put(Level.ERROR.toInteger(), Level.ERROR.toString());
-		level.put(Level.OFF.toInteger(), Level.OFF.toString());
+	public List<Map<String, Object>> getLogBackLevel() {
 		
-		return level;
+		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+		
+		Map<String, Object> all = new HashMap<String, Object>();
+		all.put("name", Level.ALL.toString());
+		all.put("id", Level.ALL.toInteger());
+		list.add(all);
+		
+		Map<String, Object> trace = new HashMap<String, Object>();
+		trace.put("name", Level.TRACE.toString());
+		trace.put("id", Level.TRACE.toInteger());
+		list.add(trace);
+		
+		Map<String, Object> debug = new HashMap<String, Object>();
+		debug.put("name", Level.DEBUG.toString());
+		debug.put("id", Level.DEBUG.toInteger());
+		list.add(debug);
+		
+		Map<String, Object> info = new HashMap<String, Object>();
+		info.put("name", Level.INFO.toString());
+		info.put("id", Level.INFO.toInteger());
+		list.add(info);
+		
+		Map<String, Object> warn = new HashMap<String, Object>();
+		warn.put("name", Level.WARN.toString());
+		warn.put("id", Level.WARN.toInteger());
+		list.add(warn);
+		
+		Map<String, Object> error = new HashMap<String, Object>();
+		error.put("name", Level.ERROR.toString());
+		error.put("id", Level.ERROR.toInteger());
+		list.add(error);
+		
+		Map<String, Object> off = new HashMap<String, Object>();
+		off.put("name", Level.OFF.toString());
+		off.put("id", Level.OFF.toInteger());
+		list.add(off);
+		
+		return list;
 	}
 	
 }

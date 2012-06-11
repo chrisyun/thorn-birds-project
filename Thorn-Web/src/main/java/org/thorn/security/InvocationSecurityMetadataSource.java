@@ -46,7 +46,7 @@ public class InvocationSecurityMetadataSource implements
 	/**
 	 * 上次加载资源的时间
 	 */
-	private long lastReloadDate = 0L;
+	private volatile long lastReloadDate = 0L;
 	
 	/**
 	 * 重新加载资源的时间，默认为10分钟
@@ -90,7 +90,8 @@ public class InvocationSecurityMetadataSource implements
 		lastReloadDate = System.currentTimeMillis();
 		
 		List<Resource> sources = this.resourceService.queryAllLeaf();
-
+		
+		resourceMap.clear();
 		for (Resource source : sources) {
 			if(LocalStringUtils.isNotEmpty(source.getSourceUrl())) {
 				resourceMap.put(source.getSourceCode(), source.getSourceUrl());
