@@ -3,16 +3,15 @@
 <%@ taglib prefix="thorn" uri="/thorn"%>
 <jsp:include page="/springTag/header.jmt"></jsp:include>
 
-<script type="text/javascript" src="../../plugins/ext-3.2.1/ux/FileUploadField.js"></script>
 <script type="text/javascript" src="../../plugins/workflow/processImage.js"></script>
-<script type="text/javascript" src="processDf.js"></script>
+<script type="text/javascript" src="processMt.js"></script>
 <script type="text/javascript">
 
-	document.title = "Workflow - ProcessDf";
+	document.title = "Workflow - ProcessMt";
 	
 	var userPermission = {
-		DEPLOY : '<sec:authorize url="/wf/deployProcess.jmt">true</sec:authorize>',
-		DELETE : '<sec:authorize url="/wf/deleteProcessDf.jmt">true</sec:authorize>'
+		CANCEL : '<sec:authorize url="/wf/cancelProcessInst.jmt">true</sec:authorize>',
+		DELETE : '<sec:authorize url="/wf/deleteProcessInst.jmt">true</sec:authorize>'
 	}
 	
 </script>

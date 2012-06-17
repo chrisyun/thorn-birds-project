@@ -215,27 +215,7 @@ Ext.onReady(function() {
 		tbar : tbar
 	});
 	
-	var processImageWin = new Ext.Window( {
-		title : "流程图",
-		closeAction : "hide",
-		modal : true,
-		shadow : true,
-		closable : true,
-		layout : "fit",
-		width : 530,
-		height : 380,
-		autoScroll : true,
-		html : "<img src='' id='processImg'>",
-		buttonAlign : "center",
-				buttons : [{
-							text : "关闭",
-							iconCls : "slik-close",
-							handler : function() {
-								processImageWin.hide();
-							}
-						}]
-	});
-	
+	var processImage = new ProcessImage();
 	
 	/** ****************grid panel end*************** */
 	function deploy() {
@@ -287,10 +267,7 @@ Ext.onReady(function() {
 		}
 		
 		var id = selectedRecord.get("id");
-		
-		processImageWin.show();
-		Ext.getDom("processImg").src = processDfImageUrl + "?processDfId=" + id + "&random=" + Math.random();
-		
+		processImage.show(processDfImageUrl + "?processDfId=" + id + "&random=" + Math.random());
 	}
 	
 	function deleteHandler() {
