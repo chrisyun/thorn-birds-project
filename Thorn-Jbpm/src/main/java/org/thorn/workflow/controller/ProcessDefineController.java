@@ -7,7 +7,6 @@ import java.util.zip.ZipInputStream;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.jbpm.api.ExecutionService;
 import org.jbpm.api.ProcessDefinitionQuery;
 import org.jbpm.api.RepositoryService;
 import org.slf4j.Logger;
