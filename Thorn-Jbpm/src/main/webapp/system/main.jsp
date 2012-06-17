@@ -44,6 +44,18 @@
 			})
 		});
 		
+		var flowMenuTree = new Ext.tree.TreePanel( {
+		    border: false,
+		    useArrows: true,
+			rootVisible: false,
+		 	loader: loader,
+			root : new Ext.tree.AsyncTreeNode({
+				text : "流程菜单",
+				id: "WORKFLOW",
+				leaf: false
+			})
+		});
+		
 		var navMenuTree = new Ext.tree.TreePanel( {
 		    border: false,
 		    useArrows: true,
@@ -75,6 +87,11 @@
 				iconCls : "silk-nav",
 				items : [navMenuTree]
 			}, {
+				title : "流程菜单",
+				border : false,
+				iconCls : "silk-rss",
+				items : [flowMenuTree]
+			}, {
 				title : "系统菜单",
 				html : "",
 				border : false,
@@ -101,6 +118,7 @@
 					iconCls : "silk-table-refresh",
 					handler: function(){
 						sysMenuTree.getRootNode().reload();
+						flowMenuTree.getRootNode().reload();
 						navMenuTree.getRootNode().reload();
 	    			}
 				}]
@@ -166,6 +184,10 @@
 		});
 
 		sysMenuTree.on("click",function(node, ev){
+			treeClick(node,ev);
+       	});
+       	
+       	flowMenuTree.on("click",function(node, ev){
 			treeClick(node,ev);
        	});
 		
