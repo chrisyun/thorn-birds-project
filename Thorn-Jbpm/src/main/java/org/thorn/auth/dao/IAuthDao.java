@@ -27,11 +27,11 @@ public interface IAuthDao {
 	 */
 	public List<String> queryResourceByRole(String roleId)
 			throws DBAccessException;
-	
+
 	/**
 	 * 
 	 * @Description：根据角色集合查询授权的资源集合，对资源去重
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-6-1 下午04:21:50
 	 * @param roleIds
 	 * @return
@@ -143,4 +143,17 @@ public interface IAuthDao {
 	 */
 	public Page<User> queryPageNotInRole(Map<String, Object> filter)
 			throws DBAccessException;
+	
+	/**
+	 * 
+	 * @Description：
+	 * @author：chenyun 	        
+	 * @date：2012-6-19 下午08:44:18
+	 * @param filter
+	 * @return
+	 * @throws DBAccessException
+	 */
+	public List<User> queryListByRole(Map<String, Object> filter)
+			throws DBAccessException;
+
 }

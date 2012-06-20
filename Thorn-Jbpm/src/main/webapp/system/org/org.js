@@ -102,29 +102,6 @@ Ext.onReady(function() {
 		});
 	}
 	
-//	menuTop = new Ext.menu.Menu( {
-//		items : ["-", {
-//			text : "增加子组织",
-//			iconCls : "silk-add",
-//			handler : saveHandler
-//		}, "-" ]
-//	});
-//	menu = new Ext.menu.Menu( {
-//		items : [ {
-//			text : "增加子组织",
-//			iconCls : "silk-add",
-//			handler : saveHandler
-//		}, "-", {
-//			text : "修改组织",
-//			iconCls : "silk-edit",
-//			handler : modifyMenuHandler
-//		}, "-", {
-//			text : "删除组织",
-//			iconCls : "silk-delete",
-//			handler : deleteMenuHandler
-//		} ]
-//	});
-	
 	doStore = function(node) {
 		store.baseParams = {
 			"pid" : node.attributes.pid
@@ -148,38 +125,45 @@ Ext.onReady(function() {
 		border : false
 	});
 	org_form.addComp(getText("orgName", "组织名称", 150), 0.5, false);
-			org_form.addComp(getText("orgCode", "组织编码", 150), 0.5, false);
-			org_form.addComp(getText("showName", "组织显示名称", 150), 0.5, false);
+	org_form.addComp(getText("orgCode", "组织编码", 150), 0.5, false);
+	org_form.addComp(getText("showName", "组织显示名称", 150), 0.5, false);
 
-			org_form.addComp(
-					getComboBox("orgType", "组织类型", 150, orgType, false), 0.5,
-					false);
+	org_form.addComp(
+			getComboBox("orgType", "组织类型", 150, orgType, false), 0.5,
+			false);
 
-			org_form.addComp(getMailText("orgMail", "组织邮箱", 150), 0.5, true);
+	org_form.addComp(getMailText("orgMail", "组织邮箱", 150), 0.5, true);
 
-			org_form.addComp(getOrgTreeSelect("parentOrg", 150, false), 0.5,
-					false);
+	org_form.addComp(getOrgTreeSelect("parentOrg", 150, false), 0.5,false);
 
-			org_form.addComp(
-					getComboBox("isShow", "是否显示", 150, yesOrNo, false), 0.5,
-					false);
+	org_form.addComp(
+			getComboBox("isShow", "是否显示", 150, yesOrNo, false), 0.5,
+			false);
 
-			org_form.addComp(getComboBox("isDisabled", "是否禁用", 150, yesOrNo,
-					false), 0.5, false);
+	org_form.addComp(getComboBox("isDisabled", "是否禁用", 150, yesOrNo,
+			false), 0.5, false);
 
-			org_form.addComp(getComboBox("area", "所属区域", 150, area, false),
-					0.5, true);
+	org_form.addComp(getComboBox("area", "所属区域", 150, area, false),
+			0.5, true);
 
-			org_form.addComp(getNumberText("sortNum", "排序号", 150), 0.5, true);
+	org_form.addComp(getNumberText("sortNum", "排序号", 150), 0.5, true);
 
-			org_form.addComp(getHidden("opType"), 0, true);
-			org_form.addComp(getHidden("orgId"), 0, true);
+	org_form.addComp(getHidden("opType"), 0, true);
+	org_form.addComp(getHidden("orgId"), 0, true);
 
 	var org_win = new WindowUtil( {
 		width : 600,
 		height : 300
 	}, org_form.getPanel(), saveOrModify);
-
+	
+	Ext.getCmp("show_parentOrg").addListener("select",function(treefield,node){
+		if(node.attributes.attributes != null 
+			&& !Ext.isEmpty(node.attributes.attributes.area)) {
+			Ext.getCmp("show_area").setValue(node.attributes.attributes.area);
+		}
+	});
+	
+	
 	/** ****************org window start************ */
 
 	function saveHandler() {
@@ -190,6 +174,10 @@ Ext.onReady(function() {
 				Configuration.opType.SAVE);
 
 		Ext.getCmp("show_parentOrg").setValue(currentActiveNode);
+		if(currentActiveNode.attributes.attributes != null 
+			&& !Ext.isEmpty(currentActiveNode.attributes.attributes.area)) {
+			Ext.getCmp("show_area").setValue(currentActiveNode.attributes.attributes.area);
+		}
 		
 		// 自动将上级区域信息传递给下级组织？
 		// 将所属组织设置为不可选

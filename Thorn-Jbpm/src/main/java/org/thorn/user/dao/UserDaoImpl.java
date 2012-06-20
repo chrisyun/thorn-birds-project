@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.thorn.dao.core.Page;
@@ -28,10 +26,19 @@ public class UserDaoImpl implements IUserDao {
 
 	public User queryUser(Map<String, Object> filter) throws DBAccessException {
 		try {
-			return (User) sqlSessionTemplate.selectOne(nameSpace + "queryList",
+			return (User) sqlSessionTemplate.selectOne(nameSpace + "selectList",
 					filter);
 		} catch (Exception e) {
 			throw new DBAccessException("UserDaoImpl", "queryUser", e);
+		}
+	}
+	
+	public List<User> queryList(Map<String, Object> filter) throws DBAccessException {
+		try {
+			return (List<User>) sqlSessionTemplate.selectList(nameSpace + "selectList",
+					filter);
+		} catch (Exception e) {
+			throw new DBAccessException("UserDaoImpl", "selectUserList", e);
 		}
 	}
 

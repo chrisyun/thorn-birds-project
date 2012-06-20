@@ -59,6 +59,7 @@ public class OrgController extends BaseController {
 				node.setLeaf(false);
 				node.setPid(org.getOrgCode());
 				node.getAttributes().put("orgType", org.getOrgType());
+				node.getAttributes().put("area", org.getArea());
 				tree.add(node);
 			}
 		} catch (Exception e) {

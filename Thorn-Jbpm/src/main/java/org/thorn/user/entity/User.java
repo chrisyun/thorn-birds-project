@@ -31,6 +31,8 @@ public class User implements Serializable {
 	
 	private String orgCode;
 	
+	private String orgType;
+	
 	private String defaultRole;
 	
 	private String isShow;
@@ -161,6 +163,14 @@ public class User implements Serializable {
 
 	public void setArea(String area) {
 		this.area = area;
+	}
+
+	public String getOrgType() {
+		return orgType;
+	}
+
+	public void setOrgType(String orgType) {
+		this.orgType = orgType;
 	}
 }
 

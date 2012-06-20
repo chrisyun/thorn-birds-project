@@ -1,5 +1,6 @@
 package org.thorn.org.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.thorn.dao.core.Page;
@@ -86,5 +87,6 @@ public interface IOrgService {
 	 * @throws DBAccessException
 	 */
 	public Org queryOrg(String orgCode, String orgId) throws DBAccessException;
-
+	
+	public List<Org> queryList(String pid, Collection<String> pids) throws DBAccessException;
 }

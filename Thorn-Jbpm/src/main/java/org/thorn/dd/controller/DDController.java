@@ -161,15 +161,16 @@ public class DDController extends BaseController {
 	 * @author：chenyun 	        
 	 * @date：2012-5-25 上午10:08:09
 	 * @param ids	主键字符串，格式id1,id2,
+	 * @param typeId
 	 * @return
 	 */
 	@RequestMapping("/dd/deleteDd")
 	@ResponseBody
-	public Status deleteDd(String ids) {
+	public Status deleteDd(String ids, String typeId) {
 		Status status = new Status();
 		
 		try {
-			ddService.deleteDd(ids);
+			ddService.deleteDd(ids, typeId);
 			status.setMessage("数据删除成功！");
 		} catch (DBAccessException e) {
 			status.setSuccess(false);

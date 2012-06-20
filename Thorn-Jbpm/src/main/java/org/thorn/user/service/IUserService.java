@@ -1,5 +1,8 @@
 package org.thorn.user.service;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.thorn.dao.core.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.user.entity.User;
@@ -30,4 +33,6 @@ public interface IUserService {
 	public void changePwd(String userId, String newPwd)
 			throws DBAccessException;
 
+	public List<User> queryList(String orgCode, String userName, String cumail, String area,
+			String userAccount, Collection<String> userIds, Collection<String> orgIds) throws DBAccessException;
 }

@@ -8,9 +8,9 @@
 	
 	<resultMap id="DictResultMap" type="org.thorn.dd.entity.Dict">
 		<id column="DNAME" jdbcType="VARCHAR" property="dname" />
+		<id column="TYPEID" jdbcType="VARCHAR" property="typeId" />
 		<result column="DVALUE" jdbcType="VARCHAR" property="dvalue" />
 		<result column="SORTNUM" jdbcType="DECIMAL" property="sortNum" />
-		<result column="TYPEID" jdbcType="VARCHAR" property="typeId" />
 	</resultMap>
 	
 	<resultMap id="DictTypeResultMap" type="org.thorn.dd.entity.DictType">
@@ -91,6 +91,7 @@
 			separator=",">
 			#{item,jdbcType=VARCHAR}
 		</foreach>
+		and TYPEID = #{typeId,jdbcType=VARCHAR}
 	</delete>
 	<delete id="deleteDictType">
 		delete from T_SYS_DICT_TYPE where ENAME in

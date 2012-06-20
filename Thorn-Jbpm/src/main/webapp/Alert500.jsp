@@ -21,7 +21,7 @@ response.setStatus(HttpServletResponse.SC_OK);
             margin-top: 50px;
 			padding: 15px 50px;
 			width: 800px;
-			font-size : 13pt;
+			font-size : 16px;
 			border: 1px solid black;
 			background-color: yellow;
 			text-align: center;
@@ -46,26 +46,6 @@ response.setStatus(HttpServletResponse.SC_OK);
   		<tr><td align="center"> 
   			<div id="exception">
 				<h1>程序发生了错误，有可能该页面正在调试或者是设计上的缺陷.</h1><br/>
-				<p>An exception was thrown: <b style="color: red;"> <%=exception.getClass()%>:<%=exception.getMessage()%></b></p><br>
-				<%
-					Enumeration<String> e = request.getHeaderNames();
-					String key;
-					while (e.hasMoreElements()) {
-						key = e.nextElement();
-					}
-					e = request.getAttributeNames();
-				%>
-				<%=request.getAttribute("javax.servlet.forward.request_uri")%><br>
-				<%=request.getAttribute("javax.servlet.forward.servlet_path")%>
-				<p>With the following stack trace:</p>
-				<pre>
-			   	<%
-			   		exception.printStackTrace();
-			   		ByteArrayOutputStream ostr = new ByteArrayOutputStream();
-			   		exception.printStackTrace(new PrintStream(ostr));
-			   		out.print(ostr);
-			   	%>
-			   	</pre>
 			   	<hr width="100%">
 			</div>
     	</td></tr>

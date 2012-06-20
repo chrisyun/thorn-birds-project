@@ -3,7 +3,7 @@
 <properties>
 	<comment>-- Properties --</comment>
 	
-	<entry key="jbpm.url">jdbc:mysql://localhost:3306/jbpm?useUnicode=true&amp;characterEncoding=utf-8</entry>
+	<entry key="jbpm.url">jdbc:mysql://localhost:3306/thorn?useUnicode=true&amp;characterEncoding=utf-8</entry>
 	<entry key="jbpm.driverClassName">com.mysql.jdbc.Driver</entry>
 	<entry key="jbpm.username">root</entry>
 	<entry key="jbpm.password">root</entry>

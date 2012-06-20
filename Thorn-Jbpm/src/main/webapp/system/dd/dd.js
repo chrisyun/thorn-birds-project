@@ -140,7 +140,8 @@ Ext.onReady(function() {
 				}
 
 				var params = {
-					ids : ids
+					ids : ids,
+					typeId : typeId
 				};
 
 				var ajaxClass = new AjaxUtil(ddDeleteUrl);

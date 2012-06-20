@@ -68,9 +68,14 @@ public class DataDictServiceImpl implements IDataDictService {
 		ddDao.modifyDt(dt);
 	}
 
-	public void deleteDd(String ids) throws DBAccessException {
+	public void deleteDd(String ids, String typeId) throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+		filter.put("typeId", typeId);
+		
 		List<String> list = LocalStringUtils.splitStr2Array(ids);
-		ddDao.deleteDd(list);
+		filter.put("list", list);
+		
+		ddDao.deleteDd(filter);
 	}
 
 	public void deleteDt(String ids) throws DBAccessException {
