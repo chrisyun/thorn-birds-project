@@ -1,6 +1,5 @@
 var orgTreeUrl = sys.path + "/org/getOrgTree.jmt";
 
-var currentActiveNode;
 var menu;
 var menuTop;
 
@@ -54,6 +53,8 @@ orgTree.on("contextmenu", function(node, ev) {
 
 orgTree.getRootNode().expand(false, false);
 
+var currentActiveNode = orgTree.getRootNode();
+
 function getOrgTreeSelect(id, width, isReadonly) {
 
 	var orgSel = new Object();
@@ -89,5 +90,4 @@ function getOrgTreeSelect(id, width, isReadonly) {
 	});
 
 	return orgSel;
-
 }

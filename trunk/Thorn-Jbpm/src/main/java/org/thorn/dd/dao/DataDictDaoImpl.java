@@ -88,9 +88,9 @@ public class DataDictDaoImpl implements IDataDictDao {
 		}
 	}
 
-	public int deleteDd(List<String> ids) throws DBAccessException {
+	public int deleteDd(Map<String, Object> filter) throws DBAccessException {
 		try {
-			return sqlSessionTemplate.delete(nameSpace + "deleteDict", ids);
+			return sqlSessionTemplate.delete(nameSpace + "deleteDict", filter);
 		} catch (Exception e) {
 			throw new DBAccessException("DataDictImpl", "deleteDd", e);
 		}

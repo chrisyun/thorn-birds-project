@@ -29,5 +29,5 @@
 	<import resource="Thorn-Spring-Security.xml" />
 	
 	<import resource="Thorn-Spring-Jbpm.xml"/>
-
+	<import resource="Thorn-Jbpm-Service.xml"/>
 </beans>

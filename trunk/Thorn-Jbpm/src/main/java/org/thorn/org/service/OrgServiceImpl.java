@@ -1,8 +1,10 @@
 package org.thorn.org.service;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,6 +35,16 @@ public class OrgServiceImpl implements IOrgService {
 		filter.put("isDisabled", Configuration.DB_NO);
 		filter.put(Configuration.SROT_NAME, "SORTNUM");
 		filter.put(Configuration.ORDER_NAME, "ASC");
+		
+		return orgDao.queryList(filter);
+	}
+	
+	public List<Org> queryList(String pid, Collection<String> pids) throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+		
+		filter.put("parentOrg", pid);
+		filter.put("pids", pids);
+		filter.put("isDisabled", Configuration.DB_NO);
 		
 		return orgDao.queryList(filter);
 	}

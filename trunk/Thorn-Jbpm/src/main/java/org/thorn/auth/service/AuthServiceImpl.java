@@ -1,5 +1,6 @@
 package org.thorn.auth.service;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,16 @@ public class AuthServiceImpl implements IAuthService {
 	public List<String> queryResourceByRole(String roleId)
 			throws DBAccessException {
 		return authDao.queryResourceByRole(roleId);
+	}
+	
+	public List<User> queryListByRole(String roleCode, Collection<String> orgIds)
+		throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+		filter.put("roleCode", roleCode);
+		filter.put("orgs", orgIds);
+		filter.put("isDisabled", Configuration.DB_NO);
+		
+		return authDao.queryListByRole(filter);
 	}
 
 	public void saveRoleAuth(String roleCode, String sourceIds)

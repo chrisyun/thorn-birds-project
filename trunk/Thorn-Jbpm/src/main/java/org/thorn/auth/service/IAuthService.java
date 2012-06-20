@@ -1,5 +1,6 @@
 package org.thorn.auth.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.thorn.dao.core.Page;
@@ -157,5 +158,17 @@ public interface IAuthService {
 	 */
 	public void deleteUserRole(String roleCode, String userIds)
 			throws DBAccessException;
-
+	
+	/**
+	 * 
+	 * @Description：
+	 * @author：chenyun 	        
+	 * @date：2012-6-19 下午09:06:00
+	 * @param roleCode
+	 * @param orgIds
+	 * @return
+	 * @throws DBAccessException
+	 */
+	public List<User> queryListByRole(String roleCode, Collection<String> orgIds)
+		throws DBAccessException;
 }

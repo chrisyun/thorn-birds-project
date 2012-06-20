@@ -1,5 +1,6 @@
 package org.thorn.user.service;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
 import org.thorn.dao.core.Page;
 import org.thorn.dao.exception.DBAccessException;
+import org.thorn.log.NoLogging;
 import org.thorn.security.SecurityEncoderUtils;
 import org.thorn.user.dao.IUserDao;
 import org.thorn.user.entity.User;
@@ -26,7 +28,7 @@ public class UserServiceImpl implements IUserService {
 	@Autowired
 	@Qualifier("userDao")
 	private IUserDao userDao;
-	
+
 	@Autowired
 	@Qualifier("userSecurityCache")
 	private UserCache userCache;
@@ -40,8 +42,8 @@ public class UserServiceImpl implements IUserService {
 
 	public void save(User user) throws DBAccessException {
 		user.setUserId(user.getUserId().toUpperCase());
-		
-		if(LocalStringUtils.isNotEmpty(user.getUserPwd())) {
+
+		if (LocalStringUtils.isNotEmpty(user.getUserPwd())) {
 			user.setUserPwd(SecurityEncoderUtils.encodeUserPassword(
 					user.getUserPwd(), user.getUserId()));
 		}
@@ -50,11 +52,11 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	public void modify(User user) throws DBAccessException {
-		if(LocalStringUtils.isNotEmpty(user.getUserPwd())) {
+		if (LocalStringUtils.isNotEmpty(user.getUserPwd())) {
 			user.setUserPwd(SecurityEncoderUtils.encodeUserPassword(
 					user.getUserPwd(), user.getUserId()));
 		}
-		
+
 		userDao.modify(user);
 		userCache.removeUserFromCache(user.getUserId());
 	}
@@ -62,10 +64,26 @@ public class UserServiceImpl implements IUserService {
 	public void delete(String ids) throws DBAccessException {
 		List<String> list = LocalStringUtils.splitStr2Array(ids);
 		userDao.delete(list);
-		
+
 		for (String uid : list) {
 			userCache.removeUserFromCache(uid.toUpperCase());
 		}
+	}
+
+	public List<User> queryList(String orgCode, String userName, String cumail, String area,
+			String userAccount, Collection<String> userIds, Collection<String> orgIds) throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+
+		filter.put("idOrAccount", userAccount);
+		filter.put("cumail", cumail);
+		filter.put("orgCode", orgCode);
+		filter.put("userName", userName);
+		filter.put("userIds", userIds);
+		filter.put("orgs", orgIds);
+		filter.put("area", area);
+		filter.put("isDisabled", Configuration.DB_NO);
+		
+		return userDao.queryList(filter);
 	}
 
 	public Page<User> queryPage(String orgCode, String userName, String cumail,
@@ -101,7 +119,7 @@ public class UserServiceImpl implements IUserService {
 		filter.put("isDisabled", isDisabled);
 
 		userDao.disabled(filter);
-		
+
 		for (String uid : list) {
 			userCache.removeUserFromCache(uid.toUpperCase());
 		}
@@ -111,7 +129,8 @@ public class UserServiceImpl implements IUserService {
 			throws DBAccessException {
 		User user = new User();
 		user.setUserId(userId.toUpperCase());
-		user.setUserPwd(SecurityEncoderUtils.encodeUserPassword(newPwd, user.getUserId()));
+		user.setUserPwd(SecurityEncoderUtils.encodeUserPassword(newPwd,
+				user.getUserId()));
 
 		userDao.modify(user);
 		userCache.removeUserFromCache(user.getUserId());

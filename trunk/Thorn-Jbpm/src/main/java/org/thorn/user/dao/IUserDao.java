@@ -26,5 +26,7 @@ public interface IUserDao {
 	public int disabled(Map<String, Object> filter) throws DBAccessException;
 	
 	public Page<User> queryPage(Map<String, Object> filter) throws DBAccessException;
+	
+	public List<User> queryList(Map<String, Object> filter) throws DBAccessException;
 }
 

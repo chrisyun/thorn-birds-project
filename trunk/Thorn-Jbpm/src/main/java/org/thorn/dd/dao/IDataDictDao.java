@@ -87,11 +87,11 @@ public interface IDataDictDao {
 	 * @Description：
 	 * @author：chenyun 	        
 	 * @date：2012-5-25 上午10:51:19
-	 * @param ids
+	 * @param filter
 	 * @return
 	 * @throws DBAccessException
 	 */
-	public int deleteDd(List<String> ids) throws DBAccessException;
+	public int deleteDd(Map<String, Object> filter) throws DBAccessException;
 	
 	/**
 	 * 

@@ -1,5 +1,6 @@
 package org.thorn.auth.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -100,6 +101,17 @@ public class AuthDaoImpl implements IAuthDao {
 			return page;
 		} catch (Exception e) {
 			throw new DBAccessException("AuthDaoImpl", "queryPageByRole", e);
+		}
+	}
+	
+	public List<User> queryListByRole(Map<String, Object> filter)
+		throws DBAccessException {
+		List<User> user = new ArrayList<User>();
+		try {
+			return (List<User>) sqlSessionTemplate.selectList(
+					nameSpace + "selectUserPageByRole", filter);
+		} catch (Exception e) {
+			throw new DBAccessException("AuthDaoImpl", "selectUserByRole", e);
 		}
 	}
 

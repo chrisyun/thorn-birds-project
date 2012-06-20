@@ -37,6 +37,13 @@
       		<if test="parentOrg != null and parentOrg != ''">
 				and O.PARENTORG = #{parentOrg,jdbcType=VARCHAR}
       		</if>
+      		<if test="pids != null">
+				and O.PARENTORG in
+				<foreach collection="pids" item="item" open="(" close=")"
+					separator=",">
+					#{item,jdbcType=VARCHAR}
+				</foreach>
+	    	</if>
       		<if test="showName != null and showName != ''">
 				and O.SHOWNAME like CONCAT('%',#{showName,jdbcType=VARCHAR},'%')
       		</if>

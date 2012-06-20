@@ -89,9 +89,10 @@ public interface IDataDictService {
 	 * @author：chenyun 	        
 	 * @date：2012-5-25 上午10:10:12
 	 * @param ids
+	 * @param typeId
 	 * @throws DBAccessException
 	 */
-	public void deleteDd(String ids) throws DBAccessException;
+	public void deleteDd(String ids, String typeId) throws DBAccessException;
 	
 	/**
 	 * 

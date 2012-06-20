@@ -17,6 +17,7 @@
 		<result column="PHONE" property="phone" jdbcType="VARCHAR" />
 		<result column="ORGCODE" property="orgCode" jdbcType="VARCHAR" />
 		<result column="ORGNAME" property="orgName" jdbcType="VARCHAR" />
+		<result column="ORGTYPE" property="orgType" jdbcType="VARCHAR" />
 		<result column="DEFAULTROLE" property="defaultRole" jdbcType="VARCHAR" />
 		<result column="ISDISABLED" property="isDisabled" jdbcType="VARCHAR" />
 		<result column="ISSHOW" property="isShow" jdbcType="VARCHAR" />
@@ -30,7 +31,7 @@
 		U.USERPWD, U.GENDER, U.ORGCODE,
 		U.DEFAULTROLE, U.CUMAIL, U.PHONE,
 		U.ISDISABLED, U.ISSHOW, U.SORTNUM,
-		O.ORGNAME,O.AREA
+		O.ORGNAME,O.AREA,O.ORGTYPE 
   	</sql>
   	
 	<sql id="Where_Clause">
@@ -66,6 +67,9 @@
 			<if test="orgCode != null and orgCode != ''">
 				and U.ORGCODE = #{orgCode,jdbcType=VARCHAR}
       		</if>
+      		<if test="area != null and area != ''">
+				and O.AREA = #{area,jdbcType=VARCHAR}
+      		</if>
 			<if test="isDisabled != null and isDisabled != ''">
 				and U.ISDISABLED = #{isDisabled,jdbcType=VARCHAR}
       		</if>
@@ -75,6 +79,20 @@
 			<if test="defaultrole != null and defaultrole != ''">
 				and U.DEFAULTROLE = #{defaultRole,jdbcType=VARCHAR}
       		</if>
+      		<if test="userIds != null">
+				and U.USERID in
+				<foreach collection="userIds" item="item" open="(" close=")"
+					separator=",">
+					#{item,jdbcType=VARCHAR}
+				</foreach>
+      		</if>
+      		<if test="orgs != null">
+				and U.ORGCODE in
+				<foreach collection="orgs" item="item" open="(" close=")"
+					separator=",">
+					#{item,jdbcType=VARCHAR}
+				</foreach>
+	    </if>
 		</where>
 	</sql>
 
@@ -146,7 +164,7 @@
 		</foreach>
 	</update>
 
-	<select id="queryList" resultMap="BaseResultMap" parameterType="map">
+	<select id="selectList" resultMap="BaseResultMap" parameterType="map">
 		select
 		<include refid="Base_Column_List" />
 		from T_SYS_USER U left join T_SYS_ORG O 
