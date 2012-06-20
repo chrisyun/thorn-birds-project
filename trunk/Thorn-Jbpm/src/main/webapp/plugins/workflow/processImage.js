@@ -34,5 +34,6 @@ function ProcessImage() {
 
 ProcessImage.prototype.show = function(url) {
 	this.processImageWin.show();
+	Ext.getDom("processImg_" + this.id).src = loadingUrl;
 	Ext.getDom("processImg_" + this.id).src = url;
 }
