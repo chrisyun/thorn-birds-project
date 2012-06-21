@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="WfPermissionMapper">
+<mapper namespace="ParticipatorMapper">
 
 	<resultMap id="BaseResultMap"
-		type="org.thorn.workflow.entity.WfPermission">
+		type="org.thorn.workflow.entity.Participator">
 		<id column="ID" property="id" jdbcType="DECIMAL" />
 		<result column="ACTIVITYID" property="activityId" jdbcType="VARCHAR" />
 		<result column="PRCESSDFID" property="processDfId" jdbcType="VARCHAR" />
@@ -36,8 +36,8 @@
 		</where>
 	</sql>
 
-	<insert id="insert" parameterType="org.thorn.workflow.entity.WfPermission">
-		insert into JBPM4_EXTEND_PERMISSION
+	<insert id="insert" parameterType="org.thorn.workflow.entity.Participator">
+		insert into JBPM4_EXTEND_PARTICIPATOR
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="activityId != null and activityId != ''">ACTIVITYID,</if>
 			<if test="processDfId != null and processDfId != ''">PRCESSDFID,</if>
@@ -55,8 +55,8 @@
 			<if test="variable != null and variable != ''">#{variable,jdbcType=VARCHAR},</if>
 		</trim>
 	</insert>
-	<update id="update" parameterType="org.thorn.workflow.entity.WfPermission">
-		update JBPM4_EXTEND_PERMISSION
+	<update id="update" parameterType="org.thorn.workflow.entity.Participator">
+		update JBPM4_EXTEND_PARTICIPATOR
 		<set>
 			<if test="activityId != null and activityId != ''">ACTIVITYID = #{activityId,jdbcType=VARCHAR},</if>
 			<if test="processDfId != null and processDfId != ''">PRCESSDFID = #{processDfId,jdbcType=VARCHAR},</if>
@@ -69,7 +69,7 @@
 	</update>
 
 	<delete id="delete">
-		delete from JBPM4_EXTEND_PERMISSION where ID in
+		delete from JBPM4_EXTEND_PARTICIPATOR where ID in
 		<foreach collection="list" item="item" open="(" close=")"
 			separator=",">
 			#{item,jdbcType=DECIMAL}
@@ -79,7 +79,7 @@
 	<select id="queryList" parameterType="hashmap" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from JBPM4_EXTEND_PERMISSION 
+		from JBPM4_EXTEND_PARTICIPATOR 
 		<include refid="Where_Clause" />
 		<include refid="MySQLCommonMapper.sortInfo" />
 	</select>
@@ -88,14 +88,14 @@
 		<include refid="MySQLCommonMapper.pagingStart" />
 		select
 		<include refid="Base_Column_List" />
-		from JBPM4_EXTEND_PERMISSION 
+		from JBPM4_EXTEND_PARTICIPATOR 
 		<include refid="Where_Clause" />
 		<include refid="MySQLCommonMapper.sortInfo" />
 		<include refid="MySQLCommonMapper.pagingEnd" />
 	</select>
 
 	<select id="selectPageCount" parameterType="hashmap" resultType="long">
-		select count(*) from JBPM4_EXTEND_PERMISSION 
+		select count(*) from JBPM4_EXTEND_PARTICIPATOR 
 		<include refid="Where_Clause" />
 	</select>
 
