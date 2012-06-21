@@ -13,8 +13,8 @@ import org.thorn.dao.core.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.web.controller.BaseController;
 import org.thorn.web.entity.Status;
-import org.thorn.workflow.entity.WfPermission;
-import org.thorn.workflow.service.IPermissionService;
+import org.thorn.workflow.entity.Participator;
+import org.thorn.workflow.service.IParticipatorService;
 
 /**
  * @ClassName: WfPermissionController
@@ -29,11 +29,11 @@ public class ParticipatorController extends BaseController {
 
 	@Autowired
 	@Qualifier("participatorService")
-	private IPermissionService participatorService;
+	private IParticipatorService participatorService;
 
 	@RequestMapping("/wf/permisson/saveOrModifyParticipator")
 	@ResponseBody
-	public Status saveOrModifyParticipator(WfPermission permission, String opType) {
+	public Status saveOrModifyParticipator(Participator permission, String opType) {
 		Status status = new Status();
 
 		try {
@@ -50,7 +50,7 @@ public class ParticipatorController extends BaseController {
 			status.setSuccess(false);
 			status.setMessage("数据保存失败：" + e.getMessage());
 			log.error(
-					"saveOrModifyParticipator[WfPermission] - " + e.getMessage(),
+					"saveOrModifyParticipator[Participator] - " + e.getMessage(),
 					e);
 		}
 
@@ -68,7 +68,7 @@ public class ParticipatorController extends BaseController {
 		} catch (DBAccessException e) {
 			status.setSuccess(false);
 			status.setMessage("数据删除失败：" + e.getMessage());
-			log.error("deleteParticipator[WfPermission] - " + e.getMessage(), e);
+			log.error("deleteParticipator[Participator] - " + e.getMessage(), e);
 		}
 
 		return status;
@@ -76,16 +76,16 @@ public class ParticipatorController extends BaseController {
 
 	@RequestMapping("/wf/pp/getParticipatorPage")
 	@ResponseBody
-	public Page<WfPermission> getParticipatorPage(long start, long limit,
+	public Page<Participator> getParticipatorPage(long start, long limit,
 			String sort, String dir, String activityId, String processDfId,
 			String variable, String entityType) {
-		Page<WfPermission> page = new Page<WfPermission>();
+		Page<Participator> page = new Page<Participator>();
 
 		try {
 			page = participatorService.queryPage(activityId, processDfId,
 					variable, entityType, start, limit, sort, dir);
 		} catch (DBAccessException e) {
-			log.error("getParticipatorPage[WfPermission] - " + e.getMessage(), e);
+			log.error("getParticipatorPage[Participator] - " + e.getMessage(), e);
 		}
 
 		return page;

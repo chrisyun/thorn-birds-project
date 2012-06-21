@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author chenyun
  * @date 2012-6-20 下午09:45:24 
  */
-public class WfPermission implements Serializable {
+public class Participator implements Serializable {
 
 	/** */
 	private static final long serialVersionUID = -2955763101291011116L;
