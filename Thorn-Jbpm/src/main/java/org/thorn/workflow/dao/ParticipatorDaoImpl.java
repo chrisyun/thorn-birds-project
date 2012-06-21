@@ -11,32 +11,32 @@ import org.thorn.dao.exception.DBAccessException;
 import org.thorn.workflow.entity.Participator;
 
 /** 
- * @ClassName: PermissionDaoImpl 
+ * @ClassName: ParticipatorDaoImpl 
  * @Description: 
  * @author chenyun
  * @date 2012-6-20 下午10:43:07 
  */
 public class ParticipatorDaoImpl implements IParticipatorDao {
 	
-	private final static String nameSpace = "WfPermissionMapper.";
+	private final static String nameSpace = "ParticipatorMapper.";
 
 	@Autowired
 	@Qualifier("sqlSessionTemplate")
 	private SqlSessionTemplate sqlSessionTemplate;
 	
-	public int save(Participator permission) throws DBAccessException {
+	public int save(Participator participator) throws DBAccessException {
 		try {
-			return sqlSessionTemplate.insert(nameSpace + "insert", permission);
+			return sqlSessionTemplate.insert(nameSpace + "insert", participator);
 		} catch (Exception e) {
-			throw new DBAccessException("PermissionDaoImpl", "save", e);
+			throw new DBAccessException("ParticipatorDaoImpl", "save", e);
 		}
 	}
 
-	public int modify(Participator permission) throws DBAccessException {
+	public int modify(Participator participator) throws DBAccessException {
 		try {
-			return sqlSessionTemplate.update(nameSpace + "update", permission);
+			return sqlSessionTemplate.update(nameSpace + "update", participator);
 		} catch (Exception e) {
-			throw new DBAccessException("PermissionDaoImpl", "modify", e);
+			throw new DBAccessException("ParticipatorDaoImpl", "modify", e);
 		}
 	}
 
@@ -44,7 +44,7 @@ public class ParticipatorDaoImpl implements IParticipatorDao {
 		try {
 			return sqlSessionTemplate.delete(nameSpace + "delete", ids);
 		} catch (Exception e) {
-			throw new DBAccessException("PermissionDaoImpl", "delete", e);
+			throw new DBAccessException("ParticipatorDaoImpl", "delete", e);
 		}
 	}
 
@@ -64,7 +64,7 @@ public class ParticipatorDaoImpl implements IParticipatorDao {
 
 			return page;
 		} catch (Exception e) {
-			throw new DBAccessException("PermissionDaoImpl", "queryPage", e);
+			throw new DBAccessException("ParticipatorDaoImpl", "queryPage", e);
 		}
 	}
 
@@ -74,7 +74,7 @@ public class ParticipatorDaoImpl implements IParticipatorDao {
 			return (List<Participator>) sqlSessionTemplate.selectList(nameSpace
 					+ "queryList", filter);
 		} catch (Exception e) {
-			throw new DBAccessException("PermissionDaoImpl", "queryList", e);
+			throw new DBAccessException("ParticipatorDaoImpl", "queryList", e);
 		}
 	}
 

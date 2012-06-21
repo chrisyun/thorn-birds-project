@@ -31,9 +31,10 @@ public class ParticipatorController extends BaseController {
 	@Qualifier("participatorService")
 	private IParticipatorService participatorService;
 
-	@RequestMapping("/wf/permisson/saveOrModifyParticipator")
+	@RequestMapping("/wf/pp/saveOrModifyParticipator")
 	@ResponseBody
-	public Status saveOrModifyParticipator(Participator permission, String opType) {
+	public Status saveOrModifyParticipator(Participator permission,
+			String opType) {
 		Status status = new Status();
 
 		try {
@@ -50,8 +51,8 @@ public class ParticipatorController extends BaseController {
 			status.setSuccess(false);
 			status.setMessage("数据保存失败：" + e.getMessage());
 			log.error(
-					"saveOrModifyParticipator[Participator] - " + e.getMessage(),
-					e);
+					"saveOrModifyParticipator[Participator] - "
+							+ e.getMessage(), e);
 		}
 
 		return status;
@@ -85,7 +86,8 @@ public class ParticipatorController extends BaseController {
 			page = participatorService.queryPage(activityId, processDfId,
 					variable, entityType, start, limit, sort, dir);
 		} catch (DBAccessException e) {
-			log.error("getParticipatorPage[Participator] - " + e.getMessage(), e);
+			log.error("getParticipatorPage[Participator] - " + e.getMessage(),
+					e);
 		}
 
 		return page;

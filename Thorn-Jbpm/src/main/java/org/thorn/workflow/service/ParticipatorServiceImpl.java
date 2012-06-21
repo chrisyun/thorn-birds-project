@@ -22,20 +22,20 @@ import org.thorn.workflow.entity.Participator;
 public class ParticipatorServiceImpl implements IParticipatorService {
 
 	@Autowired
-	@Qualifier("permissionDao")
-	private IParticipatorDao permissionDao;
+	@Qualifier("participatorDao")
+	private IParticipatorDao participatorDao;
 
-	public void save(Participator permission) throws DBAccessException {
-		permissionDao.save(permission);
+	public void save(Participator participator) throws DBAccessException {
+		participatorDao.save(participator);
 	}
 
-	public void modify(Participator permission) throws DBAccessException {
-		permissionDao.modify(permission);
+	public void modify(Participator participator) throws DBAccessException {
+		participatorDao.modify(participator);
 	}
 
 	public void delete(String ids) throws DBAccessException {
 		List<String> list = LocalStringUtils.splitStr2Array(ids);
-		permissionDao.delete(list);
+		participatorDao.delete(list);
 	}
 
 	public Page<Participator> queryPage(String activityId, String processDfId,
@@ -52,29 +52,29 @@ public class ParticipatorServiceImpl implements IParticipatorService {
 		filter.put(Configuration.PAGE_START, start);
 
 		if (LocalStringUtils.isEmpty(sort)) {
-			filter.put(Configuration.SROT_NAME, "processDfId");
+			filter.put(Configuration.SROT_NAME, "PRCESSDFID");
 			filter.put(Configuration.ORDER_NAME, Configuration.ORDER_ASC);
 		} else {
 			filter.put(Configuration.SROT_NAME, sort);
 			filter.put(Configuration.ORDER_NAME, dir);
 		}
 		
-		return permissionDao.queryPage(filter);
+		return participatorDao.queryPage(filter);
 	}
 
-	public Participator queryPermission(String activityId, String processDfId)
+	public Participator queryParticipator(String activityId, String processDfId)
 			throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
 
 		filter.put("activityId", activityId);
 		filter.put("processDfId", processDfId);
 		
-		List<Participator> list = permissionDao.queryList(filter);
+		List<Participator> list = participatorDao.queryList(filter);
 		
 		if(list.size() == 1) {
 			return list.get(0);
 		} else {
-			throw new DBAccessException("queryPermission find multiple valued");
+			throw new DBAccessException("queryParticipator find multiple valued");
 		}
 	}
 
