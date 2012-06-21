@@ -169,6 +169,6 @@ public interface IAuthService {
 	 * @return
 	 * @throws DBAccessException
 	 */
-	public List<User> queryListByRole(String roleCode, Collection<String> orgIds)
+	public List<User> queryListByRole(Collection<String> roleCodes, Collection<String> orgIds)
 		throws DBAccessException;
 }

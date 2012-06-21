@@ -154,7 +154,7 @@ public class MyIdentitySessionImpl implements IdentitySession {
 
 				if (LocalStringUtils.equals(define.getGroupType(),
 						WorkflowConfiguration.GROUP_ORG)) {
-					orgs.add(define.getGroupId());
+					orgs.addAll(define.getGroupId());
 
 					users = findUsersByOrg(orgs);
 
@@ -173,7 +173,7 @@ public class MyIdentitySessionImpl implements IdentitySession {
 				if (LocalStringUtils.equals(define.getGroupType(),
 						WorkflowConfiguration.GROUP_ORG)) {
 					Set<String> orgs = new HashSet<String>();
-					orgs.add(define.getGroupId());
+					orgs.addAll(define.getGroupId());
 
 					users = findUsersByOrg(orgs);
 
@@ -234,7 +234,7 @@ public class MyIdentitySessionImpl implements IdentitySession {
 		return null;
 	}
 
-	private List<User> findUsersByRole(String roleCode, Set<String> orgIds)
+	private List<User> findUsersByRole(Set<String> roleCode, Set<String> orgIds)
 			throws DBAccessException {
 		List<User> users = new ArrayList<User>();
 
@@ -264,7 +264,7 @@ public class MyIdentitySessionImpl implements IdentitySession {
 		return users;
 	}
 
-	private List<User> findUsersByArea(String area, Set<String> orgIds)
+	private List<User> findUsersByArea(Set<String> area, Set<String> orgIds)
 			throws DBAccessException {
 		List<User> users = new ArrayList<User>();
 

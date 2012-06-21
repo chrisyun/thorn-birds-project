@@ -164,7 +164,13 @@
 		from T_SYS_USER_ROLE R,T_SYS_USER U
 		where R.USERID = U.USERID 
 		and U.ISDISABLED = #{isDisabled,jdbcType=VARCHAR} 
-		and R.ROLECODE = #{roleCode,jdbcType=VARCHAR} 
+		<if test="roleCodes != null">
+			and R.ROLECODE in
+			<foreach collection="roleCodes" item="item" open="(" close=")"
+				separator=",">
+				#{item,jdbcType=VARCHAR}
+			</foreach>
+	    </if>
 		<if test="orgs != null">
 			and U.ORGCODE in
 			<foreach collection="orgs" item="item" open="(" close=")"

@@ -79,6 +79,13 @@
 			<if test="defaultrole != null and defaultrole != ''">
 				and U.DEFAULTROLE = #{defaultRole,jdbcType=VARCHAR}
       		</if>
+      		<if test="areas != null">
+				and O.AREA in
+				<foreach collection="areas" item="item" open="(" close=")"
+					separator=",">
+					#{item,jdbcType=VARCHAR}
+				</foreach>
+      		</if>
       		<if test="userIds != null">
 				and U.USERID in
 				<foreach collection="userIds" item="item" open="(" close=")"
