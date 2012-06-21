@@ -1,6 +1,9 @@
 package org.thorn.workflow.identity;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonParser;
@@ -23,7 +26,7 @@ public class MyGroupDefine {
 
 	private String limitCode;
 
-	private String groupId;
+	private Set<String> groupId;
 
 	private boolean limited;
 
@@ -43,7 +46,7 @@ public class MyGroupDefine {
 		return limitCode;
 	}
 
-	public String getGroupId() {
+	public Set<String> getGroupId() {
 		return groupId;
 	}
 
@@ -65,8 +68,13 @@ public class MyGroupDefine {
 
 				df.groupType = jp.getText().toLowerCase();
 			} else if (LocalStringUtils.equals(nodeName, "groupId")) {
-
-				df.groupId = jp.getText();
+				List<String> ids = LocalStringUtils.splitStr2Array(jp.getText());
+				df.groupId = new HashSet<String>();
+				
+				for(String id : ids) {
+					df.groupId.add(id);
+				}
+				
 			} else if (LocalStringUtils.equals(nodeName, "limit")) {
 
 				df.limit = jp.getText().toLowerCase();

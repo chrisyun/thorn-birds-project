@@ -70,7 +70,7 @@ public class UserServiceImpl implements IUserService {
 		}
 	}
 
-	public List<User> queryList(String orgCode, String userName, String cumail, String area,
+	public List<User> queryList(String orgCode, String userName, String cumail, Collection<String> areas,
 			String userAccount, Collection<String> userIds, Collection<String> orgIds) throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
 
@@ -80,7 +80,7 @@ public class UserServiceImpl implements IUserService {
 		filter.put("userName", userName);
 		filter.put("userIds", userIds);
 		filter.put("orgs", orgIds);
-		filter.put("area", area);
+		filter.put("areas", areas);
 		filter.put("isDisabled", Configuration.DB_NO);
 		
 		return userDao.queryList(filter);

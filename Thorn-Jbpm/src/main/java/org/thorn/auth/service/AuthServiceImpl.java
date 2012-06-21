@@ -37,10 +37,10 @@ public class AuthServiceImpl implements IAuthService {
 		return authDao.queryResourceByRole(roleId);
 	}
 	
-	public List<User> queryListByRole(String roleCode, Collection<String> orgIds)
+	public List<User> queryListByRole(Collection<String> roleCodes, Collection<String> orgIds)
 		throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
-		filter.put("roleCode", roleCode);
+		filter.put("roleCodes", roleCodes);
 		filter.put("orgs", orgIds);
 		filter.put("isDisabled", Configuration.DB_NO);
 		

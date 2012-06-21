@@ -33,6 +33,6 @@ public interface IUserService {
 	public void changePwd(String userId, String newPwd)
 			throws DBAccessException;
 
-	public List<User> queryList(String orgCode, String userName, String cumail, String area,
+	public List<User> queryList(String orgCode, String userName, String cumail, Collection<String> areas,
 			String userAccount, Collection<String> userIds, Collection<String> orgIds) throws DBAccessException;
 }
