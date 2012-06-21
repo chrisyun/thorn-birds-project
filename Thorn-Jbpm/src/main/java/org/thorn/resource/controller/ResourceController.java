@@ -281,7 +281,7 @@ public class ResourceController extends BaseController {
 			page = service.queryPage(pid, sourceCode, sourceName, start,
 					limit, sort, dir);
 		} catch (DBAccessException e) {
-			log.error("getOrgPage[Resource] - " + e.getMessage(), e);
+			log.error("getSourcePage[Resource] - " + e.getMessage(), e);
 		}
 
 		return page;
