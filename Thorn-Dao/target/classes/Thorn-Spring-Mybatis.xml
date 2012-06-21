@@ -35,6 +35,7 @@
 		<property name="mapperLocations">
 			<list>
 				<value>classpath*:org/thorn/*/mapper/*Mapper.xml</value>
+				<value>classpath*:org/thorn/workflow/*/mapper/*Mapper.xml</value>
 			</list>
 		</property>
 		<property name="plugins">
