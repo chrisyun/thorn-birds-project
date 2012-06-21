@@ -12,9 +12,9 @@ import org.thorn.workflow.entity.Participator;
  */
 public interface IParticipatorService {
 
-	public void save(Participator permission) throws DBAccessException;
+	public void save(Participator participator) throws DBAccessException;
 
-	public void modify(Participator permission) throws DBAccessException;
+	public void modify(Participator participator) throws DBAccessException;
 
 	public void delete(String ids) throws DBAccessException;
 
@@ -22,6 +22,6 @@ public interface IParticipatorService {
 			String variable, String entityType, long start, long limit,
 			String sort, String dir) throws DBAccessException;
 
-	public Participator queryPermission(String activityId, String processDfId) throws DBAccessException;
+	public Participator queryParticipator(String activityId, String processDfId) throws DBAccessException;
 
 }
