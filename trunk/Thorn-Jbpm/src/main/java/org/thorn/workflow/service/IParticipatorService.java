@@ -2,7 +2,7 @@ package org.thorn.workflow.service;
 
 import org.thorn.dao.core.Page;
 import org.thorn.dao.exception.DBAccessException;
-import org.thorn.workflow.entity.WfPermission;
+import org.thorn.workflow.entity.Participator;
 
 /**
  * @ClassName: IPermission
@@ -10,18 +10,18 @@ import org.thorn.workflow.entity.WfPermission;
  * @author chenyun
  * @date 2012-6-20 下午10:47:52
  */
-public interface IPermissionService {
+public interface IParticipatorService {
 
-	public void save(WfPermission permission) throws DBAccessException;
+	public void save(Participator permission) throws DBAccessException;
 
-	public void modify(WfPermission permission) throws DBAccessException;
+	public void modify(Participator permission) throws DBAccessException;
 
 	public void delete(String ids) throws DBAccessException;
 
-	public Page<WfPermission> queryPage(String activityId, String processDfId,
+	public Page<Participator> queryPage(String activityId, String processDfId,
 			String variable, String entityType, long start, long limit,
 			String sort, String dir) throws DBAccessException;
 
-	public WfPermission queryPermission(String activityId, String processDfId) throws DBAccessException;
+	public Participator queryPermission(String activityId, String processDfId) throws DBAccessException;
 
 }

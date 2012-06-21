@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.thorn.dao.core.Page;
 import org.thorn.dao.exception.DBAccessException;
-import org.thorn.workflow.entity.WfPermission;
+import org.thorn.workflow.entity.Participator;
 
 /** 
  * @ClassName: IPermissionDao 
@@ -13,18 +13,18 @@ import org.thorn.workflow.entity.WfPermission;
  * @author chenyun
  * @date 2012-6-20 下午10:26:45 
  */
-public interface IPermissionDao {
+public interface IParticipatorDao {
 	
-	public int save(WfPermission permission) throws DBAccessException;
+	public int save(Participator permission) throws DBAccessException;
 	
-	public int modify(WfPermission permission) throws DBAccessException;
+	public int modify(Participator permission) throws DBAccessException;
 	
 	public int delete(List<String> ids) throws DBAccessException;
 	
-	public Page<WfPermission> queryPage(Map<String, Object> filter)
+	public Page<Participator> queryPage(Map<String, Object> filter)
 		throws DBAccessException;
 	
-	public List<WfPermission> queryList(Map<String, Object> filter)
+	public List<Participator> queryList(Map<String, Object> filter)
 	throws DBAccessException;
 	
 }

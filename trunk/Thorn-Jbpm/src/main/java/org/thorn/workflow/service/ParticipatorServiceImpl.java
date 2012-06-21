@@ -10,8 +10,8 @@ import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
 import org.thorn.dao.core.Page;
 import org.thorn.dao.exception.DBAccessException;
-import org.thorn.workflow.dao.IPermissionDao;
-import org.thorn.workflow.entity.WfPermission;
+import org.thorn.workflow.dao.IParticipatorDao;
+import org.thorn.workflow.entity.Participator;
 
 /**
  * @ClassName: PermissionServiceImpl
@@ -19,17 +19,17 @@ import org.thorn.workflow.entity.WfPermission;
  * @author chenyun
  * @date 2012-6-20 下午10:50:40
  */
-public class PermissionServiceImpl implements IPermissionService {
+public class ParticipatorServiceImpl implements IParticipatorService {
 
 	@Autowired
 	@Qualifier("permissionDao")
-	private IPermissionDao permissionDao;
+	private IParticipatorDao permissionDao;
 
-	public void save(WfPermission permission) throws DBAccessException {
+	public void save(Participator permission) throws DBAccessException {
 		permissionDao.save(permission);
 	}
 
-	public void modify(WfPermission permission) throws DBAccessException {
+	public void modify(Participator permission) throws DBAccessException {
 		permissionDao.modify(permission);
 	}
 
@@ -38,7 +38,7 @@ public class PermissionServiceImpl implements IPermissionService {
 		permissionDao.delete(list);
 	}
 
-	public Page<WfPermission> queryPage(String activityId, String processDfId,
+	public Page<Participator> queryPage(String activityId, String processDfId,
 			String variable, String entityType, long start, long limit,
 			String sort, String dir) throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
@@ -62,14 +62,14 @@ public class PermissionServiceImpl implements IPermissionService {
 		return permissionDao.queryPage(filter);
 	}
 
-	public WfPermission queryPermission(String activityId, String processDfId)
+	public Participator queryPermission(String activityId, String processDfId)
 			throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
 
 		filter.put("activityId", activityId);
 		filter.put("processDfId", processDfId);
 		
-		List<WfPermission> list = permissionDao.queryList(filter);
+		List<Participator> list = permissionDao.queryList(filter);
 		
 		if(list.size() == 1) {
 			return list.get(0);

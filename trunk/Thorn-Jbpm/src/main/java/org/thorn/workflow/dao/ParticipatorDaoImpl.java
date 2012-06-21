@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.thorn.dao.core.Page;
 import org.thorn.dao.exception.DBAccessException;
-import org.thorn.workflow.entity.WfPermission;
+import org.thorn.workflow.entity.Participator;
 
 /** 
  * @ClassName: PermissionDaoImpl 
@@ -16,7 +16,7 @@ import org.thorn.workflow.entity.WfPermission;
  * @author chenyun
  * @date 2012-6-20 下午10:43:07 
  */
-public class PermissionDaoImpl implements IPermissionDao {
+public class ParticipatorDaoImpl implements IParticipatorDao {
 	
 	private final static String nameSpace = "WfPermissionMapper.";
 
@@ -24,7 +24,7 @@ public class PermissionDaoImpl implements IPermissionDao {
 	@Qualifier("sqlSessionTemplate")
 	private SqlSessionTemplate sqlSessionTemplate;
 	
-	public int save(WfPermission permission) throws DBAccessException {
+	public int save(Participator permission) throws DBAccessException {
 		try {
 			return sqlSessionTemplate.insert(nameSpace + "insert", permission);
 		} catch (Exception e) {
@@ -32,7 +32,7 @@ public class PermissionDaoImpl implements IPermissionDao {
 		}
 	}
 
-	public int modify(WfPermission permission) throws DBAccessException {
+	public int modify(Participator permission) throws DBAccessException {
 		try {
 			return sqlSessionTemplate.update(nameSpace + "update", permission);
 		} catch (Exception e) {
@@ -48,9 +48,9 @@ public class PermissionDaoImpl implements IPermissionDao {
 		}
 	}
 
-	public Page<WfPermission> queryPage(Map<String, Object> filter)
+	public Page<Participator> queryPage(Map<String, Object> filter)
 			throws DBAccessException {
-		Page<WfPermission> page = new Page<WfPermission>();
+		Page<Participator> page = new Page<Participator>();
 
 		try {
 			long count = (Long) sqlSessionTemplate.selectOne(nameSpace
@@ -58,7 +58,7 @@ public class PermissionDaoImpl implements IPermissionDao {
 			page.setTotal(count);
 
 			if (count > 0) {
-				page.setReslutSet((List<WfPermission>) sqlSessionTemplate
+				page.setReslutSet((List<Participator>) sqlSessionTemplate
 						.selectList(nameSpace + "selectPage", filter));
 			}
 
@@ -68,10 +68,10 @@ public class PermissionDaoImpl implements IPermissionDao {
 		}
 	}
 
-	public List<WfPermission> queryList(Map<String, Object> filter)
+	public List<Participator> queryList(Map<String, Object> filter)
 			throws DBAccessException {
 		try {
-			return (List<WfPermission>) sqlSessionTemplate.selectList(nameSpace
+			return (List<Participator>) sqlSessionTemplate.selectList(nameSpace
 					+ "queryList", filter);
 		} catch (Exception e) {
 			throw new DBAccessException("PermissionDaoImpl", "queryList", e);
