@@ -11,8 +11,13 @@ import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
 import org.thorn.dao.core.Page;
 import org.thorn.dao.exception.DBAccessException;
+import org.thorn.org.entity.Org;
+import org.thorn.org.service.IOrgService;
+import org.thorn.user.entity.User;
+import org.thorn.user.service.IUserService;
 import org.thorn.web.controller.BaseController;
 import org.thorn.web.entity.Status;
+import org.thorn.workflow.entity.Group;
 import org.thorn.workflow.entity.Participator;
 import org.thorn.workflow.service.IParticipatorService;
 
@@ -30,6 +35,14 @@ public class ParticipatorController extends BaseController {
 	@Autowired
 	@Qualifier("participatorService")
 	private IParticipatorService participatorService;
+
+	@Autowired
+	@Qualifier("userService")
+	private IUserService userService;
+
+	@Autowired
+	@Qualifier("orgService")
+	private IOrgService orgService;
 
 	@RequestMapping("/wf/pp/saveOrModifyParticipator")
 	@ResponseBody
@@ -88,6 +101,54 @@ public class ParticipatorController extends BaseController {
 		} catch (DBAccessException e) {
 			log.error("getParticipatorPage[Participator] - " + e.getMessage(),
 					e);
+		}
+
+		return page;
+	}
+
+	@RequestMapping("/wf/pp/getGroupPage")
+	@ResponseBody
+	public Page<Group> getGroupPage(long start, long limit, String sort,
+			String dir, String pid, String code, String name, String type) {
+		Page<Group> page = new Page<Group>();
+
+		try {
+			if (LocalStringUtils.equals(type, "user")) {
+
+				Page<User> upage = userService.queryPage(pid, name, null, code,
+						start, limit, sort, dir);
+				page.setTotal(upage.getTotal());
+
+				for (User user : upage.getReslutSet()) {
+					Group group = new Group();
+
+					group.setId(user.getUserId());
+					group.setName(user.getUserName());
+					group.setIsShow(user.getIsShow());
+					group.setIsDisabled(user.getIsDisabled());
+
+					page.getReslutSet().add(group);
+				}
+			} else if (LocalStringUtils.equals(type, "org")) {
+				Page<Org> opage = orgService.queryPage(pid, code, name, null,
+						start, limit, sort, dir);
+				
+				page.setTotal(opage.getTotal());
+
+				for (Org org : opage.getReslutSet()) {
+					Group group = new Group();
+
+					group.setId(org.getOrgCode());
+					group.setName(org.getOrgName());
+					group.setIsShow(org.getIsShow());
+					group.setIsDisabled(org.getIsDisabled());
+
+					page.getReslutSet().add(group);
+				}
+			}
+
+		} catch (DBAccessException e) {
+			log.error("getGroupPage[Group] - " + e.getMessage(), e);
 		}
 
 		return page;
