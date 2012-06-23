@@ -10,6 +10,11 @@
 
 	document.title = "Workflow - ProcessDf";
 	
+	var flowTypeDD = <thorn:dd  typeId="FLOW_TYPE" />;
+	var flowTypeRender = function(str) {
+		return Render.dictRender(flowTypeDD, str);
+	};
+	
 	var userPermission = {
 		DEPLOY : '<sec:authorize url="/wf/deployProcess.jmt">true</sec:authorize>',
 		DELETE : '<sec:authorize url="/wf/deleteProcessDf.jmt">true</sec:authorize>'
