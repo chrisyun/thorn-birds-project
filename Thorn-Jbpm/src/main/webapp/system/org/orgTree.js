@@ -51,7 +51,9 @@ orgTree.on("contextmenu", function(node, ev) {
 	}
 });
 
-orgTree.getRootNode().expand(false, false);
+if(orgTree.isVisible()) {
+	orgTree.getRootNode().expand(false, false);
+}
 
 var currentActiveNode = orgTree.getRootNode();
 

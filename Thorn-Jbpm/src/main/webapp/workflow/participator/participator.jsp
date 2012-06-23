@@ -3,6 +3,7 @@
 <%@ taglib prefix="thorn" uri="/thorn"%>
 <jsp:include page="/springTag/header.jmt"></jsp:include>
 
+<script type="text/javascript" src="../../system/org/orgTree.js"></script>
 <script type="text/javascript" src="participator.js"></script>
 <script type="text/javascript">
 
@@ -17,6 +18,8 @@
 	var limitTypeRender = function(str) {
 		return Render.dictRender(limitTypeDD, str);
 	};
+	
+	var areaDD = <thorn:dd  typeId="AREA" />;
 	
 	var userPermission = {
 		SAVE : '<sec:authorize url="/wf/pp/saveOrModifyPermission.jmt">true</sec:authorize>',
