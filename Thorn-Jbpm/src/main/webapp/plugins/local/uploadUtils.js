@@ -13,6 +13,7 @@ function UploadUtil(id, type) {
 		autoHeight : true,
 		bodyStyle : "padding: 10px 10px 0 10px;",
 		labelWidth : 80,
+		labelAlign : "right",
 		height : 130,
 		defaults : {
 			anchor : "95%",

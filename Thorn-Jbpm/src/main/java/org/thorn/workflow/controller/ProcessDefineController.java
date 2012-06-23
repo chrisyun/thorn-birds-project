@@ -23,7 +23,9 @@ import org.thorn.dao.core.Page;
 import org.thorn.web.controller.BaseController;
 import org.thorn.web.entity.Status;
 import org.thorn.web.util.ResponseHeaderUtils;
+import org.thorn.workflow.entity.FlowType;
 import org.thorn.workflow.entity.ProcessDefinition;
+import org.thorn.workflow.service.IFlowTypeService;
 
 /**
  * @ClassName: ProcessDefineController
@@ -40,24 +42,44 @@ public class ProcessDefineController extends BaseController {
 	@Qualifier("repositoryService")
 	private RepositoryService repository;
 
+	@Autowired
+	@Qualifier("flowTypeService")
+	private IFlowTypeService flowTypeService;
+
 	@RequestMapping("/wf/deployProcess")
-	public void deployProcess(String fileName,
+	public void deployProcess(String fileName, String flowType,
+			String flowDesc, String flowName,
 			@RequestParam("attach") MultipartFile attach,
 			HttpServletResponse response) throws IOException {
 		fileName = fileName.toLowerCase();
+		String deployId = null;
 
 		StringBuilder json = new StringBuilder();
 
 		try {
 			if (fileName.endsWith(".zip")) {
 				ZipInputStream zis = new ZipInputStream(attach.getInputStream());
-				repository.createDeployment()
+				deployId = repository.createDeployment()
 						.addResourcesFromZipInputStream(zis).deploy();
 			} else if (fileName.endsWith(".xml")) {
-				repository
+				deployId = repository
 						.createDeployment()
 						.addResourceFromInputStream(fileName,
 								attach.getInputStream()).deploy();
+			}
+
+			if (LocalStringUtils.isNotEmpty(deployId)) {
+				ProcessDefinitionQuery query = repository
+						.createProcessDefinitionQuery().deploymentId(deployId);
+				org.jbpm.api.ProcessDefinition pd = query.uniqueResult();
+
+				FlowType ft = new FlowType();
+				ft.setFlowDesc(flowDesc);
+				ft.setFlowKey(pd.getKey());
+				ft.setFlowName(flowName);
+				ft.setFlowType(flowType);
+
+				flowTypeService.saveOrModifyFlowType(ft);
 			}
 
 			json.append("{\"success\":true,");
@@ -101,7 +123,7 @@ public class ProcessDefineController extends BaseController {
 
 		return status;
 	}
-	
+
 	@RequestMapping("/wf/getProcessDfImage")
 	public void getProcessImage(String processDfId, HttpServletResponse response) {
 

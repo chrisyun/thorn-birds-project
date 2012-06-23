@@ -26,27 +26,54 @@ Ext.onReady(function() {
 				border : false,
 				autoHeight : true,
 				bodyStyle : "padding: 20px 10px 20px 10px;",
-				labelWidth : 80,
-				height : 180,
+				labelWidth : 100,
+				labelAlign : "right",
+				height : 300,
 				defaults : {
 					anchor : "95%",
 					allowBlank : false,
 					blankText : Validate.empty
 				},
 				items : [{
-							xtype : "hidden",
-							name : "fileName"
-						}, {
-							xtype : "fileuploadfield",
-							id : "fileUpload",
-							emptyText : "请选择需要发布的流程定义文件(.zip/.xml)",
-							fieldLabel : "流程定义文件",
-							name : "attach",
-							buttonText : "",
-							buttonCfg : {
-								iconCls : "upload-icon"
-							}
-						}]
+					xtype : "hidden",
+					name : "fileName"
+				}, {
+					xtype : "fileuploadfield",
+					id : "fileUpload",
+					emptyText : "请选择需要发布的流程定义文件(.zip/.xml)",
+					fieldLabel : Validate.redStar + "流程定义文件",
+					name : "attach",
+					buttonText : "",
+					buttonCfg : {
+						iconCls : "upload-icon"
+					}
+				}, {
+					xtype : "textfield",
+					name : "flowName",
+					fieldLabel : Validate.redStar + "流程中文名"
+				}, {
+					xtype : "combo",
+					hiddenName : "flowType",
+					fieldLabel : Validate.redStar + "流程类型",
+					valueField : "value",
+					displayField : "text",
+					mode : "local",
+					editable : false,
+					triggerAction : "all",
+					resizable : true,
+					emptyText : "---请选择---",
+					value : "",
+					store : new Ext.data.SimpleStore( {
+						fields : [ 'value', 'text' ],
+						data : flowTypeDD
+					})
+				}, {
+					xtype : "textarea",
+					name : "flowDesc",
+					allowBlank : true,
+					height : 80,
+					fieldLabel : "流程描述"
+				}]
 			});
 
 	deployForm.findById("fileUpload").addListener("fileselected",
