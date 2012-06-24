@@ -33,8 +33,15 @@ var Render = {
 		return value.match(reDate) + " " + value.match(reTime);
 	},
 	// 详细信息转化
-	detailRender : function(value, cm, colIndex) {
-		var _maxLength = cm.getColumnWidth(colIndex) / 11.6;
+	detailRender : function(value, cm, colIndex, length) {
+		var _maxLength = 20;
+		
+		if(cm == null && !Ext.isEmpty(length)) {
+			_maxLength = length;
+		} else if(cm != null) {
+			_maxLength = cm.getColumnWidth(colIndex) / 11.6;
+		}
+		
 		if (Ext.isEmpty(value) || value.length <= _maxLength) {
 			return value;
 		}
