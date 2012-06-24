@@ -193,7 +193,6 @@ Ext.onReady(function() {
 		}
 
 		org_win.show("修改组织");
-		var form = org_form.getPanel();
 
 		org_form.getForm().reset();
 
@@ -216,7 +215,7 @@ Ext.onReady(function() {
 			sortNum : selectedRecord.get("sortNum"),
 			opType : Configuration.opType.MODIFY
 		};
-		form.getForm().setValues(values);
+		org_form.getForm().setValues(values);
 
 		// 获取所属组织名称
 		if (!Ext.isEmpty(parentOrg)) {
