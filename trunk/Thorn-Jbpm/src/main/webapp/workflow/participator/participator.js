@@ -173,7 +173,7 @@ Ext.onReady(function() {
 		layout : 'border',
 		width : 680,
 		height : 420
-	}, [orgTree, group_grid.getGrid()], checkedGroupHandler);
+	}, [orgTree, group_grid.getGrid()], checkedOrgAndUserHandler);
 
 	group_query.onTrigger2Click = function() {
 		var queryType = Ext.getCmp("group_queryType").getText();
@@ -232,7 +232,7 @@ Ext.onReady(function() {
 	var role_win = new WindowUtil( {
 		width : 450,
 		height : 300
-	}, role_form.getPanel(), checkedGroupHandler);
+	}, role_form.getPanel(), checkedAreaAndRoleHandler);
 	
 	var role_store = new Ext.data.Store({
 		url : getAllRoleUrl,
@@ -441,7 +441,8 @@ Ext.onReady(function() {
 		}
 	}
 	
-	function checkedGroupHandler() {
+	function checkedOrgAndUserHandler() {
+		
 		if (groupArray.length > 0) {
 			groupArray = groupArray.substring(0, groupArray.length - 1);
 		}
@@ -450,7 +451,7 @@ Ext.onReady(function() {
 		group_Window.hide();
 	}
 	
-	function checkedGroupHandler() {
+	function checkedAreaAndRoleHandler() {
 		var thisForm = role_form.getPanel();
 
 		var checkedGroup = thisForm.findByType("checkbox");

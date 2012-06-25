@@ -12,6 +12,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.thorn.auth.service.IAuthService;
 import org.thorn.core.context.SpringContext;
 import org.thorn.core.util.LocalStringUtils;
+import org.thorn.dao.exception.DBAccessException;
+import org.thorn.org.entity.Org;
+import org.thorn.org.service.IOrgService;
 import org.thorn.security.entity.UserSecurity;
 import org.thorn.user.entity.User;
 
@@ -112,6 +115,20 @@ public class SecurityUserUtils {
 		}
 
 		return isAdmin;
+	}
+	
+	public static Org getUserParentOrg() {
+		User user = getCurrentUser();
+		Org org = null;
+		
+		try {
+			IOrgService service = SpringContext.getBean("orgService");
+			org = service.queryParentOrg(user.getOrgCode());
+		} catch (DBAccessException e) {
+			log.error("query parent org exception", e);
+		}
+		
+		return org;
 	}
 
 }

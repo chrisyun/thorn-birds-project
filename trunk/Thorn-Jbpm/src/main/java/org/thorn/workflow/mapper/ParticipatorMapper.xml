@@ -27,6 +27,13 @@
 			<if test="activityId != null and activityId != ''">
 				AND ACTIVITYID = #{activityId,jdbcType=VARCHAR}
       		</if>
+      		<if test="keys != null">
+      			AND PRCESSDFID in
+	      		<foreach collection="keys" item="item" open="(" close=")"
+					separator=",">
+					#{item,jdbcType=VARCHAR}
+				</foreach>
+      		</if>
 			<if test="processDfId != null and processDfId != ''">
 				AND PRCESSDFID = #{processDfId,jdbcType=VARCHAR}
       		</if>

@@ -1,5 +1,6 @@
 package org.thorn.workflow.service;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,6 +77,18 @@ public class ParticipatorServiceImpl implements IParticipatorService {
 		} else {
 			throw new DBAccessException("queryParticipator find multiple valued");
 		}
+	}
+
+	public List<Participator> queryList(Collection<String> keys, String activityId)
+			throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+
+		filter.put("activityId", activityId);
+		filter.put("keys", keys);
+		
+		List<Participator> list = participatorDao.queryList(filter);
+		
+		return list;
 	}
 
 }

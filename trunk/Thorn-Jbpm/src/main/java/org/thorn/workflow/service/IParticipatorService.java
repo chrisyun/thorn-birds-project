@@ -1,5 +1,8 @@
 package org.thorn.workflow.service;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.thorn.dao.core.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.workflow.entity.Participator;
@@ -23,5 +26,6 @@ public interface IParticipatorService {
 			String sort, String dir) throws DBAccessException;
 
 	public Participator queryParticipator(String activityId, String processDfId) throws DBAccessException;
-
+	
+	public List<Participator> queryList(Collection<String> keys, String activityId) throws DBAccessException; 
 }
