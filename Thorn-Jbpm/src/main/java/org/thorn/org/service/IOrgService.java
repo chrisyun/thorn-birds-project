@@ -88,5 +88,7 @@ public interface IOrgService {
 	 */
 	public Org queryOrg(String orgCode, String orgId) throws DBAccessException;
 	
+	public Org queryParentOrg(String childOrgCode) throws DBAccessException;
+	
 	public List<Org> queryList(String pid, Collection<String> pids) throws DBAccessException;
 }

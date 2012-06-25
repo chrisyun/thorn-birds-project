@@ -100,5 +100,12 @@ public class OrgServiceImpl implements IOrgService {
 		return list.get(0);
 	}
 
+	public Org queryParentOrg(String childOrgCode) throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+		filter.put("orgCode", childOrgCode);
+		
+		return orgDao.queryParent(filter);
+	}
+
 }
 

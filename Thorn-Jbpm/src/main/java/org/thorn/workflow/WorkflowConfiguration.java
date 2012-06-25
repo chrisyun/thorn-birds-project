@@ -22,10 +22,16 @@ public interface WorkflowConfiguration {
 	
 	public final static String GROUP_AREA = "area";
 	
+	public final static String GROUP_USER = "user";
+	
 	public final static String COMPANY = "COMPANY";
 	
 	public final static String DEPT = "DEPT";
 	
 	public final static String ORG = "ORG";
+	
+	
+	
+	public final static String START_ACTIVITY_ID = "start";
 }
 

@@ -71,4 +71,15 @@ public interface IOrgDao {
 	 * @throws DBAccessException
 	 */
 	public int delete(List<String> ids) throws DBAccessException;
+	
+	/**
+	 * 
+	 * @Description：
+	 * @author：chenyun 	        
+	 * @date：2012-6-25 下午09:03:18
+	 * @param filter
+	 * @return
+	 * @throws DBAccessException
+	 */
+	public Org queryParent(Map<String, Object> filter) throws DBAccessException;
 }
