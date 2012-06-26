@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.thorn.core.util.LocalStringUtils;
@@ -175,8 +176,8 @@ public class CreateProcessController extends BaseController {
 	}
 	
 	@RequestMapping("/wf/cr/startNewProcess")
-	public String startNewProcess(String key) {
-		return "";
+	public String startNewProcess(String key, ModelMap model) {
+		return "/workflow/template/newProcess";
 	}
 	
 
