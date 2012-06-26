@@ -21,7 +21,7 @@ Ext.onReady(function() {
 	};
 	var openRender = function(name, metadata, record, rowIndex, colIndex) {
 		var key = record.get("flowKey");
-		var url = sys.path + "/AlertTimeOut.jsp?key=" + key
+		var url = sys.path + "/template/newProcess.jsp?key=" + key
 		var link = "<a href='" + url + "' target='_blank'>" + name + "</a>";
 
 		return link;
