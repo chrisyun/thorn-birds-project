@@ -1,13 +1,15 @@
+var tpanel,contentPanel,bPanel;
+
 Ext.onReady(function() {
 	Ext.QuickTips.init();
 	
-	var tpanel = new Ext.panel({
+	tpanel = new Ext.panel({
 		height : 100,
 		split : true,
 //		collapsible : true,
 		region : "north",
 		tbar : ["-"],
-		html : "<div id='title'></div>"
+		html : "<div id='processTitle'></div>"
 	});
 	
 	var loadingUrl = sys.path + "/resources/images/local/waiting.gif";
@@ -18,13 +20,13 @@ Ext.onReady(function() {
 						"<img src='" + loadingUrl + "'>" +
 			"</td></tr></table>";
 	
-	var contentPanel = new Ext.panel({
+	contentPanel = new Ext.panel({
 		split : true,
 		region : "center",
 		html : html
 	});
 	
-	var bPanel = new Ext.panel({
+	bPanel = new Ext.panel({
 		split : true,
 		region : "south",
 //		collapsible : true,
@@ -41,3 +43,8 @@ Ext.onReady(function() {
 	
 	completePage();
 });
+
+
+function setTitle(processTitle) {
+	Ext.getDom("processTitle").innerHTML = processTitle;
+}
