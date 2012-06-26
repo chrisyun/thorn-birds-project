@@ -8,10 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
-import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.jasperreports.JasperReportsHtmlView;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.web.util.ResponseHeaderUtils;
@@ -39,21 +37,25 @@ public class JsonExceptionResolver implements HandlerExceptionResolver, Ordered 
 
 		log.debug("the request uri : {}", uri);
 
-		if (uri.indexOf(json_suffix) > 0) {
+		if (uri.indexOf(json_suffix) > 0
+				&& LocalStringUtils
+						.equalsIgnoreCase(
+								request.getHeader("x-requested-with"),
+								"XMLHttpRequest")) {
 
 			ModelAndView mv = new ModelAndView();
 
 			mv.setView(new MappingJacksonJsonView());
 			mv.addObject("success", false);
 			mv.addObject("message", ex.getMessage());
-			
+
 			// 针对附件上传的错误做特殊处理
-			if(uri.indexOf("getupload.jmt") > 0) {
+			if (uri.indexOf("getupload.jmt") > 0) {
 				mv.setView(null);
 				StringBuilder json = new StringBuilder();
 				json.append("{\"success\":false,");
 				json.append("\"message\":\"附件上传失败：" + ex.getMessage() + "\"}");
-				
+
 				ResponseHeaderUtils.setHtmlResponse(response);
 				try {
 					response.getWriter().write(json.toString());
@@ -62,7 +64,7 @@ public class JsonExceptionResolver implements HandlerExceptionResolver, Ordered 
 					log.warn("write response json exception:", e);
 				}
 			}
-			
+
 			return mv;
 		}
 
