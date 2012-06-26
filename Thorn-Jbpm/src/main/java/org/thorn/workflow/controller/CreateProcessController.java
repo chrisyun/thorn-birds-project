@@ -173,5 +173,11 @@ public class CreateProcessController extends BaseController {
 
 		return status;
 	}
+	
+	@RequestMapping("/wf/cr/startNewProcess")
+	public String startNewProcess(String key) {
+		return "";
+	}
+	
 
 }
