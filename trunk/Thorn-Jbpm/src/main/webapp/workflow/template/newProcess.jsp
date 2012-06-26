@@ -12,7 +12,7 @@
 	
 	String taskId = LocalStringUtils.defaultString((String) request.getAttribute("taskId"));
 	String activityName = LocalStringUtils.defaultString((String) request.getAttribute("activityName"));
-	String contentPage = LocalStringUtils.defaultString((String) request.getAttribute("pageUrl"));
+	String contentPage = "/wfForm/" + LocalStringUtils.defaultString((String) request.getAttribute("pageUrl"));
 %>
 
 <script type="text/javascript" src="<%=path %>/plugins/workflow/processImage.js"></script>
@@ -33,5 +33,6 @@
 	
 </script>
 
+<jsp:include page="<%=contentPage%>"></jsp:include>
 <!-- 之间不能有空格，只能为1种情况 -->
 <jsp:include page="/reference/footer.jsp"></jsp:include>

@@ -203,7 +203,7 @@ public class CreateProcessController extends BaseController {
 		Task task = taskService.createTaskQuery().processInstanceId(pi.getId())
 				.uniqueResult();
 
-		model.put("flowKey", pi.getKey());
+		model.put("flowKey", key);
 		model.put("flowName", pi.getName());
 		model.put("flowInstId", pi.getId());
 		model.put("creater", user.getUserId());
