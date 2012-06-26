@@ -45,7 +45,7 @@ response.setStatus(HttpServletResponse.SC_OK);
   	<table align="center" width="100%">
   		<tr><td align="center"> 
   			<div id="exception">
-				<h1>程序发生了错误，有可能该页面正在调试或者是设计上的缺陷.</h1><br/>
+				<h2>程序发生了错误，有可能该页面正在调试或者是设计上的缺陷.</h2><br/>
 			   	<hr width="100%">
 			</div>
     	</td></tr>

@@ -1,10 +1,16 @@
 package org.thorn.workflow.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.jbpm.api.ExecutionService;
+import org.jbpm.api.ProcessInstance;
+import org.jbpm.api.TaskService;
+import org.jbpm.api.task.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +51,14 @@ public class CreateProcessController extends BaseController {
 	@Autowired
 	@Qualifier("participatorService")
 	private IParticipatorService participatorService;
+
+	@Autowired
+	@Qualifier("executionService")
+	private ExecutionService execution;
+
+	@Autowired
+	@Qualifier("taskService")
+	private TaskService taskService;
 
 	@RequestMapping("/wf/cr/getCreatProcessList")
 	@ResponseBody
@@ -174,11 +188,30 @@ public class CreateProcessController extends BaseController {
 
 		return status;
 	}
-	
+
 	@RequestMapping("/wf/cr/startNewProcess")
 	public String startNewProcess(String key, ModelMap model) {
+
+		User user = SecurityUserUtils.getCurrentUser();
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put(WorkflowConfiguration.PROCESS_CREATER, user.getUserId());
+
+		ProcessInstance pi = execution.startProcessInstanceByKey(key, map);
+
+		// 已经是start节点的第一个task
+		Task task = taskService.createTaskQuery().processInstanceId(pi.getId())
+				.uniqueResult();
+
+		model.put("flowKey", pi.getKey());
+		model.put("flowName", pi.getName());
+		model.put("flowInstId", pi.getId());
+		model.put("creater", user.getUserId());
+		model.put("activityName", task.getActivityName());
+		model.put("pageUrl", task.getFormResourceName());
+		model.put("taskId", task.getId());
+		
 		return "/workflow/template/newProcess";
 	}
-	
 
 }

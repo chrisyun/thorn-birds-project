@@ -33,5 +33,7 @@ public interface WorkflowConfiguration {
 	
 	
 	public final static String START_ACTIVITY_ID = "start";
+	
+	public final static String PROCESS_CREATER = "creater";
 }
 

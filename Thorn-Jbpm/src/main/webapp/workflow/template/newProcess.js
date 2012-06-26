@@ -3,7 +3,7 @@ var tpanel,contentPanel,bPanel;
 Ext.onReady(function() {
 	Ext.QuickTips.init();
 	
-	tpanel = new Ext.panel({
+	tpanel = new Ext.Panel({
 		height : 100,
 		split : true,
 //		collapsible : true,
@@ -20,13 +20,13 @@ Ext.onReady(function() {
 						"<img src='" + loadingUrl + "'>" +
 			"</td></tr></table>";
 	
-	contentPanel = new Ext.panel({
+	contentPanel = new Ext.Panel({
 		split : true,
 		region : "center",
 		html : html
 	});
 	
-	bPanel = new Ext.panel({
+	bPanel = new Ext.Panel({
 		split : true,
 		region : "south",
 //		collapsible : true,
