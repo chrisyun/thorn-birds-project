@@ -21,16 +21,36 @@
 
 	document.title = "Workflow - newProcess";
 	
+	var flowTypeDD = <thorn:dd  typeId="FLOW_TYPE" />;
+	var flowTypeRender = function(str) {
+		return Render.dictRender(flowTypeDD, str);
+	};
+	
+	var wfNameDD = <thorn:getWfCNName />
+	var wfNameRender = function(str) {
+		return Render.dictRender(wfNameDD, str);
+	}
+	var wfTypeRender = function(key) {
+		for(var i=0;i<wfNameDD.length;i++) {
+			if(key == wfNameDD[i][0]) {
+				return wfNameDD[i][2];
+			}
+		}
+		
+		return key;
+	}
+	
 	var processInfo = {
 		flowKey : "<%=flowKey %>",
-		flowName : "<%=flowName %>",
+		flowName : wfNameRender("<%=flowKey %>"),
+		flowType : flowTypeRender(wfTypeRender("<%=flowKey %>")),
 		flowInstId : "<%=flowInstId %>",
 		creater : "<%=creater %>",
 		taskId : "<%=taskId %>",
 		activityName : "<%=activityName %>",
-		contentPage : "<%=contentPage %>"
-	}
-	
+		contentPage : "<%=contentPage %>",
+		title : "",
+	};
 </script>
 
 <jsp:include page="<%=contentPage%>"></jsp:include>
