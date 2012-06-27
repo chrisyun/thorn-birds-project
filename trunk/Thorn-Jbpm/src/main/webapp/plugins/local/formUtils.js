@@ -25,7 +25,7 @@ function FormUtil(attrObj) {
 }
 
 FormUtil.prototype.addButton = function(btn) {
-	this.panel.buttons.push(btn);
+	this.panel.addButton(btn);
 }
 
 FormUtil.prototype.addComp = function(comp, columnWidth, empty) {
