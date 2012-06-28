@@ -197,7 +197,7 @@
 												
 												<ext:panel lazyInit="true">
 													<ext:items>
-														<ext:textField id="sborg" name="medproject.sborg" fieldLabel="申报部门<span class='red'>(必填)</span>"  allowBlank="false" readOnly="true" otherProperties="anchor: Project.fieldAnchor">
+														<ext:textField id="sborg" name="medproject.sborg" fieldLabel="申报部门<span class='red'>(必填)</span>"  allowBlank="false" readOnly="true" otherProperties="anchor: MedProject.fieldAnchor">
 														</ext:textField>
 													</ext:items>
 												</ext:panel>
