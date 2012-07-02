@@ -76,11 +76,4 @@
 		<include refid="Where_Clause" />
 	</select>
 
-	<select id="select" resultMap="BaseResultMap" parameterType="hashmap">
-		select
-		<include refid="Base_Column_List" />
-		from T_SYS_ROLE r
-		<include refid="Where_Clause" />
-		<include refid="MySQLCommonMapper.sortInfo"/>
-	</select>
 </mapper>

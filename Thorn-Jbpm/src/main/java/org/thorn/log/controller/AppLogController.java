@@ -17,7 +17,7 @@ import org.thorn.core.excel.ArrayAdapter;
 import org.thorn.core.excel.ExcelStyle;
 import org.thorn.core.excel.ExcelUtils;
 import org.thorn.core.util.ReflectUtils;
-import org.thorn.dao.core.Page;
+import org.thorn.web.entity.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.log.entity.AppLog;
 import org.thorn.log.service.IAppLogService;

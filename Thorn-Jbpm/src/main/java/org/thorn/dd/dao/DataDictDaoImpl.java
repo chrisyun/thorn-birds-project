@@ -6,7 +6,6 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.thorn.dao.core.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.dd.entity.Dict;
 import org.thorn.dd.entity.DictType;
@@ -25,25 +24,24 @@ public class DataDictDaoImpl implements IDataDictDao {
 	@Qualifier("sqlSessionTemplate")
 	private SqlSessionTemplate sqlSessionTemplate;
 
-	public Page<DictType> queryDtPage(Map<String, Object> filter)
+	public List<DictType> queryDtList(Map<String, Object> filter)
 			throws DBAccessException {
-		Page<DictType> page = new Page<DictType>();
-
 		try {
-			long count = (Long) sqlSessionTemplate.selectOne(nameSpace
-					+ "selectTypePageCount", filter);
-			page.setTotal(count);
-
-			if (count > 0) {
-				page.setReslutSet((List<DictType>) sqlSessionTemplate
-						.selectList(nameSpace + "selectTypePage", filter));
-			}
-
-			return page;
+			return (List<DictType>) sqlSessionTemplate.selectList(nameSpace
+					+ "selectTypePage", filter);
 		} catch (Exception e) {
-			throw new DBAccessException("DataDictImpl", "queryDtPage", e);
+			throw new DBAccessException("DataDictImpl", "queryDtList", e);
 		}
+	}
 
+	public long queryDtPageCount(Map<String, Object> filter)
+			throws DBAccessException {
+		try {
+			return (Long) sqlSessionTemplate.selectOne(nameSpace
+					+ "selectTypePageCount", filter);
+		} catch (Exception e) {
+			throw new DBAccessException("DataDictImpl", "queryDtPageCount", e);
+		}
 	}
 
 	public List<Dict> queryDdList(Map<String, Object> filter)

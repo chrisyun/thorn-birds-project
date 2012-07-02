@@ -87,14 +87,6 @@
 		</foreach>
 	</delete>
 
-	<select id="queryList" parameterType="hashmap" resultMap="BaseResultMap">
-		select
-		<include refid="Base_Column_List" />
-		from JBPM4_EXTEND_PARTICIPATOR 
-		<include refid="Where_Clause" />
-		<include refid="MySQLCommonMapper.sortInfo" />
-	</select>
-
 	<select id="selectPage" resultMap="BaseResultMap" parameterType="hashmap">
 		<include refid="MySQLCommonMapper.pagingStart" />
 		select

@@ -1,13 +1,11 @@
 package org.thorn.auth.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.thorn.dao.core.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.role.entity.Role;
 import org.thorn.user.entity.User;
@@ -84,34 +82,23 @@ public class AuthDaoImpl implements IAuthDao {
 		}
 	}
 
-	public Page<User> queryPageByRole(Map<String, Object> filter)
+	public List<User> queryListByRole(Map<String, Object> filter)
 			throws DBAccessException {
-		Page<User> page = new Page<User>();
-
 		try {
-			long count = (Long) sqlSessionTemplate.selectOne(nameSpace
-					+ "selectUserPageByRoleCount", filter);
-			page.setTotal(count);
-
-			if (count > 0) {
-				page.setReslutSet((List<User>) sqlSessionTemplate.selectList(
-						nameSpace + "selectUserPageByRole", filter));
-			}
-
-			return page;
+			return (List<User>) sqlSessionTemplate.selectList(nameSpace
+					+ "selectUserPageByRole", filter);
 		} catch (Exception e) {
-			throw new DBAccessException("AuthDaoImpl", "queryPageByRole", e);
+			throw new DBAccessException("AuthDaoImpl", "queryListByRole", e);
 		}
 	}
-	
-	public List<User> queryListByRole(Map<String, Object> filter)
-		throws DBAccessException {
-		List<User> user = new ArrayList<User>();
+
+	public long queryPageCountInRole(Map<String, Object> filter)
+			throws DBAccessException {
 		try {
-			return (List<User>) sqlSessionTemplate.selectList(
-					nameSpace + "selectUserPageByRole", filter);
+			return (Long) sqlSessionTemplate.selectOne(nameSpace
+					+ "selectUserPageByRoleCount", filter);
 		} catch (Exception e) {
-			throw new DBAccessException("AuthDaoImpl", "selectUserByRole", e);
+			throw new DBAccessException("AuthDaoImpl", "queryPageCountInRole", e);
 		}
 	}
 
@@ -133,23 +120,25 @@ public class AuthDaoImpl implements IAuthDao {
 		}
 	}
 
-	public Page<User> queryPageNotInRole(Map<String, Object> filter)
+	public List<User> queryListNotInRole(Map<String, Object> filter)
 			throws DBAccessException {
-		Page<User> page = new Page<User>();
-
 		try {
-			long count = (Long) sqlSessionTemplate.selectOne(nameSpace
-					+ "selectUserPageNotInRoleCount", filter);
-			page.setTotal(count);
-
-			if (count > 0) {
-				page.setReslutSet((List<User>) sqlSessionTemplate.selectList(
-						nameSpace + "selectUserPageNotInRole", filter));
-			}
-
-			return page;
+			return (List<User>) sqlSessionTemplate.selectList(nameSpace
+					+ "selectUserPageNotInRole", filter);
 		} catch (Exception e) {
-			throw new DBAccessException("AuthDaoImpl", "queryPageNotInRole", e);
+			throw new DBAccessException("AuthDaoImpl", "queryListNotInRole", e);
+		}
+	}
+
+	public long queryPageCountNotInRole(Map<String, Object> filter)
+			throws DBAccessException {
+		try {
+
+			return (Long) sqlSessionTemplate.selectOne(nameSpace
+					+ "selectUserPageNotInRoleCount", filter);
+		} catch (Exception e) {
+			throw new DBAccessException("AuthDaoImpl",
+					"queryPageCountNotInRole", e);
 		}
 	}
 

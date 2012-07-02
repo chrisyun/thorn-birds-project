@@ -12,9 +12,9 @@ import org.thorn.attachment.dao.IAttachmentDao;
 import org.thorn.attachment.entity.Attachment;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
-import org.thorn.dao.core.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.log.NoLogging;
+import org.thorn.web.entity.Page;
 
 /**
  * @ClassName: AttachmentServiceImpl
@@ -62,8 +62,11 @@ public class AttachmentDBServiceImpl implements IAttachmentService {
 
 	public List<Attachment> queryAtts(String ids) throws DBAccessException {
 		List<String> idsArray = LocalStringUtils.splitStr2Array(ids);
-
-		return attDao.query(idsArray);
+		
+		Map<String, Object> filter = new HashMap<String, Object>();
+		filter.put("ids", idsArray);
+		
+		return attDao.queryList(filter);
 	}
 
 	public void delete(String ids) throws DBAccessException {
@@ -92,7 +95,15 @@ public class AttachmentDBServiceImpl implements IAttachmentService {
 			filter.put(Configuration.ORDER_NAME, dir);
 		}
 		
-		return attDao.queryPage(filter);
+		Page<Attachment> page = new Page<Attachment>();
+		
+		page.setTotal(attDao.queryPageCount(filter));
+		
+		if(page.getTotal() > 0) {
+			page.setReslutSet(attDao.queryList(filter));
+		}
+		
+		return page;
 	}
 
 }

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserCache;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
-import org.thorn.dao.core.Page;
+import org.thorn.web.entity.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.log.NoLogging;
 import org.thorn.security.SecurityEncoderUtils;
@@ -107,7 +107,14 @@ public class UserServiceImpl implements IUserService {
 			filter.put(Configuration.ORDER_NAME, dir);
 		}
 
-		return userDao.queryPage(filter);
+		Page<User> page = new Page<User>();
+		
+		page.setTotal(userDao.queryPageCount(filter));
+		if(page.getTotal() > 0) {
+			page.setReslutSet(userDao.queryList(filter));
+		}
+		
+		return page;
 	}
 
 	public void disabledUser(String ids, String isDisabled)

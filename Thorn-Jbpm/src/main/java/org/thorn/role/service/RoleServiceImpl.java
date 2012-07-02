@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
-import org.thorn.dao.core.Page;
+import org.thorn.web.entity.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.role.dao.IRoleDao;
 import org.thorn.role.entity.Role;
@@ -49,14 +49,21 @@ public class RoleServiceImpl implements IRoleService {
 		filter.put(Configuration.SROT_NAME, sort);
 		filter.put(Configuration.ORDER_NAME, dir);
 		
-		return roleDao.queryPage(filter);
+		Page<Role> page = new Page<Role>();
+		
+		page.setTotal(roleDao.queryPageCount(filter));
+		if(page.getTotal() > 0) {
+			page.setReslutSet(roleDao.queryList(filter));
+		}
+		
+		return page;
 	}
 
 	public List<Role> queryAllRoles() throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
 		filter.put("isDisabled", Configuration.DB_NO);
 		
-		return roleDao.query(filter);
+		return roleDao.queryList(filter);
 	}
 
 }

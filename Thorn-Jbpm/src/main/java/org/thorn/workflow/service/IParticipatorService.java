@@ -3,7 +3,7 @@ package org.thorn.workflow.service;
 import java.util.Collection;
 import java.util.List;
 
-import org.thorn.dao.core.Page;
+import org.thorn.web.entity.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.workflow.entity.Participator;
 

@@ -7,23 +7,22 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.thorn.attachment.entity.Attachment;
-import org.thorn.dao.core.Page;
 import org.thorn.dao.exception.DBAccessException;
 
-/** 
- * @ClassName: AttachmentDaoImpl 
- * @Description: 
+/**
+ * @ClassName: AttachmentDaoImpl
+ * @Description:
  * @author chenyun
- * @date 2012-6-7 下午09:06:43 
+ * @date 2012-6-7 下午09:06:43
  */
 public class AttachmentDaoImpl implements IAttachmentDao {
-	
+
 	private final static String nameSpace = "AttMapper.";
 
 	@Autowired
 	@Qualifier("sqlSessionTemplate")
 	private SqlSessionTemplate sqlSessionTemplate;
-	
+
 	public int save(Attachment att) throws DBAccessException {
 		try {
 			return sqlSessionTemplate.insert(nameSpace + "insert", att);
@@ -40,33 +39,26 @@ public class AttachmentDaoImpl implements IAttachmentDao {
 		}
 	}
 
-	public Page<Attachment> queryPage(Map<String, Object> filter)
+	public long queryPageCount(Map<String, Object> filter)
 			throws DBAccessException {
-		Page<Attachment> page = new Page<Attachment>();
-
 		try {
 			long count = (Long) sqlSessionTemplate.selectOne(nameSpace
 					+ "selectPageCount", filter);
-			page.setTotal(count);
 
-			if (count > 0) {
-				page.setReslutSet((List<Attachment>) sqlSessionTemplate.selectList(
-						nameSpace + "selectPage", filter));
-			}
-
-			return page;
+			return count;
 		} catch (Exception e) {
-			throw new DBAccessException("AttachmentDaoImpl", "queryPage", e);
+			throw new DBAccessException("AttachmentDaoImpl", "queryPageCount",
+					e);
 		}
 	}
 
-	public List<Attachment> query(List<String> ids)
+	public List<Attachment> queryList(Map<String, Object> filter)
 			throws DBAccessException {
 		try {
 			return (List<Attachment>) sqlSessionTemplate.selectList(nameSpace
-					+ "select", ids);
+					+ "selectPage", filter);
 		} catch (Exception e) {
-			throw new DBAccessException("AttachmentDaoImpl", "query", e);
+			throw new DBAccessException("AttachmentDaoImpl", "queryList", e);
 		}
 	}
 
@@ -80,4 +72,3 @@ public class AttachmentDaoImpl implements IAttachmentDao {
 	}
 
 }
-

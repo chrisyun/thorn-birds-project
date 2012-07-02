@@ -3,7 +3,7 @@ package org.thorn.log.dao;
 import java.util.List;
 import java.util.Map;
 
-import org.thorn.dao.core.Page;
+import org.thorn.web.entity.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.log.entity.AppLog;
 
@@ -35,7 +35,7 @@ public interface IAppLogDao {
 	 * @return
 	 * @throws DBAccessException
 	 */
-	public Page<AppLog> queryPage(Map<String, Object> filter)
+	public long queryPageCount(Map<String, Object> filter)
 			throws DBAccessException;
 	
 	/**

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
-import org.thorn.dao.core.Page;
+import org.thorn.web.entity.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.log.dao.IAppLogDao;
 import org.thorn.log.entity.AppLog;
@@ -50,7 +50,14 @@ public class AppLogServiceImpl implements IAppLogService {
 			filter.put(Configuration.ORDER_NAME, dir);
 		}
 		
-		return logDao.queryPage(filter);
+		Page<AppLog> page = new Page<AppLog>();
+		
+		page.setTotal(logDao.queryPageCount(filter));
+		if(page.getTotal() > 0) {
+			page.setReslutSet(logDao.queryList(filter));
+		}
+		
+		return page;
 	}
 
 	public List<AppLog> queryList(String moduleName, String handleResult,

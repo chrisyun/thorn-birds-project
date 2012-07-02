@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
-import org.thorn.dao.core.Page;
+import org.thorn.web.entity.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.dd.dao.IDataDictDao;
 import org.thorn.dd.entity.Dict;
@@ -36,8 +36,15 @@ public class DataDictServiceImpl implements IDataDictService {
 		filter.put(Configuration.PAGE_START, start);
 		filter.put(Configuration.SROT_NAME, sort);
 		filter.put(Configuration.ORDER_NAME, dir);
-
-		return ddDao.queryDtPage(filter);
+		
+		Page<DictType> page = new Page<DictType>();
+		
+		page.setTotal(ddDao.queryDtPageCount(filter));
+		if(page.getTotal() > 0) {
+			page.setReslutSet(ddDao.queryDtList(filter));
+		}
+		
+		return page;
 	}
 
 	public List<Dict> queryDdList(String typeId) throws DBAccessException {
