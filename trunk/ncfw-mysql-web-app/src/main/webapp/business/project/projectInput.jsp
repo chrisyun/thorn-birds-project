@@ -83,6 +83,7 @@
 		}
    	   	
    	 	store.baseParams = {
+   	 		'isInput' : 'yes',
  			'pname': Ext.getCmp("query.projectName").getValue().trim(),
  			'dept': Ext.getCmp("query.dept").getValue(),
  			'pmtype': Ext.getCmp("query.projectType").getValue(),
@@ -103,6 +104,14 @@
 
 	//初始化页面信息
 	function initPage () {
+		if(roleId != 'projectsp' || 'ZB' != proprovincecode) {
+			//Ext.getCmp('project_add_Btn').hide();
+			//Ext.getCmp('project_fl_Btn').hide();
+		}
+		
+		if(roleId != 'sysadmin' && roleId != 'projectsp') {
+			Ext.getCmp('project_del_Btn').hide();
+		}
 		
 		if('ZF' != orgType || 'ZB' != proprovincecode) {
 			Ext.getCmp("pCodeCon").hide();
@@ -130,11 +139,14 @@
 		}
 		
 		Ext.getDom("excelIframe").src = sys.basePath + 'projectAction!exportProjectStore.do?pname=' 
-			+ pname + '&dept=' + dept + '&pmtype=' + pmtype  + '&pstatus=' + pstatus 
+			+ pname + '&dept=' + dept + '&pmtype=' + pmtype  + '&pstatus=' + pstatus + '&isInput=yes'
 			 + '&spstatus=' + spstatus + '&pwtype=' + pwtype + '&startDate=' + startDate + '&endDate=' + endDate + '&radom=' + Math.random();
 	}
-
-
+	
+	var showInputWindow = function() {
+		 var projectUrl = sys.basePath + 'business/project/BZProject.jsp';
+		 window.open(projectUrl,'newwindow','height=600,width=1000,top=50,left=50,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no')
+	};
 	
     </script>
 </head>
@@ -295,8 +307,20 @@
 									定义数据列表  
 								-------------------------------------------------------------------------------------------------%>
 								<ext:gridPanel var="dataGrid" id="dataGrid" region="center" iconCls="icon_grid" title="项目成果列表(<span style='color:blue;'>双击查看详情</span>)"
-									border="true" otherProperties="split: true" iconCls="icon_grid" loadMask="true" viewConfig="{forceFit: true}"
-								listeners="{celldblclick : function ( thisGrid, rowIndex, columnIndex, ev ) {Project.showPendingWindow('searchStore');}}">
+									border="true" otherProperties="split: true" iconCls="icon_grid" loadMask="true" viewConfig="{forceFit: true}"  selModel="sm"
+								listeners="{celldblclick : function ( thisGrid, rowIndex, columnIndex, ev ) {Project.showPendingWindow('searchInput');;}}">
+									<ext:tbar>
+										<ext:toolbarSeparator></ext:toolbarSeparator>
+										<ext:toolbarButton id="project_add_Btn" text="项目录入" iconCls="icon_add" handler="showInputWindow"
+											otherProperties="minWidth: Common.config.buttonWidth.minButton">
+										</ext:toolbarButton>
+										<ext:toolbarButton id="project_fl_Btn" text="项目分类" iconCls="icon_sure" handler="PWProject.choosePwType"
+											otherProperties="minWidth: Common.config.buttonWidth.minButton">
+										</ext:toolbarButton>
+										<ext:toolbarButton id="project_del_Btn" text="项目删除" iconCls="icon_delete" handler="Project.deleteProject"
+											otherProperties="minWidth: Common.config.buttonWidth.minButton">
+										</ext:toolbarButton>
+									</ext:tbar>
 									<%-- 定义数据源--%>
 									<ext:store var="dataStore" remoteSort="true" sortInfo="{field: 'creattime', direction: 'DESC'}"
 										otherProperties="url: listUrl" >
@@ -318,7 +342,8 @@
 									</ext:store>
 									<%-- 定义列表的列头--%>
 									<ext:columnModel id="cm">
-										<ext:rowNumberer></ext:rowNumberer>,
+										<ext:rowNumberer></ext:rowNumberer>
+										<ext:checkboxSelectionModel var="sm"></ext:checkboxSelectionModel>,
 										{header : '项目名称', width: 100, dataIndex: 'pname',sortable:true},
 										{header : '项目编号', width: 100, dataIndex: 'pslnumber'},
 										{header : '项目类别', width: 100, dataIndex: 'pmtype', renderer: LocalRenderer.projectType,sortable:true},

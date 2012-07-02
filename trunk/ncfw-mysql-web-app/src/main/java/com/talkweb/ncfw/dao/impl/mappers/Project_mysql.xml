@@ -85,6 +85,12 @@
 		   <if test="handlerlimit != null and handlerlimit != ''">
 		   		,handlerlimit
 		   </if>
+		   <if test="isInput != null and isInput != ''">
+		   		,isInput
+		   </if>
+		   <if test="pwtype != null and pwtype != ''">
+		   		,pwtype
+		   </if>
 		) values (
 		  		#{pid}
 		  <if test="pname != null and pname != ''">
@@ -165,6 +171,12 @@
 		   <if test="handlerlimit != null and handlerlimit != ''">
 		   		,#{handlerlimit}
 		   </if>
+		   <if test="isInput != null and isInput != ''">
+		   		,#{isInput}
+		   </if>
+		   <if test="pwtype != null and pwtype != ''">
+		   		,#{pwtype}
+		   </if>
 		   )
 	</insert>
 	
@@ -237,6 +249,9 @@
 		   <if test="pwtype != null and pwtype != ''">
 		   		pwtype = #{pwtype},
 		   </if>
+		   <if test="isInput != null and isInput != ''">
+		   		isInput = #{isInput}
+		   </if>
 		</trim>
 		where pid = #{pid}
 	</update>
@@ -269,12 +284,19 @@
 			t.handler ,
 			t.PROPROVINCECODE,
 			t.handleType,
-			t.pwtype
+			t.pwtype,
+			t.isInput
 		from t_project t where PID = #{pid}
 	</select>
 	
 	<!-- query Condition -->
 	<sql id="conditionSql">
+		<if test=" isInput == null or isInput == ''">
+			AND isInput is null
+		</if>
+		<if test=" isInput != null and isInput != ''">
+		
+		</if>
 		<if test=" pname != null and pname != ''">
 			AND pname LIKE CONCAT('%', #{pname}, '%')
 		</if>
@@ -302,9 +324,6 @@
 		<if test="curActivityName != null and curActivityName != ''">
 		   	AND curActivityName = #{curActivityName}
 		   </if>
-		<if test=" pstatusNot != null and pstatusNot != ''">
-			AND pstatus !=  #{pstatusNot}
-		</if>
 		<if test=" pwtype != null and pwtype != ''">
 			AND pwtype =  #{pwtype}
 		</if>
@@ -335,15 +354,17 @@
 		       t.curActivityName,
 		       t.proprovincecode,
 		       t.pslnumber
-		  from T_Project t,t_prizeuser u
-		  where u.userid = t.creater
+		  from T_Project t left join t_prizeuser u
+		  on u.userid = t.creater where 1=1
 		<include refid="ProjectMapper.conditionSql" />
 		<include refid="ProjectMapper.pendingSql" />
 		<include refid="CommonMapper.sortInfo"/>
 		<include refid="CommonMapper.pagingEnd" />
 	</select>
 	<select id="getPendingCount" parameterType="hashmap" resultType="Long">
-		SELECT count(*)  from T_Project t,t_prizeuser u where u.userid = t.creater
+		SELECT count(*) 
+		from T_Project t left join t_prizeuser u
+		  on u.userid = t.creater where 1=1
 		<include refid="ProjectMapper.conditionSql" />
 		<include refid="ProjectMapper.pendingSql" />
 	</select>
@@ -362,14 +383,15 @@
 		       t.curActivityName,
 		       t.proprovincecode,
 		       t.pslnumber
-		  from T_Project t,t_prizeuser u
-		  where u.userid = t.creater
+		 from T_Project t left join t_prizeuser u
+		  on u.userid = t.creater where 1=1
 		<include refid="ProjectMapper.conditionSql" />
 		<include refid="CommonMapper.sortInfo"/>
 		<include refid="CommonMapper.pagingEnd" />
 	</select>
 	<select id="getAllCount" parameterType="hashmap" resultType="Long">
-		SELECT count(*) from T_Project t,t_prizeuser u where u.userid = t.creater
+		SELECT count(*) from T_Project t left join t_prizeuser u
+		  on u.userid = t.creater where 1=1
 		<include refid="ProjectMapper.conditionSql" />
 	</select>
 
@@ -386,8 +408,8 @@
 		       t.curActivityName,
 		       t.proprovincecode,
 		       t.pslnumber
-		  from T_Project t,t_prizeuser u
-		  where u.userid = t.creater
+		  from T_Project t left join t_prizeuser u
+		  on u.userid = t.creater where 1=1
 		<include refid="ProjectMapper.conditionSql" />
 		<include refid="CommonMapper.sortInfo"/>
 	</select>
@@ -417,7 +439,8 @@
   	</update>
 	
 	<select id="getCount" parameterType="hashmap" resultType="Long">
-		SELECT count(*) from T_Project t,t_prizeuser u where u.userid = t.creater
+		SELECT count(*) from T_Project t left join t_prizeuser u
+		  on u.userid = t.creater where 1=1
 		<include refid="ProjectMapper.conditionSql" />
 	</select>
 		

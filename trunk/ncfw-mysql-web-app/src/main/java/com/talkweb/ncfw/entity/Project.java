@@ -47,6 +47,14 @@ public class Project {
 	private String tjorg;//推荐单位
 	private String pwtype;
 	
+	private String isInput;//是否人工录入，yes为是
+	
+	public String getIsInput() {
+		return isInput;
+	}
+	public void setIsInput(String isInput) {
+		this.isInput = isInput;
+	}
 	public String getPwtype() {
 		return pwtype;
 	}
