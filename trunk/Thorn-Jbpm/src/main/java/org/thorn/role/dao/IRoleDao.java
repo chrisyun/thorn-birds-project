@@ -3,7 +3,6 @@ package org.thorn.role.dao;
 import java.util.List;
 import java.util.Map;
 
-import org.thorn.dao.core.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.role.entity.Role;
 
@@ -24,7 +23,19 @@ public interface IRoleDao {
 	 * @return
 	 * @throws DBAccessException
 	 */
-	public List<Role> query(Map<String, Object> filter) throws DBAccessException;
+	public List<Role> queryList(Map<String, Object> filter) throws DBAccessException;
+
+	
+	/**
+	 * 
+	 * @Description：
+	 * @author：chenyun 	        
+	 * @date：2012-5-25 下午01:37:05
+	 * @param filter
+	 * @return
+	 * @throws DBAccessException
+	 */
+	public long queryPageCount(Map<String, Object> filter) throws DBAccessException;	
 	
 	/**
 	 * 
@@ -58,16 +69,4 @@ public interface IRoleDao {
 	 * @throws DBAccessException
 	 */
 	public int delete(List<String> ids) throws DBAccessException;
-	
-	/**
-	 * 
-	 * @Description：
-	 * @author：chenyun 	        
-	 * @date：2012-5-25 下午01:37:05
-	 * @param filter
-	 * @return
-	 * @throws DBAccessException
-	 */
-	public Page<Role> queryPage(Map<String, Object> filter) throws DBAccessException;
-
 }

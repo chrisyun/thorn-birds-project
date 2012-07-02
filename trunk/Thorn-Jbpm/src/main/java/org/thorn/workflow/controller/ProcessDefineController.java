@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.thorn.core.util.LocalStringUtils;
-import org.thorn.dao.core.Page;
+import org.thorn.web.entity.Page;
 import org.thorn.web.controller.BaseController;
 import org.thorn.web.entity.Status;
 import org.thorn.web.util.ResponseHeaderUtils;

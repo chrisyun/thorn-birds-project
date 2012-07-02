@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
-import org.thorn.dao.core.Page;
+import org.thorn.web.entity.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.org.dao.IOrgDao;
 import org.thorn.org.entity.Org;
@@ -83,7 +83,14 @@ public class OrgServiceImpl implements IOrgService {
 			filter.put(Configuration.ORDER_NAME, dir);
 		}
 		
-		return orgDao.queryPage(filter);
+		Page<Org> page = new Page<Org>();
+		
+		page.setTotal(orgDao.queryPageCount(filter));
+		if(page.getTotal() > 0) {
+			page.setReslutSet(orgDao.queryList(filter));
+		}
+		
+		return page;
 	}
 	
 	public Org queryOrg(String orgCode, String orgId) throws DBAccessException {

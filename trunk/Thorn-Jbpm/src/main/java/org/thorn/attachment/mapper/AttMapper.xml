@@ -35,6 +35,13 @@
 			<if test="endTime != null and endTime != ''">
 				and UPLOADTIME &lt; #{endTime,jdbcType=VARCHAR}
       		</if>
+      		<if test="ids != null">
+      			and id in
+	      		<foreach collection="ids" item="item" open="(" close=")"
+				separator=",">
+					#{item,jdbcType=DECIMAL}
+				</foreach>
+      		</if>
 		</where>
 	</sql>
 
@@ -80,17 +87,6 @@
 	<select id="selectPageCount" parameterType="hashmap" resultType="long">
 		select count(*) from T_COMMON_ATT
 		<include refid="Where_Clause" />
-	</select>
-
-	<select id="select" resultMap="BaseResultMap">
-		select
-		<include refid="Base_Column_List" />
-		from T_COMMON_ATT
-		where id in
-		<foreach collection="list" item="item" open="(" close=")"
-			separator=",">
-			#{item,jdbcType=DECIMAL}
-		</foreach>
 	</select>
 
 	<select id="selectAtt" resultMap="BaseResultMap" parameterType="int">

@@ -3,7 +3,6 @@ package org.thorn.workflow.dao;
 import java.util.List;
 import java.util.Map;
 
-import org.thorn.dao.core.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.workflow.entity.Participator;
 
@@ -21,7 +20,7 @@ public interface IParticipatorDao {
 
 	public int delete(List<String> ids) throws DBAccessException;
 
-	public Page<Participator> queryPage(Map<String, Object> filter)
+	public long queryPageCount(Map<String, Object> filter)
 			throws DBAccessException;
 
 	public List<Participator> queryList(Map<String, Object> filter)

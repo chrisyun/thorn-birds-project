@@ -2,7 +2,7 @@ package org.thorn.role.service;
 
 import java.util.List;
 
-import org.thorn.dao.core.Page;
+import org.thorn.web.entity.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.role.entity.Role;
 

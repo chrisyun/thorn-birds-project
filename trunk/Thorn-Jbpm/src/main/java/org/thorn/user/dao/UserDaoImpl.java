@@ -6,7 +6,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.thorn.dao.core.Page;
+import org.thorn.web.entity.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.user.entity.User;
 
@@ -26,17 +26,18 @@ public class UserDaoImpl implements IUserDao {
 
 	public User queryUser(Map<String, Object> filter) throws DBAccessException {
 		try {
-			return (User) sqlSessionTemplate.selectOne(nameSpace + "selectList",
-					filter);
+			return (User) sqlSessionTemplate.selectOne(
+					nameSpace + "selectList", filter);
 		} catch (Exception e) {
 			throw new DBAccessException("UserDaoImpl", "queryUser", e);
 		}
 	}
-	
-	public List<User> queryList(Map<String, Object> filter) throws DBAccessException {
+
+	public List<User> queryList(Map<String, Object> filter)
+			throws DBAccessException {
 		try {
-			return (List<User>) sqlSessionTemplate.selectList(nameSpace + "selectList",
-					filter);
+			return (List<User>) sqlSessionTemplate.selectList(nameSpace
+					+ "selectPage", filter);
 		} catch (Exception e) {
 			throw new DBAccessException("UserDaoImpl", "selectUserList", e);
 		}
@@ -66,23 +67,13 @@ public class UserDaoImpl implements IUserDao {
 		}
 	}
 
-	public Page<User> queryPage(Map<String, Object> filter)
+	public long queryPageCount(Map<String, Object> filter)
 			throws DBAccessException {
-		Page<User> page = new Page<User>();
-
 		try {
-			long count = (Long) sqlSessionTemplate.selectOne(nameSpace
+			return (Long) sqlSessionTemplate.selectOne(nameSpace
 					+ "selectPageCount", filter);
-			page.setTotal(count);
-
-			if (count > 0) {
-				page.setReslutSet((List<User>) sqlSessionTemplate.selectList(
-						nameSpace + "selectPage", filter));
-			}
-
-			return page;
 		} catch (Exception e) {
-			throw new DBAccessException("UserDaoImpl", "queryPage", e);
+			throw new DBAccessException("UserDaoImpl", "queryPageCount", e);
 		}
 	}
 

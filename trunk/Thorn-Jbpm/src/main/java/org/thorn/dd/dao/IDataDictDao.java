@@ -3,7 +3,6 @@ package org.thorn.dd.dao;
 import java.util.List;
 import java.util.Map;
 
-import org.thorn.dao.core.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.dd.entity.Dict;
 import org.thorn.dd.entity.DictType;
@@ -25,7 +24,18 @@ public interface IDataDictDao {
 	 * @return
 	 * @throws DBAccessException
 	 */
-	public Page<DictType> queryDtPage(Map<String, Object> filter) throws DBAccessException;
+	public List<DictType> queryDtList(Map<String, Object> filter) throws DBAccessException;
+	
+	/**
+	 * 
+	 * @Description：
+	 * @author：chenyun 	        
+	 * @date：2012-7-2 下午03:54:57
+	 * @param filter
+	 * @return
+	 * @throws DBAccessException
+	 */
+	public long queryDtPageCount(Map<String, Object> filter) throws DBAccessException;
 	
 	/**
 	 * 

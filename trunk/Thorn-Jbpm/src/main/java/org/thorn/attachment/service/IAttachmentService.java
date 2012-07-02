@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 import org.thorn.attachment.entity.Attachment;
-import org.thorn.dao.core.Page;
 import org.thorn.dao.exception.DBAccessException;
+import org.thorn.web.entity.Page;
 
 /**
  * @ClassName: IAttachmentService

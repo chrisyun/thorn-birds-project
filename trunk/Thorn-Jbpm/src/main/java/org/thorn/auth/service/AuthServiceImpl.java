@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserCache;
 import org.thorn.auth.dao.IAuthDao;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
-import org.thorn.dao.core.Page;
+import org.thorn.web.entity.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.role.entity.Role;
 import org.thorn.user.entity.User;
@@ -93,8 +93,15 @@ public class AuthServiceImpl implements IAuthService {
 			filter.put(Configuration.SROT_NAME, sort);
 			filter.put(Configuration.ORDER_NAME, dir);
 		}
-
-		return authDao.queryPageByRole(filter);
+		
+		Page<User> page = new Page<User>();
+		
+		page.setTotal(authDao.queryPageCountInRole(filter));
+		if(page.getTotal() > 0) {
+			page.setReslutSet(authDao.queryListByRole(filter));
+		}
+		
+		return page;
 	}
 
 	public void saveUserRole(String roleCode, String userIds)
@@ -150,7 +157,14 @@ public class AuthServiceImpl implements IAuthService {
 			filter.put(Configuration.ORDER_NAME, dir);
 		}
 
-		return authDao.queryPageNotInRole(filter);
+		Page<User> page = new Page<User>();
+		
+		page.setTotal(authDao.queryPageCountNotInRole(filter));
+		if(page.getTotal() > 0) {
+			page.setReslutSet(authDao.queryListNotInRole(filter));
+		}
+		
+		return page;
 	}
 
 	public void saveRoleByUser(String userId, String roleCodes)

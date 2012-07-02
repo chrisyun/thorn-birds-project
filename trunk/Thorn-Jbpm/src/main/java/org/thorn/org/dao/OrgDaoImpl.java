@@ -6,7 +6,6 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.thorn.dao.core.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.org.entity.Org;
 
@@ -24,21 +23,11 @@ public class OrgDaoImpl implements IOrgDao {
 	@Qualifier("sqlSessionTemplate")
 	private SqlSessionTemplate sqlSessionTemplate;
 
-	public Page<Org> queryPage(Map<String, Object> filter)
+	public long queryPageCount(Map<String, Object> filter)
 			throws DBAccessException {
-		Page<Org> page = new Page<Org>();
-
 		try {
-			long count = (Long) sqlSessionTemplate.selectOne(nameSpace
+			return (Long) sqlSessionTemplate.selectOne(nameSpace
 					+ "selectPageCount", filter);
-			page.setTotal(count);
-
-			if (count > 0) {
-				page.setReslutSet((List<Org>) sqlSessionTemplate.selectList(
-						nameSpace + "selectPage", filter));
-			}
-
-			return page;
 		} catch (Exception e) {
 			throw new DBAccessException("OrgDaoImpl", "queryPage", e);
 		}
@@ -48,7 +37,7 @@ public class OrgDaoImpl implements IOrgDao {
 			throws DBAccessException {
 		try {
 			return (List<Org>) sqlSessionTemplate.selectList(nameSpace
-					+ "select", filter);
+					+ "selectPage", filter);
 		} catch (Exception e) {
 			throw new DBAccessException("OrgDaoImpl", "queryPage", e);
 		}
@@ -77,7 +66,7 @@ public class OrgDaoImpl implements IOrgDao {
 			throw new DBAccessException("OrgDaoImpl", "delete", e);
 		}
 	}
-	
+
 	public Org queryParent(Map<String, Object> filter) throws DBAccessException {
 		try {
 			return (Org) sqlSessionTemplate.selectList(nameSpace

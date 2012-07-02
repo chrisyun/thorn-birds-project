@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
-import org.thorn.dao.core.Page;
+import org.thorn.web.entity.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.workflow.dao.IParticipatorDao;
 import org.thorn.workflow.entity.Participator;
@@ -59,8 +59,15 @@ public class ParticipatorServiceImpl implements IParticipatorService {
 			filter.put(Configuration.SROT_NAME, sort);
 			filter.put(Configuration.ORDER_NAME, dir);
 		}
-		
-		return participatorDao.queryPage(filter);
+
+		Page<Participator> page = new Page<Participator>();
+
+		page.setTotal(participatorDao.queryPageCount(filter));
+		if (page.getTotal() > 0) {
+			page.setReslutSet(participatorDao.queryList(filter));
+		}
+
+		return page;
 	}
 
 	public Participator queryParticipator(String activityId, String processDfId)
@@ -69,25 +76,26 @@ public class ParticipatorServiceImpl implements IParticipatorService {
 
 		filter.put("activityId", activityId);
 		filter.put("processDfId", processDfId);
-		
+
 		List<Participator> list = participatorDao.queryList(filter);
-		
-		if(list.size() == 1) {
+
+		if (list.size() == 1) {
 			return list.get(0);
 		} else {
-			throw new DBAccessException("queryParticipator find multiple valued");
+			throw new DBAccessException(
+					"queryParticipator find multiple valued");
 		}
 	}
 
-	public List<Participator> queryList(Collection<String> keys, String activityId)
-			throws DBAccessException {
+	public List<Participator> queryList(Collection<String> keys,
+			String activityId) throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
 
 		filter.put("activityId", activityId);
 		filter.put("keys", keys);
-		
+
 		List<Participator> list = participatorDao.queryList(filter);
-		
+
 		return list;
 	}
 
