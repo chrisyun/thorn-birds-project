@@ -377,6 +377,37 @@ public class ProjectAction extends BaseAction {
 		return null;
 	}
 	
+	public String addInputProject() {
+		User user = SecurityHelper.getCurrentUser().getUser();
+		
+		project.setCreattime(project.getSbdate());
+		project.setPid(SequenceUtils.createPrimaryKeySeq());
+		
+		project.setPstatus("LX");
+		project.setSpstatus("SUCCESS");
+		project.setCurActivityName("FINISH");
+		
+		
+		String attach = this.getParameter("attach");
+		if(!StringUtils.isEmpty(attach)) {
+			attach = attach.substring(0,attach.length()-1);
+		}
+		
+		ProccessResultBean resultBean = null;
+		
+		try {
+			this.genericDAO.insert("ProjectMapper.insert", project);
+			this.fileService.updateFile(attach, project.getPid(), "t_project");
+			
+			resultBean = new ProccessResultBean(true, "项目信息添加成功.");
+		} catch (DAOException e) {
+			resultBean = new ProccessResultBean(false, "项目信息添加不成功!!!");
+		}
+		HttpServletUtils.outJson(this.getResponse(), resultBean);
+		return null;
+	}
+	
+	
 	public String addProject() {
 		Org org = SecurityHelper.getCurrentUser().getOrg();
 		User user = SecurityHelper.getCurrentUser().getUser();

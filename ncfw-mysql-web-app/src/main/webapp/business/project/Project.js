@@ -2,6 +2,7 @@ var Project = {
 	projectNumUrl		:	sys.basePath + 'projectAction!getCurNumber.do',
 	queryProjectUrl		:	sys.basePath + 'projectAction!queryProject.do',
 	addProjectUrl		:	sys.basePath + 'projectAction!addProject.do',
+	inputProjectUrl		:	sys.basePath + 'projectAction!addInputProject.do',
 	updateProjectUrl	:	sys.basePath + 'projectAction!submitProject.do',
 	deleteUrl			:	sys.basePath + 'projectAction!deleteProject.do',
 	upProjectUrl		:	sys.basePath + 'projectAction!updateProject.do',
@@ -28,7 +29,10 @@ var Project = {
 	    	type = "pendingZQ";
 	    } else if(type == 'pending' && pstatus == 'XMJXZ') {
 	    	type = "pendingJX";
-	    } 
+	    } else if(type == 'searchInput') {
+	    	projectUrl += "BZProject.jsp";
+	    	ptype = '';
+	    }
 	    
     	if(ptype == "GJWHCXGC") {
 	    	projectUrl += "GJWHCXGC.jsp";
@@ -211,6 +215,7 @@ var Project = {
 					jsonValues[idPrefix + 'hyorg'] 				= projectJson.hyorg;
 					jsonValues[idPrefix + 'tjorg'] 				= projectJson.tjorg;
 					jsonValues[idPrefix + 'pwtype'] 			= projectJson.pwtype;
+					jsonValues[idPrefix + 'isInput'] 			= projectJson.isInput;
 					jsonValues['spstatusShow']					= LocalRenderer.flowStatus(projectJson.spstatus);
 					jsonValues['pstatusShow']					= LocalRenderer.projectStatus(projectJson.pstatus);
 					jsonValues['curActivityNameShow']			= LocalRenderer.activityName(projectJson.curActivityName);
@@ -264,7 +269,11 @@ var Project = {
  			submitUrl = Project.updateProjectUrl;
  		} else {
  			//新增
- 			submitUrl = Project.addProjectUrl;
+ 			if(!Ext.isEmpty(isOk) && isOk == "input") {
+ 				submitUrl = Project.inputProjectUrl;
+ 			} else {
+ 				submitUrl = Project.addProjectUrl;
+ 			}
  		}
  		
  		//项目中期检查与结项文化部科技司审批通过时更改项目状态
@@ -429,7 +438,7 @@ var PWProject = {
 		                	}]
 		                },{
 		                	items:[{
-		                		xtype: 'combo', id: 'pwtype1', hiddenName: 'pwtype', anchor: this.fieldAnchor,
+		                		xtype: 'combo', id: 'pwtype1', hiddenName: 'pwtype', anchor: "95%",
 		                		fieldLabel: '项目分类', readOnly: false, allowBlank: true,editable: false,
 				                mode: 'local', triggerAction: 'all', valueField: 'value', displayField: 'text',
 				                readOnly: false, resizable: true,
@@ -446,7 +455,7 @@ var PWProject = {
 		},
 		showSelWindow	:	function() {
 			if (this.selWindow == null) {
-				var windowWidth = document.body.clientWidth > 360 ? 360 : document.body.clientWidth - 10;
+				var windowWidth = document.body.clientWidth > 400 ? 400 : document.body.clientWidth - 10;
 				var windowHeight = document.body.clientHeight > 150 ? 150 : document.body.clientHeight - 10;
 				
 				var inputForm = this.getSelForm();
@@ -516,7 +525,6 @@ var PWProject = {
 	            }
 	        });
 		}
-		
 }
 
 

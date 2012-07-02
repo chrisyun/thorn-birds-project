@@ -177,7 +177,7 @@
 															allowBlank="true" cls="float_left" itemCls="float_left"
 															clearCls="allow_float" emptyText="请选择开始日期"
 															otherProperties="shadow : true,editable: false ,maxValue: new Date(), 
-															value: new Date().add(Date.MONTH,-1)">
+															value: new Date().add(Date.MONTH,-6)">
 														</ext:dateField>
 														,{xtype: 'label', text: '至', cls: 'float_left',itemCls: 'float_left', style: 'font-size: 12px; margin: 3 3 0 4px;display:inline;'}
 														<ext:dateField hideLabel="true"
