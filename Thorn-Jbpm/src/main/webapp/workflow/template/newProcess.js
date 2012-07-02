@@ -26,13 +26,13 @@ Ext.onReady(function() {
 	});
 	
 	var loadingUrl = sys.path + "/resources/images/local/waiting.gif";
-	var html = "<div id='pageLoading'><table width=\"100%\" height=\"100%\">" +
+	var html = "<table width=\"100%\" height=\"100%\" id='pageLoading'>" +
 				"<tr valign=\"middle\" height=\"100%\">" +
 					"<td width=\"100%\" align=\"center\">" +
 						"<font style=\"font-size: 14px;\">表单数据加载中...</font><br>" +
 						"<img src='" + loadingUrl + "'>" +
 					"</td>" + 
-				"</tr></table></div>";
+				"</tr></table>";
 	
 	contentPanel = new Ext.Panel({
 		split : true,
