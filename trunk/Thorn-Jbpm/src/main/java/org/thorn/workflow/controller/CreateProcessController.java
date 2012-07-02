@@ -202,7 +202,7 @@ public class CreateProcessController extends BaseController {
 		// 已经是start节点的第一个task
 		Task task = taskService.createTaskQuery().processInstanceId(pi.getId())
 				.uniqueResult();
-
+	
 		model.put("flowKey", key);
 		model.put("flowName", pi.getName());
 		model.put("flowInstId", pi.getId());
