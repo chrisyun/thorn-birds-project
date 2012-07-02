@@ -98,16 +98,10 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.10</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.thorn.core</groupId>
 			<artifactId>Thorn-Core</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-
-
 	</dependencies>
-
-
-
 </project>

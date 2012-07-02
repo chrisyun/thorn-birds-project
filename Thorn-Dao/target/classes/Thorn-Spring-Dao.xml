@@ -37,8 +37,7 @@
 	<!-- 通过AOP定义的事务增强切面 -->
 	<aop:config proxy-target-class="true">
 		<aop:pointcut id="tracationMethods"
-			expression="execution(public * org.thorn.*.service.*ServiceImpl.*(..)) 
-			|| execution(public * org.thorn.workflow.*.service.*ServiceImpl.*(..))" />
+			expression="execution(public * org.thorn.*.service.*ServiceImpl.*(..))" />
 		<aop:advisor pointcut-ref="tracationMethods" advice-ref="txAdvice" />
 	</aop:config>
 
