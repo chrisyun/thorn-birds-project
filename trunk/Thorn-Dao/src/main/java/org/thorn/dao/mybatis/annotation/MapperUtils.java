@@ -19,7 +19,7 @@ public class MapperUtils {
 		default_Method_Map.put(MethodType.DELETE_BATCH, "deleteForBatch");
 		default_Method_Map.put(MethodType.QUERY, "query");
 		default_Method_Map.put(MethodType.QUERY_LIST, "queryForList");
-		default_Method_Map.put(MethodType.QUERY_PAGE, "queryForPage");
+//		default_Method_Map.put(MethodType.QUERY_PAGE, "queryForPage");
 		default_Method_Map.put(MethodType.COUNT_PAGE, "countForPage");
 	}
 	

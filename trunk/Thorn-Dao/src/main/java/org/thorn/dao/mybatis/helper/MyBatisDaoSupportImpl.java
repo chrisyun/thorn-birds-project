@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.thorn.dao.core.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.dao.mybatis.annotation.MapperUtils;
 import org.thorn.dao.mybatis.annotation.MethodType;
@@ -88,32 +87,20 @@ public class MyBatisDaoSupportImpl implements MyBatisDaoSupport {
 		}
 	}
 
-	public <T> Page<T> queryForPage(Map<String, Object> filter, Class<T> bean)
+	public long queryCountForPage(Map<String, Object> filter, Class bean)
 			throws DBAccessException {
-		String pageMapper = "";
+
 		String pageCountMapper = "";
 
 		try {
-			pageMapper = MapperUtils.getMapperSource(bean,
-					MethodType.QUERY_PAGE);
 			pageCountMapper = MapperUtils.getMapperSource(bean,
 					MethodType.COUNT_PAGE);
 
-			Page<T> page = new Page<T>();
-
-			page.setTotal((Long) sqlSessionTemplate.selectOne(pageCountMapper,
-					filter));
-
-			if (page.getTotal() > 0) {
-				page.setReslutSet((List<T>) sqlSessionTemplate.selectList(
-						pageMapper, filter));
-			}
-
-			return page;
+			return (Long) sqlSessionTemplate.selectOne(pageCountMapper, filter);
 		} catch (Exception e) {
-			throw new DBAccessException("MyBatisDaoSupport", "queryForPage",
-					"Object[" + bean.getName() + "],mapper[" + pageMapper
-							+ "],countMapper[" + pageCountMapper + "]", e);
+			throw new DBAccessException("MyBatisDaoSupport",
+					"queryCountForPage", "Object[" + bean.getName()
+							+ "],mapper[" + pageCountMapper + "]", e);
 		}
 	}
 
