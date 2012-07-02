@@ -8,16 +8,15 @@
 	
 	<!-- Paging End -->
 	<sql id="pagingEnd">
-		limit ${start}, ${limit}
+		<if test="start != null and limit != null">
+			limit ${start}, ${limit}
+		</if>
 	</sql>
 
 	<!-- query result Sort information -->
 	<sql id="sortInfo">
-		<if test=" sort != null and sort != '' ">
-			ORDER BY ${sort}
-			</if>
-		<if test=" dir != null and dir != '' ">
-			${dir}
+		<if test=" sort != null and sort != '' and dir != null and dir != ''">
+			ORDER BY ${sort} ${dir}
 		</if>
 	</sql>
 </mapper>
