@@ -34,13 +34,13 @@ Ext.onReady(function() {
 	var recordArray = [
 			getRecord(null, "id", "string"),
 			getRecord(null, "parameters", "string"),
-			getRecord("模块名称", "moduleName", "string", 100, false, moduleRender),
-			getRecord("方法名称", "methodName", "string", 180, true),
+			getRecord("模块名称", "moduleName", "string", 200, false, moduleRender),
+			getRecord("方法名称", "methodName", "string", 150, true),
 			getRecord("操作人", "userId", "string", 70, true),
-			getRecord("操作时间", "executeTime", "string", 100, true),
+			getRecord("操作时间", "executeTime", "string", 150, true),
 			getRecord("操作结果", "handleResult", "string", 50, true,
 					handleResultRender),
-			getRecord("错误信息", "errorMsg", "string", 300, false, msgRender)];
+			getRecord("错误信息", "errorMsg", "string", 200, false, msgRender)];
 	var log_grid = new GridUtil(logPageUrl, recordArray, pageSize);
 	
 	var bar = null;

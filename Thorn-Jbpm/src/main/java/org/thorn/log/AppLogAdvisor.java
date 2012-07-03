@@ -61,7 +61,7 @@ public class AppLogAdvisor {
 	 * @param jp
 	 * @param ex
 	 */
-	@AfterThrowing(value="loggingPointcut()",throwing="ex")
+	@AfterThrowing(value="loggingPointcut() && noLoggingPointcut()",throwing="ex")
 	public void exceptionLog(JoinPoint jp, Exception ex) {
 		AppLog log = getAppLog(jp);
 		log.setHandleResult(Configuration.DB_FAILURE);
