@@ -16,4 +16,16 @@
 	<bean id="flowTypeDao" class="org.thorn.workflow.dao.FlowTypeDaoImpl" />
 	<bean id="flowTypeService" class="org.thorn.workflow.service.FlowTypeServiceImpl" />
 	
+	<!-- 
+	<bean id="handlerFactory" class="org.thorn.workflow.handler.CustomHandlerFactory">
+		<constructor-arg index="0">
+			<map>
+				<entry>
+					<key></key>
+					<ref bean=""/>
+				</entry>
+			</map>
+		</constructor-arg>
+	</bean>
+	 -->
 </beans>

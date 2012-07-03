@@ -78,3 +78,8 @@ function setTitle(processTitle) {
 function formLoadingComplate() {
 	Ext.getDom("pageLoading").style.display = "none";
 }
+
+function addContentPanel(panel) {
+	contentPanel.add(panel);
+	contentPanel.doLayout();
+}

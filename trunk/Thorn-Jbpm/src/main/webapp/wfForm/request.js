@@ -14,12 +14,12 @@ function startProcessHandler() {
 	
 	myForm.addButton(getSaveBtn(submitForm));
 	
-	contentPanel.add(myForm.getPanel());
-	formLoadingComplate();
-	contentPanel.doLayout();
+	addContentPanel(myForm.getPanel());
 	
 	function submitForm() {
 
 	}
+	
+	formLoadingComplate();
 }
 

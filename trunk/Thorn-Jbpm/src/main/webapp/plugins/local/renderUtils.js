@@ -39,7 +39,7 @@ var Render = {
 		if(cm == null && !Ext.isEmpty(length)) {
 			_maxLength = length;
 		} else if(cm != null) {
-			_maxLength = cm.getColumnWidth(colIndex) / 11.6;
+			_maxLength = cm.getColumnWidth(colIndex) / 7;
 		}
 		
 		if (Ext.isEmpty(value) || value.length <= _maxLength) {

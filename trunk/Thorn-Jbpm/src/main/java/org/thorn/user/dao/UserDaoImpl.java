@@ -6,7 +6,6 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.thorn.web.entity.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.user.entity.User;
 
@@ -27,7 +26,7 @@ public class UserDaoImpl implements IUserDao {
 	public User queryUser(Map<String, Object> filter) throws DBAccessException {
 		try {
 			return (User) sqlSessionTemplate.selectOne(
-					nameSpace + "selectList", filter);
+					nameSpace + "selectPage", filter);
 		} catch (Exception e) {
 			throw new DBAccessException("UserDaoImpl", "queryUser", e);
 		}
