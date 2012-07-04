@@ -104,9 +104,9 @@
 
 	//初始化页面信息
 	function initPage () {
-		if(roleId != 'projectsp' || 'ZB' != proprovincecode) {
-			//Ext.getCmp('project_add_Btn').hide();
-			//Ext.getCmp('project_fl_Btn').hide();
+		if(roleId != 'sysadmin' || roleId != 'projectsp' || 'ZB' != proprovincecode) {
+			Ext.getCmp('project_add_Btn').hide();
+			Ext.getCmp('project_fl_Btn').hide();
 		}
 		
 		if(roleId != 'sysadmin' && roleId != 'projectsp') {
