@@ -16,10 +16,6 @@ import org.thorn.web.entity.Status;
 /**
  * @ClassName: HandlerController
  * @Description:
- * 1、需要把下一环节的参与者计算出来，放置到map中去（最关键）
- * 2、如何根据线条获取下一环节
- * 3、如何与自定义的接口绑定，将不同流程自定义的处理部分加载进来，实现最大化的松耦合与灵活控制
- * 
  * @author chenyun
  * @date 2012-6-28 下午08:28:04
  */
@@ -28,9 +24,6 @@ public class HandlerController extends BaseController {
 
 	static Logger log = LoggerFactory.getLogger(HandlerController.class);
 
-	@Autowired
-	@Qualifier("taskService")
-	private TaskService taskService;
 	
 	/**
 	 * 流程处理的入口方法

@@ -16,18 +16,18 @@ public class CustomHandlerFactory {
 	
 	static Logger log = LoggerFactory.getLogger(CustomHandlerFactory.class);
 	
-	private static Map<String, ProcessCustomHandler> mapper;
+	private static Map<String, ProcessBaseHandler> mapper;
 
-	public CustomHandlerFactory(Map<String, ProcessCustomHandler> mapper) {
+	public CustomHandlerFactory(Map<String, ProcessBaseHandler> mapper) {
 		CustomHandlerFactory.mapper = mapper;
 
 		if (CustomHandlerFactory.mapper == null) {
-			CustomHandlerFactory.mapper = new HashMap<String, ProcessCustomHandler>();
+			CustomHandlerFactory.mapper = new HashMap<String, ProcessBaseHandler>();
 		}
 
 	}
 
-	public static ProcessCustomHandler getProcessHandler(String processKey) {
+	public static ProcessBaseHandler getProcessHandler(String processKey) {
 
 		if (!CustomHandlerFactory.mapper.containsKey(processKey)) {
 			log.warn("the process key:{} has no handler!",processKey);
