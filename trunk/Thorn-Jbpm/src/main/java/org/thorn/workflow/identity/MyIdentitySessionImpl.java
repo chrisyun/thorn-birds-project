@@ -278,7 +278,16 @@ public class MyIdentitySessionImpl implements IdentitySession {
 
 		return users;
 	}
-
+	
+	/**
+	 * 查找子组织，递归查找
+	 * @Description：
+	 * @author：chenyun 	        
+	 * @date：2012-7-2 下午04:28:05
+	 * @param pids
+	 * @return
+	 * @throws DBAccessException
+	 */
 	private Set<String> findSubOrg(Set<String> pids) throws DBAccessException {
 
 		Set<String> orgIds = new HashSet<String>();
