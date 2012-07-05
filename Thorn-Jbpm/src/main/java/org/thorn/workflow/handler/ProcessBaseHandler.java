@@ -17,6 +17,8 @@ import org.jbpm.pvm.internal.task.TaskImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.thorn.workflow.HandlerException;
+import org.thorn.workflow.entity.Participator;
+import org.thorn.workflow.service.IParticipatorService;
 
 /**
  * @ClassName: ProcessCustomHandler
@@ -30,17 +32,23 @@ public abstract class ProcessBaseHandler {
 	@Autowired
 	@Qualifier("taskService")
 	protected TaskService taskService;
+	
+	@Autowired
+	@Qualifier("participatorService")
+	protected IParticipatorService ppService;
+	
 
-	public String execute(Map<String, Object> parameters,
+	public void execute(Map<String, Object> parameters,
 			HttpServletRequest request) {
 		Map<String, Object> variable = new HashMap<String, Object>();
 		
 		String taskId = (String) parameters.get("taskId");
 		String nextStep = (String) parameters.get("nextStep");
+		String flowKey = (String) parameters.get("flowKey");
+		String activityName = (String) parameters.get("activityName");
 		
 		String title = (String) parameters.get("title");
 		variable.put("title", title);
-		
 		
 		TaskImpl task = (TaskImpl) taskService.getTask(taskId);
 		ExecutionImpl execu = task.getProcessInstance();
@@ -69,10 +77,14 @@ public abstract class ProcessBaseHandler {
 		ActivityImpl nextActivity = nextTrans.getDestination();
 		
 		// 计算下一环节处理人
+		Participator pp = ppService.queryParticipator(activityName, flowKey);
+		variable.put(pp.getVariable(), getNextActivityPp(pp));
 		
-		
-		
-		return "";
+		if (StringUtils.isNotBlank(nextStep)) {
+			taskService.completeTask(taskId, variable);
+		} else {
+			taskService.completeTask(taskId, nextStep, variable);
+		}
 	}
 
 	public Set<String> getNextActivityLines(String taskId) {
@@ -93,5 +105,12 @@ public abstract class ProcessBaseHandler {
 
 		return outgoingNames;
 	}
+	
+	public String getNextActivityPp(Participator pp) {
+		
+		
+		return "";
+	}
+	
 
 }
