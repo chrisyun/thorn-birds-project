@@ -1,5 +1,6 @@
 package org.thorn.workflow.handler;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +8,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.jbpm.api.TaskService;
 import org.jbpm.pvm.internal.model.ActivityImpl;
 import org.jbpm.pvm.internal.model.ExecutionImpl;
@@ -14,6 +16,7 @@ import org.jbpm.pvm.internal.model.TransitionImpl;
 import org.jbpm.pvm.internal.task.TaskImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.thorn.workflow.HandlerException;
 
 /**
  * @ClassName: ProcessCustomHandler
@@ -30,7 +33,45 @@ public abstract class ProcessBaseHandler {
 
 	public String execute(Map<String, Object> parameters,
 			HttpServletRequest request) {
+		Map<String, Object> variable = new HashMap<String, Object>();
+		
+		String taskId = (String) parameters.get("taskId");
+		String nextStep = (String) parameters.get("nextStep");
+		
+		String title = (String) parameters.get("title");
+		variable.put("title", title);
+		
+		
+		TaskImpl task = (TaskImpl) taskService.getTask(taskId);
+		ExecutionImpl execu = task.getProcessInstance();
 
+		// 获取当前任务的活动节点
+		ActivityImpl curActivity = execu.getActivity();
+
+		// 获取下一环节的转移线
+		TransitionImpl nextTrans = null;
+		if (StringUtils.isNotBlank(nextStep)) {
+			nextTrans = curActivity.getOutgoingTransition(nextStep);
+		} else {
+			List<TransitionImpl> outgoings = (List<TransitionImpl>) curActivity
+					.getOutgoingTransitions();
+
+			if (outgoings != null && outgoings.size() == 1) {
+				nextTrans = outgoings.get(0);
+			} else {
+				throw new HandlerException(
+						"multiple outgoingTransitions and don't point out outgoingTransition,curActivityName:"
+								+ curActivity.getName());
+			}
+		}
+		
+		// 获取下一环节
+		ActivityImpl nextActivity = nextTrans.getDestination();
+		
+		// 计算下一环节处理人
+		
+		
+		
 		return "";
 	}
 
@@ -43,13 +84,13 @@ public abstract class ProcessBaseHandler {
 
 		List<TransitionImpl> outgoings = (List<TransitionImpl>) curActivity
 				.getOutgoingTransitions();
-		
+
 		Set<String> outgoingNames = new HashSet<String>();
-		
-		for(TransitionImpl transition : outgoings) {
+
+		for (TransitionImpl transition : outgoings) {
 			outgoingNames.add(transition.getName());
 		}
-		
+
 		return outgoingNames;
 	}
 
