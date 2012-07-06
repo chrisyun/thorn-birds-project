@@ -15,11 +15,12 @@
 		<result column="ENTITY" property="entity" jdbcType="VARCHAR" />
 		<result column="LIMITTYPE" property="limitType" jdbcType="VARCHAR" />
 		<result column="VARIABLE" property="variable" jdbcType="VARCHAR" />
+		<result column="VARIABLETYPE" property="variableType" jdbcType="VARCHAR" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
 		ID,ACTIVITYID, PRCESSDFID, ENTITYTYPE,
-		LIMITTYPE,VARIABLE, ENTITY
+		LIMITTYPE,VARIABLE, ENTITY,VARIABLETYPE
   	</sql>
 
 	<sql id="Where_Clause">
@@ -56,6 +57,7 @@
 			<if test="entity != null and entity != ''">ENTITY,</if>
 			<if test="limitType != null and limitType != ''">LIMITTYPE,</if>
 			<if test="variable != null and variable != ''">VARIABLE,</if>
+			<if test="variableType != null and variableType != ''">VARIABLETYPE,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="activityId != null and activityId != ''">#{activityId,jdbcType=VARCHAR},</if>
@@ -64,6 +66,7 @@
 			<if test="entity != null and entity != ''">#{entity,jdbcType=VARCHAR},</if>
 			<if test="limitType != null and limitType != ''">#{limitType,jdbcType=VARCHAR},</if>
 			<if test="variable != null and variable != ''">#{variable,jdbcType=VARCHAR},</if>
+			<if test="variableType != null and variableType != ''">#{variableType,jdbcType=VARCHAR},</if>
 		</trim>
 	</insert>
 	<update id="update" parameterType="org.thorn.workflow.entity.Participator">
@@ -75,6 +78,7 @@
 			<if test="entity != null and entity != ''">ENTITY = #{entity,jdbcType=VARCHAR},</if>
 			<if test="limitType != null and limitType != ''">LIMITTYPE = #{limitType,jdbcType=VARCHAR},</if>
 			<if test="variable != null and variable != ''">VARIABLE = #{variable,jdbcType=VARCHAR},</if>
+			<if test="variableType != null and variableType != ''">VARIABLETYPE = #{variableType,jdbcType=VARCHAR},</if>
 		</set>
 		where ID = #{id,jdbcType=DECIMAL}
 	</update>

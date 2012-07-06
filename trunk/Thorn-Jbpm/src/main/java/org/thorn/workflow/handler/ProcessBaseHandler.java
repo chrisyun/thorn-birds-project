@@ -17,6 +17,7 @@ import org.jbpm.pvm.internal.task.TaskImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.thorn.workflow.HandlerException;
+import org.thorn.workflow.WorkflowConfiguration;
 import org.thorn.workflow.entity.Participator;
 import org.thorn.workflow.service.IParticipatorService;
 
@@ -78,7 +79,8 @@ public abstract class ProcessBaseHandler {
 		
 		// 计算下一环节处理人
 		Participator pp = ppService.queryParticipator(activityName, flowKey);
-		variable.put(pp.getVariable(), getNextActivityPp(pp));
+		
+		putNextActivityPp(pp, variable);
 		
 		if (StringUtils.isNotBlank(nextStep)) {
 			taskService.completeTask(taskId, variable);
@@ -106,11 +108,29 @@ public abstract class ProcessBaseHandler {
 		return outgoingNames;
 	}
 	
-	public String getNextActivityPp(Participator pp) {
+	public void putNextActivityPp(Participator pp, Map<String, Object> variable) {
 		
+		if(pp == null) {
+			return ;
+		}
 		
-		return "";
+		if(StringUtils.equals(pp.getVariableType(), WorkflowConfiguration.PP_GROUP)) {
+			String groupType = pp.getEntityType();
+			String groupId = pp.getEntity();
+			String limit = pp.getLimitType();
+			String limitCode = "";
+			
+			if(StringUtils.isBlank(limit)) {
+				limit = WorkflowConfiguration.LIMIT_NONE;
+			} else {
+				
+			}
+			
+			
+		} else {
+			
+		}
+		
 	}
-	
 
 }

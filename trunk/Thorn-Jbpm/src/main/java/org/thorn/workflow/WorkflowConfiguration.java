@@ -16,6 +16,7 @@ public interface WorkflowConfiguration {
 	/** 无限制 */
 	public final static String LIMIT_NONE = "none";
 	
+	/** 数据类型 */
 	public final static String GROUP_ROLE = "role";
 	
 	public final static String GROUP_ORG = "org";
@@ -24,13 +25,17 @@ public interface WorkflowConfiguration {
 	
 	public final static String GROUP_USER = "user";
 	
+	/** 组织类型*/
 	public final static String COMPANY = "COMPANY";
 	
 	public final static String DEPT = "DEPT";
 	
 	public final static String ORG = "ORG";
 	
+	/** 参与者类型*/
+	public final static String PP_USER = "USER";
 	
+	public final static String PP_GROUP = "GROUP";
 	
 	public final static String START_ACTIVITY_ID = "start";
 	
