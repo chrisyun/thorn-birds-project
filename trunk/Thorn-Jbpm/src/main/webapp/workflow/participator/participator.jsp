@@ -19,6 +19,11 @@
 		return Render.dictRender(limitTypeDD, str);
 	};
 	
+	var variableTypeDD = <thorn:dd  typeId="PP_VARIABLE_TYPE" />;
+	var variableTypeRender = function(str) {
+		return Render.dictRender(variableTypeDD, str);
+	};
+	
 	var areaDD = <thorn:dd  typeId="AREA" />;
 	
 	var userPermission = {
