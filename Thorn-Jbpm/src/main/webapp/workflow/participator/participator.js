@@ -39,6 +39,7 @@ Ext.onReady(function() {
 			getRecord("参与者类型", "entityType", "string", 70, true, entityTypeRender),
 			getRecord("参与者", "entity", "string", 200, false),
 			getRecord("限制类型", "limitType", "string", 80, true, limitTypeRender),
+			getRecord("变量类型", "variableType", "string", 80, true, variableTypeRender),
 			getRecord("绑定变量名", "variable", "string", 80, false)];
 	var pp_grid = new GridUtil(ppPageUrl, recordArray, pageSize);
 	
@@ -83,6 +84,8 @@ Ext.onReady(function() {
 	}), 0.1, true);
 	pp_form.addComp(getComboBox("limitType", "限制类型", 180, limitTypeDD, false), 0.5,
 			true);
+	pp_form.addComp(getComboBox("variableType", "变量类型", 180, variableTypeDD, false), 0.5,
+			true);
 	pp_form.addComp(getText("variable", "绑定变量名", 180), 0.5, false);
 	pp_form.addComp(getHidden("formType"), 0, true);
 	pp_form.addComp(getHidden("id"), 0, true);
@@ -111,7 +114,7 @@ Ext.onReady(function() {
 		}
 		
 		return data;
-	}
+	};
 			
 	var group_recordArray = [
 			getRecord("编号", "id", "string", 100, true, checkedRender),
