@@ -26,6 +26,8 @@ public class Participator implements Serializable {
 	private String limitType;
 	
 	private String variable;
+	
+	private String variableType;
 
 	public String getProcessDfId() {
 		return processDfId;
@@ -81,6 +83,14 @@ public class Participator implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getVariableType() {
+		return variableType;
+	}
+
+	public void setVariableType(String variableType) {
+		this.variableType = variableType;
 	}
 }
 
