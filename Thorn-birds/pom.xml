@@ -35,6 +35,7 @@
 		<module>Thorn-Core</module>
 		<module>Thorn-Dao</module>
 		<module>Thorn-Jbpm</module>
+		<module>Thorn-Web</module>
 	</modules>
 
 
