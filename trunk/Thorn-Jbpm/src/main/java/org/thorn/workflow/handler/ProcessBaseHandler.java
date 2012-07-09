@@ -130,6 +130,14 @@ public abstract class ProcessBaseHandler {
 		} else {
 			
 		}
+	}
+	
+	private String getLimitCode(String limitType) {
+		
+		if(StringUtils.equals(limitType, WorkflowConfiguration.)) {
+			
+		}
+		
 		
 	}
 
