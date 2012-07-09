@@ -104,7 +104,10 @@
 
 	//初始化页面信息
 	function initPage () {
-		if(roleId != 'sysadmin' || roleId != 'projectsp' || 'ZB' != proprovincecode) {
+		if((roleId == 'sysadmin' || roleId == 'projectsp')) {
+			Ext.getCmp('project_add_Btn').show();
+			Ext.getCmp('project_fl_Btn').show();
+		} else {
 			Ext.getCmp('project_add_Btn').hide();
 			Ext.getCmp('project_fl_Btn').hide();
 		}

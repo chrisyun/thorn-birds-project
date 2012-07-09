@@ -94,6 +94,7 @@
 			Project.queryFinProjectId(pid);
 			Ext.getCmp('add_Btn').hide();
 			Ext.getCmp('update_Btn').show();
+			Ext.getCmp('pmtype').setDisabled(true);
 		} else {
 			Ext.getCmp('isInput').setValue("yes");
 		}
@@ -102,7 +103,12 @@
 		//Project.generateProjectNum("GJWHCXGCXM");
 		Ext.getCmp('sborg').setValue(sbDeptName);
 	}
-
+	
+	function doSBNumber(type) {
+		Project.generateProjectNum(type);
+	}
+	
+	
 	function initPageShow() {
 	}
     </script>
@@ -140,7 +146,7 @@
 															store="new Ext.data.SimpleStore({
 																fields : ['value', 'text'],
 																data : Common.config.nullArray.concat(DataDict.projectTypeArray)
-															})">
+															})" listeners="{change : function ( field, newValue, oldValue ) {doSBNumber(newValue);}}">
 														</ext:comboBox>
 													</ext:items>
 												</ext:container>
@@ -205,7 +211,7 @@
 															</ext:panel>
 															<ext:panel lazyInit="true">
 															<ext:items>
-																<ext:textField id="creater" name="project.creater" width="280" fieldLabel="申报人<span class='red'>(必填)</span>"  allowBlank="false" otherProperties="anchor: Project.fieldAnchor">
+																<ext:textField id="creater" name="project.creater" width="280" fieldLabel="申报单位<span class='red'>(必填)</span>"  allowBlank="false" otherProperties="anchor: Project.fieldAnchor">
 																</ext:textField>
 															</ext:items>
 														</ext:panel>
