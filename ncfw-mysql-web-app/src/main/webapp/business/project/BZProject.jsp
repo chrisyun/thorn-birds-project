@@ -170,10 +170,10 @@
 														<ext:container lazyInit="true">
 															<ext:items>
 																<ext:comboBox id="psbtype" hiddenName="project.psbtype"
-																	fieldLabel="申报类别<span class='red'>(必填)</span>"
+																	fieldLabel="申报类别"
 																	displayField="text" mode="local" triggerAction="all"
 																	selectOnFocus="true" forceSelection="true" width="200"
-																	valueField="value" value="" editable="false" allowBlank="false"
+																	valueField="value" value="" editable="false" allowBlank="true"
 																	store="new Ext.data.SimpleStore({
 																		fields : ['value', 'text'],
 																		data : Common.config.nullArray.concat(DataDict.projectSBTypeArray)
