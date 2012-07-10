@@ -3,4 +3,4 @@
 	String path = request.getContextPath();
 %>
 
-<script type="text/javascript" src="<%=path %>/wfForm/request.js"></script>
+<script type="text/javascript" src="<%=path %>/wfForm/leave.js"></script>
