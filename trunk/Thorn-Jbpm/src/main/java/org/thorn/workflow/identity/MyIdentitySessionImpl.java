@@ -78,16 +78,16 @@ public class MyIdentitySessionImpl implements IdentitySession {
 		throw new UnsupportedOperationException(
 				"you can't get all users by jbpm");
 	}
-	
+
 	public List<Group> findGroupsByUserAndGroupType(String userId,
 			String groupType) {
 		throw new UnsupportedOperationException(
-			"you can't findGroupsByUserAndGroupType by jbpm");
+				"you can't findGroupsByUserAndGroupType by jbpm");
 	}
 
 	public List<Group> findGroupsByUser(String userId) {
 		throw new UnsupportedOperationException(
-			"you can't findGroupsByUser by jbpm");
+				"you can't findGroupsByUser by jbpm");
 	}
 
 	public User findUserById(String userId) {
@@ -126,8 +126,7 @@ public class MyIdentitySessionImpl implements IdentitySession {
 
 		return users;
 	}
-	
-	
+
 	public List<User> findUsersByGroup(String groupId) {
 
 		List<User> users = new ArrayList<User>();
@@ -140,11 +139,11 @@ public class MyIdentitySessionImpl implements IdentitySession {
 
 				if (LocalStringUtils.equals(define.getLimit(),
 						WorkflowConfiguration.LIMIT_CURORG)) {
-					
+
 					orgs.add(define.getLimitCode());
 				} else if (LocalStringUtils.equals(define.getLimit(),
 						WorkflowConfiguration.LIMIT_SUBORG)) {
-					
+
 					// 递归查找所有的子组织
 					orgs.addAll(findSubOrg(orgs));
 				} else {
@@ -166,6 +165,10 @@ public class MyIdentitySessionImpl implements IdentitySession {
 						WorkflowConfiguration.GROUP_AREA)) {
 
 					users = findUsersByArea(define.getGroupId(), orgs);
+				} else if (LocalStringUtils.equals(define.getGroupType(),
+						WorkflowConfiguration.GROUP_USER)) {
+
+					users = findUsersByIds(define.getGroupId(), orgs);
 				}
 
 			} else {
@@ -185,6 +188,10 @@ public class MyIdentitySessionImpl implements IdentitySession {
 						WorkflowConfiguration.GROUP_AREA)) {
 
 					users = findUsersByArea(define.getGroupId(), null);
+				} else if (LocalStringUtils.equals(define.getGroupType(),
+						WorkflowConfiguration.GROUP_USER)) {
+
+					users = findUsersByIds(define.getGroupId(), null);
 				}
 			}
 
@@ -201,37 +208,52 @@ public class MyIdentitySessionImpl implements IdentitySession {
 	}
 
 	public Group findGroupById(String groupId) {
-//		Group group = null;
-//
-//		try {
-//			MyGroupDefine define = MyGroupDefine.getInstance(groupId);
-//			String name = "";
-//			if (LocalStringUtils.equals(define.getGroupType(),
-//					WorkflowConfiguration.GROUP_AREA)) {
-//				
-//				name = DDUtils.queryDdById("", define.getGroupId());
-//			} else if (LocalStringUtils.equals(define.getGroupType(),
-//					WorkflowConfiguration.GROUP_ROLE)) {
-//				
-//				
-//				
-//			} else if (LocalStringUtils.equals(define.getGroupType(),
-//					WorkflowConfiguration.GROUP_ORG)) {
-//				
-//				Org org = orgService.queryOrg(define.getGroupId(), null);
-//				name = org.getOrgName();
-//			}
-//			
-//			group = new GroupImpl();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (DBAccessException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
+		// Group group = null;
+		//
+		// try {
+		// MyGroupDefine define = MyGroupDefine.getInstance(groupId);
+		// String name = "";
+		// if (LocalStringUtils.equals(define.getGroupType(),
+		// WorkflowConfiguration.GROUP_AREA)) {
+		//
+		// name = DDUtils.queryDdById("", define.getGroupId());
+		// } else if (LocalStringUtils.equals(define.getGroupType(),
+		// WorkflowConfiguration.GROUP_ROLE)) {
+		//
+		//
+		//
+		// } else if (LocalStringUtils.equals(define.getGroupType(),
+		// WorkflowConfiguration.GROUP_ORG)) {
+		//
+		// Org org = orgService.queryOrg(define.getGroupId(), null);
+		// name = org.getOrgName();
+		// }
+		//
+		// group = new GroupImpl();
+		// } catch (IOException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// } catch (DBAccessException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		//
 		return null;
+	}
+
+	private List<User> findUsersByIds(Set<String> userIds, Set<String> orgIds)
+			throws DBAccessException {
+		List<User> users = new ArrayList<User>();
+
+		List<org.thorn.user.entity.User> thornUsers = userService.queryList(
+				null, null, null, null, null, userIds, orgIds);
+		for (org.thorn.user.entity.User thornUser : thornUsers) {
+			User user = new UserImpl(thornUser.getUserId(),
+					thornUser.getUserName(), thornUser.getSn());
+			users.add(user);
+		}
+
+		return users;
 	}
 
 	private List<User> findUsersByRole(Set<String> roleCode, Set<String> orgIds)
@@ -278,11 +300,12 @@ public class MyIdentitySessionImpl implements IdentitySession {
 
 		return users;
 	}
-	
+
 	/**
 	 * 查找子组织，递归查找
+	 * 
 	 * @Description：
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-7-2 下午04:28:05
 	 * @param pids
 	 * @return

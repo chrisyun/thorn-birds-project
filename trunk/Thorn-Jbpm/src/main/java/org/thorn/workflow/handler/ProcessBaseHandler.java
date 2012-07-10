@@ -1,5 +1,6 @@
 package org.thorn.workflow.handler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.RandomUtils;
 import org.jbpm.api.TaskService;
 import org.jbpm.pvm.internal.model.ActivityImpl;
 import org.jbpm.pvm.internal.model.ExecutionImpl;
@@ -16,6 +18,14 @@ import org.jbpm.pvm.internal.model.TransitionImpl;
 import org.jbpm.pvm.internal.task.TaskImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.thorn.auth.service.IAuthService;
+import org.thorn.core.util.LocalStringUtils;
+import org.thorn.dao.exception.DBAccessException;
+import org.thorn.org.entity.Org;
+import org.thorn.org.service.IOrgService;
+import org.thorn.security.SecurityUserUtils;
+import org.thorn.user.entity.User;
+import org.thorn.user.service.IUserService;
 import org.thorn.workflow.HandlerException;
 import org.thorn.workflow.WorkflowConfiguration;
 import org.thorn.workflow.entity.Participator;
@@ -33,24 +43,35 @@ public abstract class ProcessBaseHandler {
 	@Autowired
 	@Qualifier("taskService")
 	protected TaskService taskService;
-	
+
 	@Autowired
 	@Qualifier("participatorService")
 	protected IParticipatorService ppService;
-	
+
+	@Autowired
+	@Qualifier("orgService")
+	protected IOrgService orgService;
+
+	@Autowired
+	@Qualifier("userService")
+	protected IUserService userService;
+
+	@Autowired
+	@Qualifier("authService")
+	protected IAuthService authService;
 
 	public void execute(Map<String, Object> parameters,
-			HttpServletRequest request) {
+			HttpServletRequest request) throws DBAccessException {
 		Map<String, Object> variable = new HashMap<String, Object>();
-		
+
 		String taskId = (String) parameters.get("taskId");
 		String nextStep = (String) parameters.get("nextStep");
 		String flowKey = (String) parameters.get("flowKey");
 		String activityName = (String) parameters.get("activityName");
-		
+
 		String title = (String) parameters.get("title");
 		variable.put("title", title);
-		
+
 		TaskImpl task = (TaskImpl) taskService.getTask(taskId);
 		ExecutionImpl execu = task.getProcessInstance();
 
@@ -73,15 +94,15 @@ public abstract class ProcessBaseHandler {
 								+ curActivity.getName());
 			}
 		}
-		
+
 		// 获取下一环节
 		ActivityImpl nextActivity = nextTrans.getDestination();
-		
+
 		// 计算下一环节处理人
-		Participator pp = ppService.queryParticipator(activityName, flowKey);
-		
+		Participator pp = ppService.queryParticipator(nextActivity.getName(), flowKey);
+
 		putNextActivityPp(pp, variable);
-		
+
 		if (StringUtils.isNotBlank(nextStep)) {
 			taskService.completeTask(taskId, variable);
 		} else {
@@ -107,38 +128,158 @@ public abstract class ProcessBaseHandler {
 
 		return outgoingNames;
 	}
-	
-	public void putNextActivityPp(Participator pp, Map<String, Object> variable) {
-		
-		if(pp == null) {
-			return ;
+
+	public void putNextActivityPp(Participator pp, Map<String, Object> variable)
+			throws DBAccessException {
+
+		if (pp == null) {
+			return;
 		}
-		
-		if(StringUtils.equals(pp.getVariableType(), WorkflowConfiguration.PP_GROUP)) {
-			String groupType = pp.getEntityType();
-			String groupId = pp.getEntity();
-			String limit = pp.getLimitType();
-			String limitCode = "";
-			
-			if(StringUtils.isBlank(limit)) {
+
+		String entityType = pp.getEntityType();
+		List<String> entity = LocalStringUtils.splitStr2Array(pp.getEntity());
+		String limit = pp.getLimitType();
+		String limitCode = "";
+		User user = SecurityUserUtils.getCurrentUser();
+
+		if (StringUtils.equals(pp.getVariableType(),
+				WorkflowConfiguration.PP_GROUP)) {
+
+			if (StringUtils.isBlank(limit)) {
 				limit = WorkflowConfiguration.LIMIT_NONE;
 			} else {
-				
+				if (compareOrgLevel(limit, user.getOrgType()) == 0) {
+					// 限制类型与当前用户的所属组织类型一致，取用户的所属组织
+					limit = WorkflowConfiguration.LIMIT_SUBORG;
+					limitCode = user.getOrgCode();
+				} else if (compareOrgLevel(limit, user.getOrgType()) < 0) {
+					// 限制类型组织级别小于当前用户的所属组织级别，取用户的所属组织，不向下查找
+					limit = WorkflowConfiguration.LIMIT_CURORG;
+					limitCode = user.getOrgCode();
+				} else {
+					// 限制类型组织级别大于当前用户的所属组织级别，向上取用户的同級別组织
+					Org parentOrg = SecurityUserUtils.getUserParentOrg();
+
+					if (compareOrgLevel(limit, parentOrg.getOrgType()) == 0) {
+						limit = WorkflowConfiguration.LIMIT_SUBORG;
+						limitCode = parentOrg.getParentOrg();
+					} else {
+						limit = WorkflowConfiguration.LIMIT_SUBORG;
+						limitCode = parentOrg.getParentOrg();
+					}
+				}
 			}
-			
-			
+
+			StringBuilder group = new StringBuilder("{");
+			group.append("groupType:\"").append(entityType).append("\",");
+			group.append("groupId:\"").append(pp.getEntity()).append("\",");
+			group.append("limit:\"").append(limit).append("\",");
+			group.append("limitCode:\"").append(limitCode).append("\"}");
+
+			variable.put(pp.getVariable(), group.toString());
 		} else {
-			
+
+			Set<String> orgs = new HashSet<String>();
+
+			if (compareOrgLevel(limit, user.getOrgType()) <= 0) {
+				orgs.add(user.getOrgCode());
+			} else if (compareOrgLevel(limit, user.getOrgType()) > 0) {
+				Org parentOrg = SecurityUserUtils.getUserParentOrg();
+
+				if (compareOrgLevel(limit, parentOrg.getOrgType()) == 0) {
+					orgs.add(parentOrg.getOrgCode());
+				} else {
+					orgs.add(parentOrg.getParentOrg());
+				}
+
+				orgs.addAll(findSubOrg(orgs));
+
+			} else {
+				orgs = null;
+			}
+
+			List<User> users = new ArrayList<User>();
+
+			if (LocalStringUtils.equals(entityType,
+					WorkflowConfiguration.GROUP_ORG)) {
+				if (orgs == null) {
+					users = userService.queryList(null, null, null, null, null,
+							null, entity);
+				} else {
+					orgs.addAll(entity);
+					users = userService.queryList(null, null, null, null, null,
+							null, orgs);
+				}
+			} else if (LocalStringUtils.equals(entityType,
+					WorkflowConfiguration.GROUP_ROLE)) {
+				users = authService.queryListByRole(entity, orgs);
+			} else if (LocalStringUtils.equals(entityType,
+					WorkflowConfiguration.GROUP_AREA)) {
+				users = userService.queryList(null, null, null, entity, null,
+						null, orgs);
+			} else if (LocalStringUtils.equals(entityType,
+					WorkflowConfiguration.GROUP_USER)) {
+				users = userService.queryList(null, null, null, null, null,
+						entity, orgs);
+			}
+
+			// 随机选一个人出来
+			if (users != null && users.size() > 0) {
+				variable.put(pp.getVariable(),
+						users.get(RandomUtils.nextInt(users.size())));
+			} else {
+				new HandlerException("No handler was found in " + pp.getActivityId());
+			}
 		}
 	}
-	
-	private String getLimitCode(String limitType) {
-		
-		if(StringUtils.equals(limitType, WorkflowConfiguration.)) {
-			
+
+	/**
+	 * 
+	 * @Description：比较组织的级别大小：company > dept > org
+	 * @author：chenyun
+	 * @date：2012-7-10 下午04:48:29
+	 * @param type1
+	 * @param type2
+	 * @return 0 type1=type2，1 type1>type2, -1 type1<type2
+	 */
+	private int compareOrgLevel(String type1, String type2) {
+
+		if (StringUtils.equalsIgnoreCase(type1, type2)) {
+			return 0;
+		} else if (StringUtils.equals(type1, WorkflowConfiguration.COMPANY)
+				|| StringUtils.equals(type2, WorkflowConfiguration.ORG)) {
+			return 1;
+		} else {
+			return -1;
 		}
-		
-		
+	}
+
+	/**
+	 * 查找子组织，递归查找
+	 * 
+	 * @Description：
+	 * @author：chenyun
+	 * @date：2012-7-2 下午04:28:05
+	 * @param pids
+	 * @return
+	 * @throws DBAccessException
+	 */
+	private Set<String> findSubOrg(Set<String> pids) throws DBAccessException {
+
+		Set<String> orgIds = new HashSet<String>();
+
+		List<Org> orgs = orgService.queryList(null, pids);
+		for (Org org : orgs) {
+			orgIds.add(org.getOrgCode());
+		}
+
+		if (orgIds.size() > 0) {
+			Set<String> allIds = findSubOrg(orgIds);
+			allIds.containsAll(orgIds);
+			return allIds;
+		}
+
+		return orgIds;
 	}
 
 }
