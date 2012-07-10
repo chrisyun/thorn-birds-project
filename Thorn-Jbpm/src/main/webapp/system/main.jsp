@@ -6,9 +6,9 @@
 	<div id="header">
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 			<tr>
-		   		<td width="664"><img src="<%=path %>/resources/images/local/title-1a.jpg" width="664" height="67" /></td>
-		    	<td background="<%=path %>/resources/images/local/title-2a.jpg">&nbsp;</td>
-		    	<td width="372"><img src="<%=path %>/resources/images/local/title-3a.jpg" width="372" height="67" /></td>
+		   		<td width="664"><img src="<%=path %>/resources/images/local/title-1.jpg" width="664" height="67" /></td>
+		    	<td background="<%=path %>/resources/images/local/title-2.jpg">&nbsp;</td>
+		    	<td width="372"><img src="<%=path %>/resources/images/local/title-3.jpg" width="372" height="67" /></td>
 		  	</tr>
 		</table>
 	</div>

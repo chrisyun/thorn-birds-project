@@ -85,7 +85,7 @@ Ext.onReady(function() {
 	pp_form.addComp(getComboBox("limitType", "限制类型", 180, limitTypeDD, false), 0.5,
 			true);
 	pp_form.addComp(getComboBox("variableType", "变量类型", 180, variableTypeDD, false), 0.5,
-			true);
+			false);
 	pp_form.addComp(getText("variable", "绑定变量名", 180), 0.5, false);
 	pp_form.addComp(getHidden("formType"), 0, true);
 	pp_form.addComp(getHidden("id"), 0, true);
@@ -183,8 +183,6 @@ Ext.onReady(function() {
 
 		var groupStore = group_grid.getStore();
 
-		var params = {};
-
 		switch (queryType) {
 			case "名称" :
 				var name = Ext.getCmp("group_queryField").getValue();
@@ -206,7 +204,7 @@ Ext.onReady(function() {
 				limit : group_grid.pageSize
 			}
 		});
-	}
+	};
 	
 	orgTree.border = false;
 
@@ -268,6 +266,7 @@ Ext.onReady(function() {
 		
 		setTextReadOnly(pp_form.findById("entity"));
 		
+		groupArray = "";
 		pp_form.getForm().reset();
 		pp_form.findById("formType").setValue(
 				Configuration.opType.SAVE);
@@ -293,6 +292,7 @@ Ext.onReady(function() {
 			entity : selectedRecord.get("entity"),
 			limitType : selectedRecord.get("limitType"),
 			variable : selectedRecord.get("variable"),
+			variableType : selectedRecord.get("variableType"),
 			formType : Configuration.opType.MODIFY
 		};
 		pp_form.getForm().setValues(values);
@@ -351,6 +351,7 @@ Ext.onReady(function() {
 			var opType = thisForm.findById("formType").getValue();
 
 			if (opType == Configuration.opType.SAVE) {
+				groupArray = "";
 				thisForm.getForm().reset();
 				thisForm.findById("formType").setValue(Configuration.opType.SAVE);
 			} else {
@@ -360,7 +361,6 @@ Ext.onReady(function() {
 	}
 
 	function onSubmitQueryHandler() {
-		var thisForm = query_form.getForm();
 
 		var activityId = Ext.getCmp("query_activityId").getValue();
 		var processDfId = Ext.getCmp("query_processDfId").getValue();
