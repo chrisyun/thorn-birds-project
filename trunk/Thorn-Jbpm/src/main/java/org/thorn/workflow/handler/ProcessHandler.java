@@ -38,7 +38,7 @@ import org.thorn.workflow.service.IParticipatorService;
  * @author chenyun
  * @date 2012-7-3 下午09:11:58
  */
-public abstract class ProcessBaseHandler {
+public abstract class ProcessHandler {
 
 	@Autowired
 	@Qualifier("taskService")
@@ -60,18 +60,53 @@ public abstract class ProcessBaseHandler {
 	@Qualifier("authService")
 	protected IAuthService authService;
 
-	public void execute(Map<String, Object> parameters,
+	public final void execute(Map<String, Object> parameters,
 			HttpServletRequest request) throws DBAccessException {
 		Map<String, Object> variable = new HashMap<String, Object>();
 
 		String taskId = (String) parameters.get("taskId");
 		String nextStep = (String) parameters.get("nextStep");
 		String flowKey = (String) parameters.get("flowKey");
-		String activityName = (String) parameters.get("activityName");
 
 		String title = (String) parameters.get("title");
 		variable.put("title", title);
 
+		String nextActivity = getNextActivityName(taskId, nextStep);
+
+		// 计算下一环节处理人
+		Participator pp = ppService.queryParticipator(nextActivity, flowKey);
+
+		putNextActivityPp(pp, variable);
+
+		// 是否按照默认的执行
+		if (completeTaskHook()) {
+			if (StringUtils.isNotBlank(nextStep)) {
+				taskService.completeTask(taskId, variable);
+			} else {
+				taskService.completeTask(taskId, nextStep, variable);
+			}
+		}
+
+		executeCustomHandler(parameters, request);
+	}
+
+	protected abstract void executeCustomHandler(Map<String, Object> parameters,
+			HttpServletRequest request) throws DBAccessException;
+
+	protected boolean completeTaskHook() {
+		return true;
+	}
+
+	/**
+	 * 
+	 * @Description：
+	 * @author：chenyun
+	 * @date：2012-7-11 上午10:21:28
+	 * @param taskId
+	 * @param nextStep
+	 * @return
+	 */
+	protected String getNextActivityName(String taskId, String nextStep) {
 		TaskImpl task = (TaskImpl) taskService.getTask(taskId);
 		ExecutionImpl execu = task.getProcessInstance();
 
@@ -98,18 +133,17 @@ public abstract class ProcessBaseHandler {
 		// 获取下一环节
 		ActivityImpl nextActivity = nextTrans.getDestination();
 
-		// 计算下一环节处理人
-		Participator pp = ppService.queryParticipator(nextActivity.getName(), flowKey);
-
-		putNextActivityPp(pp, variable);
-
-		if (StringUtils.isNotBlank(nextStep)) {
-			taskService.completeTask(taskId, variable);
-		} else {
-			taskService.completeTask(taskId, nextStep, variable);
-		}
+		return nextActivity.getName();
 	}
 
+	/**
+	 * 
+	 * @Description：获取可以送出的环节线名称
+	 * @author：chenyun
+	 * @date：2012-7-11 上午10:09:26
+	 * @param taskId
+	 * @return
+	 */
 	public Set<String> getNextActivityLines(String taskId) {
 		TaskImpl task = (TaskImpl) taskService.getTask(taskId);
 		ExecutionImpl execu = task.getProcessInstance();
@@ -129,7 +163,7 @@ public abstract class ProcessBaseHandler {
 		return outgoingNames;
 	}
 
-	public void putNextActivityPp(Participator pp, Map<String, Object> variable)
+	protected void putNextActivityPp(Participator pp, Map<String, Object> variable)
 			throws DBAccessException {
 
 		if (pp == null) {
@@ -228,7 +262,8 @@ public abstract class ProcessBaseHandler {
 				variable.put(pp.getVariable(),
 						users.get(RandomUtils.nextInt(users.size())));
 			} else {
-				new HandlerException("No handler was found in " + pp.getActivityId());
+				new HandlerException("No handler was found in "
+						+ pp.getActivityId());
 			}
 		}
 	}

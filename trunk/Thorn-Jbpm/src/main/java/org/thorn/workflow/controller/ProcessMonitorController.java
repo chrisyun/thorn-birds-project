@@ -41,6 +41,7 @@ import com.sun.image.codec.jpeg.JPEGImageEncoder;
  * @date 2012-6-17 下午08:22:56
  */
 @Controller
+@RequestMapping("/wf")
 public class ProcessMonitorController extends BaseController {
 
 	static Logger log = LoggerFactory.getLogger(ProcessMonitorController.class);
@@ -53,7 +54,7 @@ public class ProcessMonitorController extends BaseController {
 	@Qualifier("executionService")
 	private ExecutionService execution;
 	
-	@RequestMapping("/wf/getProcessInstPage")
+	@RequestMapping("/getProcessInstPage")
 	@ResponseBody
 	public Page<ProcessInstance> getProcessInstancePage(String processDfId,
 			String instanceId, String instanceKey, long start, long limit,
@@ -127,7 +128,7 @@ public class ProcessMonitorController extends BaseController {
 		return page;
 	}
 	
-	@RequestMapping("/wf/deleteProcessInst")
+	@RequestMapping("/deleteProcessInst")
 	@ResponseBody
 	public Status deleteProcessInstance(String ids) {
 		List<String> instanceIds = LocalStringUtils.splitStr2Array(ids);
@@ -148,7 +149,7 @@ public class ProcessMonitorController extends BaseController {
 		return status;
 	}
 	
-	@RequestMapping("/wf/cancelProcessInst")
+	@RequestMapping("/cancelProcessInst")
 	@ResponseBody
 	public Status cancelProcessInstance(String ids, String reason) {
 		List<String> instanceIds = LocalStringUtils.splitStr2Array(ids);
@@ -169,7 +170,7 @@ public class ProcessMonitorController extends BaseController {
 		return status;
 	}
 	
-	@RequestMapping("/wf/getProcessInstImage")
+	@RequestMapping("/getProcessInstImage")
 	public void getProcessInstImage(String processInstId, HttpServletResponse response) throws IOException {
 		
 		org.jbpm.api.ProcessInstance processInstance = execution.findProcessInstanceById(processInstId);   

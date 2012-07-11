@@ -40,6 +40,7 @@ import org.thorn.workflow.service.IParticipatorService;
  * @date 2012-6-23 下午09:54:49
  */
 @Controller
+@RequestMapping("/wf/cr")
 public class CreateProcessController extends BaseController {
 
 	static Logger log = LoggerFactory.getLogger(CreateProcessController.class);
@@ -60,7 +61,7 @@ public class CreateProcessController extends BaseController {
 	@Qualifier("taskService")
 	private TaskService taskService;
 
-	@RequestMapping("/wf/cr/getCreatProcessList")
+	@RequestMapping("/getCreatProcessList")
 	@ResponseBody
 	public Page<FlowType> getCreatProcessList(String type) {
 		Page<FlowType> page = new Page<FlowType>();
@@ -155,7 +156,7 @@ public class CreateProcessController extends BaseController {
 		return page;
 	}
 
-	@RequestMapping("/wf/cr/modifyFlowType")
+	@RequestMapping("/modifyFlowType")
 	@ResponseBody
 	public Status modifyFlowType(FlowType type) {
 		Status status = new Status();
@@ -172,7 +173,7 @@ public class CreateProcessController extends BaseController {
 		return status;
 	}
 
-	@RequestMapping("/wf/cr/deleteFlowType")
+	@RequestMapping("/deleteFlowType")
 	@ResponseBody
 	public Status deleteFlowType(String ids) {
 		Status status = new Status();
@@ -189,7 +190,7 @@ public class CreateProcessController extends BaseController {
 		return status;
 	}
 
-	@RequestMapping("/wf/cr/startNewProcess")
+	@RequestMapping("/startNewProcess")
 	public String startNewProcess(String key, ModelMap model) {
 
 		User user = SecurityUserUtils.getCurrentUser();

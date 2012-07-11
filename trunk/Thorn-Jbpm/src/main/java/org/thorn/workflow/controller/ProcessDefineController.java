@@ -34,6 +34,7 @@ import org.thorn.workflow.service.IFlowTypeService;
  * @date 2012-6-17 下午12:50:08
  */
 @Controller
+@RequestMapping("/wf")
 public class ProcessDefineController extends BaseController {
 
 	static Logger log = LoggerFactory.getLogger(ProcessDefineController.class);
@@ -46,7 +47,7 @@ public class ProcessDefineController extends BaseController {
 	@Qualifier("flowTypeService")
 	private IFlowTypeService flowTypeService;
 
-	@RequestMapping("/wf/deployProcess")
+	@RequestMapping("/deployProcess")
 	public void deployProcess(String fileName, String flowType,
 			String flowDesc, String flowName,
 			@RequestParam("attach") MultipartFile attach,
@@ -103,7 +104,7 @@ public class ProcessDefineController extends BaseController {
 	 * @param ids
 	 * @return
 	 */
-	@RequestMapping("/wf/deleteProcessDf")
+	@RequestMapping("/deleteProcessDf")
 	@ResponseBody
 	public Status deleteProcessDf(String ids) {
 		List<String> deployIds = LocalStringUtils.splitStr2Array(ids);
@@ -124,7 +125,7 @@ public class ProcessDefineController extends BaseController {
 		return status;
 	}
 
-	@RequestMapping("/wf/getProcessDfImage")
+	@RequestMapping("/getProcessDfImage")
 	public void getProcessImage(String processDfId, HttpServletResponse response) {
 
 		org.jbpm.api.ProcessDefinition processDefinition = repository
@@ -153,7 +154,7 @@ public class ProcessDefineController extends BaseController {
 	 * @param key
 	 * @return
 	 */
-	@RequestMapping("/wf/getProcessDf")
+	@RequestMapping("/getProcessDf")
 	@ResponseBody
 	public Page<ProcessDefinition> getProcessDf(String name, String key) {
 

@@ -23,11 +23,12 @@ import ch.qos.logback.classic.LoggerContext;
  * @date 2012-6-10 下午09:56:17
  */
 @Controller
+@RequestMapping("/log")
 public class SysLogController extends BaseController {
 
 	Logger log = LoggerFactory.getLogger(SysLogController.class);
 	
-	@RequestMapping("/log/modifyLogLevel")
+	@RequestMapping("/modifyLogLevel")
 	@ResponseBody
 	public Status modifyLogLevel(int level) {
 		Status status = new Status();
@@ -48,7 +49,7 @@ public class SysLogController extends BaseController {
 		return status;
 	}
 	
-	@RequestMapping("/log/getLogLevel")
+	@RequestMapping("/getLogLevel")
 	@ResponseBody
 	public List<Map<String, Object>> getLogBackLevel() {
 		

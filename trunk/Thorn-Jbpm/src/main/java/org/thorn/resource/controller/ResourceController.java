@@ -31,6 +31,7 @@ import org.thorn.web.entity.Tree;
  * @date 2012-5-6 下午10:51:39
  */
 @Controller
+@RequestMapping("/resource")
 public class ResourceController extends BaseController {
 
 	static Logger log = LoggerFactory.getLogger(ResourceController.class);
@@ -52,7 +53,7 @@ public class ResourceController extends BaseController {
 	 * @param isSourcePanel 请求是否来自资源面板	YES
 	 * @return
 	 */
-	@RequestMapping("/resource/getLeftTree")
+	@RequestMapping("/getLeftTree")
 	@ResponseBody
 	public List<Tree> getLeftTree(String pid, String isSourcePanel) {
 		List<Tree> tree = new ArrayList<Tree>();
@@ -101,7 +102,7 @@ public class ResourceController extends BaseController {
 	 * @param pid
 	 * @return
 	 */
-	@RequestMapping("/resource/getSourceTree")
+	@RequestMapping("/getSourceTree")
 	@ResponseBody
 	public List<FullTree> getSourceTree(String pid) {
 		List<FullTree> ft = new ArrayList<FullTree>();
@@ -181,7 +182,7 @@ public class ResourceController extends BaseController {
 	 * @param roleCode 角色编码
 	 * @return
 	 */
-	@RequestMapping("/resource/getSourceCodeByRole")
+	@RequestMapping("/getSourceCodeByRole")
 	@ResponseBody
 	public JsonResponse<List> getSourceCodeByRole(String roleCode) {
 		JsonResponse<List> json = new JsonResponse<List>();
@@ -208,7 +209,7 @@ public class ResourceController extends BaseController {
 	 * @param opType	操作类型
 	 * @return
 	 */
-	@RequestMapping("/resource/saveOrModifySource")
+	@RequestMapping("/saveOrModifySource")
 	@ResponseBody
 	public Status saveOrModifySource(Resource source, String opType) {
 		Status status = new Status();
@@ -240,7 +241,7 @@ public class ResourceController extends BaseController {
 	 * @param ids	主键字符串，格式id1,id2,
 	 * @return
 	 */
-	@RequestMapping("/resource/deleteSource")
+	@RequestMapping("/deleteSource")
 	@ResponseBody
 	public Status deleteSource(String ids) {
 		Status status = new Status();
@@ -271,7 +272,7 @@ public class ResourceController extends BaseController {
 	 * @param sourceName资源名称
 	 * @return
 	 */
-	@RequestMapping("/resource/getSourcePage")
+	@RequestMapping("/getSourcePage")
 	@ResponseBody
 	public Page<Resource> getSourcePage(long start, long limit, String sort,
 			String dir, String pid, String sourceCode, String sourceName) {
@@ -295,7 +296,7 @@ public class ResourceController extends BaseController {
 	 * @param sourceCode
 	 * @return
 	 */
-	@RequestMapping("/resource/getResource")
+	@RequestMapping("/getResource")
 	@ResponseBody
 	public JsonResponse<Resource> getResource(String sourceCode) {
 		JsonResponse<Resource> json = new JsonResponse<Resource>();
