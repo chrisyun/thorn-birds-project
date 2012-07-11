@@ -27,6 +27,7 @@ import org.thorn.web.entity.Status;
  * @date 2012-5-7 上午11:45:31
  */
 @Controller
+@RequestMapping("/dd")
 public class DDController extends BaseController {
 	
 	static Logger log = LoggerFactory.getLogger(DDController.class);
@@ -48,7 +49,7 @@ public class DDController extends BaseController {
 	 * @param cname 类型中文名
 	 * @return
 	 */
-	@RequestMapping("/dd/getDtPage")
+	@RequestMapping("/getDtPage")
 	@ResponseBody
 	public Page<DictType> getDtPage(long start, long limit, String sort,
 			String dir, String ename, String cname) {
@@ -72,7 +73,7 @@ public class DDController extends BaseController {
 	 * @param typeId 类型ID
 	 * @return
 	 */
-	@RequestMapping("/dd/getDdList")
+	@RequestMapping("/getDdList")
 	@ResponseBody
 	public Page<Dict> getDdList(String typeId) {
 		List<Dict> list = new ArrayList<Dict>();
@@ -98,7 +99,7 @@ public class DDController extends BaseController {
 	 * @param opType 操作类型
 	 * @return
 	 */
-	@RequestMapping("/dd/saveOrModifyDd")
+	@RequestMapping("/saveOrModifyDd")
 	@ResponseBody
 	public Status saveOrModifyDd(Dict dd, String opType) {
 		Status status = new Status();
@@ -131,7 +132,7 @@ public class DDController extends BaseController {
 	 * @param opType 操作类型
 	 * @return
 	 */
-	@RequestMapping("/dd/saveOrModifyDt")
+	@RequestMapping("/saveOrModifyDt")
 	@ResponseBody
 	public Status saveOrModifyDt(DictType dt, String opType) {
 		Status status = new Status();
@@ -164,7 +165,7 @@ public class DDController extends BaseController {
 	 * @param typeId
 	 * @return
 	 */
-	@RequestMapping("/dd/deleteDd")
+	@RequestMapping("/deleteDd")
 	@ResponseBody
 	public Status deleteDd(String ids, String typeId) {
 		Status status = new Status();
@@ -189,7 +190,7 @@ public class DDController extends BaseController {
 	 * @param ids	主键字符串，格式id1,id2,
 	 * @return
 	 */
-	@RequestMapping("/dd/deleteDt")
+	@RequestMapping("/deleteDt")
 	@ResponseBody
 	public Status deleteDt(String ids) {
 		Status status = new Status();

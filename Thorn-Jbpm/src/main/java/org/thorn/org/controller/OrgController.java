@@ -28,6 +28,7 @@ import org.thorn.web.entity.Tree;
  * @date 2012-5-10 下午02:50:02
  */
 @Controller
+@RequestMapping("/org")
 public class OrgController extends BaseController {
 
 	static Logger log = LoggerFactory.getLogger(OrgController.class);
@@ -44,7 +45,7 @@ public class OrgController extends BaseController {
 	 * @param pid 上级组织code
 	 * @return
 	 */
-	@RequestMapping("/org/getOrgTree")
+	@RequestMapping("/getOrgTree")
 	@ResponseBody
 	public List<Tree> getOrgTree(String pid) {
 		List<Tree> tree = new ArrayList<Tree>();
@@ -78,7 +79,7 @@ public class OrgController extends BaseController {
 	 * @param opType 操作类型
 	 * @return
 	 */
-	@RequestMapping("/org/saveOrModifyOrg")
+	@RequestMapping("/saveOrModifyOrg")
 	@ResponseBody
 	public Status saveOrModifyOrg(Org org, String opType) {
 		Status status = new Status();
@@ -110,7 +111,7 @@ public class OrgController extends BaseController {
 	 * @param ids	主键字符串，格式id1,id2,
 	 * @return
 	 */
-	@RequestMapping("/org/deleteOrg")
+	@RequestMapping("/deleteOrg")
 	@ResponseBody
 	public Status deleteOrg(String ids) {
 		Status status = new Status();
@@ -142,7 +143,7 @@ public class OrgController extends BaseController {
 	 * @param orgType   组织类型
 	 * @return
 	 */
-	@RequestMapping("/org/getOrgPage")
+	@RequestMapping("/getOrgPage")
 	@ResponseBody
 	public Page<Org> getOrgPage(long start, long limit, String sort,
 			String dir, String pid, String orgCode, String orgName,
@@ -168,7 +169,7 @@ public class OrgController extends BaseController {
 	 * @param orgId		组织ID
 	 * @return
 	 */
-	@RequestMapping("/org/getOrg")
+	@RequestMapping("/getOrg")
 	@ResponseBody
 	public JsonResponse<Org> getOrg(String orgCode, String orgId) {
 		JsonResponse<Org> json = new JsonResponse<Org>();

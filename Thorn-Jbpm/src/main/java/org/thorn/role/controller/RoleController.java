@@ -30,6 +30,7 @@ import org.thorn.web.entity.Status;
  * @date 2012-5-17 下午09:22:41
  */
 @Controller
+@RequestMapping("/role")
 public class RoleController extends BaseController {
 
 	static Logger log = LoggerFactory.getLogger(RoleController.class);
@@ -50,7 +51,7 @@ public class RoleController extends BaseController {
 	 * @param ids
 	 * @return
 	 */
-	@RequestMapping("/role/deleteRole")
+	@RequestMapping("/deleteRole")
 	@ResponseBody
 	public Status deleteRole(String ids) {
 		Status status = new Status();
@@ -82,7 +83,7 @@ public class RoleController extends BaseController {
 	 *            角色名称
 	 * @return
 	 */
-	@RequestMapping("/role/getRolePage")
+	@RequestMapping("/getRolePage")
 	@ResponseBody
 	public Page<Role> getRolePage(long start, long limit, String sort,
 			String dir, String roleCode, String roleName) {
@@ -105,7 +106,7 @@ public class RoleController extends BaseController {
 	 * @date：2012-5-25 上午11:54:37
 	 * @return
 	 */
-	@RequestMapping("/role/getAllRole")
+	@RequestMapping("/getAllRole")
 	@ResponseBody
 	public List<Role> getAllRole() {
 		List<Role> list = new ArrayList<Role>();
@@ -127,7 +128,7 @@ public class RoleController extends BaseController {
 	 * @param userId
 	 * @return
 	 */
-	@RequestMapping("/role/getUserRole")
+	@RequestMapping("/getUserRole")
 	@ResponseBody
 	public JsonResponse<List<Relation>> getUserRoles(String userId) {
 		JsonResponse<List<Relation>> json = new JsonResponse<List<Relation>>();
@@ -188,7 +189,7 @@ public class RoleController extends BaseController {
 	 *            资源主键id
 	 * @return
 	 */
-	@RequestMapping("/role/saveAuth")
+	@RequestMapping("/saveAuth")
 	@ResponseBody
 	public Status saveAuth(String roleCode, String ids) {
 		Status status = new Status();
@@ -214,7 +215,7 @@ public class RoleController extends BaseController {
 	 * @param opType
 	 * @return
 	 */
-	@RequestMapping("/role/saveOrModifyRole")
+	@RequestMapping("/saveOrModifyRole")
 	@ResponseBody
 	public Status saveOrModifyRole(Role role, String opType) {
 		Status status = new Status();

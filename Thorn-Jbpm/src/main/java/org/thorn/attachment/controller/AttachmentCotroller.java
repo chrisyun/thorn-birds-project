@@ -34,6 +34,7 @@ import org.thorn.web.util.ResponseHeaderUtils;
  * @date 2012-6-6 下午11:42:40
  */
 @Controller
+@RequestMapping("/att")
 public class AttachmentCotroller extends BaseController {
 
 	static Logger log = LoggerFactory.getLogger(AttachmentCotroller.class);
@@ -42,7 +43,7 @@ public class AttachmentCotroller extends BaseController {
 	@Qualifier("attService")
 	private IAttachmentService attService;
 
-	@RequestMapping("/att/getUpload")
+	@RequestMapping("/getUpload")
 	public void upload(String fileName,
 			@RequestParam("attach") MultipartFile attach,
 			HttpServletResponse response) throws IOException {
@@ -75,7 +76,7 @@ public class AttachmentCotroller extends BaseController {
 		response.getWriter().flush();
 	}
 
-	@RequestMapping("/att/delete")
+	@RequestMapping("/delete")
 	@ResponseBody
 	public Status removeAtt(String ids) {
 		Status status = new Status();
@@ -92,7 +93,7 @@ public class AttachmentCotroller extends BaseController {
 		return status;
 	}
 
-	@RequestMapping("/att/getAtts")
+	@RequestMapping("/getAtts")
 	@ResponseBody
 	public JsonResponse<List<Attachment>> getAtts(String ids) {
 		JsonResponse<List<Attachment>> json = new JsonResponse<List<Attachment>>();
@@ -110,7 +111,7 @@ public class AttachmentCotroller extends BaseController {
 		return json;
 	}
 
-	@RequestMapping("/att/getAttsPage")
+	@RequestMapping("/getAttsPage")
 	@ResponseBody
 	public Page<Attachment> getAttsPage(String uploader, String startTime,
 			String endTime, String fileType, long start, long limit,
@@ -127,7 +128,7 @@ public class AttachmentCotroller extends BaseController {
 		return page;
 	}
 
-	@RequestMapping("/att/download")
+	@RequestMapping("/download")
 	public void download(Integer id, HttpServletResponse response)
 			throws IOException {
 		Attachment att = new Attachment();

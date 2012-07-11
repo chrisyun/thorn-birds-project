@@ -27,6 +27,7 @@ import org.thorn.web.entity.Status;
  * @date 2012-5-15 下午05:16:07
  */
 @Controller
+@RequestMapping("/user")
 public class UserController extends BaseController {
 
 	static Logger log = LoggerFactory.getLogger(UserController.class);
@@ -39,7 +40,7 @@ public class UserController extends BaseController {
 	@Qualifier("authService")
 	private IAuthService authService;
 	
-	@RequestMapping("/user/saveOrModifyUser")
+	@RequestMapping("/saveOrModifyUser")
 	@ResponseBody
 	public Status saveOrModifyUser(User user, String opType) {
 		Status status = new Status();
@@ -63,7 +64,7 @@ public class UserController extends BaseController {
 		return status;
 	}
 
-	@RequestMapping("/user/deleteUser")
+	@RequestMapping("/deleteUser")
 	@ResponseBody
 	public Status deleteUser(String ids) {
 		Status status = new Status();
@@ -80,7 +81,7 @@ public class UserController extends BaseController {
 		return status;
 	}
 
-	@RequestMapping("/user/disabledUser")
+	@RequestMapping("/disabledUser")
 	@ResponseBody
 	public Status disabledUser(String ids, String isDisabled) {
 		Status status = new Status();
@@ -103,7 +104,7 @@ public class UserController extends BaseController {
 		return status;
 	}
 
-	@RequestMapping("/user/changeMyPwd")
+	@RequestMapping("/changeMyPwd")
 	@ResponseBody
 	public Status changeMyPwd(String newPwd) {
 		Status status = new Status();
@@ -125,7 +126,7 @@ public class UserController extends BaseController {
 		return status;
 	}
 
-	@RequestMapping("/user/changePwd")
+	@RequestMapping("/changePwd")
 	@ResponseBody
 	public Status changePwd(String newPwd, String userId) {
 		Status status = new Status();
@@ -142,7 +143,7 @@ public class UserController extends BaseController {
 		return status;
 	}
 
-	@RequestMapping("/user/getUserPage")
+	@RequestMapping("/getUserPage")
 	@ResponseBody
 	public Page<User> getUserPage(long start, long limit, String sort,
 			String dir, String orgCode, String userName, String cumail,
@@ -159,7 +160,7 @@ public class UserController extends BaseController {
 		return page;
 	}
 
-	@RequestMapping("/user/getUserPageByRole")
+	@RequestMapping("/getUserPageByRole")
 	@ResponseBody
 	public Page<User> getUserPageByRole(long start, long limit, String sort,
 			String dir, String orgCode, String userName, String roleCode,
@@ -176,7 +177,7 @@ public class UserController extends BaseController {
 		return page;
 	}
 
-	@RequestMapping("/user/getUserPageNotInRole")
+	@RequestMapping("/getUserPageNotInRole")
 	@ResponseBody
 	public Page<User> getUserPageNotInRole(long start, long limit, String sort,
 			String dir, String orgCode, String roleCode) {
@@ -192,7 +193,7 @@ public class UserController extends BaseController {
 		return page;
 	}
 
-	@RequestMapping("/user/saveUserRole")
+	@RequestMapping("/saveUserRole")
 	@ResponseBody
 	public Status saveUserRole(String roleCode, String userIds) {
 		Status status = new Status();
@@ -209,7 +210,7 @@ public class UserController extends BaseController {
 		return status;
 	}
 	
-	@RequestMapping("/user/saveRoleByUser")
+	@RequestMapping("/saveRoleByUser")
 	@ResponseBody
 	public Status saveRoleByUser(String roleCodes, String userId) {
 		Status status = new Status();
@@ -227,7 +228,7 @@ public class UserController extends BaseController {
 	}
 	
 
-	@RequestMapping("/user/deleteUserRole")
+	@RequestMapping("/deleteUserRole")
 	@ResponseBody
 	public Status deleteUserRole(String roleCode, String userIds) {
 		Status status = new Status();

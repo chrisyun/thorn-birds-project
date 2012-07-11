@@ -28,6 +28,7 @@ import org.thorn.workflow.service.IParticipatorService;
  * @date 2012-6-21 下午03:16:54
  */
 @Controller
+@RequestMapping("/wf/pp")
 public class ParticipatorController extends BaseController {
 
 	static Logger log = LoggerFactory.getLogger(ParticipatorController.class);
@@ -44,7 +45,7 @@ public class ParticipatorController extends BaseController {
 	@Qualifier("orgService")
 	private IOrgService orgService;
 
-	@RequestMapping("/wf/pp/saveOrModifyParticipator")
+	@RequestMapping("/saveOrModifyParticipator")
 	@ResponseBody
 	public Status saveOrModifyParticipator(Participator permission,
 			String opType) {
@@ -71,7 +72,7 @@ public class ParticipatorController extends BaseController {
 		return status;
 	}
 
-	@RequestMapping("/wf/pp/deleteParticipator")
+	@RequestMapping("/deleteParticipator")
 	@ResponseBody
 	public Status deleteParticipator(String ids) {
 		Status status = new Status();
@@ -88,7 +89,7 @@ public class ParticipatorController extends BaseController {
 		return status;
 	}
 
-	@RequestMapping("/wf/pp/getParticipatorPage")
+	@RequestMapping("/getParticipatorPage")
 	@ResponseBody
 	public Page<Participator> getParticipatorPage(long start, long limit,
 			String sort, String dir, String activityId, String processDfId,
@@ -106,7 +107,7 @@ public class ParticipatorController extends BaseController {
 		return page;
 	}
 
-	@RequestMapping("/wf/pp/getGroupPage")
+	@RequestMapping("/getGroupPage")
 	@ResponseBody
 	public Page<Group> getGroupPage(long start, long limit, String sort,
 			String dir, String pid, String code, String name, String type) {

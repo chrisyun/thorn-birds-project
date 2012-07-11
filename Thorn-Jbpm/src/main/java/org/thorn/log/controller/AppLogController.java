@@ -31,6 +31,7 @@ import org.thorn.web.util.ResponseHeaderUtils;
  * @date 2012-5-26 下午10:00:25
  */
 @Controller
+@RequestMapping("/log")
 public class AppLogController extends BaseController {
 
 	static Logger log = LoggerFactory.getLogger(AppLogController.class);
@@ -39,7 +40,7 @@ public class AppLogController extends BaseController {
 	@Qualifier("logService")
 	private IAppLogService logService;
 
-	@RequestMapping("/log/getLogPage")
+	@RequestMapping("/getLogPage")
 	@ResponseBody
 	public Page<AppLog> getLogPage(long start, long limit, String sort,
 			String dir, String moduleName, String handleResult,
@@ -56,7 +57,7 @@ public class AppLogController extends BaseController {
 		return page;
 	}
 
-	@RequestMapping("/log/exportLogExcel")
+	@RequestMapping("/exportLogExcel")
 	public void exportLogExcel(HttpServletResponse response, String moduleName,
 			String handleResult, String startTime, String endTime) {
 		List<AppLog> list = new ArrayList<AppLog>();

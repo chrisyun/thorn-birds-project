@@ -30,6 +30,7 @@ import org.thorn.web.entity.Status;
  * @date 2012-6-4 下午09:11:49 
  */
 @Controller
+@RequestMapping("/cf")
 public class ConfigController extends BaseController {
 	
 	static Logger log = LoggerFactory.getLogger(ConfigController.class);
@@ -38,7 +39,7 @@ public class ConfigController extends BaseController {
 	@Qualifier("configuratorService")
 	private ConfiguratorService service;
 	
-	@RequestMapping("/cf/getConfigName")
+	@RequestMapping("/getConfigName")
 	@ResponseBody
 	public List<Map<String,String>> getAvailableConfig() {
 		Set<String> names = service.getConfigName();
@@ -53,7 +54,7 @@ public class ConfigController extends BaseController {
 		return json;
 	}
 
-	@RequestMapping("/cf/getConfig")
+	@RequestMapping("/getConfig")
 	@ResponseBody
 	public JsonResponse<Map<String,String>> getConfig(String name) {
 		JsonResponse<Map<String,String>> json = new JsonResponse<Map<String,String>>();
@@ -75,7 +76,7 @@ public class ConfigController extends BaseController {
 		return json;
 	}
 	
-	@RequestMapping("/cf/modifyConfig")
+	@RequestMapping("/modifyConfig")
 	@ResponseBody
 	public Status modifyConfig(String name, HttpServletRequest request) {
 		Enumeration<String> parames = request.getParameterNames();
