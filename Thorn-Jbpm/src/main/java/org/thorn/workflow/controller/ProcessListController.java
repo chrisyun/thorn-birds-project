@@ -1,5 +1,6 @@
 package org.thorn.workflow.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.jbpm.api.ExecutionService;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.thorn.security.SecurityUserUtils;
 import org.thorn.user.entity.User;
 import org.thorn.web.controller.BaseController;
+import org.thorn.web.entity.Page;
+import org.thorn.workflow.entity.TaskInfo;
 
 /** 
  * @ClassName: ProcessListController 
@@ -32,20 +35,40 @@ public class ProcessListController extends BaseController {
 	@Qualifier("executionService")
 	private ExecutionService execution;
 	
-	public void getTodoPage(long start, long limit) {
+	public Page<TaskInfo> getTodoPage(long start, long limit) {
+		
+		Page<TaskInfo> page = new Page<TaskInfo>();
 		
 		User user = SecurityUserUtils.getCurrentUser();
 		
 		TaskQuery query = taskService.createTaskQuery();
-		
 		query = query.assignee(user.getUserId());
-		query = query.orderDesc(TaskQuery.PROPERTY_PRIORITY);
 		
 		long count = query.count();
+		page.setTotal(count);
 		
+		query = query.orderDesc(TaskQuery.PROPERTY_PRIORITY);
 		query = query.page((int) start, (int) limit);
 		List<Task> tasks = query.list();
 		
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		
+		for(Task task : tasks) {
+			TaskInfo tsInfo = new TaskInfo();
+			
+			tsInfo.setActivityName(task.getActivityName());
+			tsInfo.setPriority(task.getPriority());
+			tsInfo.setReceiptTime(df.format(task.getCreateTime()));
+			tsInfo.setTaskId(task.getId());
+			
+			tsInfo.setTitle((String) execution.getVariable(task.getExecutionId(), "title"));
+			
+			
+			page.getReslutSet().add(tsInfo);
+		}
+		
+		
+		return page;
 	}
 	
 }
