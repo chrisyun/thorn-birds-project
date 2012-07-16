@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.thorn.core.util.LocalStringUtils;
 import org.thorn.security.SecurityUserUtils;
 import org.thorn.user.entity.User;
 import org.thorn.web.controller.BaseController;
@@ -35,7 +37,9 @@ public class ProcessListController extends BaseController {
 	@Qualifier("executionService")
 	private ExecutionService execution;
 	
-	public Page<TaskInfo> getTodoPage(long start, long limit) {
+	@RequestMapping("/getTodoPage")
+	@ResponseBody
+	public Page<TaskInfo> getTodoPage(long start, long limit, String flowKey) {
 		
 		Page<TaskInfo> page = new Page<TaskInfo>();
 		
@@ -43,6 +47,10 @@ public class ProcessListController extends BaseController {
 		
 		TaskQuery query = taskService.createTaskQuery();
 		query = query.assignee(user.getUserId());
+		
+		if(LocalStringUtils.isNotBlank(flowKey)) {
+			query = query.processDefinitionId(flowKey);
+		}
 		
 		long count = query.count();
 		page.setTotal(count);

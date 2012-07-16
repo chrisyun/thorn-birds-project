@@ -1,6 +1,7 @@
 var processCreatUrl = sys.path + "/wf/cr/getCreatProcessList.jmt";
 var modifyFlowTypeUrl = sys.path + "/wf/cr/modifyFlowType.jmt";
 var deleteFlowTypeUrl = sys.path + "/wf/cr/deleteFlowType.jmt";
+var createOpenUrl = sys.path + "/wf/cr/startNewProcess.jmt";
 
 Ext.onReady(function() {
 	Ext.QuickTips.init();
@@ -21,7 +22,7 @@ Ext.onReady(function() {
 	};
 	var openRender = function(name, metadata, record, rowIndex, colIndex) {
 		var key = record.get("flowKey");
-		var url = sys.path + "/wf/cr/startNewProcess.jmt?key=" + key
+		var url = createOpenUrl + "?key=" + key;
 		var link = "<a href='" + url + "' target='_blank'>" + name + "</a>";
 
 		return link;
