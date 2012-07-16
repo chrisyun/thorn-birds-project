@@ -98,7 +98,7 @@ Ext.onReady(function() {
 					ids += selectedRecordArray[i].get("id") + ",";
 				}
 				
-				deleteProcessInst(ids, onSubmitQueryHandler());
+				deleteProcessInst(ids, onSubmitQueryHandler);
 			}
 		});
 	}
@@ -117,7 +117,7 @@ Ext.onReady(function() {
 					ids += selectedRecordArray[i].get("id") + ",";
 				}
 				
-				cancelProcessInst(ids, "控制台结束", onSubmitQueryHandler());
+				cancelProcessInst(ids, "控制台结束", onSubmitQueryHandler);
 			}
 		});
 	}
