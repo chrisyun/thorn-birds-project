@@ -10,7 +10,7 @@ function deleteProcessInst(ids, callBackFn) {
 		ids : ids
 	};
 
-	var ajaxClass = new AjaxUtil(processInstDeleteUrl);
+	var ajaxClass = new AjaxUtil(deleteProcessInst.url);
 	ajaxClass.request(params, true, null, callBackFn);
 }
 
@@ -39,7 +39,7 @@ function ProcessImage() {
 	var html = "<table width=\"100%\" height=\"100%\">"
 			+ "<tr valign=\"middle\" height=\"100%\">"
 			+ "<td width=\"100%\" align=\"center\">" + "<img id='processImg_"
-			+ this.id + "' src='" + loadingUrl + "'>" + "</td></tr></table>";
+			+ this.id + "' src='" + ProcessImage.loadingUrl + "'>" + "</td></tr></table>";
 
 	this.processImageWin = new Ext.Window({
 		title : "流程图",
