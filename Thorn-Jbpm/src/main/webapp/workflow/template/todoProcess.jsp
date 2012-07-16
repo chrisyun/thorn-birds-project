@@ -11,15 +11,20 @@
 	String creater = LocalStringUtils.defaultString((String) request.getAttribute("creater"));
 	
 	String taskId = LocalStringUtils.defaultString((String) request.getAttribute("taskId"));
+	String pid = LocalStringUtils.defaultString((String) request.getAttribute("pid"));
+	String title = LocalStringUtils.defaultString((String) request.getAttribute("title"));
+	String openType = LocalStringUtils.defaultString((String) request.getAttribute("openType"));
 	String activityName = LocalStringUtils.defaultString((String) request.getAttribute("activityName"));
 	String contentPage = "/wfForm/" + LocalStringUtils.defaultString((String) request.getAttribute("pageUrl"));
+	
+	Set<String> nextStep = (Set<String>) request.getAttribute("nextStep");
 %>
 
 <script type="text/javascript" src="<%=path %>/plugins/workflow/processCommon.js"></script>
 <script type="text/javascript" src="<%=path %>/workflow/template/process.js"></script>
 <script type="text/javascript">
 
-	document.title = "Workflow - newProcess";
+	document.title = "Workflow - todoProcess";
 	
 	var flowTypeDD = <thorn:dd  typeId="FLOW_TYPE" />;
 	var flowTypeRender = function(str) {
@@ -49,8 +54,9 @@
 		taskId : "<%=taskId %>",
 		activityName : "<%=activityName %>",
 		contentPage : "<%=contentPage %>",
-		title : "",
-		openType : "create"
+		title : "<%=title%>",
+		pid : "<%=pid%>",
+		openType : "<%=openType%>"
 	};
 </script>
 

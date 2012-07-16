@@ -1,7 +1,4 @@
 var processInstPageUrl = sys.path + "/wf/getProcessInstPage.jmt";
-var processInstCancelUrl = sys.path + "/wf/cancelProcessInst.jmt";
-var processInstDeleteUrl = sys.path + "/wf/deleteProcessInst.jmt";
-var processInstImageUrl = sys.path + "/wf/getProcessInstImage.jmt";
 
 var pageSize = 20;
 
@@ -84,8 +81,7 @@ Ext.onReady(function() {
 		var selectedRecord = grid.getSelectionModel().getSelected();
 		var id = selectedRecord.get("id");
 		
-		var url = processInstImageUrl + "?processInstId=" + id + "&random=" + Math.random();
-		processImage.show(url);
+		processImage.show("inst", id);
 	}
 	
 	function deleteHandler() {
@@ -101,15 +97,8 @@ Ext.onReady(function() {
 				for ( var i = 0; i < selectedRecordArray.length; i++) {
 					ids += selectedRecordArray[i].get("id") + ",";
 				}
-
-				var params = {
-					ids : ids
-				};
-
-				var ajaxClass = new AjaxUtil(processInstDeleteUrl);
-				ajaxClass.request(params, true, null, function(obj) {
-					onSubmitQueryHandler();
-				});
+				
+				deleteProcessInst(ids, onSubmitQueryHandler());
 			}
 		});
 	}
@@ -127,16 +116,8 @@ Ext.onReady(function() {
 				for ( var i = 0; i < selectedRecordArray.length; i++) {
 					ids += selectedRecordArray[i].get("id") + ",";
 				}
-
-				var params = {
-					ids : ids,
-					reason : "控制台结束"
-				};
-
-				var ajaxClass = new AjaxUtil(processInstCancelUrl);
-				ajaxClass.request(params, true, null, function(obj) {
-					onSubmitQueryHandler();
-				});
+				
+				cancelProcessInst(ids, "控制台结束", onSubmitQueryHandler());
 			}
 		});
 	}

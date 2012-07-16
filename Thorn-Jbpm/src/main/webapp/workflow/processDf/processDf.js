@@ -1,7 +1,6 @@
 var deployProcessUrl = sys.path + "/wf/deployProcess.jmt";
 var processDfListUrl = sys.path + "/wf/getProcessDf.jmt";
 var deleteProcessUrl = sys.path + "/wf/deleteProcessDf.jmt";
-var processDfImageUrl = sys.path + "/wf/getProcessDfImage.jmt";
 
 Ext.onReady(function() {
 	Ext.QuickTips.init();
@@ -294,7 +293,7 @@ Ext.onReady(function() {
 		}
 		
 		var id = selectedRecord.get("id");
-		processImage.show(processDfImageUrl + "?processDfId=" + id + "&random=" + Math.random());
+		processImage.show("def", id);
 	}
 	
 	function deleteHandler() {

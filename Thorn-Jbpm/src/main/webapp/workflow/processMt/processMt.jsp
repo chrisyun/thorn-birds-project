@@ -3,7 +3,7 @@
 <%@ taglib prefix="thorn" uri="/thorn"%>
 <jsp:include page="/springTag/header.jmt"></jsp:include>
 
-<script type="text/javascript" src="../../plugins/workflow/processImage.js"></script>
+<script type="text/javascript" src="../../plugins/workflow/processCommon.js"></script>
 <script type="text/javascript" src="processMt.js"></script>
 <script type="text/javascript">
 

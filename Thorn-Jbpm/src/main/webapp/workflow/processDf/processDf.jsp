@@ -4,7 +4,7 @@
 <jsp:include page="/springTag/header.jmt"></jsp:include>
 
 <script type="text/javascript" src="../../plugins/ext-3.2.1/ux/FileUploadField.js"></script>
-<script type="text/javascript" src="../../plugins/workflow/processImage.js"></script>
+<script type="text/javascript" src="../../plugins/workflow/processCommon.js"></script>
 <script type="text/javascript" src="processDf.js"></script>
 <script type="text/javascript">
 
