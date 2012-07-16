@@ -1,0 +1,21 @@
+begin
+
+declare threeMonthAgo datetime;
+declare tableName varchar(30);
+declare exeSql varchar(200);
+
+set @threeMonthAgo =  now() + INTERVAL 3 MONTH;
+set @tableName = concat('t_sys_log_',date_format(now(),'%y_%m_%d'));
+set @exeSql = concat('create table ',@tableName,' as select * from  t_sys_log where EXECUTETIME < ?');
+
+START TRANSACTION;
+
+prepare crSql from @exeSql;
+execute crSql using @threeMonthAgo;
+deallocate prepare crSql;
+
+DELETE FROM t_sys_log WHERE EXECUTETIME < @threeMonthAgo;
+
+COMMIT;
+
+end
