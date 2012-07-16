@@ -56,7 +56,13 @@ Ext.onReady(function() {
 		items : [tpanel, contentPanel, bPanel]
 	});
 	
-	setTitle(processInfo.flowName);
+	//设置title
+	if(processInfo.openType == "create" || processInfo.title == "") {
+		setTitle(processInfo.flowName);
+	} else {
+		setTitle(processInfo.title);
+	}
+	
 	Ext.getDom("activityName").innerHTML = "当前环节：" + processInfo.activityName;
 	Ext.getDom("flowType").innerHTML = "流程类型：" + processInfo.flowType;
 	completePage();
