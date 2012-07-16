@@ -150,22 +150,24 @@ public abstract class ProcessHandler {
 	 * @return
 	 */
 	public Set<String> getNextActivityLines(String taskId) {
-		TaskImpl task = (TaskImpl) taskService.getTask(taskId);
-		ExecutionImpl execu = task.getProcessInstance();
-
-		// 获取当前任务的活动节点
-		ActivityImpl curActivity = execu.getActivity();
-
-		List<TransitionImpl> outgoings = (List<TransitionImpl>) curActivity
-				.getOutgoingTransitions();
-
-		Set<String> outgoingNames = new HashSet<String>();
-
-		for (TransitionImpl transition : outgoings) {
-			outgoingNames.add(transition.getName());
-		}
-
-		return outgoingNames;
+		
+		return taskService.getOutcomes(taskId);
+//		TaskImpl task = (TaskImpl) taskService.getTask(taskId);
+//		ExecutionImpl execu = task.getProcessInstance();
+//
+//		// 获取当前任务的活动节点
+//		ActivityImpl curActivity = execu.getActivity();
+//
+//		List<TransitionImpl> outgoings = (List<TransitionImpl>) curActivity
+//				.getOutgoingTransitions();
+//
+//		Set<String> outgoingNames = new HashSet<String>();
+//
+//		for (TransitionImpl transition : outgoings) {
+//			outgoingNames.add(transition.getName());
+//		}
+//
+//		return outgoingNames;
 	}
 
 	protected void putNextActivityPp(Participator pp, Map<String, Object> variable)
