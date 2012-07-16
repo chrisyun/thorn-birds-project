@@ -25,8 +25,7 @@ public class SimpleProcessHandler extends ProcessHandler {
 	protected void executeCustomHandlerBefore(Map<String, Object> parameters,
 			HttpServletRequest request, Map<String, Object> variable)
 			throws DBAccessException {
-		String appId = request.getParameter("pid");
-		variable.put("pid", appId);
+		
 	}
 
 

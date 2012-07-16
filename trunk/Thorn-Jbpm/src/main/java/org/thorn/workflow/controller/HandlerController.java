@@ -51,7 +51,7 @@ public class HandlerController extends BaseController {
 	 */
 	@RequestMapping("/handlerTask")
 	@ResponseBody
-	public Status handlerTask(HttpServletRequest request, String taskId,
+	public Status handlerTask(HttpServletRequest request, String taskId, String appId,
 			String titile, String outcome, String flowInstId, String flowKey) {
 		Status status = new Status();
 
@@ -61,6 +61,7 @@ public class HandlerController extends BaseController {
 		parameters.put("nextStep", outcome);
 		parameters.put("flowInstId", flowInstId);
 		parameters.put("flowKey", flowKey);
+		parameters.put("appId", appId);
 
 		ProcessHandler handler = CustomHandlerFactory
 				.getProcessHandlerByDefault(flowKey);
