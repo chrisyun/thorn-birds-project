@@ -54,6 +54,7 @@ public class ProcessOpenController extends BaseController {
 		model.put("activityName", task.getActivityName());
 		model.put("pageUrl", task.getFormResourceName());
 		model.put("taskId", task.getId());
+		
 		model.put("creater", parameters.get("creater"));
 		model.put("appId", parameters.get("appId"));
 		model.put("title", parameters.get("title"));
