@@ -77,7 +77,9 @@ public abstract class ProcessHandler {
 		Participator pp = ppService.queryParticipator(nextActivity, flowKey);
 
 		putNextActivityPp(pp, variable);
-
+		
+		executeCustomHandlerBefore(parameters, request, variable);
+		
 		// 是否按照默认的执行
 		if (completeTaskHook()) {
 			if (StringUtils.isNotBlank(nextStep)) {
@@ -87,11 +89,14 @@ public abstract class ProcessHandler {
 			}
 		}
 
-		executeCustomHandler(parameters, request);
+		executeCustomHandlerAfter(parameters, request);
 	}
 
-	protected abstract void executeCustomHandler(Map<String, Object> parameters,
+	protected abstract void executeCustomHandlerAfter(Map<String, Object> parameters,
 			HttpServletRequest request) throws DBAccessException;
+	
+	protected abstract void executeCustomHandlerBefore(Map<String, Object> parameters,
+			HttpServletRequest request, Map<String, Object> variable) throws DBAccessException;
 
 	protected boolean completeTaskHook() {
 		return true;

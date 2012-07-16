@@ -15,11 +15,20 @@ import org.thorn.dao.exception.DBAccessException;
 public class SimpleProcessHandler extends ProcessHandler {
 
 	@Override
-	protected void executeCustomHandler(Map<String, Object> parameters,
+	protected void executeCustomHandlerAfter(Map<String, Object> parameters,
 			HttpServletRequest request) throws DBAccessException {
-		// do nothing
-
+		//do nothing
+		
 	}
+
+	@Override
+	protected void executeCustomHandlerBefore(Map<String, Object> parameters,
+			HttpServletRequest request, Map<String, Object> variable)
+			throws DBAccessException {
+		String appId = request.getParameter("pid");
+		variable.put("pid", appId);
+	}
+
 
 }
 
