@@ -42,7 +42,7 @@ public class ProcessOpenController extends BaseController {
 		Set<String> nextStep = taskService.getOutcomes(taskId);
 		
 		Set<String> variable = new HashSet<String>();
-		variable.add("pid");
+		variable.add("appId");
 		variable.add("title");
 		variable.add("creater");
 		
@@ -55,7 +55,7 @@ public class ProcessOpenController extends BaseController {
 		model.put("pageUrl", task.getFormResourceName());
 		model.put("taskId", task.getId());
 		model.put("creater", parameters.get("creater"));
-		model.put("pid", parameters.get("pid"));
+		model.put("appId", parameters.get("appId"));
 		model.put("title", parameters.get("title"));
 		model.put("nextStep", nextStep);
 		model.put("openType", "todo");

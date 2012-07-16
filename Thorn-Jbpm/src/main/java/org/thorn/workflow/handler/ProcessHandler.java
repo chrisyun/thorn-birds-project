@@ -67,7 +67,10 @@ public abstract class ProcessHandler {
 		String taskId = (String) parameters.get("taskId");
 		String nextStep = (String) parameters.get("nextStep");
 		String flowKey = (String) parameters.get("flowKey");
-
+		
+		String appId = (String) parameters.get("appId");
+		variable.put("appId", appId);
+		
 		String title = (String) parameters.get("title");
 		variable.put("title", title);
 
