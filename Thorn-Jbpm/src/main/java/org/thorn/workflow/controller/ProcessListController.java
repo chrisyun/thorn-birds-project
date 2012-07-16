@@ -39,7 +39,8 @@ public class ProcessListController extends BaseController {
 	
 	@RequestMapping("/getTodoPage")
 	@ResponseBody
-	public Page<TaskInfo> getTodoPage(long start, long limit, String flowKey) {
+	public Page<TaskInfo> getTodoPage(long start, long limit, String sort,
+			String dir, String flowKey) {
 		
 		Page<TaskInfo> page = new Page<TaskInfo>();
 		
@@ -70,7 +71,7 @@ public class ProcessListController extends BaseController {
 			tsInfo.setTaskId(task.getId());
 			
 			tsInfo.setTitle((String) execution.getVariable(task.getExecutionId(), "title"));
-			
+			tsInfo.setFlowInstId(task.getExecutionId());
 			
 			page.getReslutSet().add(tsInfo);
 		}
