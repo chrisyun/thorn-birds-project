@@ -113,7 +113,7 @@ function getComboBox(id, text, width, array, isReadonly) {
 	select.hiddenName = id;
 	select.width = width;
 	select.fieldLabel = text;
-	select.readOnly = isReadonly
+	select.readOnly = isReadonly;
 
 	select.xtype = "combo";
 	select.valueField = "value";
@@ -127,7 +127,7 @@ function getComboBox(id, text, width, array, isReadonly) {
 	select.store = new Ext.data.SimpleStore( {
 		fields : [ 'value', 'text' ],
 		data : array
-	})
+	});
 
 	return select;
 }

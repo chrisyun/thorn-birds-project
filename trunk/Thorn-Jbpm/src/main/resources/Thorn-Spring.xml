@@ -28,6 +28,8 @@
 	<import resource="Thorn-Spring-Service.xml" />
 	<import resource="Thorn-Spring-Security.xml" />
 	
+	<import resource="Thorn-App-Service.xml" />
+	
 	<import resource="Thorn-Spring-Jbpm.xml"/>
 	<import resource="Thorn-Jbpm-Service.xml"/>
 </beans>

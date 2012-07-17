@@ -79,4 +79,24 @@ ProcessImage.prototype.show = function(type, id) {
 		Ext.getDom("processImg_" + this.id).src = ProcessImage.instImageUrl
 				+ "?processInstId=" + id + "&random=" + Math.random();
 	}
+};
+
+function getNextActivityBtn(name, handler) {
+	var activityBtn = new Object();
+	
+	if(name.indexOf("驳回") > -1 
+			|| name.indexOf("退回") > -1
+			|| name.indexOf("重新") > -1
+			|| name.indexOf("不通过") > -1) {
+		activityBtn.iconCls = "silk-cross";
+	} else {
+		activityBtn.iconCls = "silk-tick";
+	}
+	
+	activityBtn.text = name;
+	activityBtn.xtype = "button";
+	activityBtn.minWidth = 80;
+	activityBtn.handler = handler(name);
+
+	return activityBtn;
 }

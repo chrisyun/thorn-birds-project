@@ -89,7 +89,7 @@ Ext.onReady(function() {
 	/** ****************ddGrid panel end************ */
 
 	var dt_grid = grid_dt.getGrid();
-	var dd_grid = grid_dd.getGrid()
+	var dd_grid = grid_dd.getGrid();
 
 	/**
 	 * 数据字典类型删除方法

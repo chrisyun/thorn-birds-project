@@ -1,4 +1,5 @@
 var tpanel,contentPanel,bPanel,viewport;
+var processHandlerUrl = sys.path + "/wf/cm/handlerTask.jmt";
 
 Ext.onReady(function() {
 	Ext.QuickTips.init();
@@ -73,6 +74,14 @@ Ext.onReady(function() {
 		alert(e);
 	}
 	
+	// 非新建和待办打开，将所有的空间置为disabled
+	if(processInfo.openType != "create" 
+		&& processInfo.openType != "todo") {
+		contentPanel.findByType("textfield").disable();
+		contentPanel.findByType("textarea").disable();
+		contentPanel.findByType("button").disable();
+		contentPanel.findByType("checkbox").disable();
+	}
 });
 
 
@@ -89,3 +98,19 @@ function addContentPanel(panel) {
 	contentPanel.add(panel);
 	contentPanel.doLayout();
 }
+
+function submitProcessInfo(title, appId, nextActivity) {
+	
+	var params = {
+		taskId : processInfo.taskId,
+		appId : appId,
+		title : title,
+		outcome : nextActivity,
+		flowInstId : processInfo.flowInstId,
+		flowKey : processInfo.flowKey
+	};
+	
+	var ajax = new AjaxUtil(processHandlerUrl);
+	ajax.request(params, true);
+}
+
