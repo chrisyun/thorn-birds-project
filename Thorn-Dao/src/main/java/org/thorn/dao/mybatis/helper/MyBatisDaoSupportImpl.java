@@ -61,16 +61,16 @@ public class MyBatisDaoSupportImpl implements MyBatisDaoSupport {
 		}
 	}
 
-	public void query(Object obj) throws DBAccessException {
+	public <T> Object query(Map<String, Object> filter, Class<T> bean) throws DBAccessException {
 		String mapper = "";
 
 		try {
-			mapper = MapperUtils.getMapperSource(obj.getClass(),
+			mapper = MapperUtils.getMapperSource(bean,
 					MethodType.QUERY);
-			obj = sqlSessionTemplate.selectOne(mapper, obj);
+			return sqlSessionTemplate.selectOne(mapper, filter);
 		} catch (Exception e) {
 			throw new DBAccessException("MyBatisDaoSupport", "query", "Object["
-					+ obj.getClass().getName() + "],mapper[" + mapper + "]", e);
+					+ bean.getName() + "],mapper[" + mapper + "]", e);
 		}
 	}
 
