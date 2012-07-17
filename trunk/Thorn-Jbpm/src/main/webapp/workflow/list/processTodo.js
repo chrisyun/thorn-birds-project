@@ -40,7 +40,7 @@ Ext.onReady(function() {
 			getRecord("发送人", "sender", "string", 70, true),
 			getRecord("接收时间", "receiptTime", "string", 70, true),
 			getRecord("优先级", "priority", "string", 70, true)];
-	var todo_grid = new GridUtil(logPageUrl, recordArray, pageSize);
+	var todo_grid = new GridUtil(todoPageUrl, recordArray, pageSize);
 				
 	todo_grid.setBottomBar(null);
 
@@ -56,7 +56,7 @@ Ext.onReady(function() {
 
 
 	function onSubmitQueryHandler() {
-		var flowKey = Ext.getCmp("query_flowKey").getValue();
+		var flowKey = Ext.getCmp("show_query_flowKey").getValue();
 
 		store.baseParams.flowKey = flowKey;
 
