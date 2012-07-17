@@ -40,7 +40,7 @@ public class HandlerController extends BaseController {
 	 * @param request
 	 * @param taskId
 	 *            任务实例ID
-	 * @param titile
+	 * @param title
 	 *            标题
 	 * @param outcome
 	 *            下一环节的线名称，多个环节需要指定
@@ -52,12 +52,12 @@ public class HandlerController extends BaseController {
 	@RequestMapping("/handlerTask")
 	@ResponseBody
 	public Status handlerTask(HttpServletRequest request, String taskId, String appId,
-			String titile, String outcome, String flowInstId, String flowKey) {
+			String title, String outcome, String flowInstId, String flowKey) {
 		Status status = new Status();
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("taskId", taskId);
-		parameters.put("title", titile);
+		parameters.put("title", title);
 		parameters.put("nextStep", outcome);
 		parameters.put("flowInstId", flowInstId);
 		parameters.put("flowKey", flowKey);

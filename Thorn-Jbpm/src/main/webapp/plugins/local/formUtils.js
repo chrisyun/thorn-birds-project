@@ -26,7 +26,7 @@ function FormUtil(attrObj) {
 
 FormUtil.prototype.addButton = function(btn) {
 	this.panel.addButton(btn);
-}
+};
 
 FormUtil.prototype.addComp = function(comp, columnWidth, empty) {
 
@@ -43,16 +43,16 @@ FormUtil.prototype.addComp = function(comp, columnWidth, empty) {
 	});
 
 	this.panel.add(panelItem);
-}
+};
 
 FormUtil.prototype.getPanel = function() {
 	return this.panel;
-}
+};
 
 FormUtil.prototype.getForm = function() {
 	return this.panel.getForm();
-}
+};
 
 FormUtil.prototype.findById = function(id) {
 	return this.panel.findById(id);
-}
+};

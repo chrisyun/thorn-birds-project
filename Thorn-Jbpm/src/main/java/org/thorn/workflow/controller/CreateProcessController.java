@@ -203,7 +203,9 @@ public class CreateProcessController extends BaseController {
 		// 已经是start节点的第一个task
 		Task task = taskService.createTaskQuery().processInstanceId(pi.getId())
 				.uniqueResult();
-	
+		Set<String> nextStep = taskService.getOutcomes(task.getId());
+		
+		model.put("nextStep", nextStep);
 		model.put("flowKey", key);
 		model.put("flowName", pi.getName());
 		model.put("flowInstId", pi.getId());
@@ -211,8 +213,9 @@ public class CreateProcessController extends BaseController {
 		model.put("activityName", task.getActivityName());
 		model.put("pageUrl", task.getFormResourceName());
 		model.put("taskId", task.getId());
+		model.put("openType", "create");
 		
-		return "/workflow/template/newProcess";
+		return "/workflow/template/process";
 	}
 
 }

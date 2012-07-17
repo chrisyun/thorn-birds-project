@@ -61,7 +61,7 @@ public class ProcessOpenController extends BaseController {
 		model.put("nextStep", nextStep);
 		model.put("openType", "todo");
 		
-		return "/workflow/template/todoProcess";
+		return "/workflow/template/process";
 	}
 
 }
