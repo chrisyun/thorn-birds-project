@@ -60,7 +60,7 @@ public class ProcessListController extends BaseController {
 		query = query.page((int) start, (int) limit);
 		List<Task> tasks = query.list();
 		
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
 		for(Task task : tasks) {
 			TaskInfo tsInfo = new TaskInfo();

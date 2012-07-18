@@ -12,6 +12,8 @@ import org.thorn.app.service.LeaveService;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
 import org.thorn.dao.exception.DBAccessException;
+import org.thorn.security.SecurityUserUtils;
+import org.thorn.user.entity.User;
 import org.thorn.web.controller.BaseController;
 import org.thorn.web.entity.JsonResponse;
 
@@ -37,10 +39,10 @@ public class LeaveController extends BaseController {
 		JsonResponse<Integer> json = new JsonResponse<Integer>();
 		
 		try {
-			
 			if(LocalStringUtils.equals(opType, Configuration.OP_SAVE)) {
+				User user = SecurityUserUtils.getCurrentUser();
+				form.setUserId(user.getUserId());
 				service.save(form);
-				
 			} else if(LocalStringUtils.equals(opType, Configuration.OP_MODIFY)) {
 				service.modify(form);
 			}

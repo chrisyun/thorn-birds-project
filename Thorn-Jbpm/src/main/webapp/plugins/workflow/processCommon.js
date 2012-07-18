@@ -96,7 +96,9 @@ function getNextActivityBtn(name, handler) {
 	activityBtn.text = name;
 	activityBtn.xtype = "button";
 	activityBtn.minWidth = 80;
-	activityBtn.handler = handler(name);
+	activityBtn.handler = function() {
+		handler(name);
+	};
 
 	return activityBtn;
 }

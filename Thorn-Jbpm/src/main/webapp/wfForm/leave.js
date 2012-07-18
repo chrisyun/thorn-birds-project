@@ -10,8 +10,8 @@ function startProcessHandler() {
 		labelWidth : 100
 	});
 
-	myForm.addComp(getText("days", "请假天数", 180), 0.5, true);
-	myForm.addComp(getTextArea("reason", "请假原因", 500, 60), 1.0, true);
+	myForm.addComp(getText("days", "请假天数", 180), 0.5, false);
+	myForm.addComp(getTextArea("reason", "请假原因", 500, 60), 1.0, false);
 	myForm.addComp(getHidden("id"), 0.5, true);
 
 	for ( var i = 0; i < nextStep.length; i++) {
@@ -21,16 +21,21 @@ function startProcessHandler() {
 	addContentPanel(myForm.getPanel());
 
 	function submitForm(name) {
-		alert(name);
-
 		if (!myForm.getForm().isValid()) {
 			Ext.Msg.alert("提示信息", "请填写完整的表单信息!");
 			return;
 		}
-
+		
+		var opType = Configuration.opType.SAVE;
+		
+		if (processInfo.pid != "" || !Ext.isEmpty(myForm.findById("id").getValue())) {
+			opType = Configuration.opType.MODIFY;
+		}
+		
 		var ajax = new AjaxUtil(saveOrModifyUrl);
-		ajax.submit(myForm.getForm(), null, true, myForm,
+		ajax.submit(myForm.getForm(), {opType : opType}, true, myForm,
 			function(scope, appId) {
+				myForm.findById("id").setValue(appId);
 				submitProcessInfo(processInfo.title, appId, name);
 			});
 
