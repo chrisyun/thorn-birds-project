@@ -58,7 +58,7 @@ Ext.onReady(function() {
 	});
 	
 	//设置title
-	if(processInfo.openType == "create" || processInfo.title == "") {
+	if(processInfo.title == "") {
 		setTitle(processInfo.flowName);
 	} else {
 		setTitle(processInfo.title);

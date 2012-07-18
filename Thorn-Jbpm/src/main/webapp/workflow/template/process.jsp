@@ -59,8 +59,14 @@
 		openType : "<%=openType%>"
 	};
 	
-	var nextStep = <%=nextStep.toString()%>;
-	
+	var nextStep = new Array();
+	<%
+		for(String outcome : nextStep) {
+	%>
+	nextStep.push("<%=outcome%>");
+	<%
+		}
+	%>
 </script>
 
 <jsp:include page="<%=contentPage%>"></jsp:include>

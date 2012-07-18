@@ -99,7 +99,9 @@ public class OrgServiceImpl implements IOrgService {
 		
 		List<Org> list = orgDao.queryList(filter);
 		
-		if(list.size() != 1) {
+		if(list == null || list.size() == 0) {
+			return null;
+		} else if(list.size() != 1) {
 			throw new DBAccessException("queryOrg find result size:" + list.size());
 		}
 		

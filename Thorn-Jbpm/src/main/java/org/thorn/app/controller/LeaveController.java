@@ -14,7 +14,6 @@ import org.thorn.dao.core.Configuration;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.web.controller.BaseController;
 import org.thorn.web.entity.JsonResponse;
-import org.thorn.web.entity.Status;
 
 /** 
  * @ClassName: LeaveController 
@@ -34,8 +33,8 @@ public class LeaveController extends BaseController {
 	
 	@RequestMapping("/saveOrModify")
 	@ResponseBody
-	public Status saveOrModify(LeaveForm form, String opType) {
-		Status status = new Status();
+	public JsonResponse<Integer> saveOrModify(LeaveForm form, String opType) {
+		JsonResponse<Integer> json = new JsonResponse<Integer>();
 		
 		try {
 			
@@ -45,14 +44,15 @@ public class LeaveController extends BaseController {
 			} else if(LocalStringUtils.equals(opType, Configuration.OP_MODIFY)) {
 				service.modify(form);
 			}
-			status.setMessage("请假单数据保存成功！");
+			json.setMessage("请假单数据保存成功！");
+			json.setObj(form.getId());
 		} catch (DBAccessException e) {
-			status.setSuccess(false);
-			status.setMessage("数据保存失败：" + e.getMessage());
+			json.setSuccess(false);
+			json.setMessage("数据保存失败：" + e.getMessage());
 			log.error("saveOrModify[LeaveForm] - " + e.getMessage(), e);
 		}
 		
-		return status;
+		return json;
 	}
 	
 	@RequestMapping("/getLeaveForm")
