@@ -3,7 +3,6 @@ package org.thorn.dao.mybatis.annotation;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.util.Assert;
 import org.thorn.core.util.LocalStringUtils;
 
 public class MapperUtils {
@@ -60,7 +59,6 @@ public class MapperUtils {
 			mapper = annotation.get(class_name);
 		}
 
-		Assert.isNull(mapper);
 		return mapper;
 	}
 	
