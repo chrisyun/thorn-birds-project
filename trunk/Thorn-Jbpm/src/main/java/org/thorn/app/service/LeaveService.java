@@ -35,7 +35,7 @@ public class LeaveService {
 		Map<String, Object> filter = new HashMap<String, Object>();
 		filter.put("id", appId);
 
-		LeaveForm form = (LeaveForm) myBatisDaoSupport.query(filter,
+		LeaveForm form = (LeaveForm) myBatisDaoSupport.queryOne(filter,
 				LeaveForm.class);
 		return form;
 	}

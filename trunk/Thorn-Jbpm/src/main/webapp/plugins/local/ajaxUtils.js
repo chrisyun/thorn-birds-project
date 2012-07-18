@@ -101,7 +101,12 @@ AjaxUtil.prototype.submit = function(thisForm, params, showMsg, scope, callback)
 
 			// 调用回调函数
 			if(callback != null) {
-				callback(scope);
+				
+				if(!Ext.isEmpty(action.result.obj)) {
+					callback(scope, action.result.obj);
+				} else {
+					callback(scope);
+				}
 			}
 		},
 		failure : function(form, action) {

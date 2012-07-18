@@ -60,7 +60,7 @@ public class CreateProcessController extends BaseController {
 	@Autowired
 	@Qualifier("taskService")
 	private TaskService taskService;
-
+	
 	@RequestMapping("/getCreatProcessList")
 	@ResponseBody
 	public Page<FlowType> getCreatProcessList(String type) {
@@ -197,9 +197,20 @@ public class CreateProcessController extends BaseController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put(WorkflowConfiguration.PROCESS_CREATER, user.getUserId());
-
+		
+		String title = " -" + user.getUserName();
+		
+		try {
+			FlowType type = flowTypeService.query(key, null, null);
+			title = type.getFlowName() + title;
+		} catch (DBAccessException e) {
+			title = key + title;
+		}
+		map.put("title", title);
+		
 		ProcessInstance pi = execution.startProcessInstanceByKey(key, map);
-
+		
+		
 		// 已经是start节点的第一个task
 		Task task = taskService.createTaskQuery().processInstanceId(pi.getId())
 				.uniqueResult();
