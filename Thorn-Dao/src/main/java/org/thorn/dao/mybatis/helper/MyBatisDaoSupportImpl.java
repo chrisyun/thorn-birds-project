@@ -1,5 +1,6 @@
 package org.thorn.dao.mybatis.helper;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -21,99 +22,125 @@ public class MyBatisDaoSupportImpl implements MyBatisDaoSupport {
 	private SqlSessionTemplate sqlSessionTemplate;
 
 	public int save(Object obj) throws DBAccessException {
-		String mapper = "";
+		String mapper = MapperUtils.getMapperSource(obj.getClass(),
+				MethodType.INSERT);
 
+		return save(obj, mapper);
+	}
+
+	public int save(Object obj, String mapperId) throws DBAccessException {
 		try {
-			mapper = MapperUtils.getMapperSource(obj.getClass(),
-					MethodType.INSERT);
-			return sqlSessionTemplate.insert(mapper, obj);
+			return sqlSessionTemplate.insert(mapperId, obj);
 		} catch (Exception e) {
 			throw new DBAccessException("MyBatisDaoSupport", "save", "Object["
-					+ obj.getClass().getName() + "],mapper[" + mapper + "]", e);
+					+ obj.getClass().getName() + "],mapper[" + mapperId + "]",
+					e);
 		}
 	}
 
 	public int modify(Object obj) throws DBAccessException {
-		String mapper = "";
+		String mapper = MapperUtils.getMapperSource(obj.getClass(),
+				MethodType.UPDATE);
 
+		return modify(obj, mapper);
+	}
+
+	public int modify(Object obj, String mapperId) throws DBAccessException {
 		try {
-			mapper = MapperUtils.getMapperSource(obj.getClass(),
-					MethodType.UPDATE);
-			return sqlSessionTemplate.update(mapper, obj);
+			return sqlSessionTemplate.update(mapperId, obj);
 		} catch (Exception e) {
 			throw new DBAccessException("MyBatisDaoSupport", "modify",
-					"Object[" + obj.getClass().getName() + "],mapper[" + mapper
-							+ "]", e);
+					"Object[" + obj.getClass().getName() + "],mapper["
+							+ mapperId + "]", e);
 		}
 	}
 
 	public int delete(Object obj) throws DBAccessException {
-		String mapper = "";
+		String mapper = MapperUtils.getMapperSource(obj.getClass(),
+				MethodType.DELETE);
 
+		return delete(obj, mapper);
+	}
+
+	public int delete(Object obj, String mapperId) throws DBAccessException {
 		try {
-			mapper = MapperUtils.getMapperSource(obj.getClass(),
-					MethodType.DELETE);
-			return sqlSessionTemplate.delete(mapper, obj);
+			return sqlSessionTemplate.delete(mapperId, obj);
 		} catch (Exception e) {
 			throw new DBAccessException("MyBatisDaoSupport", "delete",
-					"Object[" + obj.getClass().getName() + "],mapper[" + mapper
-							+ "]", e);
+					"Object[" + obj.getClass().getName() + "],mapper["
+							+ mapperId + "]", e);
 		}
 	}
 
-	public <T> Object query(Map<String, Object> filter, Class<T> bean) throws DBAccessException {
-		String mapper = "";
-
-		try {
-			mapper = MapperUtils.getMapperSource(bean,
-					MethodType.QUERY);
-			return sqlSessionTemplate.selectOne(mapper, filter);
-		} catch (Exception e) {
-			throw new DBAccessException("MyBatisDaoSupport", "query", "Object["
-					+ bean.getName() + "],mapper[" + mapper + "]", e);
-		}
-	}
-
-	public int deleteForBatch(List<String> ids, Class bean)
+	public Object queryOne(Map<String, Object> filter, String mapperId)
 			throws DBAccessException {
-		String mapper = "";
-
 		try {
-			mapper = MapperUtils.getMapperSource(bean, MethodType.DELETE_BATCH);
-			return sqlSessionTemplate.delete(mapper, ids);
+			return sqlSessionTemplate.selectOne(mapperId, filter);
+		} catch (Exception e) {
+			throw new DBAccessException("MyBatisDaoSupport", "queryOne",
+					"mapper[" + mapperId + "]", e);
+		}
+	}
+
+	public <T> Object queryOne(Map<String, Object> filter, Class<T> bean)
+			throws DBAccessException {
+		String mapper = MapperUtils.getMapperSource(bean, MethodType.QUERY);
+
+		return queryOne(filter, mapper);
+	}
+
+	public <T> int deleteForBatch(Collection<String> ids, Class<T> bean)
+			throws DBAccessException {
+		String mapper = MapperUtils.getMapperSource(bean,
+				MethodType.DELETE_BATCH);
+
+		return delete(ids, mapper);
+	}
+
+	public <T> int deleteForBatch(Collection<String> ids, String mapperId)
+			throws DBAccessException {
+		try {
+			return sqlSessionTemplate.delete(mapperId, ids);
 		} catch (Exception e) {
 			throw new DBAccessException("MyBatisDaoSupport", "deleteForBatch",
-					"Object[" + bean.getName() + "],mapper[" + mapper + "]", e);
+					"mapper[" + mapperId + "]", e);
 		}
 	}
 
-	public long queryCountForPage(Map<String, Object> filter, Class bean)
+	public <T> long queryCount(Map<String, Object> filter, Class<T> bean)
 			throws DBAccessException {
+		String pageCountMapper = MapperUtils.getMapperSource(bean,
+				MethodType.COUNT);
 
-		String pageCountMapper = "";
+		return queryCount(filter, pageCountMapper);
+	}
 
+	public <T> long queryCount(Map<String, Object> filter, String mapperId)
+			throws DBAccessException {
 		try {
-			pageCountMapper = MapperUtils.getMapperSource(bean,
-					MethodType.COUNT_PAGE);
 
-			return (Long) sqlSessionTemplate.selectOne(pageCountMapper, filter);
+			return (Long) sqlSessionTemplate.selectOne(mapperId, filter);
 		} catch (Exception e) {
-			throw new DBAccessException("MyBatisDaoSupport",
-					"queryCountForPage", "Object[" + bean.getName()
-							+ "],mapper[" + pageCountMapper + "]", e);
+			throw new DBAccessException("MyBatisDaoSupport", "queryCount",
+					"mapper[" + mapperId + "]", e);
 		}
 	}
 
-	public <T> List<T> queryForList(Map<String, Object> filter, Class<T> bean)
+	public <T> List<T> queryList(Map<String, Object> filter, Class<T> bean)
 			throws DBAccessException {
-		String mapper = "";
+		String mapper = MapperUtils
+				.getMapperSource(bean, MethodType.QUERY_LIST);
 
+		return queryList(filter, mapper);
+	}
+
+	public <T> List<T> queryList(Map<String, Object> filter, String mapperId)
+			throws DBAccessException {
 		try {
-			mapper = MapperUtils.getMapperSource(bean, MethodType.QUERY_LIST);
-			return (List<T>) sqlSessionTemplate.selectList(mapper, filter);
+			return (List<T>) sqlSessionTemplate.selectList(mapperId, filter);
 		} catch (Exception e) {
-			throw new DBAccessException("MyBatisDaoSupport", "queryForList",
-					"Object[" + bean.getName() + "],mapper[" + mapper + "]", e);
+			throw new DBAccessException("MyBatisDaoSupport", "queryList",
+					"mapper[" + mapperId + "]", e);
 		}
 	}
 
