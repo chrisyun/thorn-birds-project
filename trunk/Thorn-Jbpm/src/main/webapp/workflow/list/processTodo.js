@@ -1,5 +1,5 @@
 var todoPageUrl = sys.path + "/wf/cm/getTodoPage.jmt";
-var todoOpenUrl = sys.path + "/log/exportLogExcel.jmt";
+var todoOpenUrl = sys.path + "/wf/cm/openTodoProcess.jmt";
 
 var pageSize = 20;
 

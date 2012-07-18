@@ -45,16 +45,17 @@ public class ProcessOpenController extends BaseController {
 		variable.add("appId");
 		variable.add("title");
 		variable.add("creater");
+		variable.add("flowKey");
 		
 		Map<String, Object> parameters = taskService.getVariables(taskId, variable);
 		
-		model.put("flowKey", inst.getKey());
 		model.put("flowName", inst.getName());
 		model.put("flowInstId", inst.getId());
 		model.put("activityName", task.getActivityName());
 		model.put("pageUrl", task.getFormResourceName());
 		model.put("taskId", task.getId());
 		
+		model.put("flowKey", parameters.get("flowKey"));
 		model.put("creater", parameters.get("creater"));
 		model.put("appId", parameters.get("appId"));
 		model.put("title", parameters.get("title"));

@@ -15,7 +15,7 @@
       <retry-interceptor />
       <environment-interceptor />
       <!-- 配置了多个事务管理器的时候需要手工指定 -->
-      <spring-transaction-interceptor transaction-manager="jbpm-transactionManager"/>
+      <spring-transaction-interceptor current="true" transaction-manager="jbpm-transactionManager"/>
     </command-service>
     
   </process-engine-context>

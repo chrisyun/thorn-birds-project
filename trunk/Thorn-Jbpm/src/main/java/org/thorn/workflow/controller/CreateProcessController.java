@@ -196,8 +196,6 @@ public class CreateProcessController extends BaseController {
 		User user = SecurityUserUtils.getCurrentUser();
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put(WorkflowConfiguration.PROCESS_CREATER, user.getUserId());
-		
 		String title = " -" + user.getUserName();
 		
 		try {
@@ -207,7 +205,8 @@ public class CreateProcessController extends BaseController {
 			title = key + title;
 		}
 		map.put("title", title);
-		
+		map.put("flowKey", key);
+		map.put(WorkflowConfiguration.PROCESS_CREATER, user.getUserId());
 		ProcessInstance pi = execution.startProcessInstanceByKey(key, map);
 		
 		
@@ -225,6 +224,7 @@ public class CreateProcessController extends BaseController {
 		model.put("pageUrl", task.getFormResourceName());
 		model.put("taskId", task.getId());
 		model.put("openType", "create");
+		model.put("title", title);
 		
 		return "/workflow/template/process";
 	}

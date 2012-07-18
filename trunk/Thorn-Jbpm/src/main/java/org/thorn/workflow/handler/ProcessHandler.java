@@ -11,9 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
+import org.jbpm.api.ExecutionService;
+import org.jbpm.api.ProcessInstance;
+import org.jbpm.api.RepositoryService;
 import org.jbpm.api.TaskService;
 import org.jbpm.pvm.internal.model.ActivityImpl;
 import org.jbpm.pvm.internal.model.ExecutionImpl;
+import org.jbpm.pvm.internal.model.ProcessDefinitionImpl;
 import org.jbpm.pvm.internal.model.TransitionImpl;
 import org.jbpm.pvm.internal.task.TaskImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +49,14 @@ public abstract class ProcessHandler {
 	protected TaskService taskService;
 
 	@Autowired
+	@Qualifier("repositoryService")
+	private RepositoryService repository;
+
+	@Autowired
+	@Qualifier("executionService")
+	private ExecutionService execution;
+
+	@Autowired
 	@Qualifier("participatorService")
 	protected IParticipatorService ppService;
 
@@ -67,10 +79,10 @@ public abstract class ProcessHandler {
 		String taskId = (String) parameters.get("taskId");
 		String nextStep = (String) parameters.get("nextStep");
 		String flowKey = (String) parameters.get("flowKey");
-		
+
 		String appId = (String) parameters.get("appId");
 		variable.put("appId", appId);
-		
+
 		String title = (String) parameters.get("title");
 		variable.put("title", title);
 
@@ -80,12 +92,12 @@ public abstract class ProcessHandler {
 		Participator pp = ppService.queryParticipator(nextActivity, flowKey);
 
 		putNextActivityPp(pp, variable);
-		
+
 		executeCustomHandlerBefore(parameters, request, variable);
-		
+
 		// 是否按照默认的执行
 		if (completeTaskHook()) {
-			if (StringUtils.isNotBlank(nextStep)) {
+			if (StringUtils.isBlank(nextStep)) {
 				taskService.completeTask(taskId, variable);
 			} else {
 				taskService.completeTask(taskId, nextStep, variable);
@@ -95,11 +107,13 @@ public abstract class ProcessHandler {
 		executeCustomHandlerAfter(parameters, request);
 	}
 
-	protected abstract void executeCustomHandlerAfter(Map<String, Object> parameters,
-			HttpServletRequest request) throws DBAccessException;
-	
-	protected abstract void executeCustomHandlerBefore(Map<String, Object> parameters,
-			HttpServletRequest request, Map<String, Object> variable) throws DBAccessException;
+	protected abstract void executeCustomHandlerAfter(
+			Map<String, Object> parameters, HttpServletRequest request)
+			throws DBAccessException;
+
+	protected abstract void executeCustomHandlerBefore(
+			Map<String, Object> parameters, HttpServletRequest request,
+			Map<String, Object> variable) throws DBAccessException;
 
 	protected boolean completeTaskHook() {
 		return true;
@@ -116,10 +130,16 @@ public abstract class ProcessHandler {
 	 */
 	protected String getNextActivityName(String taskId, String nextStep) {
 		TaskImpl task = (TaskImpl) taskService.getTask(taskId);
-		ExecutionImpl execu = task.getProcessInstance();
+		ProcessInstance inst = execution.findProcessInstanceById(task
+				.getExecutionId());
 
 		// 获取当前任务的活动节点
-		ActivityImpl curActivity = execu.getActivity();
+		// ActivityImpl curActivity = execu.getActivity();
+		ProcessDefinitionImpl dfImpl = (ProcessDefinitionImpl) repository
+				.createProcessDefinitionQuery()
+				.processDefinitionId(inst.getProcessDefinitionId()).uniqueResult();
+
+		ActivityImpl curActivity = dfImpl.findActivity(task.getName());
 
 		// 获取下一环节的转移线
 		TransitionImpl nextTrans = null;
@@ -153,28 +173,28 @@ public abstract class ProcessHandler {
 	 * @return
 	 */
 	public Set<String> getNextActivityLines(String taskId) {
-		
+
 		return taskService.getOutcomes(taskId);
-//		TaskImpl task = (TaskImpl) taskService.getTask(taskId);
-//		ExecutionImpl execu = task.getProcessInstance();
-//
-//		// 获取当前任务的活动节点
-//		ActivityImpl curActivity = execu.getActivity();
-//
-//		List<TransitionImpl> outgoings = (List<TransitionImpl>) curActivity
-//				.getOutgoingTransitions();
-//
-//		Set<String> outgoingNames = new HashSet<String>();
-//
-//		for (TransitionImpl transition : outgoings) {
-//			outgoingNames.add(transition.getName());
-//		}
-//
-//		return outgoingNames;
+		// TaskImpl task = (TaskImpl) taskService.getTask(taskId);
+		// ExecutionImpl execu = task.getProcessInstance();
+		//
+		// // 获取当前任务的活动节点
+		// ActivityImpl curActivity = execu.getActivity();
+		//
+		// List<TransitionImpl> outgoings = (List<TransitionImpl>) curActivity
+		// .getOutgoingTransitions();
+		//
+		// Set<String> outgoingNames = new HashSet<String>();
+		//
+		// for (TransitionImpl transition : outgoings) {
+		// outgoingNames.add(transition.getName());
+		// }
+		//
+		// return outgoingNames;
 	}
 
-	protected void putNextActivityPp(Participator pp, Map<String, Object> variable)
-			throws DBAccessException {
+	protected void putNextActivityPp(Participator pp,
+			Map<String, Object> variable) throws DBAccessException {
 
 		if (pp == null) {
 			return;
