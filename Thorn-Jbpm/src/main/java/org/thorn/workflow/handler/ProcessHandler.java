@@ -97,7 +97,7 @@ public abstract class ProcessHandler {
 
 		// 是否按照默认的执行
 		if (completeTaskHook()) {
-			if (StringUtils.isBlank(nextStep)) {
+			if (StringUtils.isNotBlank(nextStep)) {
 				taskService.completeTask(taskId, variable);
 			} else {
 				taskService.completeTask(taskId, nextStep, variable);
@@ -292,7 +292,7 @@ public abstract class ProcessHandler {
 				variable.put(pp.getVariable(),
 						users.get(RandomUtils.nextInt(users.size())));
 			} else {
-				new HandlerException("No handler was found in "
+				throw new HandlerException("No handler was found in "
 						+ pp.getActivityId());
 			}
 		}
