@@ -1,7 +1,5 @@
 package org.thorn.dao.helper;
 
-import java.util.Map;
-
 import org.thorn.dao.exception.DBAccessException;
 
 /** 
@@ -17,7 +15,5 @@ public interface SimpleDaoSupport {
 	public int modify(Object obj) throws DBAccessException;
 	
 	public int delete(Object obj) throws DBAccessException;
-	
-	public <T> Object query(Map<String, Object> filter, Class<T> bean) throws DBAccessException;
 }
 
