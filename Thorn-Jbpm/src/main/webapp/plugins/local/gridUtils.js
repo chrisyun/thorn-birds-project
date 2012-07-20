@@ -1,6 +1,6 @@
 function GridUtil(dataUrl, recordArray, pageSize) {
 
-	this.dataUrl = dataUrl
+	this.dataUrl = dataUrl;
 	this.pageSize = pageSize;
 
 	var storeArray = new Array();
@@ -45,7 +45,7 @@ function GridUtil(dataUrl, recordArray, pageSize) {
 
 GridUtil.prototype.setTopBar = function(arrays) {
 	this.tbar = arrays;
-}
+};
 
 GridUtil.prototype.setBottomBar = function(arrays) {
 
@@ -69,11 +69,11 @@ GridUtil.prototype.setBottomBar = function(arrays) {
 					beforePageText : "当前第"
 				});
 	}
-}
+};
 
 GridUtil.prototype.setListeners = function(array) {
 	this.listeners = array;
-}
+};
 
 GridUtil.prototype.setGridPanel = function(gridAttr) {
 
@@ -98,15 +98,15 @@ GridUtil.prototype.setGridPanel = function(gridAttr) {
 	for (var attr in gridAttr) {
 		this.grid[attr] = gridAttr[attr];
 	}
-}
+};
 
 GridUtil.prototype.getGrid = function() {
 	return this.grid;
-}
+};
 
 GridUtil.prototype.getStore = function() {
 	return this.dataStore;
-}
+};
 
 function getCommonBar(saveHandler, modifyHandler, deleteHandler, userPermission) {
 	var bar = new Array();

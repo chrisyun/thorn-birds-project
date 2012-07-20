@@ -18,11 +18,20 @@ Ext.onReady(function() {
    					"</tr>" +
    				"</table>";
 	
+
+	var mindsCls = new ProcessMinds(processInfo.flowInstId,
+		processInfo.activityName, processInfo.taskId,
+		processInfo.openType);
+	
 	tpanel = new Ext.Panel({
 		height : 100,
 		split : true,
 		region : "north",
-		tbar : ["-"],
+		tbar : ["-", {
+			text : "流程意见",
+			minWidth : Configuration.minBtnWidth,
+			handler : mindsCls.show
+		}],
 		html : thtml
 	});
 	
