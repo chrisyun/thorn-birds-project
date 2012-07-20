@@ -16,8 +16,8 @@
 	};
 	
 	var userPermission = {
-		DEPLOY : '<sec:authorize url="/wf/deployProcess.jmt">true</sec:authorize>',
-		DELETE : '<sec:authorize url="/wf/deleteProcessDf.jmt">true</sec:authorize>'
+		DEPLOY : '<sec:authorize url="/wf/df/deployProcess.jmt">true</sec:authorize>',
+		DELETE : '<sec:authorize url="/wf/df/deleteProcessDf.jmt">true</sec:authorize>'
 	}
 	
 </script>

@@ -10,8 +10,8 @@
 	document.title = "Workflow - ProcessMt";
 	
 	var userPermission = {
-		CANCEL : '<sec:authorize url="/wf/cancelProcessInst.jmt">true</sec:authorize>',
-		DELETE : '<sec:authorize url="/wf/deleteProcessInst.jmt">true</sec:authorize>'
+		CANCEL : '<sec:authorize url="/wf/cm/cancelProcessInst.jmt">true</sec:authorize>',
+		DELETE : '<sec:authorize url="/wf/cm/deleteProcessInst.jmt">true</sec:authorize>'
 	}
 	
 </script>
