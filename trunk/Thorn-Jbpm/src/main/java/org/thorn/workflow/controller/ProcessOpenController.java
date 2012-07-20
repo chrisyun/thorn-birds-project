@@ -1,5 +1,6 @@
 package org.thorn.workflow.controller;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -13,7 +14,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.thorn.dao.exception.DBAccessException;
+import org.thorn.security.SecurityUserUtils;
+import org.thorn.user.entity.User;
 import org.thorn.web.controller.BaseController;
+import org.thorn.workflow.WorkflowConfiguration;
+import org.thorn.workflow.entity.FlowType;
+import org.thorn.workflow.service.IFlowTypeService;
 
 /**
  * @ClassName: ProcessOpenController
@@ -32,7 +39,51 @@ public class ProcessOpenController extends BaseController {
 	@Autowired
 	@Qualifier("executionService")
 	private ExecutionService execution;
+	
+	@Autowired
+	@Qualifier("flowTypeService")
+	private IFlowTypeService flowTypeService;
+	
+	@RequestMapping("/startNewProcess")
+	public String startNewProcess(String key, ModelMap model) {
 
+		User user = SecurityUserUtils.getCurrentUser();
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		String title = " -" + user.getUserName();
+		
+		try {
+			FlowType type = flowTypeService.query(key, null, null);
+			title = type.getFlowName() + title;
+		} catch (DBAccessException e) {
+			title = key + title;
+		}
+		map.put("title", title);
+		map.put("flowKey", key);
+		map.put(WorkflowConfiguration.PROCESS_CREATER, user.getUserId());
+		ProcessInstance pi = execution.startProcessInstanceByKey(key, map);
+		
+		
+		// 已经是start节点的第一个task
+		Task task = taskService.createTaskQuery().processInstanceId(pi.getId())
+				.uniqueResult();
+		Set<String> nextStep = taskService.getOutcomes(task.getId());
+		
+		model.put("nextStep", nextStep);
+		model.put("flowKey", key);
+		model.put("flowName", pi.getName());
+		model.put("flowInstId", pi.getId());
+		model.put("creater", user.getUserId());
+		model.put("activityName", task.getActivityName());
+		model.put("pageUrl", task.getFormResourceName());
+		model.put("taskId", task.getId());
+		model.put("openType", "create");
+		model.put("title", title);
+		
+		return "/workflow/template/process";
+	}
+	
+	
 	@RequestMapping("/openTodoProcess")
 	public String openTodoProcess(String taskId, ModelMap model) {
 

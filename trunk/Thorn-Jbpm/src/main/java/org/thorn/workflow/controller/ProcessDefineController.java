@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.thorn.core.util.LocalStringUtils;
+import org.thorn.dao.exception.DBAccessException;
 import org.thorn.web.entity.Page;
 import org.thorn.web.controller.BaseController;
 import org.thorn.web.entity.Status;
@@ -34,7 +35,7 @@ import org.thorn.workflow.service.IFlowTypeService;
  * @date 2012-6-17 下午12:50:08
  */
 @Controller
-@RequestMapping("/wf")
+@RequestMapping("/wf/df")
 public class ProcessDefineController extends BaseController {
 
 	static Logger log = LoggerFactory.getLogger(ProcessDefineController.class);
@@ -96,6 +97,41 @@ public class ProcessDefineController extends BaseController {
 		response.getWriter().flush();
 	}
 
+	@RequestMapping("/modifyFlowType")
+	@ResponseBody
+	public Status modifyFlowType(FlowType type) {
+		Status status = new Status();
+
+		try {
+			flowTypeService.saveOrModifyFlowType(type);
+			status.setMessage("修改流程类型成功！");
+		} catch (DBAccessException e) {
+			status.setSuccess(false);
+			status.setMessage("数据保存失败：" + e.getMessage());
+			log.error("modifyFlowType[FlowType] - " + e.getMessage(), e);
+		}
+
+		return status;
+	}
+
+	@RequestMapping("/deleteFlowType")
+	@ResponseBody
+	public Status deleteFlowType(String ids) {
+		Status status = new Status();
+
+		try {
+			flowTypeService.delete(ids);
+			status.setMessage("数据删除成功！");
+		} catch (DBAccessException e) {
+			status.setSuccess(false);
+			status.setMessage("数据删除失败：" + e.getMessage());
+			log.error("deleteFlowType[FlowType] - " + e.getMessage(), e);
+		}
+
+		return status;
+	}
+	
+	
 	/**
 	 * 
 	 * @Description：
