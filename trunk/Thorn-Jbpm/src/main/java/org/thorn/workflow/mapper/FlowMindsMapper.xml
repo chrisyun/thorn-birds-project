@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="FlowMindsMapper">
+
+	<resultMap id="BaseResultMap"
+		type="org.thorn.workflow.entity.ActivityMind">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="FLOWINSTID" property="flowInstId" jdbcType="VARCHAR" />
+		<result column="ACTIVITYNAME" property="activityName" jdbcType="VARCHAR" />
+		<result column="TASKID" property="taskId" jdbcType="VARCHAR" />
+		<result column="USERID" property="userId" jdbcType="VARCHAR" />
+		<result column="USERNAME" property="userName" jdbcType="VARCHAR" />
+		<result column="CREATETIME" property="createTime" jdbcType="VARCHAR" />
+		<result column="MINDS" property="minds" jdbcType="VARCHAR" />
+		<result column="ISPASSED" property="isPassed" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		ID,FLOWINSTID, ACTIVITYNAME, TASKID, USERID, USERNAME, CREATETIME, MINDS, ISPASSED
+  	</sql>
+
+	<sql id="Where_Clause">
+		<where>
+			<if test="flowInstId != null and flowInstId != ''">
+				AND FLOWINSTID = #{flowInstId,jdbcType=VARCHAR}
+      		</if>
+		</where>
+	</sql>
+
+	<insert id="insert" parameterType="org.thorn.workflow.entity.ActivityMind">
+		insert into JBPM4_EXTEND_MINDS
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="flowInstId != null and flowInstId != ''">FLOWINSTID,</if>
+			<if test="activityName != null and activityName != ''">ACTIVITYNAME,</if>
+			<if test="taskId != null and taskId != ''">TASKID,</if>
+			<if test="userId != null and userId != ''">USERID,</if>
+			<if test="userName != null and userName != ''">USERNAME,</if>
+			<if test="createTime != null and createTime != ''">CREATETIME,</if>
+			<if test="minds != null and minds != ''">MINDS,</if>
+			<if test="isPassed != null and isPassed != ''">ISPASSED,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="flowInstId != null and flowInstId != ''">#{flowInstId,jdbcType=VARCHAR},</if>
+			<if test="activityName != null and activityName != ''">#{activityName,jdbcType=VARCHAR},</if>
+			<if test="taskId != null and taskId != ''">#{taskId,jdbcType=VARCHAR},</if>
+			<if test="userId != null and userId != ''">#{userId,jdbcType=VARCHAR},</if>
+			<if test="userName != null and userName != ''">#{userName,jdbcType=VARCHAR},</if>
+			<if test="createTime != null and createTime != ''">#{createTime,jdbcType=VARCHAR},</if>
+			<if test="minds != null and minds != ''">#{minds,jdbcType=VARCHAR},</if>
+			<if test="isPassed != null and isPassed != ''">#{isPassed,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
+	
+
+	<select id="queryList" parameterType="hashmap" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from JBPM4_EXTEND_MINDS 
+		<include refid="Where_Clause" /> 
+		order by CREATETIME ASC
+	</select>
+	
+</mapper>

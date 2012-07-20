@@ -16,6 +16,9 @@
 	<bean id="flowTypeDao" class="org.thorn.workflow.dao.FlowTypeDaoImpl" />
 	<bean id="flowTypeService" class="org.thorn.workflow.service.FlowTypeServiceImpl" />
 	
+	<bean id="flowMindsDao" class="org.thorn.workflow.dao.FlowMindsDaoImpl" />
+	<bean id="flowMindsService" class="org.thorn.workflow.service.FlowMindsServiceImpl" />
+	
 	<bean id="defaultProcessHandler" class="org.thorn.workflow.handler.SimpleProcessHandler" />
 	
 	<bean id="handlerFactory" class="org.thorn.workflow.handler.CustomHandlerFactory">

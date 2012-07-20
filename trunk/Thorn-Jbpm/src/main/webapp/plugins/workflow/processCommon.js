@@ -81,6 +81,37 @@ ProcessImage.prototype.show = function(type, id) {
 	}
 };
 
+ProcessMinds.saveMindUrl = sys.path + "/wf/df/saveActivityMind.jmt";
+ProcessMinds.getMindsUrl = sys.path + "/wf/df/getProcessMinds.jmt";
+function ProcessMinds(flowInstId, activityName, taskId) {
+	
+	this.mindsPanel = new FormUtil({
+		border : false,
+		id : "mindsForm",
+		collapsible : false,
+		html : "<div id='mindsDiv'></div>",
+		labelWidth : 100
+	});
+		
+	var radioGroup = new Ext.form.RadioGroup({
+		fieldLabel : "是否审批通过",
+		items : [ {
+			boxLabel : '是',
+			inputValue : "YES",
+			name : "isPassed",
+			checked : true
+		}, {
+			boxLabel : '否',
+			name : "isPassed",
+			inputValue : "NO"
+		} ]
+	});
+
+	myForm.addComp(radioGroup, 1.0, true);
+	myForm.addComp(getTextArea("minds", "意见", 300, 70), 1.0, false);
+}
+
+
 function getNextActivityBtn(name, handler) {
 	var activityBtn = new Object();
 	
