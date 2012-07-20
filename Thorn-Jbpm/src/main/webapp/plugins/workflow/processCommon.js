@@ -85,6 +85,12 @@ ProcessMinds.saveMindUrl = sys.path + "/wf/df/saveActivityMind.jmt";
 ProcessMinds.getMindsUrl = sys.path + "/wf/df/getProcessMinds.jmt";
 function ProcessMinds(flowInstId, activityName, taskId) {
 	
+	this.params = {
+		flowInstId : flowInstId,
+		activityName : activityName,
+		taskId : taskId
+	};
+	
 	this.mindsForm = new FormUtil({
 		border : false,
 		id : "mindsForm",
