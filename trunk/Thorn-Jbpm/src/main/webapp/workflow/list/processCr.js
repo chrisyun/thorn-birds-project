@@ -1,7 +1,7 @@
-var processCreatUrl = sys.path + "/wf/cr/getCreatProcessList.jmt";
-var modifyFlowTypeUrl = sys.path + "/wf/cr/modifyFlowType.jmt";
-var deleteFlowTypeUrl = sys.path + "/wf/cr/deleteFlowType.jmt";
-var createOpenUrl = sys.path + "/wf/cr/startNewProcess.jmt";
+var processCreatUrl = sys.path + "/wf/cm/getCreatProcessList.jmt";
+var modifyFlowTypeUrl = sys.path + "/wf/df/modifyFlowType.jmt";
+var deleteFlowTypeUrl = sys.path + "/wf/df/deleteFlowType.jmt";
+var createOpenUrl = sys.path + "/wf/cm/startNewProcess.jmt";
 
 Ext.onReady(function() {
 	Ext.QuickTips.init();

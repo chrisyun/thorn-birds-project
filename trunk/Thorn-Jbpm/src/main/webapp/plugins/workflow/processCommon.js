@@ -3,7 +3,7 @@
  * @param ids		实例ID,
  * @param callBackFn回调函数
  */
-deleteProcessInst.url = sys.path + "/wf/deleteProcessInst.jmt";
+deleteProcessInst.url = sys.path + "/wf/cm/deleteProcessInst.jmt";
 function deleteProcessInst(ids, callBackFn) {
 
 	var params = {
@@ -20,7 +20,7 @@ function deleteProcessInst(ids, callBackFn) {
  * @param reason	取消原因
  * @param callBackFn回调函数
  */
-cancelProcessInst.url = sys.path + "/wf/cancelProcessInst.jmt";
+cancelProcessInst.url = sys.path + "/wf/cm/cancelProcessInst.jmt";
 function cancelProcessInst(ids, reason, callBackFn) {
 
 	var params = {
@@ -64,8 +64,8 @@ function ProcessImage() {
 	});
 }
 
-ProcessImage.dfImageUrl = sys.path + "/wf/getProcessDfImage.jmt";
-ProcessImage.instImageUrl = sys.path + "/wf/getProcessInstImage.jmt";
+ProcessImage.dfImageUrl = sys.path + "/wf/df/getProcessDfImage.jmt";
+ProcessImage.instImageUrl = sys.path + "/wf/cm/getProcessInstImage.jmt";
 ProcessImage.loadingUrl = sys.path + "/resources/images/local/waiting.gif";
 
 ProcessImage.prototype.show = function(type, id) {

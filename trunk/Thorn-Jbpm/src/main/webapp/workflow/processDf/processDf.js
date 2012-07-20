@@ -1,6 +1,6 @@
-var deployProcessUrl = sys.path + "/wf/deployProcess.jmt";
-var processDfListUrl = sys.path + "/wf/getProcessDf.jmt";
-var deleteProcessUrl = sys.path + "/wf/deleteProcessDf.jmt";
+var deployProcessUrl = sys.path + "/wf/df/deployProcess.jmt";
+var processDfListUrl = sys.path + "/wf/df/getProcessDf.jmt";
+var deleteProcessUrl = sys.path + "/wf/df/deleteProcessDf.jmt";
 
 Ext.onReady(function() {
 	Ext.QuickTips.init();
@@ -324,8 +324,6 @@ Ext.onReady(function() {
 
 	function onSubmitQueryHandler() {
 		
-		var thisForm = query_form.getForm();
-
 		var name = Ext.getCmp("query_name").getValue();
 		var key = Ext.getCmp("query_key").getValue();
 

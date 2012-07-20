@@ -1,4 +1,4 @@
-var processInstPageUrl = sys.path + "/wf/getProcessInstPage.jmt";
+var processInstPageUrl = sys.path + "/wf/cm/getProcessInstPage.jmt";
 
 var pageSize = 20;
 
@@ -123,7 +123,6 @@ Ext.onReady(function() {
 	}
 	
 	function onSubmitQueryHandler() {
-		var thisForm = query_form.getForm();
 
 		var dfId = Ext.getCmp("query_dfId").getValue();
 		var id = Ext.getCmp("query_id").getValue();

@@ -16,8 +16,8 @@
 	var wfNameDD = <thorn:getWfCNName />
 	
 	var userPermission = {
-		MODIFY : '<sec:authorize url="/wf/cr/modifyFlowType.jmt">true</sec:authorize>',
-		REMOVE : '<sec:authorize url="/wf/cr/deleteFlowType.jmt">true</sec:authorize>'
+		MODIFY : '<sec:authorize url="/wf/df/modifyFlowType.jmt">true</sec:authorize>',
+		REMOVE : '<sec:authorize url="/wf/df/deleteFlowType.jmt">true</sec:authorize>'
 	}
 	
 </script>

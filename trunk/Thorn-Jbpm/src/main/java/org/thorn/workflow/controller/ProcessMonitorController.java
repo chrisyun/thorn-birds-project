@@ -41,7 +41,7 @@ import com.sun.image.codec.jpeg.JPEGImageEncoder;
  * @date 2012-6-17 下午08:22:56
  */
 @Controller
-@RequestMapping("/wf")
+@RequestMapping("/wf/cm")
 public class ProcessMonitorController extends BaseController {
 
 	static Logger log = LoggerFactory.getLogger(ProcessMonitorController.class);
