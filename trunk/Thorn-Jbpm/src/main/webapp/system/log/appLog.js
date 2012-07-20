@@ -45,7 +45,7 @@ Ext.onReady(function() {
 	
 	var bar = null;
 	if(userPermission.EXPORT == "true") {
-		var bar = ["-",{
+		bar = ["-",{
 					text : "日志导出",
 					iconCls : "silk-excel",
 					minWidth : Configuration.minBtnWidth,

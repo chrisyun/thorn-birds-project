@@ -83,7 +83,7 @@ ProcessImage.prototype.show = function(type, id) {
 
 ProcessMinds.saveMindUrl = sys.path + "/wf/df/saveActivityMind.jmt";
 ProcessMinds.getMindsUrl = sys.path + "/wf/df/getProcessMinds.jmt";
-function ProcessMinds(flowInstId, activityName, taskId) {
+function ProcessMinds(flowInstId, activityName, taskId, opType) {
 	
 	this.params = {
 		flowInstId : flowInstId,
@@ -95,7 +95,7 @@ function ProcessMinds(flowInstId, activityName, taskId) {
 		border : false,
 		id : "mindsForm",
 		collapsible : false,
-		html : "<div id='mindsDiv'></div>",
+		html : "<div id='mindsDiv'>uuuuuuuuuuuuuuuuuuuuuuuuuuuuuu</div>",
 		labelWidth : 100
 	});
 		
@@ -112,9 +112,23 @@ function ProcessMinds(flowInstId, activityName, taskId) {
 			inputValue : "NO"
 		} ]
 	});
+	
+	this.mindsWin = new WindowUtil({
+		width : 650,
+		height : 340
+	}, mindsForm.getPanel(), null);
+	
+	if(opType == "create" || opType == "todo") {
+		mindsForm.addComp(radioGroup, 1.0, true);
+		mindsForm.addComp(getTextArea("minds", "意见", 300, 70), 1.0, false);
+	} else {
+		// 不显示保存按钮
+		mindsWin.hideSaveBtn();
+	}
+}
 
-	mindsForm.addComp(radioGroup, 1.0, true);
-	mindsForm.addComp(getTextArea("minds", "意见", 300, 70), 1.0, false);
+ProcessMinds.prototype.show() {
+	this.mindsWin.show("流程意见");
 }
 
 
