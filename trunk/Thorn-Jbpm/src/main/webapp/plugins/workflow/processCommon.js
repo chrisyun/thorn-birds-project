@@ -85,7 +85,7 @@ ProcessMinds.saveMindUrl = sys.path + "/wf/df/saveActivityMind.jmt";
 ProcessMinds.getMindsUrl = sys.path + "/wf/df/getProcessMinds.jmt";
 function ProcessMinds(flowInstId, activityName, taskId) {
 	
-	this.mindsPanel = new FormUtil({
+	this.mindsForm = new FormUtil({
 		border : false,
 		id : "mindsForm",
 		collapsible : false,
@@ -107,8 +107,8 @@ function ProcessMinds(flowInstId, activityName, taskId) {
 		} ]
 	});
 
-	myForm.addComp(radioGroup, 1.0, true);
-	myForm.addComp(getTextArea("minds", "意见", 300, 70), 1.0, false);
+	mindsForm.addComp(radioGroup, 1.0, true);
+	mindsForm.addComp(getTextArea("minds", "意见", 300, 70), 1.0, false);
 }
 
 
