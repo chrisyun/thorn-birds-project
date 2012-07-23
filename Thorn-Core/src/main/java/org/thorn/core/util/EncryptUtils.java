@@ -12,16 +12,18 @@ import sun.misc.BASE64Encoder;
  * @date 2012-5-6 下午02:33:57
  */
 public class EncryptUtils {
-	// public static void main(String[] args) {
-	// EncryptUtils st = new EncryptUtils();
-	// try {
-	// System.out.println("MD5加密后：" + st.getMD5("wwwwww"));
-	// System.out.println("MD5加密后：" + st.getMD5OfBase64("WWWWWW"));
-	// System.out.println("SHA-1加密后：" + st.getSHA("wwwwww"));
-	// } catch (NoSuchAlgorithmException e) {
-	// e.printStackTrace();
-	// }
-	// }
+	public static void main(String[] args) {
+		EncryptUtils st = new EncryptUtils();
+		try {
+			String a = st.getMD5("bdId=2153");
+			System.out.println("MD5加密后：" + a);
+			System.out.println(st.getMD5(a + "2012-07-23 10"));
+//			System.out.println("MD5加密后：" + st.getMD5OfBase64("WWWWWW"));
+//			System.out.println("SHA-1加密后：" + st.getSHA("wwwwww"));
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static String getMD5OfBase64(String vars)
 			throws NoSuchAlgorithmException {
@@ -68,4 +70,18 @@ public class EncryptUtils {
 		}
 		return sb.toString();
 	}
+	
+	private static String get16String(byte[] b) {
+		char hexDigits[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+				'a', 'b', 'c', 'd', 'e', 'f' };
+		char str[] = new char[b.length * 2];
+		int k = 0;
+		for (int i = 0; i < b.length; i++) {
+			byte byte0 = b[i];
+			str[k++] = hexDigits[byte0 >>> 4 & 0xf];
+			str[k++] = hexDigits[byte0 & 0xf];
+		}
+		return new String(str);
+	}
+	
 }
