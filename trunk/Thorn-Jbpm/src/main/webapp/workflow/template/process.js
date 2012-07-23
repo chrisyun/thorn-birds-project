@@ -30,6 +30,7 @@ Ext.onReady(function() {
 		tbar : ["-", {
 			text : "流程意见",
 			minWidth : Configuration.minBtnWidth,
+			scope : mindsCls,
 			handler : mindsCls.show
 		}],
 		html : thtml

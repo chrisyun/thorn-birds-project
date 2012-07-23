@@ -81,8 +81,8 @@ ProcessImage.prototype.show = function(type, id) {
 	}
 };
 
-ProcessMinds.saveMindUrl = sys.path + "/wf/df/saveActivityMind.jmt";
-ProcessMinds.getMindsUrl = sys.path + "/wf/df/getProcessMinds.jmt";
+ProcessMinds.saveMindUrl = sys.path + "/wf/cm/saveActivityMind.jmt";
+ProcessMinds.getMindsUrl = sys.path + "/wf/cm/getProcessMinds.jmt";
 function ProcessMinds(flowInstId, activityName, taskId, opType) {
 	
 	this.params = {
@@ -95,7 +95,7 @@ function ProcessMinds(flowInstId, activityName, taskId, opType) {
 		border : false,
 		id : "mindsForm",
 		collapsible : false,
-		html : "<div id='mindsDiv'>uuuuuuuuuuuuuuuuuuuuuuuuuuuuuu</div>",
+		html : "<div id='mindsDiv'></div>",
 		labelWidth : 100
 	});
 		
@@ -114,22 +114,85 @@ function ProcessMinds(flowInstId, activityName, taskId, opType) {
 	});
 	
 	this.mindsWin = new WindowUtil({
-		width : 650,
-		height : 340
-	}, mindsForm.getPanel(), null);
+		width : 500,
+		height : 400,
+		autoScroll : true
+	}, this.mindsForm.getPanel(), null);
 	
 	if(opType == "create" || opType == "todo") {
-		mindsForm.addComp(radioGroup, 1.0, true);
-		mindsForm.addComp(getTextArea("minds", "意见", 300, 70), 1.0, false);
+		this.mindsForm.addComp(getHidden("id"), 1.0, true);
+		this.mindsForm.addComp(radioGroup, 1.0, true);
+		this.mindsForm.addComp(getTextArea("minds", "意见", 300, 80), 1.0, false);
 	} else {
 		// 不显示保存按钮
-		mindsWin.hideSaveBtn();
+		this.mindsWin.hideSaveBtn();
 	}
+	
+	this.html = "";
+	
+	this.store = new Ext.data.Store({
+		url : ProcessMinds.getMindsUrl,
+		baseParams : {flowInstId : flowInstId},
+		autoLoad : true,
+		reader : new Ext.data.JsonReader({}, 
+				Ext.data.Record.create([{
+					name : 'activityName',
+					type : 'string'
+				}, {
+					name : 'taskId',
+					type : 'string'
+				}, {
+					name : 'userName',
+					type : 'string'
+				}, {
+					name : 'userId',
+					type : 'string'
+				}, {
+					name : 'createTime',
+					type : 'string'
+				}, {
+					name : 'minds',
+					type : 'string'
+				}, {
+					name : 'isPassed',
+					type : 'string'
+				}, {
+					name : 'id',
+					type : 'string'
+				}]))
+	});
+	this.store.addListener("load", function(store, records) {
+		
+		this.html = "<table border='1' width='100%'>";
+		
+		for(var i=0; i<records.length; i++ ) {
+			if((opType == "create" || opType == "todo")
+					&& taskId == records[i].get("taskId")
+					&& user.userId == records[i].get("userId")) {
+				var values = {
+					id : records[i].get("id"),
+					isPassed : records[i].get("isPassed"),
+					minds : records[i].get("minds")
+				};
+				
+				this.mindsForm.getForm().setValues(values);
+			} else {
+				this.html += "<tr>" +
+							"<td align='right' width='100px'>" + records[i].get("activityName") + "：&nbsp;&nbsp;</td>" +
+							"<td>" + records[i].get("minds") + "-----" + records[i].get("userName") + 
+							"&nbsp;&nbsp;&nbsp;&nbsp;" +records[i].get("createTime") + "</td>" +
+						"</tr>";
+			}
+		}
+		
+		this.html += "</table>";
+	}, this);
 }
 
-ProcessMinds.prototype.show() {
+ProcessMinds.prototype.show = function(){
 	this.mindsWin.show("流程意见");
-}
+	Ext.getDom("mindsDiv").innerHTML = this.html;
+};
 
 
 function getNextActivityBtn(name, handler) {

@@ -34,20 +34,20 @@ function WindowUtil(winAttr, form, saveHandler) {
 WindowUtil.prototype.show = function(title) {
 	this.win.setTitle(title);
 	this.win.show();
-}
+};
 
 WindowUtil.prototype.hide = function() {
 	this.win.hide();
-}
+};
 
 WindowUtil.prototype.getWindow = function() {
 	return this.win;
-}
+};
 
 WindowUtil.prototype.hideSaveBtn = function() {
 	return this.saveBtn.hide();
-}
+};
 
 WindowUtil.prototype.showSaveBtn = function() {
 	return this.saveBtn.show();
-}
+};
