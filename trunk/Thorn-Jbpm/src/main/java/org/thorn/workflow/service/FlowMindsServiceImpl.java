@@ -34,4 +34,8 @@ public class FlowMindsServiceImpl implements IFlowMindsService {
 		return flowMindsDao.queryList(filter);
 	}
 
+	public void modify(ActivityMind mind) throws DBAccessException {
+		flowMindsDao.modify(mind);
+	}
+
 }

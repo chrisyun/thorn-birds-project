@@ -15,6 +15,8 @@ import org.thorn.workflow.entity.ActivityMind;
 public interface IFlowMindsDao {
 
 	public int save(ActivityMind mind) throws DBAccessException;
+	
+	public int modify(ActivityMind mind) throws DBAccessException;
 
 	public List<ActivityMind> queryList(Map<String, Object> filter)
 			throws DBAccessException;

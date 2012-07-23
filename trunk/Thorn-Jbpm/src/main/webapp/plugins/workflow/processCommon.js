@@ -81,7 +81,7 @@ ProcessImage.prototype.show = function(type, id) {
 	}
 };
 
-ProcessMinds.saveMindUrl = sys.path + "/wf/cm/saveActivityMind.jmt";
+ProcessMinds.saveOrModifyMindUrl = sys.path + "/wf/cm/saveOrModifyActivityMind.jmt";
 ProcessMinds.getMindsUrl = sys.path + "/wf/cm/getProcessMinds.jmt";
 function ProcessMinds(flowInstId, activityName, taskId, opType) {
 	
@@ -101,14 +101,16 @@ function ProcessMinds(flowInstId, activityName, taskId, opType) {
 		
 	var radioGroup = new Ext.form.RadioGroup({
 		fieldLabel : "是否审批通过",
+		id : "isPassed",
+		name : "isPassed",
 		items : [ {
 			boxLabel : '是',
 			inputValue : "YES",
-			name : "isPassed",
+			name : "YON",
 			checked : true
 		}, {
 			boxLabel : '否',
-			name : "isPassed",
+			name : "YON",
 			inputValue : "NO"
 		} ]
 	});
@@ -117,7 +119,7 @@ function ProcessMinds(flowInstId, activityName, taskId, opType) {
 		width : 500,
 		height : 400,
 		autoScroll : true
-	}, this.mindsForm.getPanel(), null);
+	}, this.mindsForm.getPanel(), saveMind);
 	
 	if(opType == "create" || opType == "todo") {
 		this.mindsForm.addComp(getHidden("id"), 1.0, true);
@@ -128,8 +130,36 @@ function ProcessMinds(flowInstId, activityName, taskId, opType) {
 		this.mindsWin.hideSaveBtn();
 	}
 	
-	this.html = "";
+	var form = this.mindsForm.getForm();
+	var panel = this.mindsForm.getPanel();
+	var win = this.mindsWin.getWindow();
+	function saveMind() {
+		if (!form.isValid()) {
+			Ext.Msg.alert("提示信息", "请填写流程意见!");
+			return;
+		}
+		
+		var params = {
+			flowInstId : flowInstId,
+			activityName : activityName, 
+			isPassed : form.getValues().YON,
+			taskId : taskId
+		};
+		
+		var ajaxClass = new AjaxUtil(ProcessMinds.saveOrModifyMindUrl);
+		
+		var scope = new Object();
+		scope.form = form;
+		scope.panel = panel;
+		scope.win = win;
+		
+		ajaxClass.submit(form, params, true, scope, function(obj, mindId) {
+			obj.panel.findById("id").setValue(mindId);
+			obj.win.hide();
+		});
+	}
 	
+	this.html = "";
 	this.store = new Ext.data.Store({
 		url : ProcessMinds.getMindsUrl,
 		baseParams : {flowInstId : flowInstId},
@@ -163,7 +193,7 @@ function ProcessMinds(flowInstId, activityName, taskId, opType) {
 	});
 	this.store.addListener("load", function(store, records) {
 		
-		this.html = "<table border='1' width='100%'>";
+		this.html = "<table width='100%' style='color: blue;font-size: 14px;'>";
 		
 		for(var i=0; i<records.length; i++ ) {
 			if((opType == "create" || opType == "todo")
@@ -174,12 +204,17 @@ function ProcessMinds(flowInstId, activityName, taskId, opType) {
 					isPassed : records[i].get("isPassed"),
 					minds : records[i].get("minds")
 				};
-				
 				this.mindsForm.getForm().setValues(values);
 			} else {
+				
+				var spStatus = "审批通过。";
+				if(records[i].get("isPassed") == "NO") {
+					spStatus = "审批不通过。";
+				}
+				
 				this.html += "<tr>" +
 							"<td align='right' width='100px'>" + records[i].get("activityName") + "：&nbsp;&nbsp;</td>" +
-							"<td>" + records[i].get("minds") + "-----" + records[i].get("userName") + 
+							"<td>" + spStatus + records[i].get("minds") + "-----" + records[i].get("userName") + 
 							"&nbsp;&nbsp;&nbsp;&nbsp;" +records[i].get("createTime") + "</td>" +
 						"</tr>";
 			}

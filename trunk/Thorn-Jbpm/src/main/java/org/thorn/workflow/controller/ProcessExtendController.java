@@ -16,7 +16,7 @@ import org.thorn.dao.exception.DBAccessException;
 import org.thorn.security.SecurityUserUtils;
 import org.thorn.user.entity.User;
 import org.thorn.web.controller.BaseController;
-import org.thorn.web.entity.Status;
+import org.thorn.web.entity.JsonResponse;
 import org.thorn.workflow.entity.ActivityMind;
 import org.thorn.workflow.service.IFlowMindsService;
 
@@ -37,10 +37,10 @@ public class ProcessExtendController extends BaseController {
 	private IFlowMindsService flowMindsService;
 	
 	
-	@RequestMapping("/saveActivityMind")
+	@RequestMapping("/saveOrModifyActivityMind")
 	@ResponseBody
-	public Status saveActivityMind(ActivityMind mind) {
-		Status status = new Status();
+	public JsonResponse<Integer> saveOrModifyActivityMind(ActivityMind mind) {
+		JsonResponse<Integer> json = new JsonResponse<Integer>();
 
 		try {
 			User user = SecurityUserUtils.getCurrentUser();
@@ -49,16 +49,22 @@ public class ProcessExtendController extends BaseController {
 
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			mind.setCreateTime(df.format(new Date()));
-
-			flowMindsService.save(mind);
-			status.setMessage("意见保存成功！");
+			
+			if(mind.getId() == null) {
+				flowMindsService.save(mind);
+			} else {
+				flowMindsService.modify(mind);
+			}
+			
+			json.setMessage("意见保存成功！");
+			json.setObj(mind.getId());
 		} catch (DBAccessException e) {
-			status.setSuccess(false);
-			status.setMessage("数据保存失败：" + e.getMessage());
+			json.setSuccess(false);
+			json.setMessage("数据保存失败：" + e.getMessage());
 			log.error("saveActivityMind[ActivityMind] - " + e.getMessage(), e);
 		}
 
-		return status;
+		return json;
 	}
 	
 	@RequestMapping("/getProcessMinds")
