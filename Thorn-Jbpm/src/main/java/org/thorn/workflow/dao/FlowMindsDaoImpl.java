@@ -41,5 +41,13 @@ public class FlowMindsDaoImpl implements IFlowMindsDao {
 		}
 	}
 
+	public int modify(ActivityMind mind) throws DBAccessException {
+		try {
+			return sqlSessionTemplate.update(nameSpace + "update", mind);
+		} catch (Exception e) {
+			throw new DBAccessException("FlowMindsDaoImpl", "modify", e);
+		}
+	}
+
 }
 
