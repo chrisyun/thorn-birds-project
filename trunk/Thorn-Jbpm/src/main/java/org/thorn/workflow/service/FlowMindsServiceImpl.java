@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.thorn.dao.exception.DBAccessException;
+import org.thorn.log.NoLogging;
 import org.thorn.workflow.dao.IFlowMindsDao;
 import org.thorn.workflow.entity.ActivityMind;
 
@@ -21,7 +22,8 @@ public class FlowMindsServiceImpl implements IFlowMindsService {
 	@Autowired
 	@Qualifier("flowMindsDao")
 	private IFlowMindsDao flowMindsDao;
-
+	
+	@NoLogging
 	public void save(ActivityMind mind) throws DBAccessException {
 		flowMindsDao.save(mind);
 	}
@@ -33,7 +35,8 @@ public class FlowMindsServiceImpl implements IFlowMindsService {
 
 		return flowMindsDao.queryList(filter);
 	}
-
+	
+	@NoLogging
 	public void modify(ActivityMind mind) throws DBAccessException {
 		flowMindsDao.modify(mind);
 	}
