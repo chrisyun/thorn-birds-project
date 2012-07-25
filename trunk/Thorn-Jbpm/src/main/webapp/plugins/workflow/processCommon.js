@@ -193,8 +193,7 @@ function ProcessMinds(flowInstId, activityName, taskId, opType) {
 	});
 	this.store.addListener("load", function(store, records) {
 		
-		this.html = "<table width='100%' style='color: blue;font-size: 14px;'>";
-		
+		this.html = "<table width='100%' style='color: blue;font-size: 13px;'>";
 		for(var i=0; i<records.length; i++ ) {
 			if((opType == "create" || opType == "todo")
 					&& taskId == records[i].get("taskId")
@@ -213,9 +212,9 @@ function ProcessMinds(flowInstId, activityName, taskId, opType) {
 				}
 				
 				this.html += "<tr>" +
-							"<td align='right' width='100px'>" + records[i].get("activityName") + "：&nbsp;&nbsp;</td>" +
-							"<td>" + spStatus + records[i].get("minds") + "-----" + records[i].get("userName") + 
-							"&nbsp;&nbsp;&nbsp;&nbsp;" +records[i].get("createTime") + "</td>" +
+							"<td align='right' width='130px'>" + records[i].get("activityName") + "：&nbsp;&nbsp;</td>" +
+							"<td>" + spStatus + records[i].get("minds") + "&nbsp;&nbsp;-----&nbsp;&nbsp;" + 
+							records[i].get("userName") + "&nbsp;&nbsp;" +records[i].get("createTime") + "</td>" +
 						"</tr>";
 			}
 		}

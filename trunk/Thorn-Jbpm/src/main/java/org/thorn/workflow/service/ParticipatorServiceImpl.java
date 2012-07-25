@@ -79,7 +79,9 @@ public class ParticipatorServiceImpl implements IParticipatorService {
 
 		List<Participator> list = participatorDao.queryList(filter);
 
-		if (list.size() == 1) {
+		if(list == null || list.size() == 0) {
+			return null;
+		} else if(list.size() == 1) {
 			return list.get(0);
 		} else {
 			throw new DBAccessException(

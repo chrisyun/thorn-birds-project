@@ -23,11 +23,21 @@ Ext.onReady(function() {
 		processInfo.activityName, processInfo.taskId,
 		processInfo.openType);
 	
+	var processImage = new ProcessImage();
+	function instanceImageHandler() {
+		processImage.show("inst", processInfo.flowInstId);
+	}
+	
+	
 	tpanel = new Ext.Panel({
 		height : 100,
 		split : true,
 		region : "north",
 		tbar : ["-", {
+			text : "流程图",
+			minWidth : Configuration.minBtnWidth,
+			handler : instanceImageHandler
+		}, "-", {
 			text : "流程意见",
 			minWidth : Configuration.minBtnWidth,
 			scope : mindsCls,
@@ -121,6 +131,8 @@ function submitProcessInfo(title, appId, nextActivity) {
 	};
 	
 	var ajax = new AjaxUtil(processHandlerUrl);
-	ajax.request(params, true);
+	ajax.request(params, true, null, function(){
+		window.close();
+	});
 }
 

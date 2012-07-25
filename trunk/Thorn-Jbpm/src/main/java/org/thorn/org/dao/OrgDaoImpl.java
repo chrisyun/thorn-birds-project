@@ -69,7 +69,7 @@ public class OrgDaoImpl implements IOrgDao {
 
 	public Org queryParent(Map<String, Object> filter) throws DBAccessException {
 		try {
-			return (Org) sqlSessionTemplate.selectList(nameSpace
+			return (Org) sqlSessionTemplate.selectOne(nameSpace
 					+ "selectParent", filter);
 		} catch (Exception e) {
 			throw new DBAccessException("OrgDaoImpl", "queryParent", e);

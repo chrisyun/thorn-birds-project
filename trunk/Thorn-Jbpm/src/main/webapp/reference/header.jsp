@@ -89,7 +89,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <script type="text/javascript" src="<%=path %>/plugins/local/windowUtils.js" ></script>
         <script type="text/javascript" src="<%=path %>/plugins/local/gridUtils.js" ></script>
         <script type="text/javascript" src="<%=path %>/plugins/local/formUtils.js" ></script>
-        
+        <div id="userEscape" style="display: none;"></div>
         
         <script type="text/javascript">
         	document.getElementById('loading-msg').innerHTML = 'Initializing...';
@@ -104,13 +104,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					userName 	: "<sec:authentication property="principal.user.userName" />",
 					cumail 		: "<sec:authentication property="principal.user.cumail" />",
 					phone 		: "<sec:authentication property="principal.user.phone" />"
-				}
+				};
 				
 				var yesOrNo = <thorn:dd  typeId="YESORNO" />;
 				
 				var yesOrNoRender = function(status) {
 					return Render.dictRender(yesOrNo, status);
 				};
+				
+				for ( var attr in user) {
+					Ext.getDom("userEscape").innerHTML = user[attr];
+					user[attr] = Ext.getDom("userEscape").innerHTML;
+				}
         </script>
 	
 	

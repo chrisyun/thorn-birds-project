@@ -28,13 +28,18 @@ function startProcessHandler() {
 		
 		var opType = Configuration.opType.SAVE;
 		
-		if (processInfo.pid != "" || !Ext.isEmpty(myForm.findById("id").getValue())) {
+		if (processInfo.pid != "" && !Ext.isEmpty(myForm.findById("id").getValue())) {
 			opType = Configuration.opType.MODIFY;
 		}
 		
 		var ajax = new AjaxUtil(saveOrModifyUrl);
 		ajax.submit(myForm.getForm(), {opType : opType}, true, myForm,
 			function(scope, appId) {
+				if(Ext.isEmpty(appId) || appId == "") {
+					Ext.Msg.alert("提示信息", "表单信息保存失败!");
+					return ;
+				}
+			
 				myForm.findById("id").setValue(appId);
 				submitProcessInfo(processInfo.title, appId, name);
 			});

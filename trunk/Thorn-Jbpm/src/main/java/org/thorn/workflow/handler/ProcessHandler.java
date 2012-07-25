@@ -91,13 +91,13 @@ public abstract class ProcessHandler {
 		// 计算下一环节处理人
 		Participator pp = ppService.queryParticipator(nextActivity, flowKey);
 
-		putNextActivityPp(pp, variable);
+		putNextActivityPp(pp, taskId, variable);
 
 		executeCustomHandlerBefore(parameters, request, variable);
 
 		// 是否按照默认的执行
 		if (completeTaskHook()) {
-			if (StringUtils.isNotBlank(nextStep)) {
+			if (!StringUtils.isNotBlank(nextStep)) {
 				taskService.completeTask(taskId, variable);
 			} else {
 				taskService.completeTask(taskId, nextStep, variable);
@@ -137,7 +137,8 @@ public abstract class ProcessHandler {
 		// ActivityImpl curActivity = execu.getActivity();
 		ProcessDefinitionImpl dfImpl = (ProcessDefinitionImpl) repository
 				.createProcessDefinitionQuery()
-				.processDefinitionId(inst.getProcessDefinitionId()).uniqueResult();
+				.processDefinitionId(inst.getProcessDefinitionId())
+				.uniqueResult();
 
 		ActivityImpl curActivity = dfImpl.findActivity(task.getName());
 
@@ -193,7 +194,7 @@ public abstract class ProcessHandler {
 		// return outgoingNames;
 	}
 
-	protected void putNextActivityPp(Participator pp,
+	protected void putNextActivityPp(Participator pp, String taskId,
 			Map<String, Object> variable) throws DBAccessException {
 
 		if (pp == null) {
@@ -205,6 +206,13 @@ public abstract class ProcessHandler {
 		String limit = pp.getLimitType();
 		String limitCode = "";
 		User user = SecurityUserUtils.getCurrentUser();
+
+		String lastActor = (String) taskService.getVariable(taskId,
+				pp.getVariable());
+
+		if (StringUtils.isNotBlank(lastActor)) {
+			return;
+		}
 
 		if (StringUtils.equals(pp.getVariableType(),
 				WorkflowConfiguration.PP_GROUP)) {
@@ -290,7 +298,8 @@ public abstract class ProcessHandler {
 			// 随机选一个人出来
 			if (users != null && users.size() > 0) {
 				variable.put(pp.getVariable(),
-						users.get(RandomUtils.nextInt(users.size())));
+						users.get(RandomUtils.nextInt(users.size()))
+								.getUserId());
 			} else {
 				throw new HandlerException("No handler was found in "
 						+ pp.getActivityId());
