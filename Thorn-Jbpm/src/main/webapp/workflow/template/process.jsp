@@ -11,7 +11,7 @@
 	String creater = LocalStringUtils.defaultString((String) request.getAttribute("creater"));
 	
 	String taskId = LocalStringUtils.defaultString((String) request.getAttribute("taskId"));
-	String pid = LocalStringUtils.defaultString((String) request.getAttribute("pid"));
+	String pid = LocalStringUtils.defaultString((String) request.getAttribute("appId"));
 	String title = LocalStringUtils.defaultString((String) request.getAttribute("title"));
 	String openType = LocalStringUtils.defaultString((String) request.getAttribute("openType"));
 	String activityName = LocalStringUtils.defaultString((String) request.getAttribute("activityName"));
