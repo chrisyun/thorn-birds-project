@@ -12,6 +12,7 @@
 	
 	String taskId = LocalStringUtils.defaultString((String) request.getAttribute("taskId"));
 	String pid = LocalStringUtils.defaultString((String) request.getAttribute("appId"));
+	String flowAtts = LocalStringUtils.defaultString((String) request.getAttribute("flowAtts"));
 	String title = LocalStringUtils.defaultString((String) request.getAttribute("title"));
 	String openType = LocalStringUtils.defaultString((String) request.getAttribute("openType"));
 	String activityName = LocalStringUtils.defaultString((String) request.getAttribute("activityName"));
@@ -20,8 +21,12 @@
 	Set<String> nextStep = (Set<String>) request.getAttribute("nextStep");
 %>
 
+<script type="text/javascript" src="<%=path %>/plugins/ext-3.2.1/ux/FileUploadField.js"></script>
+<script type="text/javascript" src="<%=path %>/plugins/ext-3.2.1/ux/MultiSelect.js"></script>
+<script type="text/javascript" src="<%=path %>/plugins/local/uploadUtils.js"></script>
 <script type="text/javascript" src="<%=path %>/plugins/workflow/processCommon.js"></script>
 <script type="text/javascript" src="<%=path %>/workflow/template/process.js"></script>
+
 <script type="text/javascript">
 
 	document.title = "Workflow - Process";
@@ -56,6 +61,7 @@
 		contentPage : "<%=contentPage %>",
 		title : "<%=title%>",
 		pid : "<%=pid%>",
+		flowAtts : "<%=flowAtts%>",
 		openType : "<%=openType%>"
 	};
 	

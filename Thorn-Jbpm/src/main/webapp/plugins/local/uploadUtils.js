@@ -198,7 +198,7 @@ UploadUtil.prototype.initShowPanel = function(attrObj, ids) {
 	}
 
 	return this.showPanel;
-}
+};
 
 UploadUtil.prototype.show = function(title) {
 	this.uploadWin.show();
@@ -211,7 +211,7 @@ UploadUtil.prototype.show = function(title) {
 	}
 	
 	
-}
+};
 
 UploadUtil.prototype.addAtt = function(att) {
 	var hiddenIds = this.uploadForm.findById(this.id + "_ids").getValue();
@@ -227,7 +227,7 @@ UploadUtil.prototype.addAtt = function(att) {
 	// 向下拉列表中添加数据
 	var store = this.selectPanel.findById(this.id + "_multiSel").store;
 	store.loadData( [ [ att.id, att.name ] ], true);
-}
+};
 
 UploadUtil.prototype.removeAtt = function(id) {
 	var hiddenIds = this.uploadForm.findById(this.id + "_ids").getValue();
@@ -237,12 +237,12 @@ UploadUtil.prototype.removeAtt = function(id) {
 
 	Ext.getDom(this.id + "_" + id).innerHTML = "";
 	Ext.getDom(this.id + "_" + id).removeNode();
-}
+};
 
 UploadUtil.prototype.getUploadAttIds = function() {
 	return this.uploadForm.findById(this.id + "_ids").getValue();
-}
+};
 
 function getDownloadUrl(att) {
 	return downloadUrl + "?id=" + att.id;
-}
+};

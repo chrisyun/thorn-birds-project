@@ -16,7 +16,6 @@ import org.jbpm.api.ProcessInstance;
 import org.jbpm.api.RepositoryService;
 import org.jbpm.api.TaskService;
 import org.jbpm.pvm.internal.model.ActivityImpl;
-import org.jbpm.pvm.internal.model.ExecutionImpl;
 import org.jbpm.pvm.internal.model.ProcessDefinitionImpl;
 import org.jbpm.pvm.internal.model.TransitionImpl;
 import org.jbpm.pvm.internal.task.TaskImpl;
@@ -80,9 +79,12 @@ public abstract class ProcessHandler {
 		String nextStep = (String) parameters.get("nextStep");
 		String flowKey = (String) parameters.get("flowKey");
 
+		String flowAtts = (String) parameters.get("flowAtts");
+		variable.put("flowAtts", flowAtts);
+		
 		String appId = (String) parameters.get("appId");
 		variable.put("appId", appId);
-
+		
 		String title = (String) parameters.get("title");
 		variable.put("title", title);
 

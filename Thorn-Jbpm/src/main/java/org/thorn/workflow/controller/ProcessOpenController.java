@@ -97,6 +97,7 @@ public class ProcessOpenController extends BaseController {
 		variable.add("title");
 		variable.add("creater");
 		variable.add("flowKey");
+		variable.add("flowAtts");
 		
 		Map<String, Object> parameters = taskService.getVariables(taskId, variable);
 		
@@ -110,6 +111,7 @@ public class ProcessOpenController extends BaseController {
 		model.put("creater", parameters.get("creater"));
 		model.put("appId", parameters.get("appId"));
 		model.put("title", parameters.get("title"));
+		model.put("flowAtts", parameters.get("flowAtts"));
 		model.put("nextStep", nextStep);
 		model.put("openType", "todo");
 		

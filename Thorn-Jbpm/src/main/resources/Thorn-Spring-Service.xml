@@ -41,11 +41,11 @@
 	<bean id="logService" class="org.thorn.log.service.AppLogServiceImpl" />
 	
 	<bean id="attDao" class="org.thorn.attachment.dao.AttachmentDaoImpl" />
-	<!-- <bean id="attService" class="org.thorn.attachment.service.AttachmentDBServiceImpl" /> -->
-	<bean id="attService" class="org.thorn.attachment.service.AttachmentLocalServiceImpl">
+	<bean id="attService" class="org.thorn.attachment.service.AttachmentDBServiceImpl" />
+	<!-- <bean id="attService" class="org.thorn.attachment.service.AttachmentLocalServiceImpl">
 		<property name="savePath" value="D:\eclipseSpace\Thorn-Web\src\main\webapp\upload\attach" />
 		<property name="httpPath" value="http://localhost:8080/Thorn-Web/upload/attach" />
-	</bean>
+	</bean> -->
 	
 	<bean id="mailConfigListener" class="org.thorn.configurator.listeners.MailConfiguratorListener">
 		<property name="configName" value="mail-config.xml"/>
