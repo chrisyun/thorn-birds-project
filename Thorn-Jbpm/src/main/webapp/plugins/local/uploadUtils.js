@@ -201,6 +201,7 @@ UploadUtil.prototype.initShowPanel = function(attrObj, ids) {
 };
 
 UploadUtil.prototype.show = function(title) {
+	this.uploadWin.setTitle(title);
 	this.uploadWin.show();
 	if(this.type == "read") {
 		var multiSel = this.selectPanel.findById(this.id + "_multiSel");

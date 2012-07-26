@@ -3,6 +3,8 @@ var todoOpenUrl = sys.path + "/wf/cm/openTodoProcess.jmt";
 
 var pageSize = 20;
 
+var onSubmitQueryHandler;
+
 Ext.onReady(function() {
 	Ext.QuickTips.init();
 
@@ -54,8 +56,7 @@ Ext.onReady(function() {
 	var grid = todo_grid.getGrid();
 	var store = todo_grid.getStore();
 
-
-	function onSubmitQueryHandler() {
+	onSubmitQueryHandler = function() {
 		var flowKey = Ext.getCmp("show_query_flowKey").getValue();
 
 		store.baseParams.flowKey = flowKey;
@@ -66,7 +67,7 @@ Ext.onReady(function() {
 						limit : todo_grid.pageSize
 					}
 				});
-	}
+	};
 
 	var viewport = new Ext.Viewport({
 				border : false,
@@ -77,3 +78,7 @@ Ext.onReady(function() {
 	onSubmitQueryHandler();
 	completePage();
 });
+
+function refreshGrid() {
+	onSubmitQueryHandler();
+}

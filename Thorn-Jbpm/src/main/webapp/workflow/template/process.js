@@ -53,8 +53,9 @@ Ext.onReady(function() {
 	barArray.push({
 		text : "上传附件",
 		minWidth : Configuration.minBtnWidth,
-		scope : upload,
-		handler : upload.show
+		handler : function() {
+			upload.show("上传附件");
+		}
 	});
 	barArray.push("-");
 	barArray.push({
@@ -72,7 +73,6 @@ Ext.onReady(function() {
 	        	  if(buttonId == "cancel") {
 	        		  return ;
 	        	  }
-				  
 	        	  cancelProcessInst(processInfo.flowInstId, text,closeThisWindow);
 	           }
 	       });
@@ -181,6 +181,9 @@ function submitProcessInfo(title, appId, nextActivity) {
 }
 
 function closeThisWindow() {
+	try {
+		window.opener.refreshGrid();
+	} catch(e) {alert(e);}
 	window.close();
 }
 
