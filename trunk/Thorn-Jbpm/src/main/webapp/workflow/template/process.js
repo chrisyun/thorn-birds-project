@@ -1,4 +1,4 @@
-var tpanel,contentPanel,bPanel,viewport;
+var tpanel,contentPanel,bPanel,viewport,upload;
 var processHandlerUrl = sys.path + "/wf/cm/handlerTask.jmt";
 
 Ext.onReady(function() {
@@ -24,27 +24,61 @@ Ext.onReady(function() {
 		processInfo.openType);
 	
 	var processImage = new ProcessImage();
-	function instanceImageHandler() {
-		processImage.show("inst", processInfo.flowInstId);
+	
+	var attViewType = "edit";
+	if(processInfo.openType != "create" 
+		&& processInfo.openType != "todo") {
+		attViewType = "read";
 	}
+	upload = new UploadUtil("flowAtt", attViewType);
 	
-	
-	tpanel = new Ext.Panel({
-		height : 100,
-		split : true,
-		region : "north",
-		tbar : ["-", {
-			text : "流程图",
-			minWidth : Configuration.minBtnWidth,
-			handler : instanceImageHandler
-		}, "-", {
-			text : "流程意见",
-			minWidth : Configuration.minBtnWidth,
-			scope : mindsCls,
-			handler : mindsCls.show
-		}],
-		html : thtml
+	var barArray = new Array();
+	barArray.push("-");
+	barArray.push({
+		text : "流程图",
+		minWidth : Configuration.minBtnWidth,
+		scope : processImage,
+		handler : function() {
+			processImage.show("inst", processInfo.flowInstId);
+		}
 	});
+	barArray.push("-");
+	barArray.push({
+		text : "流程意见",
+		minWidth : Configuration.minBtnWidth,
+		scope : mindsCls,
+		handler : mindsCls.show
+	});
+	barArray.push("-");
+	barArray.push({
+		text : "上传附件",
+		minWidth : Configuration.minBtnWidth,
+		scope : upload,
+		handler : upload.show
+	});
+	barArray.push("-");
+	barArray.push({
+		text : "作废流程",
+		minWidth : Configuration.minBtnWidth,
+		handler : function() {
+			Ext.MessageBox.show({
+	           title: '流程作废',
+	           msg: '请输入作废原因：',
+	           width:350,
+	           buttons: Ext.MessageBox.OKCANCEL,
+	           multiline: true,
+	           icon: Ext.MessageBox.INFO,
+	           fn: function(buttonId, text) {
+	        	  if(buttonId == "cancel") {
+	        		  return ;
+	        	  }
+				  
+	        	  cancelProcessInst(processInfo.flowInstId, text,closeThisWindow);
+	           }
+	       });
+		}
+	});
+	barArray.push("-");
 	
 	var loadingUrl = sys.path + "/resources/images/local/waiting.gif";
 	var html = "<table width=\"100%\" height=\"100%\" id='pageLoading'>" +
@@ -55,6 +89,14 @@ Ext.onReady(function() {
 					"</td>" + 
 				"</tr></table>";
 	
+	tpanel = new Ext.Panel({
+		height : 100,
+		split : true,
+		region : "north",
+		tbar : barArray,
+		html : thtml
+	});
+	
 	contentPanel = new Ext.Panel({
 		split : true,
 		layout : "fit",
@@ -62,14 +104,15 @@ Ext.onReady(function() {
 		html : html
 	});
 	
-	bPanel = new Ext.Panel({
+	bPanel = upload.initShowPanel({
 		title : "附件信息",
 		split : true,
+		autoHeight : false,
+		autoWidth : false,
 		region : "south",
 		collapsible : true,
 		height : 100,
-		html : ""
-	});
+	}, processInfo.flowAtts);
 	
 	viewport = new Ext.Viewport({
 		border : false,
@@ -94,7 +137,7 @@ Ext.onReady(function() {
 		alert(e);
 	}
 	
-	// 非新建和待办打开，将所有的空间置为disabled
+	// 非新建和待办打开，将所有的控件置为disabled
 	if(processInfo.openType != "create" 
 		&& processInfo.openType != "todo") {
 		contentPanel.findByType("textfield").disable();
@@ -127,12 +170,17 @@ function submitProcessInfo(title, appId, nextActivity) {
 		title : title,
 		outcome : nextActivity,
 		flowInstId : processInfo.flowInstId,
+		flowAtts : upload.getgetUploadAttIds(),
 		flowKey : processInfo.flowKey
 	};
 	
 	var ajax = new AjaxUtil(processHandlerUrl);
 	ajax.request(params, true, null, function(){
-		window.close();
+		closeThisWindow();
 	});
+}
+
+function closeThisWindow() {
+	window.close();
 }
 

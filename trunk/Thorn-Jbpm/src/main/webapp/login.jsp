@@ -170,7 +170,7 @@ body {
 
 	function refresh() {
 		Ext.getDom("authImage").src = authCodeUrl + "?radom=" + Math.random();
-	}
+	};
 
 </script>
 <jsp:include page="reference/footer.jsp"></jsp:include>

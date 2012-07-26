@@ -51,8 +51,9 @@ public class HandlerController extends BaseController {
 	 */
 	@RequestMapping("/handlerTask")
 	@ResponseBody
-	public Status handlerTask(HttpServletRequest request, String taskId, String appId,
-			String title, String outcome, String flowInstId, String flowKey) {
+	public Status handlerTask(HttpServletRequest request, String taskId,
+			String appId, String title, String outcome, String flowInstId,
+			String flowKey, String flowAtts) {
 		Status status = new Status();
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
@@ -62,6 +63,7 @@ public class HandlerController extends BaseController {
 		parameters.put("flowInstId", flowInstId);
 		parameters.put("flowKey", flowKey);
 		parameters.put("appId", appId);
+		parameters.put("flowAtts", flowAtts);
 
 		ProcessHandler handler = CustomHandlerFactory
 				.getProcessHandlerByDefault(flowKey);
@@ -81,21 +83,21 @@ public class HandlerController extends BaseController {
 
 		return status;
 	}
-	
+
 	@RequestMapping("/getNextActivities")
 	@ResponseBody
-	public JsonResponse<Set<String>> getNextActivities(String taskId, String flowKey) {
-		
+	public JsonResponse<Set<String>> getNextActivities(String taskId,
+			String flowKey) {
+
 		JsonResponse<Set<String>> json = new JsonResponse<Set<String>>();
-		
+
 		ProcessHandler handler = CustomHandlerFactory
-			.getProcessHandlerByDefault(flowKey);
-		
+				.getProcessHandlerByDefault(flowKey);
+
 		Set<String> lines = handler.getNextActivityLines(taskId);
 		json.setObj(lines);
-		
+
 		return json;
 	}
-	
 
 }
