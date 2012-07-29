@@ -53,7 +53,7 @@ public class ParticipatorServiceImpl implements IParticipatorService {
 		filter.put(Configuration.PAGE_START, start);
 
 		if (LocalStringUtils.isEmpty(sort)) {
-			filter.put(Configuration.SROT_NAME, "PRCESSDFID");
+			filter.put(Configuration.SROT_NAME, "PROCESSDFID");
 			filter.put(Configuration.ORDER_NAME, Configuration.ORDER_ASC);
 		} else {
 			filter.put(Configuration.SROT_NAME, sort);

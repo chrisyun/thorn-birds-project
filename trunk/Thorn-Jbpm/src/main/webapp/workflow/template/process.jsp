@@ -10,6 +10,7 @@
 	String flowInstId = LocalStringUtils.defaultString((String) request.getAttribute("flowInstId"));
 	String creater = LocalStringUtils.defaultString((String) request.getAttribute("creater"));
 	
+	String pageAuth = LocalStringUtils.defaultString((String) request.getAttribute("pageAuth"));
 	String taskId = LocalStringUtils.defaultString((String) request.getAttribute("taskId"));
 	String pid = LocalStringUtils.defaultString((String) request.getAttribute("appId"));
 	String flowAtts = LocalStringUtils.defaultString((String) request.getAttribute("flowAtts"));
@@ -50,6 +51,11 @@
 		return key;
 	};
 	
+	var pageAuthDD = <thorn:dd  typeId="PAGE_AUTH" />;
+	var pageAuthRender = function(str) {
+		return Render.dictRender(pageAuthDD, str);
+	};
+	
 	var processInfo = {
 		flowKey : "<%=flowKey %>",
 		flowName : wfNameRender("<%=flowKey %>"),
@@ -62,6 +68,7 @@
 		title : "<%=title%>",
 		pid : "<%=pid%>",
 		flowAtts : "<%=flowAtts%>",
+		pageAuth : "<%=pageAuth%>",
 		openType : "<%=openType%>"
 	};
 	

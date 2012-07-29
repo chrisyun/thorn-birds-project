@@ -27,9 +27,9 @@
 	var areaDD = <thorn:dd  typeId="AREA" />;
 	
 	var userPermission = {
-		SAVE : '<sec:authorize url="/wf/pp/saveOrModifyPermission.jmt">true</sec:authorize>',
-		MODIFY : '<sec:authorize url="/wf/pp/saveOrModifyPermission.jmt">true</sec:authorize>',
-		REMOVE : '<sec:authorize url="/wf/pp/deletePermission.jmt">true</sec:authorize>'
+		SAVE : '<sec:authorize url="/wf/pp/saveOrModifyParticipator.jmt">true</sec:authorize>',
+		MODIFY : '<sec:authorize url="/wf/pp/saveOrModifyParticipator.jmt">true</sec:authorize>',
+		REMOVE : '<sec:authorize url="/wf/pp/deleteParticipator.jmt">true</sec:authorize>'
 	}
 	
 </script>

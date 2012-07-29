@@ -10,7 +10,7 @@
 		type="org.thorn.workflow.entity.Participator">
 		<id column="ID" property="id" jdbcType="DECIMAL" />
 		<result column="ACTIVITYID" property="activityId" jdbcType="VARCHAR" />
-		<result column="PRCESSDFID" property="processDfId" jdbcType="VARCHAR" />
+		<result column="PROCESSDFID" property="processDfId" jdbcType="VARCHAR" />
 		<result column="ENTITYTYPE" property="entityType" jdbcType="VARCHAR" />
 		<result column="ENTITY" property="entity" jdbcType="VARCHAR" />
 		<result column="LIMITTYPE" property="limitType" jdbcType="VARCHAR" />
@@ -19,7 +19,7 @@
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		ID,ACTIVITYID, PRCESSDFID, ENTITYTYPE,
+		ID,ACTIVITYID, PROCESSDFID, ENTITYTYPE,
 		LIMITTYPE,VARIABLE, ENTITY,VARIABLETYPE
   	</sql>
 
@@ -29,14 +29,14 @@
 				AND ACTIVITYID = #{activityId,jdbcType=VARCHAR}
       		</if>
       		<if test="keys != null">
-      			AND PRCESSDFID in
+      			AND PROCESSDFID in
 	      		<foreach collection="keys" item="item" open="(" close=")"
 					separator=",">
 					#{item,jdbcType=VARCHAR}
 				</foreach>
       		</if>
 			<if test="processDfId != null and processDfId != ''">
-				AND PRCESSDFID = #{processDfId,jdbcType=VARCHAR}
+				AND PROCESSDFID = #{processDfId,jdbcType=VARCHAR}
       		</if>
 			<if test="entityType != null and entityType != ''">
 				AND ENTITYTYPE = #{entityType,jdbcType=VARCHAR}
@@ -52,7 +52,7 @@
 		insert into JBPM4_EXTEND_PARTICIPATOR
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="activityId != null and activityId != ''">ACTIVITYID,</if>
-			<if test="processDfId != null and processDfId != ''">PRCESSDFID,</if>
+			<if test="processDfId != null and processDfId != ''">PROCESSDFID,</if>
 			<if test="entityType != null and entityType != ''">ENTITYTYPE,</if>
 			<if test="entity != null and entity != ''">ENTITY,</if>
 			<if test="limitType != null and limitType != ''">LIMITTYPE,</if>
@@ -73,7 +73,7 @@
 		update JBPM4_EXTEND_PARTICIPATOR
 		<set>
 			<if test="activityId != null and activityId != ''">ACTIVITYID = #{activityId,jdbcType=VARCHAR},</if>
-			<if test="processDfId != null and processDfId != ''">PRCESSDFID = #{processDfId,jdbcType=VARCHAR},</if>
+			<if test="processDfId != null and processDfId != ''">PROCESSDFID = #{processDfId,jdbcType=VARCHAR},</if>
 			<if test="entityType != null and entityType != ''">ENTITYTYPE = #{entityType,jdbcType=VARCHAR},</if>
 			<if test="entity != null and entity != ''">ENTITY = #{entity,jdbcType=VARCHAR},</if>
 			<if test="limitType != null and limitType != ''">LIMITTYPE = #{limitType,jdbcType=VARCHAR},</if>

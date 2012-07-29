@@ -13,6 +13,9 @@
 	<bean id="participatorDao" class="org.thorn.workflow.dao.ParticipatorDaoImpl" />
 	<bean id="participatorService" class="org.thorn.workflow.service.ParticipatorServiceImpl" />
 	
+	<bean id="pageAuthDao" class="org.thorn.workflow.dao.PageAuthDaoImpl" />
+	<bean id="pageAuthService" class="org.thorn.workflow.service.PageAuthServiceImpl" />
+	
 	<bean id="flowTypeDao" class="org.thorn.workflow.dao.FlowTypeDaoImpl" />
 	<bean id="flowTypeService" class="org.thorn.workflow.service.FlowTypeServiceImpl" />
 	
