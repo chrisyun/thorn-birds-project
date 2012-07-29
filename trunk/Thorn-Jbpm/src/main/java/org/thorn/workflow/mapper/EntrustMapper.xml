@@ -18,13 +18,13 @@
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		e.ID,USERID,e.PROCESSDFID,e.ENTRUSTER,e.ENTRUSTERNAME,e.BEGINDATE,e.ENDDATE
+		e.ID,e.USERID,e.PROCESSDFID,e.ENTRUSTER,e.ENTRUSTERNAME,e.BEGINDATE,e.ENDDATE
   	</sql>
 
 	<sql id="Where_Clause">
 		<where>
 			<if test="beginDate != null and beginDate != ''">
-				AND e.BEGINDATE &gt;= #{beginDate,jdbcType=VARCHAR}
+				AND e.BEGINDATE &lt;= #{beginDate,jdbcType=VARCHAR}
       		</if>
       		<if test="endDate != null and endDate != ''">
 				AND e.ENDDATE >= #{endDate,jdbcType=VARCHAR}
@@ -77,12 +77,17 @@
 
 	<select id="selectList" resultMap="BaseResultMap" parameterType="hashmap">
 		select
-		<include refid="Base_Column_List" />
+		e.ID,e.USERID,f.FLOWKEY as PROCESSDFID,e.ENTRUSTER,e.ENTRUSTERNAME,e.BEGINDATE,e.ENDDATE 
 		from JBPM4_EXTEND_FLOWTYPE f 
 		left join 
-		(select * from JBPM4_EXTEND_ENTRUST where e.USERID = #{userId,jdbcType=VARCHAR}) e 
+		(select * from JBPM4_EXTEND_ENTRUST 
+		where USERID = #{userId,jdbcType=VARCHAR} ) e 
 		on f.FLOWKEY = e.processDfId 
-		<include refid="Where_Clause" />
+		<where>
+			<if test="processDfId != null and processDfId != ''">
+				AND f.FLOWKEY = #{processDfId,jdbcType=VARCHAR}
+      		</if>
+		</where>
 		<include refid="MySQLCommonMapper.sortInfo" />
 	</select>
 	

@@ -19,5 +19,9 @@
 		REMOVE : '<sec:authorize url="/wf/pa/deletePageAuth.jmt">true</sec:authorize>'
 	};
 	
+	var wfNameDD = <thorn:getWfCNName />;
+	var wfNameRender = function(str) {
+		return Render.dictRender(wfNameDD, str);
+	};
 </script>
 <jsp:include page="../../reference/footer.jsp"></jsp:include>

@@ -20,7 +20,7 @@ Ext.onReady(function() {
 
 	var query_form = new FormUtil(query_attr);
 
-	query_form.addComp(getText("query_processDfId", "流程定义ID", 120), 0.2, true);
+	query_form.addComp(getComboBox("query_processDfId", "流程名称", 160, wfNameDD, false), 0.3, true);
 	query_form.addComp(getText("query_activityId", "环节名称", 120), 0.2, true);
 	query_form.addComp(getQueryBtn(onSubmitQueryHandler), 0.2, true);
 	/** ****************query panel end*************** */
@@ -37,6 +37,7 @@ Ext.onReady(function() {
 	
 	var recordArray = [
 			getRecord(null, "id", "string"),
+			getRecord("流程名称", "processDfId", "string", 150, false, wfNameRender),
 			getRecord("流程定义ID", "processDfId", "string", 100, true),
 			getRecord("环节名称", "activityId", "string", 100, false),
 			getRecord("页面权限", "auth", "string", 500, false, msgRender)];
@@ -72,7 +73,7 @@ Ext.onReady(function() {
 				border : false
 			});
 	
-	pa_form.addComp(getText("processDfId", "流程定义ID", 180), 0.5, false);		
+	pa_form.addComp(getComboBox("processDfId", "流程名称", 180, wfNameDD, false), 0.5, false);			
 	pa_form.addComp(getText("activityId", "环节名称", 180), 0.5, false);	
 	pa_form.addComp(getTextArea("auth", "页面权限", 420, 80), 0.9, false);	
 	pa_form.addComp(getButton({
@@ -227,7 +228,7 @@ Ext.onReady(function() {
 	function onSubmitQueryHandler() {
 
 		var activityId = Ext.getCmp("query_activityId").getValue();
-		var processDfId = Ext.getCmp("query_processDfId").getValue();
+		var processDfId = Ext.getCmp("show_query_processDfId").getValue();
 
 		store.baseParams.activityId = activityId;
 		store.baseParams.processDfId = processDfId;

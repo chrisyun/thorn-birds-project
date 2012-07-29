@@ -3,15 +3,10 @@
 <%@ taglib prefix="thorn" uri="/thorn"%>
 <jsp:include page="/springTag/header.jmt"></jsp:include>
 
-<script type="text/javascript" src="processTodo.js"></script>
+<script type="text/javascript" src="entrust.js"></script>
 <script type="text/javascript">
 
-	document.title = "Workflow - ProcessTodo";
-	
-	var flowTypeDD = <thorn:dd  typeId="FLOW_TYPE" />;
-	var flowTypeRender = function(str) {
-		return Render.dictRender(flowTypeDD, str);
-	};
+	document.title = "Workflow - Entrust";
 	
 	var wfNameDD = <thorn:getWfCNName />;
 	var wfNameRender = function(str) {

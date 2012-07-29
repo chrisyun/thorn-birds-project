@@ -18,7 +18,7 @@ Ext.onReady(function() {
 
 	var query_form = new FormUtil(query_attr);
 
-	query_form.addComp(getComboBox("query_flowKey", "流程类型", 300, wfNameDD, false),
+	query_form.addComp(getComboBox("query_flowKey", "流程名称", 300, wfNameDD, false),
 			0.6, true);
 	query_form.addComp(getQueryBtn(onSubmitQueryHandler), 0.4, true);
 	/** ****************query panel end*************** */
@@ -32,15 +32,15 @@ Ext.onReady(function() {
 		return link;
 	};
 	
-	
 	var recordArray = [
 			getRecord(null, "taskId", "string"),
 			getRecord(null, "flowKey", "string"),
 			getRecord(null, "flowInstId", "string"),
-			getRecord("标题", "title", "string", 300, false, openRender),
+			getRecord("流程名称", "flowKey", "string", 150, false, wfNameRender),
+			getRecord("标题", "title", "string", 200, false, openRender),
 			getRecord("当前环节", "activityName", "string", 150, true),
 			getRecord("发送人", "sender", "string", 70, true),
-			getRecord("接收时间", "receiptTime", "string", 70, true),
+			getRecord("接收时间", "receiptTime", "string", 100, true),
 			getRecord("优先级", "priority", "string", 70, true)];
 	var todo_grid = new GridUtil(todoPageUrl, recordArray, pageSize);
 				

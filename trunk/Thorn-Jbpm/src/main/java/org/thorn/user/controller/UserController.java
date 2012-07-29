@@ -1,5 +1,8 @@
 package org.thorn.user.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
 import org.thorn.web.entity.Page;
 import org.thorn.dao.exception.DBAccessException;
+import org.thorn.security.SecurityUserUtils;
 import org.thorn.security.entity.UserSecurity;
 import org.thorn.user.entity.User;
 import org.thorn.user.service.IUserService;
@@ -39,7 +43,7 @@ public class UserController extends BaseController {
 	@Autowired
 	@Qualifier("authService")
 	private IAuthService authService;
-	
+
 	@RequestMapping("/saveOrModifyUser")
 	@ResponseBody
 	public Status saveOrModifyUser(User user, String opType) {
@@ -184,8 +188,8 @@ public class UserController extends BaseController {
 		Page<User> page = new Page<User>();
 
 		try {
-			page = authService.queryPageNotInRole(orgCode, roleCode, start, limit,
-					sort, dir);
+			page = authService.queryPageNotInRole(orgCode, roleCode, start,
+					limit, sort, dir);
 		} catch (DBAccessException e) {
 			log.error("getUserPageNotInRole[User] - " + e.getMessage(), e);
 		}
@@ -209,7 +213,7 @@ public class UserController extends BaseController {
 
 		return status;
 	}
-	
+
 	@RequestMapping("/saveRoleByUser")
 	@ResponseBody
 	public Status saveRoleByUser(String roleCodes, String userId) {
@@ -226,7 +230,6 @@ public class UserController extends BaseController {
 
 		return status;
 	}
-	
 
 	@RequestMapping("/deleteUserRole")
 	@ResponseBody
@@ -243,6 +246,22 @@ public class UserController extends BaseController {
 		}
 
 		return status;
+	}
+
+	@RequestMapping("/getUsersInSameOrg")
+	@ResponseBody
+	public List<User> getUsersInSameOrg() {
+		List<User> list = new ArrayList<User>();
+
+		try {
+			User user = SecurityUserUtils.getCurrentUser();
+			list = service.queryList(user.getOrgCode(), null, null, null, null,
+					null, null);
+		} catch (DBAccessException e) {
+			log.error("getUsersInSameOrg[User] - " + e.getMessage(), e);
+		}
+
+		return list;
 	}
 
 }

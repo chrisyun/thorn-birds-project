@@ -16,6 +16,9 @@
 	<bean id="pageAuthDao" class="org.thorn.workflow.dao.PageAuthDaoImpl" />
 	<bean id="pageAuthService" class="org.thorn.workflow.service.PageAuthServiceImpl" />
 	
+	<bean id="entrustDao" class="org.thorn.workflow.dao.EntrustDaoImpl" />
+	<bean id="entrustService" class="org.thorn.workflow.service.EntrustServiceImpl" />
+	
 	<bean id="flowTypeDao" class="org.thorn.workflow.dao.FlowTypeDaoImpl" />
 	<bean id="flowTypeService" class="org.thorn.workflow.service.FlowTypeServiceImpl" />
 	
