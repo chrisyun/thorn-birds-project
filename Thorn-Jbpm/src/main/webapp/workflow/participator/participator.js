@@ -456,18 +456,23 @@ Ext.onReady(function() {
 	
 	function checkedAreaAndRoleHandler() {
 		var thisForm = role_form.getPanel();
-
+		
+		groupArray = "";
 		var checkedGroup = thisForm.findByType("checkbox");
 		for (var i = 0; i < checkedGroup.length; i++) {
 			var ck = checkedGroup[i];
-
-			if (ck.getValue() && groupArray.indexOf(ck.getId() + ",") < 0) {
+			
+			if(ck.getValue()) {
 				groupArray += ck.getId() + ",";
-			} else if (!ck.getValue()
-					&& groupArray.indexOf(ck.getId() + ",") >= 0) {
-				var tempArray = groupArray.split(ck.getId() + ",");
-				groupArray = tempArray[0] + tempArray[1];
 			}
+			
+//			if (ck.getValue() && groupArray.indexOf(ck.getId() + ",") < 0) {
+//				groupArray += ck.getId() + ",";
+//			} else if (!ck.getValue()
+//					&& groupArray.indexOf(ck.getId() + ",") >= 0) {
+//				var tempArray = groupArray.split(ck.getId() + ",");
+//				groupArray = tempArray[0] + tempArray[1];
+//			}
 		}
 
 		if (groupArray.length > 0) {

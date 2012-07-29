@@ -22,7 +22,7 @@ import org.thorn.workflow.entity.Participator;
 import org.thorn.workflow.service.IParticipatorService;
 
 /**
- * @ClassName: WfPermissionController
+ * @ClassName: ParticipatorController
  * @Description:
  * @author chenyun
  * @date 2012-6-21 下午03:16:54
@@ -47,17 +47,17 @@ public class ParticipatorController extends BaseController {
 
 	@RequestMapping("/saveOrModifyParticipator")
 	@ResponseBody
-	public Status saveOrModifyParticipator(Participator permission,
+	public Status saveOrModifyParticipator(Participator pp,
 			String opType) {
 		Status status = new Status();
 
 		try {
 
 			if (LocalStringUtils.equals(opType, Configuration.OP_SAVE)) {
-				participatorService.save(permission);
+				participatorService.save(pp);
 				status.setMessage("绑定环节参与者成功！");
 			} else if (LocalStringUtils.equals(opType, Configuration.OP_MODIFY)) {
-				participatorService.modify(permission);
+				participatorService.modify(pp);
 				status.setMessage("修改环节参与者成功！");
 			}
 

@@ -4,6 +4,9 @@ var processHandlerUrl = sys.path + "/wf/cm/handlerTask.jmt";
 Ext.onReady(function() {
 	Ext.QuickTips.init();
 	
+	var fn4Auth = [["UPLOAD",cancelProcessFn],
+	               ["UPLOAD",uploadFn]];
+	
 	var thtml = "<table width=\"100%\" height=\"100%\">" +
    					"<tr valign=\"middle\" height=\"60%\">" +
    						"<td align=\"center\" colspan=\"2\" id=\"title\" style=\"font-size: 18px;\"></td>" +
@@ -49,36 +52,43 @@ Ext.onReady(function() {
 		scope : mindsCls,
 		handler : mindsCls.show
 	});
-	barArray.push("-");
-	barArray.push({
-		text : "上传附件",
-		minWidth : Configuration.minBtnWidth,
-		handler : function() {
-			upload.show("上传附件");
+	
+	//根据权限显示按钮
+	for(var i = 0; i < fn4Auth.length; i++) {
+		if(processInfo.pageAuth.indexOf(fn4Auth[i][0]) >= 0) {
+			barArray.push("-");
+			barArray.push({
+				text : pageAuthRender(fn4Auth[i][0]),
+				minWidth : Configuration.minBtnWidth,
+				handler : fn4Auth[i][1]
+			});
 		}
-	});
+	}
+	
 	barArray.push("-");
-	barArray.push({
-		text : "作废流程",
-		minWidth : Configuration.minBtnWidth,
-		handler : function() {
-			Ext.MessageBox.show({
-	           title: '流程作废',
-	           msg: '请输入作废原因：',
-	           width:350,
-	           buttons: Ext.MessageBox.OKCANCEL,
-	           multiline: true,
-	           icon: Ext.MessageBox.INFO,
-	           fn: function(buttonId, text) {
-	        	  if(buttonId == "cancel") {
-	        		  return ;
-	        	  }
-	        	  cancelProcessInst(processInfo.flowInstId, text,closeThisWindow);
-	           }
-	       });
-		}
-	});
-	barArray.push("-");
+	
+	function cancelProcessFn() {
+		Ext.MessageBox.show({
+           title: '流程作废',
+           msg: '请输入作废原因：',
+           width:350,
+           buttons: Ext.MessageBox.OKCANCEL,
+           multiline: true,
+           icon: Ext.MessageBox.INFO,
+           fn: function(buttonId, text) {
+        	  if(buttonId == "cancel") {
+        		  return ;
+        	  }
+        	  cancelProcessInst(processInfo.flowInstId, text,closeThisWindow);
+           }
+       });
+	}
+	
+	function uploadFn() {
+		upload.show("上传附件");
+	}
+	
+	
 	
 	var loadingUrl = sys.path + "/resources/images/local/waiting.gif";
 	var html = "<table width=\"100%\" height=\"100%\" id='pageLoading'>" +
