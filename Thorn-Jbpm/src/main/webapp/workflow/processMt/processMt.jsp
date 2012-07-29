@@ -12,7 +12,7 @@
 	var userPermission = {
 		CANCEL : '<sec:authorize url="/wf/cm/cancelProcessInst.jmt">true</sec:authorize>',
 		DELETE : '<sec:authorize url="/wf/cm/deleteProcessInst.jmt">true</sec:authorize>'
-	}
+	};
 	
 </script>
 <jsp:include page="../../reference/footer.jsp"></jsp:include>

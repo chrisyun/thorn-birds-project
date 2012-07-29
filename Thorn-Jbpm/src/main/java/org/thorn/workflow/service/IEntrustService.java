@@ -20,7 +20,6 @@ public interface IEntrustService {
 	public void delete(String ids) throws DBAccessException;
 
 	public List<Entruster> queryList(String userId, String processDfId,
-			String beginDate, String endDate, long start, long limit,
 			String sort, String dir) throws DBAccessException;
 
 	public Entruster queryEntruster(String userId, String processDfId,

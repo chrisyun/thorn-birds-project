@@ -23,17 +23,18 @@ Ext.onReady(function() {
 
 	var query_form = new FormUtil(query_attr);
 
-	query_form.addComp(getText("query_processDfId", "流程定义ID", 120), 0.2, true);
+	query_form.addComp(getComboBox("query_processDfId", "流程名称", 160, wfNameDD, false), 0.23, true);
 	query_form.addComp(getText("query_activityId", "环节名称", 120), 0.2, true);
 	query_form.addComp(getComboBox("query_type", "参与者类型", 120, entityTypeDD,
 					false), 0.2, true);
 	query_form.addComp(getText("query_variable", "绑定变量名", 120), 0.2, true);
-	query_form.addComp(getQueryBtn(onSubmitQueryHandler), 0.2, true);
+	query_form.addComp(getQueryBtn(onSubmitQueryHandler), 0.17, true);
 	/** ****************query panel end*************** */
 
 	/** ****************participator Grid panel start************ */
 	var recordArray = [
 			getRecord(null, "id", "string"),
+			getRecord("流程名称", "processDfId", "string", 150, false, wfNameRender),
 			getRecord("流程定义ID", "processDfId", "string", 100, true),
 			getRecord("环节名称", "activityId", "string", 100, false),
 			getRecord("参与者类型", "entityType", "string", 70, true, entityTypeRender),
@@ -73,7 +74,7 @@ Ext.onReady(function() {
 				border : false
 			});
 	
-	pp_form.addComp(getText("processDfId", "流程定义ID", 180), 0.5, false);		
+	pp_form.addComp(getComboBox("processDfId", "流程名称", 180, wfNameDD, false), 0.5, false);		
 	pp_form.addComp(getText("activityId", "环节名称", 180), 0.5, false);	
 	pp_form.addComp(getComboBox("entityType", "参与者类型", 180, entityTypeDD, false), 0.5,
 			false);
@@ -363,7 +364,7 @@ Ext.onReady(function() {
 	function onSubmitQueryHandler() {
 
 		var activityId = Ext.getCmp("query_activityId").getValue();
-		var processDfId = Ext.getCmp("query_processDfId").getValue();
+		var processDfId = Ext.getCmp("show_query_processDfId").getValue();
 		var variable = Ext.getCmp("query_variable").getValue();
 		var entityType = Ext.getCmp("show_query_type").getValue();
 

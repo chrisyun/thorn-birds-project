@@ -31,22 +31,22 @@ import org.thorn.workflow.entity.TaskInfo;
 import org.thorn.workflow.service.IFlowTypeService;
 import org.thorn.workflow.service.IParticipatorService;
 
-/** 
- * @ClassName: ProcessListController 
- * @Description: 
+/**
+ * @ClassName: ProcessListController
+ * @Description:
  * @author chenyun
- * @date 2012-7-11 上午10:49:24 
+ * @date 2012-7-11 上午10:49:24
  */
 @Controller
 @RequestMapping("/wf/cm")
 public class ProcessListController extends BaseController {
-	
+
 	static Logger log = LoggerFactory.getLogger(ProcessListController.class);
-	
+
 	@Autowired
 	@Qualifier("taskService")
 	private TaskService taskService;
-	
+
 	@Autowired
 	@Qualifier("executionService")
 	private ExecutionService execution;
@@ -58,7 +58,7 @@ public class ProcessListController extends BaseController {
 	@Autowired
 	@Qualifier("participatorService")
 	private IParticipatorService participatorService;
-	
+
 	@RequestMapping("/getCreatProcessList")
 	@ResponseBody
 	public Page<FlowType> getCreatProcessList(String type) {
@@ -153,50 +153,51 @@ public class ProcessListController extends BaseController {
 
 		return page;
 	}
-	
-	
+
 	@RequestMapping("/getTodoPage")
 	@ResponseBody
 	public Page<TaskInfo> getTodoPage(long start, long limit, String sort,
 			String dir, String flowKey) {
-		
+
 		Page<TaskInfo> page = new Page<TaskInfo>();
-		
+
 		User user = SecurityUserUtils.getCurrentUser();
-		
+
 		TaskQuery query = taskService.createTaskQuery();
 		query = query.assignee(user.getUserId());
-		
-		if(LocalStringUtils.isNotBlank(flowKey)) {
+
+		if (LocalStringUtils.isNotBlank(flowKey)) {
 			query = query.processDefinitionId(flowKey);
 		}
-		
+
 		long count = query.count();
 		page.setTotal(count);
-		
+
 		query = query.orderDesc(TaskQuery.PROPERTY_PRIORITY);
 		query = query.page((int) start, (int) limit);
 		List<Task> tasks = query.list();
-		
+
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		
-		for(Task task : tasks) {
+
+		for (Task task : tasks) {
 			TaskInfo tsInfo = new TaskInfo();
-			
+
 			tsInfo.setActivityName(task.getActivityName());
 			tsInfo.setPriority(task.getPriority());
 			tsInfo.setReceiptTime(df.format(task.getCreateTime()));
 			tsInfo.setTaskId(task.getId());
-			
-			tsInfo.setTitle((String) execution.getVariable(task.getExecutionId(), "title"));
+
+			tsInfo.setTitle((String) execution.getVariable(
+					task.getExecutionId(), "title"));
 			tsInfo.setFlowInstId(task.getExecutionId());
-			
+
+			int index = task.getExecutionId().indexOf(".");
+			tsInfo.setFlowKey(task.getExecutionId().substring(0, index));
+
 			page.getReslutSet().add(tsInfo);
 		}
-		
-		
+
 		return page;
 	}
-	
-}
 
+}

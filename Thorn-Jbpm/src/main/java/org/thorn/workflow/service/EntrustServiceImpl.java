@@ -38,17 +38,11 @@ public class EntrustServiceImpl implements IEntrustService {
 	}
 
 	public List<Entruster> queryList(String userId, String processDfId,
-			String beginDate, String endDate, long start, long limit,
 			String sort, String dir) throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
 
 		filter.put("userId", userId);
 		filter.put("processDfId", processDfId);
-		filter.put("beginDate", beginDate);
-		filter.put("endDate", endDate);
-
-		filter.put(Configuration.PAGE_LIMIT, limit);
-		filter.put(Configuration.PAGE_START, start);
 
 		if (LocalStringUtils.isEmpty(sort)) {
 			filter.put(Configuration.SROT_NAME, "PROCESSDFID");

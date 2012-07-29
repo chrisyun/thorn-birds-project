@@ -26,6 +26,11 @@
 	
 	var areaDD = <thorn:dd  typeId="AREA" />;
 	
+	var wfNameDD = <thorn:getWfCNName />;
+	var wfNameRender = function(str) {
+		return Render.dictRender(wfNameDD, str);
+	};
+	
 	var userPermission = {
 		SAVE : '<sec:authorize url="/wf/pp/saveOrModifyParticipator.jmt">true</sec:authorize>',
 		MODIFY : '<sec:authorize url="/wf/pp/saveOrModifyParticipator.jmt">true</sec:authorize>',
