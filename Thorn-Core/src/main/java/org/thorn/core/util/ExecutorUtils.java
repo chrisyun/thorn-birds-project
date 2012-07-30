@@ -15,7 +15,7 @@ public class ExecutorUtils {
 	
 	static Logger log = LoggerFactory.getLogger(ExecutorUtils.class);
 	
-	private static TaskExecutor executor;
+	private volatile static TaskExecutor executor;
 	
 	private static synchronized void initExecutor() {
 		if(executor == null) {
