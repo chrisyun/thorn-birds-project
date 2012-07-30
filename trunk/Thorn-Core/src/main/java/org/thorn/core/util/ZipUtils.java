@@ -42,15 +42,18 @@ public class ZipUtils {
 
 		byte b[] = new byte[5120];
 		ZipOutputStream out = null;
+		FileOutputStream fileOs = null;
+		CheckedOutputStream cs = null;
+		
 		try {
-			FileOutputStream fileOs = new FileOutputStream(zipFile);
+			fileOs = new FileOutputStream(zipFile);
 
 			// 使用输出流检查
-			CheckedOutputStream cs = new CheckedOutputStream(fileOs,
+			cs = new CheckedOutputStream(fileOs,
 					new CRC32());
 			// 声明输出zip流
 			out = new ZipOutputStream(new BufferedOutputStream(cs));
-
+			
 			String fileName;
 			InputStream in = null;
 			ZipEntry e = null;
@@ -71,6 +74,12 @@ public class ZipUtils {
 					log.error(fileName + " add into zip failed,"
 							+ e1.getMessage());
 				} finally {
+					if (in != null) {
+						try {
+							in.close();
+						} catch (IOException e1) {
+						}
+					}
 					try {
 						out.closeEntry();
 					} catch (IOException e1) {
@@ -79,55 +88,82 @@ public class ZipUtils {
 				}
 			}
 		} finally {
-			try {
-				out.close();
-			} catch (IOException e) {
-				log.warn("ZipOutputStream close error");
+			if(out != null) {
+				try {
+					out.close();
+				} catch (IOException e) {
+				}
 			}
 		}
 	}
-	
-	public static void unPackFile(String zipPath, String destFolder) throws IOException {
+
+	public static void unPackFile(String zipPath, String destFolder)
+			throws IOException {
 		File zipFile = new File(zipPath);
-		
+
 		unPackFile(zipFile, destFolder);
 	}
-	
-	public static void unPackFile(File zipFile, String destFolder) throws IOException {
+
+	public static void unPackFile(File zipFile) throws IOException {
+
+		int index = zipFile.getName().lastIndexOf(".");
+		String destFolder = zipFile.getParent() + File.separator
+				+ zipFile.getName().substring(0, index);
+
+		unPackFile(zipFile, destFolder);
+	}
+
+	public static void unPackFile(File zipFile, String destFolder)
+			throws IOException {
 		File dest = new File(destFolder);
 		dest.mkdirs();
 
 		byte b[] = new byte[5120];
 		ZipFile zip = new ZipFile(zipFile);
 		Enumeration<ZipEntry> e = (Enumeration<ZipEntry>) zip.entries();
-
+		
 		ZipEntry zipEntry = null;
 		InputStream in = null;
 		FileOutputStream out = null;
 		String fileName;
-		while (e.hasMoreElements()) {
-			zipEntry = e.nextElement();
-			fileName = zipEntry.getName();
-
-			File file = new File(dest, fileName);
-			try {
-				file.createNewFile();
-				in = zip.getInputStream(zipEntry);
-				out = new FileOutputStream(file);
-
-				int len = 0;
-				while ((len = in.read(b)) != -1) {
-					out.write(b, 0, len);
-				}
-
-			} catch (IOException e1) {
-				log.error(fileName + " unZip failed," + e1.getMessage());
-			} finally {
+		try {
+			while (e.hasMoreElements()) {
+				zipEntry = e.nextElement();
+				fileName = zipEntry.getName();
+				
+				File file = new File(dest, fileName);
 				try {
-					in.close();
-					out.close();
+					file.createNewFile();
+					in = zip.getInputStream(zipEntry);
+					out = new FileOutputStream(file);
+
+					int len = 0;
+					while ((len = in.read(b)) != -1) {
+						out.write(b, 0, len);
+					}
+
 				} catch (IOException e1) {
-					log.warn("InputStream and FileOutputStream close error");
+					log.error(fileName + " unZip failed," + e1.getMessage());
+				} finally {
+					if(in != null) {
+						try {
+							in.close();
+						} catch (IOException e1) {
+						}
+					}
+					if(out != null) {
+						try {
+							out.close();
+						} catch (IOException e1) {
+						}
+					}
+				}
+			}
+		} finally {
+			if(zip != null) {
+				try {
+					zip.close();
+				} catch (IOException e1) {
 				}
 			}
 		}
