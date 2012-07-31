@@ -149,7 +149,6 @@ public class InvocationSecurityMetadataSource implements
 		
 		Collection<ConfigAttribute> collection = new ArrayList<ConfigAttribute>();
 		List<String> source = getSourceCodeByUrl(url);
-		source = getSourceCodeByUrl(url);
 		
 		if (source.size() > 0) {
 			try {
