@@ -13,7 +13,7 @@ public interface IUserService {
 
 	public User queryUserByLogin(String idOrAccount) throws DBAccessException;
 
-	public void save(User user) throws DBAccessException;
+	public void regist(User user) throws DBAccessException;
 
 	public void modify(User user) throws DBAccessException;
 
