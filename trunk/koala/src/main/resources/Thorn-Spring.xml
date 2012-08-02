@@ -22,7 +22,7 @@
 	<import resource="classpath:Thorn-Spring-ehcache.xml" />
 	<import resource="classpath:Thorn-Spring-Dao.xml" />
 	<import resource="classpath:Thorn-Spring-Mybatis.xml" />
-	<import resource="classpath:Thorn-Spring-executor.xml" />
+	<!-- <import resource="classpath:Thorn-Spring-executor.xml" /> -->
 	
 	<import resource="Thorn-Spring-Service.xml" />
 	<import resource="Thorn-Spring-Security.xml" />

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="UserMapper">
+	
+	<cache eviction="LRU" type="org.thorn.dao.mybatis.cache.CustomCache">
+		<property name="springBean" value="ehcacheService" />
+	</cache>
+	
+	<resultMap id="BaseResultMap" type="org.koala.user.entity.User">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="ACCOUNT" property="account" jdbcType="VARCHAR" />
+		<result column="NICKNAME" property="nickName" jdbcType="VARCHAR" />
+		<result column="PWD" property="pwd" jdbcType="VARCHAR" />
+		<result column="DEFAULTROLE" property="defaultRole" jdbcType="VARCHAR" />
+		<result column="LASTLOGIN" property="lastLogin" jdbcType="VARCHAR" />
+		<result column="ISVERIFY" property="isVerfiy" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		ID,ACCOUNT,NICKNAME,PWD,DEFAULTROLE,LASTLOGIN,ISVERIFY
+  	</sql>
+  	
+	<sql id="Where_Clause">
+		<where>
+			<if test="id != null">
+				and ID = #{id,jdbcType=DECIMAL}
+      		</if>
+			<if test="nickName != null and nickName != ''">
+				and NICKNAME like CONCAT('%',#{nickName,jdbcType=VARCHAR},'%')
+      		</if>
+			<if test="isVerfiy != null">
+				and ISVERIFY = #{isVerfiy,jdbcType=DECIMAL}
+      		</if>
+			<if test="ACCOUNT != null and ACCOUNT != ''">
+				and ACCOUNT = #{ACCOUNT,jdbcType=VARCHAR}
+      		</if>
+		</where>
+	</sql>
+
+	<insert id="insert" parameterType="org.koala.user.entity.User">
+		insert into T_SYS_USER
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="account != null and account != ''">ACCOUNT,</if>
+			<if test="nickName != null and nickName != ''">NICKNAME,</if>
+			<if test="pwd != null and pwd != ''">PWD,</if>
+			<if test="defaultRole != null and defaultRole != ''">DEFAULTROLE,</if>
+			<if test="isVerfiy != null">ISVERIFY,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="account != null and account != ''">#{account,jdbcType=VARCHAR},</if>
+			<if test="nickName != null and nickName != ''">#{nickName,jdbcType=VARCHAR},</if>
+			<if test="pwd != null and pwd != ''">#{pwd,jdbcType=VARCHAR},</if>
+			<if test="defaultRole != null and defaultRole != ''">#{defaultRole,jdbcType=VARCHAR},</if>
+			<if test="isVerfiy != null">#{isVerfiy,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="org.koala.user.entity.User">
+		update T_SYS_USER
+		<set>
+			<if test="isVerfiy != null">ISVERIFY = #{isVerfiy,jdbcType=DECIMAL},</if>
+			<if test="account != null and account != ''">ACCOUNT = #{account,jdbcType=VARCHAR},</if>
+			<if test="nickName != null and nickName != ''">NICKNAME = #{nickName,jdbcType=VARCHAR},</if>
+			<if test="pwd != null and pwd != ''">PWD = #{pwd,jdbcType=VARCHAR},</if>
+			<if test="defaultRole != null and defaultRole != ''">DEFAULTROLE = #{defaultRole,jdbcType=VARCHAR},</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<select id="select" resultMap="BaseResultMap" parameterType="hashmap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SYS_USER
+		<include refid="Where_Clause" />
+		<include refid="MySQLCommonMapper.sortInfo"/>
+	</select>
+	
+</mapper>
