@@ -17,6 +17,6 @@ public interface IUserService {
 
 	public void modify(User user) throws DBAccessException;
 
-	public void changePwd(String userId, String newPwd)
+	public void changePwd(Integer userId, String account, String newPwd)
 			throws DBAccessException;
 }

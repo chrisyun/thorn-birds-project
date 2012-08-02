@@ -2,12 +2,21 @@ package org.koala.user.entity;
 
 import java.io.Serializable;
 
+import org.thorn.dao.mybatis.annotation.Mapper;
+import org.thorn.dao.mybatis.annotation.MapperNode;
+import org.thorn.dao.mybatis.annotation.MethodType;
+
 /** 
  * @ClassName: User 
  * @Description: 
  * @author chenyun
  * @date 2012-7-31 下午02:09:04 
  */
+@Mapper(nameSpace="UserMapper",node= {
+		@MapperNode(id="insert",type=MethodType.INSERT),
+		@MapperNode(id="update",type=MethodType.UPDATE),
+		@MapperNode(id="select",type=MethodType.QUERY)
+})
 public class User implements Serializable {
 
 	/** */
