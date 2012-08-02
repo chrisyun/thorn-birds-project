@@ -59,8 +59,8 @@ http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 		<beans:constructor-arg index="0">
 			<beans:map>
 				<beans:entry>
-					<beans:key><beans:value></beans:value></beans:key>
-					<beans:value>admin</beans:value>
+					<beans:key><beans:value>/**</beans:value></beans:key>
+					<beans:value>SYSADMIN</beans:value>
 				</beans:entry>
 			</beans:map>
 		</beans:constructor-arg>
