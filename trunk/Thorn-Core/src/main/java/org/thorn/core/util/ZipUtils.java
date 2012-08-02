@@ -3,7 +3,6 @@ package org.thorn.core.util;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,10 +10,10 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.CRC32;
 import java.util.zip.CheckedOutputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import java.util.zip.ZipOutputStream;
 
+import org.apache.tools.zip.ZipEntry;
+import org.apache.tools.zip.ZipFile;
+import org.apache.tools.zip.ZipOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,11 +35,45 @@ public class ZipUtils {
 
 		packFile(files, zipFile);
 	}
-
-	public static void packFile(List<File> files, File zipFile)
-			throws FileNotFoundException {
-
+	
+	private static void pack(ZipOutputStream out, File file, String basePath) throws IOException {
 		byte b[] = new byte[5120];
+		
+		basePath = basePath + file.getName();
+		
+		if(file.isDirectory()) {
+			File[] files = file.listFiles();
+			
+			basePath += File.separator;
+			for(File f : files) {
+				pack(out, f, basePath);
+			}
+		} else {
+			InputStream in = null;
+			
+			try {
+				in = new FileInputStream(file);
+				ZipEntry e = new ZipEntry(basePath);
+				
+				out.putNextEntry(e);
+				int len = 0;
+				while ((len = in.read(b)) != -1) {
+					out.write(b, 0, len);
+				}
+			} finally {
+				if(in != null) {
+					in.close();
+				}
+				out.closeEntry();
+			}
+		}
+		
+	}
+	
+	
+	public static void packFile(List<File> files, File zipFile)
+			throws IOException {
+		
 		ZipOutputStream out = null;
 		FileOutputStream fileOs = null;
 		CheckedOutputStream cs = null;
@@ -54,45 +87,14 @@ public class ZipUtils {
 			// 声明输出zip流
 			out = new ZipOutputStream(new BufferedOutputStream(cs));
 			
-			String fileName;
-			InputStream in = null;
-			ZipEntry e = null;
-
+			out.setEncoding("gbk");
+			
 			for (File file : files) {
-				in = new FileInputStream(file);
-				fileName = file.getName();
-
-				e = new ZipEntry(fileName);
-
-				try {
-					out.putNextEntry(e);
-					int len = 0;
-					while ((len = in.read(b)) != -1) {
-						out.write(b, 0, len);
-					}
-				} catch (IOException e1) {
-					log.error(fileName + " add into zip failed,"
-							+ e1.getMessage());
-				} finally {
-					if (in != null) {
-						try {
-							in.close();
-						} catch (IOException e1) {
-						}
-					}
-					try {
-						out.closeEntry();
-					} catch (IOException e1) {
-						log.warn("ZipOutputStream closeEntry error");
-					}
-				}
+				pack(out, file, "");
 			}
 		} finally {
 			if(out != null) {
-				try {
-					out.close();
-				} catch (IOException e) {
-				}
+				out.close();
 			}
 		}
 	}
@@ -119,8 +121,8 @@ public class ZipUtils {
 		dest.mkdirs();
 
 		byte b[] = new byte[5120];
-		ZipFile zip = new ZipFile(zipFile);
-		Enumeration<ZipEntry> e = (Enumeration<ZipEntry>) zip.entries();
+		ZipFile zip = new ZipFile(zipFile, "gbk");
+		Enumeration<ZipEntry> e = (Enumeration<ZipEntry>) zip.getEntries();
 		
 		ZipEntry zipEntry = null;
 		InputStream in = null;
@@ -132,8 +134,24 @@ public class ZipUtils {
 				fileName = zipEntry.getName();
 				
 				File file = new File(dest, fileName);
+				
+				if(zipEntry.isDirectory()) {
+					file.mkdirs();
+					continue;
+				}
+				
 				try {
+					File parent = file.getParentFile();
+					if(!parent.exists()) {
+						parent.mkdirs();
+					}
+					
 					file.createNewFile();
+					
+					if(zipEntry.getSize() == 0) {
+						continue;
+					}
+					
 					in = zip.getInputStream(zipEntry);
 					out = new FileOutputStream(file);
 
@@ -142,29 +160,18 @@ public class ZipUtils {
 						out.write(b, 0, len);
 					}
 
-				} catch (IOException e1) {
-					log.error(fileName + " unZip failed," + e1.getMessage());
 				} finally {
 					if(in != null) {
-						try {
-							in.close();
-						} catch (IOException e1) {
-						}
+						in.close();
 					}
 					if(out != null) {
-						try {
-							out.close();
-						} catch (IOException e1) {
-						}
+						out.close();
 					}
 				}
 			}
 		} finally {
 			if(zip != null) {
-				try {
-					zip.close();
-				} catch (IOException e1) {
-				}
+				zip.close();
 			}
 		}
 	}
