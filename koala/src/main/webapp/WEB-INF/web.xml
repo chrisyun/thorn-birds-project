@@ -55,7 +55,7 @@
 
 	<!-- spring dispatcher -->
 	<servlet>
-		<servlet-name>thorn</servlet-name>
+		<servlet-name>koala</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
