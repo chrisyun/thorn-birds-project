@@ -169,18 +169,16 @@
 									定义查询条件面板  
 								-------------------------------------------------------------------------------------------------%>
 								<ext:formPanel var="queryFormPanel" id="queryFormPanel" title="查询条件" collapsible="true" 
-									labelAlign="left" frame="true" region="north" height="140" border="false" 
+									labelAlign="left" frame="true" region="north" height="180" border="false" 
 									labelWidth="80" otherProperties="split: true" margins="3 0 0 0">
 									<ext:items>
 										<ext:fieldSet layout="column" defaults="{columnWidth: 1, layout: 'form'}" lazyInit="true" 
-											xtype="fieldset" autoHeight="true" title="申报须知" collapsible="true" frame="true">
-											<ext:html><span style="font-size: 13px;">&nbsp;&nbsp;&nbsp;&nbsp;为确保项目申报规范，准确，请注意以下事项：<br>
-													  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、若申报过程中发现屏幕右侧滚动条无法显示，请调整计算机屏幕分辨率至1024*768或1366*768。<br>      
-     	 											  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、首先请填写项目基本信息。项目编号由系统自动生成无需填写；承担单位请填写本单位的全称，必须与单位行政公章名称一致；共建部门只需重点项目填写，为项目所在地人民政府（须报经同意，并在纸质申请书中签署意见，加盖公章）；申报部门由系统自动生成无需填写；申报日期为项目申报时的日期。<br>
-    												  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3、项目基本信息填写完成后，请下载阅读相关附件，<a href="<%=basePath%>business/国家文化创新工程项目申报书.doc" target="blank">点击此处下载</a>。认真填写《国家文化创新工程项目申报书》。<br>
-     												  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4、填写完成后，点击文件上传按钮，在弹出的文件上传界面，上传填写好的《国家文化创新工程项目申报书》及相关附件，相关附件文件大小不得超过10M ；申报书的文件名为单位名称。<br>
-     												  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5、流程意见中填写意见一栏可以根据申报项目实际情况填写需提醒资料审核部门注意的事项，也可以选择不填写。最后点击项目申报按钮进行申报。<br>
-     												  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6、在线申报完成后，请将填写好的 《国家文化创新工程项目申报书》打印后，签字并加盖相应公章一式三份寄送相应资料审核部门。文化部各司局、各直属单位，国家文化创新研究中心，原文化部直属高等艺术院校寄送到文化部科技司，其他单位寄送到所在省、自治区、直辖市文化厅（局）。 </span></ext:html>
+											xtype="fieldset" autoHeight="true" title="历史立项项目名单" collapsible="true" frame="true">
+											<ext:html><span style="font-size: 13px;">
+													  1、<a href="<%=basePath%>business/2009年度文化部科技创新项目立项名单.doc" target="blank">2009年度文化部科技创新项目立项名单.doc</a>
+													  &nbsp;&nbsp;&nbsp;2、<a href="<%=basePath%>business/2010年度文化部科技创新项目立项名单.doc" target="blank">2010年度文化部科技创新项目立项名单.doc</a>
+													  &nbsp;&nbsp;&nbsp;3、<a href="<%=basePath%>business/2011年度文化部科技创新项目立项名单.doc" target="blank">2011年度文化部科技创新项目立项名单.doc</a>
+													   </span></ext:html>
 										</ext:fieldSet>
 									
 									
