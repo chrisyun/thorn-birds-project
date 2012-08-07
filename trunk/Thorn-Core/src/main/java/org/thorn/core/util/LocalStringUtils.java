@@ -19,9 +19,23 @@ public class LocalStringUtils extends StringUtils {
 
 	private static final char[] numbersAndLetters = ("0123456789abcdefghijklmnopqrstuvwxyz"
 			+ "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ").toCharArray();
-
+	
+	private static final char[] numbers = ("0123456789").toCharArray();
+	
 	public static final char DEFAULT_SPLIT = ',';
+	
+	public static final String randomNumber(int length) {
+		Assert.isTrue(length > 0, "The input parameters not legal");
 
+		char[] randBuffer = new char[length];
+
+		for (int i = 0; i < randBuffer.length; i++) {
+			randBuffer[i] = numbers[RandomUtils.nextInt(10)];
+		}
+
+		return new String(randBuffer);
+	}
+	
 	public static final String randomString(int length) {
 		Assert.isTrue(length > 0, "The input parameters not legal");
 
