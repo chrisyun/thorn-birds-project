@@ -37,6 +37,7 @@
 		<module>Thorn-Jbpm</module>
 		<module>Thorn-Web</module>
 		<module>kaola</module>
+		<module>parrot</module>
 	</modules>
 
 
