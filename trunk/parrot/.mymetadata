@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="parrot"
+  id="myeclipse.1344306334391"
+  context-root="/parrot"
+  j2ee-spec="5.0"
+  archive="parrot.war">
+  <attributes>
+    <attribute name="webrootdir" value="src/main/webapp" />
+  </attributes>
+</project-module>
+
