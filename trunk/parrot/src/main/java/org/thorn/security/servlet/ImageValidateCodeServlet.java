@@ -109,7 +109,7 @@ public class ImageValidateCodeServlet extends HttpServlet {
 		// 随机字符串
 		StringBuffer sbRandomValidateCode = new StringBuffer();
 		for (int i = 0; i < SecurityConfiguration.AUTHCODE_NUM_LENGTH; i++) {
-			String rand = LocalStringUtils.randomString(1);
+			String rand = LocalStringUtils.randomNumber(1);
 			sbRandomValidateCode.append(rand);
 
 			// 生成随机颜色
