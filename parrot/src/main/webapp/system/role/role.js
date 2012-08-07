@@ -13,7 +13,6 @@ var pageSize = 20;
 var role_grid;
 var sysMenuTree;
 var navMenuTree;
-var flowMenuTree
 
 var roleCode;
 
@@ -249,21 +248,6 @@ Ext.onReady(function() {
 						})
 			});
 	
-	flowMenuTree = new Ext.tree.TreePanel({
-				border : false,
-				useArrows : true,
-				rootVisible : false,
-				autoScroll : true,
-				loader : loader,
-				title : "流程菜单",
-				iconCls : "silk-rss",
-				root : new Ext.tree.AsyncTreeNode({
-							id : 'WORKFLOW',
-							expanded : true,
-							leaf : false
-						})
-			});		
-			
 	function saveAuthHandler() {
 
 		if (Ext.isEmpty(roleCode)) {
@@ -283,15 +267,6 @@ Ext.onReady(function() {
 		}
 
 		var rootNode = navMenuTree.getNodeById("NAV");
-		var checkNodes = rootNode.getUI().getCheckedNodes(rootNode);
-		for (var i = 0; i < checkNodes.length; i++) {
-
-//			if (!Ext.isEmpty(checkNodes[i].attributes.targetUrl)) {
-				resIds += checkNodes[i].id + ",";
-//			}
-		}
-		
-		var rootNode = flowMenuTree.getNodeById("WORKFLOW");
 		var checkNodes = rootNode.getUI().getCheckedNodes(rootNode);
 		for (var i = 0; i < checkNodes.length; i++) {
 
@@ -328,7 +303,7 @@ Ext.onReady(function() {
 				tabWidth : 100,
 				deferredRender : false,
 				tbar : authTbar,
-				items : [sysMenuTree, navMenuTree, flowMenuTree]
+				items : [sysMenuTree, navMenuTree]
 			});
 
 	var viewport = new Ext.Viewport({
@@ -417,8 +392,6 @@ Ext.onReady(function() {
 
 		var memStore = member_grid.getStore();
 
-		var params = {};
-
 		switch (queryType) {
 			case "姓名" :
 				var name = Ext.getCmp("member_queryField").getValue();
@@ -439,7 +412,7 @@ Ext.onReady(function() {
 						limit : member_grid.pageSize
 					}
 				});
-	}
+	};
 	completePage();	
 });
 
@@ -455,7 +428,6 @@ function onAuth() {
 			}, pageGrid, function(obj, menuArray) {
 				onAuth2Tree(menuArray, sysMenuTree, "SYS");
 				onAuth2Tree(menuArray, navMenuTree, "NAV");
-				onAuth2Tree(menuArray, flowMenuTree, "WORKFLOW");
 			});
 
 }

@@ -44,18 +44,6 @@
 			})
 		});
 		
-		var flowMenuTree = new Ext.tree.TreePanel( {
-		    border: false,
-		    useArrows: true,
-			rootVisible: false,
-		 	loader: loader,
-			root : new Ext.tree.AsyncTreeNode({
-				text : "流程菜单",
-				id: "WORKFLOW",
-				leaf: false
-			})
-		});
-		
 		var navMenuTree = new Ext.tree.TreePanel( {
 		    border: false,
 		    useArrows: true,
@@ -86,11 +74,6 @@
 				border : false,
 				iconCls : "silk-nav",
 				items : [navMenuTree]
-			}, {
-				title : "流程菜单",
-				border : false,
-				iconCls : "silk-rss",
-				items : [flowMenuTree]
 			}, {
 				title : "系统菜单",
 				html : "",
