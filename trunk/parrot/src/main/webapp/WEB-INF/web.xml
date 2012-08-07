@@ -55,7 +55,7 @@
 
 	<!-- spring dispatcher -->
 	<servlet>
-		<servlet-name>thorn</servlet-name>
+		<servlet-name>parrot</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
@@ -64,7 +64,7 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>thorn</servlet-name>
+		<servlet-name>parrot</servlet-name>
 		<url-pattern>*.jmt</url-pattern>
 	</servlet-mapping>
 

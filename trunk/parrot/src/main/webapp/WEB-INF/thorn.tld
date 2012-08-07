@@ -17,9 +17,4 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
-	<tag>
-		<name>getWfCNName</name>
-		<tag-class>org.thorn.workflow.tag.WfCNNameTag</tag-class>
-		<body-content>empty</body-content>
-	</tag>
 </taglib>
