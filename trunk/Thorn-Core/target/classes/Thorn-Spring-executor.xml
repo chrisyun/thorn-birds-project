@@ -13,6 +13,4 @@
 		<!-- 最大线程数 -->
 		<property name="maxPoolSize" value="5" />
 	</bean>
-	
-
 </beans>
