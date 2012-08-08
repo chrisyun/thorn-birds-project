@@ -169,10 +169,6 @@
 		sysMenuTree.on("click",function(node, ev){
 			treeClick(node,ev);
        	});
-       	
-       	flowMenuTree.on("click",function(node, ev){
-			treeClick(node,ev);
-       	});
 		
 		var viewport = new Ext.Viewport( {
 			layout : "border",
