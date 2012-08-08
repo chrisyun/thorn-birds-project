@@ -13,18 +13,4 @@
 		<!-- 最大线程数 -->
 		<property name="maxPoolSize" value="5" />
 	</bean>
-	
-	<bean id="mailHelper" class="org.thorn.core.jmail.MailHelper">
-		<property name="userName" value="${mail.user}" />
-		<property name="password" value="${mail.password}" />
-		<property name="smtpHost" value="${mail.smtp}" />
-		<property name="sender">
-			<bean class="org.thorn.core.jmail.MailCard">
-				<property name="eMail" value="${mail.email}" />
-				<property name="name" value="${mail.name}" />
-			</bean>
-		</property>
-	</bean>
-	
-
 </beans>
