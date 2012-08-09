@@ -118,7 +118,7 @@ body {
 			resizable : false,
 			width:370,
 			height:250,
-			tbar:[{text:"注册"},"-",{text:"密码找回"}],
+			tbar:[{text:"密码找回"}],
 			items : [loginPanel],
 			buttonAlign : "center",
 			buttons : [ {
