@@ -15,6 +15,9 @@ import org.thorn.user.entity.User;
  */
 public interface IUserService {
 
+	public boolean myPwdFindBack(String idOrAccount, String email)
+			throws DBAccessException;
+
 	public User queryUserByLogin(String idOrAccount) throws DBAccessException;
 
 	public void save(User user) throws DBAccessException;
@@ -33,6 +36,8 @@ public interface IUserService {
 	public void changePwd(String userId, String newPwd)
 			throws DBAccessException;
 
-	public List<User> queryList(String orgCode, String userName, String cumail, Collection<String> areas,
-			String userAccount, Collection<String> userIds, Collection<String> orgIds) throws DBAccessException;
+	public List<User> queryList(String orgCode, String userName, String cumail,
+			Collection<String> areas, String userAccount,
+			Collection<String> userIds, Collection<String> orgIds)
+			throws DBAccessException;
 }

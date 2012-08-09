@@ -21,9 +21,9 @@
 	};
 	
 	var userPermission = {
-		SAVE : '<sec:authorize url="/resource/saveOrModify*.jmt">true</sec:authorize>',
-		MODIFY : '<sec:authorize url="/resource/saveOrModify*.jmt">true</sec:authorize>',
-		REMOVE : '<sec:authorize url="/resource/deleteOrg.jmt">true</sec:authorize>',
+		SAVE : '<sec:authorize url="/org/saveOrModify*.jmt">true</sec:authorize>',
+		MODIFY : '<sec:authorize url="/org/saveOrModify*.jmt">true</sec:authorize>',
+		REMOVE : '<sec:authorize url="/org/deleteOrg.jmt">true</sec:authorize>',
 	}
 	
 </script>

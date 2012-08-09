@@ -43,17 +43,17 @@ var Message = {
 								.test(data.toString)) {
 					r.push("toString:" + data.toString.toString());
 				}
-				r = "{" + r.join() + "}"
+				r = "{" + r.join() + "}";
 			} else {
 				for (var i = 0; i < data.length; i++)
-					r.push(Message.debugJsonDetail(data[i]))
+					r.push(Message.debugJsonDetail(data[i]));
 				r = "[" + r.join() + "]";
 			}
 			return r;
 		}
 		return data.toString().replace(/\"\:/g, '":""');
 	}
-}
+};
 
 
 TopShow = function() {
@@ -101,7 +101,7 @@ TopShow = function() {
 						Cookies.set("exttheme", t.getValue());
 						setTimeout(function() {
 									window.location.reload();
-								}, 250);
+								}, 1200);
 					});
 			var lb = Ext.get("lib-bar");
 			if (lb) {

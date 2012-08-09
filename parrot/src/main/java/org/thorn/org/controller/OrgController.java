@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
+import org.thorn.security.SecurityUserUtils;
+import org.thorn.user.entity.User;
 import org.thorn.web.entity.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.org.entity.Org;
@@ -36,13 +38,14 @@ public class OrgController extends BaseController {
 	@Autowired
 	@Qualifier("orgService")
 	private IOrgService orgService;
-	
+
 	/**
 	 * 
 	 * @Description：获取组织树
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-25 上午10:52:02
-	 * @param pid 上级组织code
+	 * @param pid
+	 *            上级组织code
 	 * @return
 	 */
 	@RequestMapping("/getOrgTree")
@@ -51,17 +54,24 @@ public class OrgController extends BaseController {
 		List<Tree> tree = new ArrayList<Tree>();
 
 		try {
+			User user = SecurityUserUtils.getCurrentUser();
+
 			List<Org> list = orgService.queryLeftTree(pid);
 
 			for (Org org : list) {
-				Tree node = new Tree();
-				node.setId(String.valueOf(org.getOrgId()));
-				node.setText(org.getOrgName());
-				node.setLeaf(false);
-				node.setPid(org.getOrgCode());
-				node.getAttributes().put("orgType", org.getOrgType());
-				node.getAttributes().put("area", org.getArea());
-				tree.add(node);
+
+				if (SecurityUserUtils.isSysAdmin()
+						|| LocalStringUtils.equals(user.getOrgCode(),
+								org.getOrgCode())) {
+					Tree node = new Tree();
+					node.setId(String.valueOf(org.getOrgId()));
+					node.setText(org.getOrgName());
+					node.setLeaf(false);
+					node.setPid(org.getOrgCode());
+					node.getAttributes().put("orgType", org.getOrgType());
+					node.getAttributes().put("area", org.getArea());
+					tree.add(node);
+				}
 			}
 		} catch (Exception e) {
 			log.error("getOrgTree[Org] - " + e.getMessage(), e);
@@ -69,14 +79,16 @@ public class OrgController extends BaseController {
 
 		return tree;
 	}
-	
+
 	/**
 	 * 
 	 * @Description：新增或修改组织
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-25 上午10:53:22
-	 * @param org	   组织对象
-	 * @param opType 操作类型
+	 * @param org
+	 *            组织对象
+	 * @param opType
+	 *            操作类型
 	 * @return
 	 */
 	@RequestMapping("/saveOrModifyOrg")
@@ -102,13 +114,14 @@ public class OrgController extends BaseController {
 
 		return status;
 	}
-	
+
 	/**
 	 * 
 	 * @Description：根据主键批量删除组织
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-25 上午10:54:09
-	 * @param ids	主键字符串，格式id1,id2,
+	 * @param ids
+	 *            主键字符串，格式id1,id2,
 	 * @return
 	 */
 	@RequestMapping("/deleteOrg")
@@ -127,20 +140,24 @@ public class OrgController extends BaseController {
 
 		return status;
 	}
-	
+
 	/**
 	 * 
 	 * @Description：分页获取组织数据
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-25 上午10:54:41
 	 * @param start
 	 * @param limit
 	 * @param sort
 	 * @param dir
-	 * @param pid		上级组织编码
-	 * @param orgCode	组织编码
-	 * @param orgName	组织名称
-	 * @param orgType   组织类型
+	 * @param pid
+	 *            上级组织编码
+	 * @param orgCode
+	 *            组织编码
+	 * @param orgName
+	 *            组织名称
+	 * @param orgType
+	 *            组织类型
 	 * @return
 	 */
 	@RequestMapping("/getOrgPage")
@@ -149,8 +166,14 @@ public class OrgController extends BaseController {
 			String dir, String pid, String orgCode, String orgName,
 			String orgType) {
 		Page<Org> page = new Page<Org>();
-
+		
 		try {
+			User user = SecurityUserUtils.getCurrentUser();
+			
+			if(! SecurityUserUtils.isSysAdmin()) {
+				orgCode = user.getOrgCode();
+			}
+			
 			page = orgService.queryPage(pid, orgCode, orgName, orgType, start,
 					limit, sort, dir);
 		} catch (DBAccessException e) {
@@ -159,21 +182,23 @@ public class OrgController extends BaseController {
 
 		return page;
 	}
-	
+
 	/**
 	 * 
 	 * @Description：根据orgCode或者orgId查询组织
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-25 上午10:55:35
-	 * @param orgCode	组织编码
-	 * @param orgId		组织ID
+	 * @param orgCode
+	 *            组织编码
+	 * @param orgId
+	 *            组织ID
 	 * @return
 	 */
 	@RequestMapping("/getOrg")
 	@ResponseBody
 	public JsonResponse<Org> getOrg(String orgCode, String orgId) {
 		JsonResponse<Org> json = new JsonResponse<Org>();
-		
+
 		try {
 			Org org = orgService.queryOrg(orgCode, orgId);
 			json.setObj(org);
@@ -181,8 +206,8 @@ public class OrgController extends BaseController {
 			json.setSuccess(false);
 			json.setMessage("组织数据查询失败：" + e.getMessage());
 		}
-		
+
 		return json;
 	}
-	
+
 }

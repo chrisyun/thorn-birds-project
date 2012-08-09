@@ -8,6 +8,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserCache;
+import org.thorn.core.jmail.MailEntity;
+import org.thorn.core.util.ExecutorUtils;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
 import org.thorn.web.entity.Page;
@@ -16,6 +18,8 @@ import org.thorn.log.NoLogging;
 import org.thorn.security.SecurityEncoderUtils;
 import org.thorn.user.dao.IUserDao;
 import org.thorn.user.entity.User;
+import org.thorn.user.task.MailTask;
+import org.thorn.user.task.MailTemplete;
 
 /**
  * @ClassName: UserServiceImpl
@@ -32,7 +36,7 @@ public class UserServiceImpl implements IUserService {
 	@Autowired
 	@Qualifier("userSecurityCache")
 	private UserCache userCache;
-	
+
 	public User queryUserByLogin(String idOrAccount) throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
 		filter.put("idOrAccount", idOrAccount);
@@ -41,24 +45,45 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	public void save(User user) throws DBAccessException {
-		user.setUserId(user.getUserId().toUpperCase());
+		
+		String userId = "FY" + user.getOrgCode() + LocalStringUtils.randomNumber(4);
+		user.setUserId(userId);
 
-		if (LocalStringUtils.isNotEmpty(user.getUserPwd())) {
-			user.setUserPwd(SecurityEncoderUtils.encodeUserPassword(
-					user.getUserPwd(), user.getUserId()));
+		String pwd = user.getUserPwd();
+
+		if (LocalStringUtils.isNotEmpty(pwd)) {
+			user.setUserPwd(SecurityEncoderUtils.encodeUserPassword(pwd,
+					user.getUserId()));
 		}
 
 		userDao.save(user);
+
+		if (LocalStringUtils.isNotEmpty(pwd)) {
+			MailEntity mailInfo = MailTemplete.registerUser(user.getUserName(),
+					user.getCumail(), pwd, user.getUserId());
+			MailTask task = new MailTask(mailInfo);
+			ExecutorUtils.executeTask(task);
+		}
 	}
 
 	public void modify(User user) throws DBAccessException {
-		if (LocalStringUtils.isNotEmpty(user.getUserPwd())) {
-			user.setUserPwd(SecurityEncoderUtils.encodeUserPassword(
-					user.getUserPwd(), user.getUserId()));
+		String pwd = user.getUserPwd();
+
+		if (LocalStringUtils.isNotEmpty(pwd)) {
+			user.setUserPwd(SecurityEncoderUtils.encodeUserPassword(pwd,
+					user.getUserId()));
 		}
 
 		userDao.modify(user);
 		userCache.removeUserFromCache(user.getUserId());
+
+		if (LocalStringUtils.isNotEmpty(pwd)) {
+			MailEntity mailInfo = MailTemplete.changePassWd(user.getUserName(),
+					user.getCumail(), pwd);
+			MailTask task = new MailTask(mailInfo);
+			ExecutorUtils.executeTask(task);
+		}
+
 	}
 
 	public void delete(String ids) throws DBAccessException {
@@ -70,8 +95,10 @@ public class UserServiceImpl implements IUserService {
 		}
 	}
 
-	public List<User> queryList(String orgCode, String userName, String cumail, Collection<String> areas,
-			String userAccount, Collection<String> userIds, Collection<String> orgIds) throws DBAccessException {
+	public List<User> queryList(String orgCode, String userName, String cumail,
+			Collection<String> areas, String userAccount,
+			Collection<String> userIds, Collection<String> orgIds)
+			throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
 
 		filter.put("idOrAccount", userAccount);
@@ -82,7 +109,7 @@ public class UserServiceImpl implements IUserService {
 		filter.put("orgs", orgIds);
 		filter.put("areas", areas);
 		filter.put("isDisabled", Configuration.DB_NO);
-		
+
 		return userDao.queryList(filter);
 	}
 
@@ -108,12 +135,12 @@ public class UserServiceImpl implements IUserService {
 		}
 
 		Page<User> page = new Page<User>();
-		
+
 		page.setTotal(userDao.queryPageCount(filter));
-		if(page.getTotal() > 0) {
+		if (page.getTotal() > 0) {
 			page.setReslutSet(userDao.queryList(filter));
 		}
-		
+
 		return page;
 	}
 
@@ -141,5 +168,34 @@ public class UserServiceImpl implements IUserService {
 
 		userDao.modify(user);
 		userCache.removeUserFromCache(user.getUserId());
+	}
+
+	@NoLogging
+	public boolean myPwdFindBack(String idOrAccount, String email)
+			throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+		filter.put("idOrAccount", idOrAccount);
+		filter.put("cumail", email);
+
+		User user = userDao.queryUser(filter);
+
+		if (user != null) {
+
+			String newPwd = LocalStringUtils.randomString(10);
+			user.setUserPwd(SecurityEncoderUtils.encodeUserPassword(newPwd,
+					user.getUserId()));
+			userDao.modify(user);
+			userCache.removeUserFromCache(user.getUserId());
+
+			MailEntity mailInfo = MailTemplete.findPassWd(user.getUserName(),
+					email, newPwd);
+			MailTask task = new MailTask(mailInfo);
+			ExecutorUtils.executeTask(task);
+
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 }

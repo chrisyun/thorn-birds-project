@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.thorn.auth.service.IAuthService;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
+import org.thorn.web.entity.JsonResponse;
 import org.thorn.web.entity.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.security.SecurityUserUtils;
@@ -155,6 +156,12 @@ public class UserController extends BaseController {
 		Page<User> page = new Page<User>();
 
 		try {
+			User user = SecurityUserUtils.getCurrentUser();
+			
+			if(! SecurityUserUtils.isSysAdmin()) {
+				orgCode = user.getOrgCode();
+			}
+			
 			page = service.queryPage(orgCode, userName, cumail, userAccount,
 					start, limit, sort, dir);
 		} catch (DBAccessException e) {
@@ -263,5 +270,26 @@ public class UserController extends BaseController {
 
 		return list;
 	}
+	
+	@RequestMapping("/findBackMyPwd")
+	@ResponseBody
+	public Status findBackMyPwd(String userId, String userEmail) {
+		Status status = new Status();
+		userId = userId.toUpperCase();
+		
+		try {
+			if(service.myPwdFindBack(userId, userEmail)) {
+				status.setMessage("新密码发送至您的注册邮箱，请注意查收！");
+			} else {
+				status.setMessage("身份核对未通过，登录名或注册邮箱有误！");
+			}
+		} catch (DBAccessException e) {
+			status.setMessage("数据处理出错：" + e.getMessage());
+			log.error("findBackMyPwd[String] - " + e.getMessage(), e);
+		}
+		
+		return status;
+	}
+	
 
 }

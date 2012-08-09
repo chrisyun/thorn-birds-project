@@ -17,7 +17,7 @@
 <script type="text/javascript">
 	var tabNum = 0;
 	
-	document.title = "Home - Page";
+	document.title = "非物质文化遗产项目管理平台  - 首页";
 	
 	var leftTreeUrl = sys.path + "/resource/getLeftTree.jmt";
 	var logoutUrl = sys.path + "/j_spring_security_logout";

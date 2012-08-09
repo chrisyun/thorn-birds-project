@@ -150,7 +150,7 @@ Ext.onReady(function() {
 		labelWidth : 100,
 		border : false
 	});
-	user_form.addComp(getText("userId", "用户编码", 150), 0.5, false);
+	user_form.addComp(getText("userId", "用户编码", 150), 0.5, true);
 	user_form.addComp(getText("sn", "姓", 150), 0.5, true);
 	user_form.addComp(getText("userAccount", "账号", 150), 0.5, false);
 	user_form.addComp(getText("userName", "姓名", 150), 0.5, false);
@@ -232,22 +232,25 @@ Ext.onReady(function() {
 			for ( var i = 0; i < relationArray.length; i++) {
 				var role = relationArray[i].object;
 				var cb = getCheckbox(role.roleCode, role.roleName,
-						relationArray[i].relevance)
+						relationArray[i].relevance);
 				role_form.addComp(cb, 0.5, true);
 			}
 			thisForm.doLayout();
 			role_win.show("用户授权");
-		})
+		});
 	}
 
 	/** *****************role window end************ */
 	function saveHandler() {
 		user_win.show("新增用户");
-
+		
 		user_form.getForm().reset();
+		
+		// 将主键置为不可编辑，用户编码系统自动生成
+		setTextReadOnly(user_form.findById("userId"));
+		
 		user_form.findById("opType")
 				.setValue(Configuration.opType.SAVE);
-		setTextEditable(user_form.findById("userId"));
 		Ext.getCmp("show_orgCode").setValue(currentActiveNode);
 	}
 
@@ -261,7 +264,7 @@ Ext.onReady(function() {
 		user_form.getForm().reset();
 
 		// 将主键置为不可编辑
-		setTextReadOnly(user_form.findById("userId"))
+		setTextReadOnly(user_form.findById("userId"));
 		var selectedRecord = grid.getSelectionModel().getSelected();
 		var orgCode = selectedRecord.get("orgCode");
 		var orgName = selectedRecord.get("orgName");

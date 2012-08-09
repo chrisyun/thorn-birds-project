@@ -189,7 +189,7 @@ Ext.onReady(function() {
 		dt_form.getForm().reset();
 
 		// 将主键置为不可编辑
-		setTextReadOnly(dtForm.findById("ename"));
+		setTextReadOnly(dt_form.findById("ename"));
 
 		var selectedRecord = dt_grid.getSelectionModel().getSelected();
 		var values = {
