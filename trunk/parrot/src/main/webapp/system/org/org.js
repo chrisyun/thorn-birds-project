@@ -223,7 +223,7 @@ Ext.onReady(function() {
 
 			ajax.getData( {
 				orgCode : parentOrg
-			}, form, function(obj, data) {
+			}, org_form, function(obj, data) {
 				var orgName = data.orgName;
 				var parentOrgNode = {
 					text : orgName,
@@ -363,7 +363,6 @@ Ext.onReady(function() {
 	}
 
 	function onSubmitQueryHandler() {
-		var thisForm = query_form.getForm();
 		var store = grid.getStore();
 		
 		var name = Ext.getCmp("query_name").getValue();

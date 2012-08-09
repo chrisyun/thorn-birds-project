@@ -17,7 +17,7 @@ body {
 
 <script type="text/javascript">
 
-	document.title = "SYS - Login";
+	document.title = "非物质文化遗产项目管理平台 - 登录";
 
 	var iSerror = "${param.error}";
 	var error = '${sessionScope['SPRING_SECURITY_LAST_EXCEPTION'].message}';
@@ -111,14 +111,16 @@ body {
 		});
 
 		var loginWindow = new Ext.Window({
-			title:"SYS - Login",
+			title:"系统登录 - Login",
 			closable:false,
 			draggable:false,
 			layout : "fit",
 			resizable : false,
 			width:370,
 			height:250,
-			tbar:[{text:"密码找回"}],
+			tbar:["->", "-", {text:"忘记密码", handler : function() {
+				findPwd_win.show("找回密码");
+			}}, "-"],
 			items : [loginPanel],
 			buttonAlign : "center",
 			buttons : [ {
@@ -133,6 +135,40 @@ body {
 				}
 			} ]
 		});
+		
+		
+		var findPwd_form = new FormUtil( {
+			id : "fpwdForm",
+			collapsible : false,
+			labelWidth : 120,
+			border : false,
+			html : "<div style='padding: 10px 20px 10px 20px;color: red;font-size: 14px;'>请输入系统的登录用户名及注册邮箱，核对无误后，我们会将新密码发送至您的邮箱，请注意查收！</div>"
+		});
+		
+		findPwd_form.addComp(getText("userId", "用户名", 180), 1.0, false);
+		findPwd_form.addComp(getMailText("userEmail", "注册邮箱", 180), 1.0, false);
+		var findPwd_win = new WindowUtil( {
+			width : 370,
+			height : 230
+		}, findPwd_form.getPanel(), findMyPwd);
+		
+		findPwd_win.saveBtn.setText("提交");
+		
+		var findBackPwdUrl = sys.path + "/user/findBackMyPwd.jmt";
+		function findMyPwd() {
+			var form = findPwd_form.getForm();
+
+			if (!form.isValid()) {
+				return;
+			}
+
+			var ajaxClass = new AjaxUtil(findBackPwdUrl);
+			ajaxClass.submit(form, null, true, findPwd_win, function(
+					obj) {
+				obj.hide();
+				return ;
+			});
+		};
 		
 		loginWindow.show();
 		

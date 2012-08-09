@@ -19,6 +19,10 @@ public class MailTask implements Runnable {
 	
 	private MailEntity mail;
 	
+	public MailTask(MailEntity mail) {
+		this.mail = mail;
+	}
+	
 	public void run() {
 		MailHelper helper =  SpringContext.getBean("mailHelper");
 		

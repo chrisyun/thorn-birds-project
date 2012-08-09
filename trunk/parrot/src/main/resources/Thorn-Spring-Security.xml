@@ -15,6 +15,7 @@ http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 		<intercept-url pattern="/reference/**" filters="none" />
 		<intercept-url pattern="/resources/**" filters="none" />
 		<intercept-url pattern="/plugins/**" filters="none" />
+		<intercept-url pattern="/user/findBackMyPwd.jmt" filters="none" />
 		<intercept-url pattern="/Alert**" filters="none" />
 		<intercept-url pattern="/login.jsp*" filters="none" />
 		<intercept-url pattern="/**/*.js" filters="none" />

@@ -11,6 +11,9 @@
 		<result column="CREATER" property="creater" jdbcType="VARCHAR" />
 		<result column="CREATERNAME" property="createrName" jdbcType="VARCHAR" />
 		<result column="CREATETIME" property="createTime" jdbcType="VARCHAR" />
+		<result column="HANDLER" property="handler" jdbcType="VARCHAR" />
+		<result column="HANDLERTYPE" property="handlerType" jdbcType="VARCHAR" />
+		<result column="LIMIT" property="limit" jdbcType="VARCHAR" />
 	</resultMap>
 
 	<sql id="Base_Column_List">

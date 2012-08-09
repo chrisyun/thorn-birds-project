@@ -11,7 +11,7 @@ tree_loader.on("beforeload", function(loader, node) {
 });
 
 var tree_root = new Ext.tree.AsyncTreeNode( {
-	text : "组织树",
+	text : "文化部",
 	id : "-1",
 	iconCls : "tree-org",
 	pid : "ROOT",
@@ -83,7 +83,7 @@ function getOrgTreeSelect(id, width, isReadonly) {
 		id : "org-tree",
 		loader : tree_loader,
 		root : new Ext.tree.AsyncTreeNode( {
-			text : "组织树",
+			text : "文化部",
 			id : "-1",
 			iconCls : "tree-org",
 			pid : "ROOT",

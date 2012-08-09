@@ -29,6 +29,12 @@ public class Process implements Serializable {
 	
 	private Integer pid;
 	
+	private String handler;
+	
+	private String handlerType;
+	
+	private String limit;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -76,6 +82,24 @@ public class Process implements Serializable {
 	}
 	public void setPid(Integer pid) {
 		this.pid = pid;
+	}
+	public String getHandler() {
+		return handler;
+	}
+	public void setHandler(String handler) {
+		this.handler = handler;
+	}
+	public String getHandlerType() {
+		return handlerType;
+	}
+	public void setHandlerType(String handlerType) {
+		this.handlerType = handlerType;
+	}
+	public String getLimit() {
+		return limit;
+	}
+	public void setLimit(String limit) {
+		this.limit = limit;
 	}
 	
 }
