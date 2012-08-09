@@ -27,7 +27,7 @@ public class Process implements Serializable {
 	
 	private String createTime;
 	
-	private String pid;
+	private Integer pid;
 	
 	public Integer getId() {
 		return id;
@@ -71,10 +71,11 @@ public class Process implements Serializable {
 	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
-	public String getPid() {
+	public Integer getPid() {
 		return pid;
 	}
-	public void setPid(String pid) {
+	public void setPid(Integer pid) {
 		this.pid = pid;
 	}
+	
 }
