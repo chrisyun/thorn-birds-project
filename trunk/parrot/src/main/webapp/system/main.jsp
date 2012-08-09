@@ -37,11 +37,19 @@
 		    useArrows: true,
 			rootVisible: false,
 		 	loader: loader,
+		 	hidden : true,
 			root : new Ext.tree.AsyncTreeNode({
 				text : "系统菜单",
 				id: "SYS",
 				leaf: false
-			})
+			}),
+			listeners : {
+				"append" : function(tree, parent, node) {
+					if(!tree.isVisible() && parent == tree.getRootNode() ) {
+						tree.show();
+					}
+				}
+			}
 		});
 		
 		var navMenuTree = new Ext.tree.TreePanel( {
@@ -101,7 +109,6 @@
 					iconCls : "silk-table-refresh",
 					handler: function(){
 						sysMenuTree.getRootNode().reload();
-						flowMenuTree.getRootNode().reload();
 						navMenuTree.getRootNode().reload();
 	    			}
 				}]
