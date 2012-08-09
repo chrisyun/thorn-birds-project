@@ -1,0 +1,246 @@
+package org.thorn.app.entity;
+
+import java.io.Serializable;
+
+/** 
+ * @ClassName: ProjectCost 
+ * @Description: 
+ * @author chenyun
+ * @date 2012-8-9 上午10:43:10 
+ */
+public class ProjectCost implements Serializable {
+
+	/** */
+	private static final long serialVersionUID = 7749363773185467068L;
+
+	private Integer id;
+	
+	private Integer projectId;
+	
+	private String projectName;
+	
+	private Integer year;
+	
+	private String creater;
+	
+	private String createrName;
+	
+	private String province;
+	
+	private String attids;
+	
+	private String address;
+	
+	private String postalCode;
+	
+	private String contacts;
+	
+	private String phone;
+	
+	private String bankName;
+	
+	private String bank;
+	
+	private String bankAccount;
+	
+	private String companyCtf;
+
+	private String appReason;
+	
+	private String content;
+	
+	private String target;
+	
+	private String usedYear;
+	
+	private String budget;
+	
+	private Double money;
+	
+	private String applyTime;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(Integer projectId) {
+		this.projectId = projectId;
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+
+	public Integer getYear() {
+		return year;
+	}
+
+	public void setYear(Integer year) {
+		this.year = year;
+	}
+
+	public String getCreater() {
+		return creater;
+	}
+
+	public void setCreater(String creater) {
+		this.creater = creater;
+	}
+
+	public String getCreaterName() {
+		return createrName;
+	}
+
+	public void setCreaterName(String createrName) {
+		this.createrName = createrName;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getAttids() {
+		return attids;
+	}
+
+	public void setAttids(String attids) {
+		this.attids = attids;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getPostalCode() {
+		return postalCode;
+	}
+
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
+
+	public String getContacts() {
+		return contacts;
+	}
+
+	public void setContacts(String contacts) {
+		this.contacts = contacts;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getBankName() {
+		return bankName;
+	}
+
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+
+	public String getBank() {
+		return bank;
+	}
+
+	public void setBank(String bank) {
+		this.bank = bank;
+	}
+
+	public String getBankAccount() {
+		return bankAccount;
+	}
+
+	public void setBankAccount(String bankAccount) {
+		this.bankAccount = bankAccount;
+	}
+
+	public String getCompanyCtf() {
+		return companyCtf;
+	}
+
+	public void setCompanyCtf(String companyCtf) {
+		this.companyCtf = companyCtf;
+	}
+
+	public String getAppReason() {
+		return appReason;
+	}
+
+	public void setAppReason(String appReason) {
+		this.appReason = appReason;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getTarget() {
+		return target;
+	}
+
+	public void setTarget(String target) {
+		this.target = target;
+	}
+
+	public String getUsedYear() {
+		return usedYear;
+	}
+
+	public void setUsedYear(String usedYear) {
+		this.usedYear = usedYear;
+	}
+
+	public String getBudget() {
+		return budget;
+	}
+
+	public void setBudget(String budget) {
+		this.budget = budget;
+	}
+
+	public Double getMoney() {
+		return money;
+	}
+
+	public void setMoney(Double money) {
+		this.money = money;
+	}
+
+	public String getApplyTime() {
+		return applyTime;
+	}
+
+	public void setApplyTime(String applyTime) {
+		this.applyTime = applyTime;
+	}
+}
+
