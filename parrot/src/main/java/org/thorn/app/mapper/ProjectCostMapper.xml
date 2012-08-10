@@ -1,21 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="ProjectMapper">
+<mapper namespace="ProjectCostMapper">
 
-	<resultMap id="BaseResultMap" type="org.thorn.app.entity.Project">
+	<resultMap id="BaseResultMap" type="org.thorn.app.entity.ProjectCost">
 		<id column="ID" property="id" jdbcType="DECIMAL" />
-		<result column="NAME" property="name" jdbcType="VARCHAR" />
-		<result column="CODE" property="code" jdbcType="VARCHAR" />
-		<result column="TYPE" property="type" jdbcType="VARCHAR" />
-		<result column="ISUNPROJECT" property="isUnProject" jdbcType="VARCHAR" />
-		<result column="BIGNO" property="bigNo" jdbcType="VARCHAR" />
-		<result column="SMALLNO" property="smallNo" jdbcType="VARCHAR" />
-		<result column="BATCHNUM" property="batchNum" jdbcType="VARCHAR" />
-		<result column="MINORITY" property="minority" jdbcType="VARCHAR" />
-		<result column="AREA" property="area" jdbcType="VARCHAR" />
-		<result column="USERID" property="userId" jdbcType="VARCHAR" />
-		<result column="UNAME" property="userName" jdbcType="VARCHAR" />
+		<result column="PROJECTID" property="projectId" jdbcType="DECIMAL" />
+		<result column="PROJECTNAME" property="projectName" jdbcType="VARCHAR" />
+		<result column="YEAR" property="year" jdbcType="DECIMAL" />
+		<result column="CREATER" property="creater" jdbcType="VARCHAR" />
+		<result column="CREATERNAME" property="createrName" jdbcType="VARCHAR" />
 		<result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+		<result column="ATTIDS" property="attids" jdbcType="VARCHAR" />
+		<result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+		<result column="POSTALCODE" property="postalCode" jdbcType="VARCHAR" />
+		<result column="CONTACTS" property="contacts" jdbcType="VARCHAR" />
+		<result column="PHONE" property="phone" jdbcType="VARCHAR" />
+		<result column="BANKNAME" property="bankName" jdbcType="VARCHAR" />
+		<result column="BANK" property="bank" jdbcType="VARCHAR" />
+		<result column="BANKACCOUNT" property="bankAccount" jdbcType="VARCHAR" />
+		<result column="COMPANYCTF" property="companyCtf" jdbcType="VARCHAR" />
+		<result column="APPREASON" property="appReason" jdbcType="VARCHAR" />
+		<result column="CONTENT" property="content" jdbcType="VARCHAR" />
+		<result column="TARGET" property="target" jdbcType="VARCHAR" />
+		<result column="USEDYEAR" property="usedYear" jdbcType="VARCHAR" />
+		<result column="MONEY" property="money" jdbcType="DOUBLE" />
+		<result column="BUDGET" property="budget" jdbcType="VARCHAR" />
+		<result column="APPLYTIME" property="applyTime" jdbcType="VARCHAR" />
 	</resultMap>
 
 	<sql id="Base_Column_List">

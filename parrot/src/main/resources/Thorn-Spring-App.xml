@@ -12,5 +12,6 @@
 	
 	<bean id="projectService" class="org.thorn.app.service.ProjectServiceImpl" />
 	<bean id="heritorService" class="org.thorn.app.service.HeritorServiceImpl" />
+	<bean id="reseverService" class="org.thorn.app.service.ReseverServiceImpl" />
 	
 </beans>

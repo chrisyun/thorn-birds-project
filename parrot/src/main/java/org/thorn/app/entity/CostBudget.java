@@ -2,12 +2,22 @@ package org.thorn.app.entity;
 
 import java.io.Serializable;
 
+import org.thorn.dao.mybatis.annotation.Mapper;
+import org.thorn.dao.mybatis.annotation.MapperNode;
+import org.thorn.dao.mybatis.annotation.MethodType;
+
 /** 
  * @ClassName: CostBudget 
  * @Description: 
  * @author chenyun
  * @date 2012-8-9 上午10:44:08 
  */
+@Mapper(nameSpace="CostBudgetMapper",node= {
+		@MapperNode(id="insert",type=MethodType.INSERT),
+		@MapperNode(id="update",type=MethodType.UPDATE),
+		@MapperNode(id="delete",type=MethodType.DELETE_BATCH),
+		@MapperNode(id="selectList",type=MethodType.QUERY_LIST)
+})
 public class CostBudget implements Serializable {
 	
 	/** */
