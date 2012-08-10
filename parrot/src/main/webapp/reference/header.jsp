@@ -62,7 +62,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div id="loading">
 		    <div class="loading-indicator">
 		    	<img src="<%=path %>/resources/images/local/page-loading.gif" width="32" height="32" style="margin-right:8px;float:left;vertical-align:top;"/>
-		    		Ext JS 3.2 - <a href="http://extjs.com">extjs.com</a><br />
+		    		文化部 - <a href="http://www.ccnt.gov.cn/">www.ccnt.gov.cn</a><br />
 		    		<span id="loading-msg">Loading styles and images...</span>
 		    </div>
 		</div>

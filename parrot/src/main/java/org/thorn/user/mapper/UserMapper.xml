@@ -184,7 +184,8 @@
 	
 	<select id="selectPageCount" parameterType="hashmap"
 		resultType="long">
-		select count(*) from T_SYS_USER U
+		select count(*) from T_SYS_USER U left join T_SYS_ORG O 
+		on U.ORGCODE = O.ORGCODE
 		<include refid="Where_Clause" />
 	</select>
 	

@@ -50,16 +50,14 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	public void save(User user) throws DBAccessException {
-
+		
+		String numTemp = "0000";
+		
 		String seqNum = incrSequence.nextStringValue();
+		
+		seqNum = numTemp.substring(seqNum.length()) + seqNum;
 
-		char[] a = new char[] { 0, 0, 0, 0 };
-		char[] b = seqNum.toCharArray();
-		for (int i = b.length - 1, j = a.length - 1; i < 0 && j < 0; i--, j--) {
-			a[j] = b[i];
-		}
-
-		String userId = "FY" + user.getOrgCode() + new String(a);
+		String userId = "FY" + user.getOrgCode() + seqNum;
 		user.setUserId(userId);
 
 		String pwd = user.getUserPwd();
