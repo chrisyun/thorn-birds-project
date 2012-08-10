@@ -65,6 +65,7 @@ public interface IOrgService {
 	 * @param orgCode
 	 * @param orgName
 	 * @param orgType
+	 * @param area
 	 * @param start
 	 * @param limit
 	 * @param sort
@@ -73,8 +74,8 @@ public interface IOrgService {
 	 * @throws DBAccessException
 	 */
 	public Page<Org> queryPage(String pid, String orgCode, String orgName,
-			String orgType, long start, long limit, String sort, String dir)
-			throws DBAccessException;
+			String orgType, String area, long start, long limit, String sort,
+			String dir) throws DBAccessException;
 
 	/**
 	 * 
@@ -87,8 +88,9 @@ public interface IOrgService {
 	 * @throws DBAccessException
 	 */
 	public Org queryOrg(String orgCode, String orgId) throws DBAccessException;
-	
+
 	public Org queryParentOrg(String childOrgCode) throws DBAccessException;
-	
-	public List<Org> queryList(String pid, Collection<String> pids) throws DBAccessException;
+
+	public List<Org> queryList(String pid, Collection<String> pids)
+			throws DBAccessException;
 }

@@ -2,12 +2,23 @@ package org.thorn.app.entity;
 
 import java.io.Serializable;
 
+import org.thorn.dao.mybatis.annotation.Mapper;
+import org.thorn.dao.mybatis.annotation.MapperNode;
+import org.thorn.dao.mybatis.annotation.MethodType;
+
 /** 
  * @ClassName: Resever 
  * @Description: 
  * @author chenyun
  * @date 2012-8-9 上午10:44:25 
  */
+@Mapper(nameSpace="ReseverMapper",node= {
+		@MapperNode(id="insert",type=MethodType.INSERT),
+		@MapperNode(id="update",type=MethodType.UPDATE),
+		@MapperNode(id="delete",type=MethodType.DELETE_BATCH),
+		@MapperNode(id="selectPageCount",type=MethodType.COUNT),
+		@MapperNode(id="selectPage",type=MethodType.QUERY)
+})
 public class Resever implements Serializable {
 	
 	/** */
@@ -24,6 +35,8 @@ public class Resever implements Serializable {
 	private String userId;
 	
 	private String province;
+	
+	private String userName;
 
 	public Integer getId() {
 		return id;
@@ -71,6 +84,14 @@ public class Resever implements Serializable {
 
 	public void setProvince(String province) {
 		this.province = province;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 }
 
