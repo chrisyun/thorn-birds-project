@@ -32,7 +32,9 @@ function WindowUtil(winAttr, form, saveHandler) {
 }
 
 WindowUtil.prototype.show = function(title) {
-	this.win.setTitle(title);
+	if(!Ext.isEmpty(title)) {
+		this.win.setTitle(title);
+	}
 	this.win.show();
 };
 

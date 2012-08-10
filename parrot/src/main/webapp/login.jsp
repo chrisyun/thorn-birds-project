@@ -4,7 +4,7 @@
 <style>
 <!--
 body {
-	background-color: #4E79B2;
+	background: #f9f9f9;
 }
 
 .error {
@@ -12,8 +12,20 @@ body {
 	padding-left: 120px;
 	padding-top: 2px;
 }
+
+.bg {
+	background-image: url(resources/images/local/login-bg.jpg);
+	background-position:center;
+	background-repeat: no-repeat;
+	margin-top: 30px;
+}
 -->
 </style>
+<script type="text/javascript" src="plugins/local/mouseUtils.js" ></script>
+
+<table class="bg" width="1000px" height="500px" align="center">
+	<tr><td>&nbsp;</td></tr>
+</table>
 
 <script type="text/javascript">
 
@@ -119,7 +131,8 @@ body {
 			width:370,
 			height:250,
 			tbar:["->", "-", {text:"忘记密码", handler : function() {
-				findPwd_win.show("找回密码");
+				findPwd_win.getWindow().setPagePosition(mouseXY.x, mouseXY.y);
+				findPwd_win.show();
 			}}, "-"],
 			items : [loginPanel],
 			buttonAlign : "center",
@@ -140,16 +153,16 @@ body {
 		var findPwd_form = new FormUtil( {
 			id : "fpwdForm",
 			collapsible : false,
-			labelWidth : 120,
-			border : false,
-			html : "<div style='padding: 10px 20px 10px 20px;color: red;font-size: 14px;'>请输入系统的登录用户名及注册邮箱，核对无误后，我们会将新密码发送至您的邮箱，请注意查收！</div>"
+			labelWidth : 113,
+			border : false
 		});
 		
 		findPwd_form.addComp(getText("userId", "用户名", 180), 1.0, false);
 		findPwd_form.addComp(getMailText("userEmail", "注册邮箱", 180), 1.0, false);
 		var findPwd_win = new WindowUtil( {
-			width : 370,
-			height : 230
+			title : "<div style='color: red;font-size: 14px;'>身份核对后系统会将新密码发送至您的邮箱，请注意查收！</div>",
+			width : 420,
+			height : 150
 		}, findPwd_form.getPanel(), findMyPwd);
 		
 		findPwd_win.saveBtn.setText("提交");
