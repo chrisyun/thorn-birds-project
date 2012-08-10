@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer;
 import org.springframework.security.core.userdetails.UserCache;
 import org.thorn.core.jmail.MailEntity;
 import org.thorn.core.util.ExecutorUtils;
@@ -37,6 +38,10 @@ public class UserServiceImpl implements IUserService {
 	@Qualifier("userSecurityCache")
 	private UserCache userCache;
 
+	@Autowired
+	@Qualifier("incrSequence")
+	private DataFieldMaxValueIncrementer incrSequence;
+
 	public User queryUserByLogin(String idOrAccount) throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
 		filter.put("idOrAccount", idOrAccount);
@@ -45,8 +50,16 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	public void save(User user) throws DBAccessException {
-		
-		String userId = "FY" + user.getOrgCode() + LocalStringUtils.randomNumber(4);
+
+		String seqNum = incrSequence.nextStringValue();
+
+		char[] a = new char[] { 0, 0, 0, 0 };
+		char[] b = seqNum.toCharArray();
+		for (int i = b.length - 1, j = a.length - 1; i < 0 && j < 0; i--, j--) {
+			a[j] = b[i];
+		}
+
+		String userId = "FY" + user.getOrgCode() + new String(a);
 		user.setUserId(userId);
 
 		String pwd = user.getUserPwd();
@@ -58,7 +71,8 @@ public class UserServiceImpl implements IUserService {
 
 		userDao.save(user);
 
-		if (LocalStringUtils.isNotEmpty(pwd)) {
+		if (LocalStringUtils.isNotEmpty(pwd)
+				&& LocalStringUtils.isNotEmpty(user.getCumail())) {
 			MailEntity mailInfo = MailTemplete.registerUser(user.getUserName(),
 					user.getCumail(), pwd, user.getUserId());
 			MailTask task = new MailTask(mailInfo);
@@ -77,7 +91,8 @@ public class UserServiceImpl implements IUserService {
 		userDao.modify(user);
 		userCache.removeUserFromCache(user.getUserId());
 
-		if (LocalStringUtils.isNotEmpty(pwd)) {
+		if (LocalStringUtils.isNotEmpty(pwd)
+				&& LocalStringUtils.isNotEmpty(user.getCumail())) {
 			MailEntity mailInfo = MailTemplete.changePassWd(user.getUserName(),
 					user.getCumail(), pwd);
 			MailTask task = new MailTask(mailInfo);
@@ -114,13 +129,14 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	public Page<User> queryPage(String orgCode, String userName, String cumail,
-			String userAccount, long start, long limit, String sort, String dir)
-			throws DBAccessException {
+			String area, String userAccount, long start, long limit,
+			String sort, String dir) throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
 
 		filter.put("idOrAccount", userAccount);
 		filter.put("cumail", cumail);
 		filter.put("orgCode", orgCode);
+		filter.put("area", area);
 		filter.put("userName", userName);
 
 		filter.put(Configuration.PAGE_LIMIT, limit);

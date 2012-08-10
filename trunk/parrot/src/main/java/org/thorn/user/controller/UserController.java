@@ -7,19 +7,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.thorn.auth.service.IAuthService;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
-import org.thorn.web.entity.JsonResponse;
 import org.thorn.web.entity.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.security.SecurityUserUtils;
-import org.thorn.security.entity.UserSecurity;
 import org.thorn.user.entity.User;
 import org.thorn.user.service.IUserService;
 import org.thorn.web.controller.BaseController;
@@ -115,10 +111,7 @@ public class UserController extends BaseController {
 		Status status = new Status();
 
 		try {
-			Authentication auth = SecurityContextHolder.getContext()
-					.getAuthentication();
-			UserSecurity us = (UserSecurity) auth.getPrincipal();
-			User user = us.getUser();
+			User user = SecurityUserUtils.getCurrentUser();
 
 			service.changePwd(user.getUserId(), newPwd);
 			status.setMessage("密码修改成功！");
@@ -154,15 +147,16 @@ public class UserController extends BaseController {
 			String dir, String orgCode, String userName, String cumail,
 			String userAccount) {
 		Page<User> page = new Page<User>();
-
+		String area = null;
+		
 		try {
 			User user = SecurityUserUtils.getCurrentUser();
 			
 			if(! SecurityUserUtils.isSysAdmin()) {
-				orgCode = user.getOrgCode();
+				area = user.getArea();
 			}
 			
-			page = service.queryPage(orgCode, userName, cumail, userAccount,
+			page = service.queryPage(orgCode, userName, cumail, area, userAccount,
 					start, limit, sort, dir);
 		} catch (DBAccessException e) {
 			log.error("getUserPage[User] - " + e.getMessage(), e);
@@ -284,6 +278,7 @@ public class UserController extends BaseController {
 				status.setMessage("身份核对未通过，登录名或注册邮箱有误！");
 			}
 		} catch (DBAccessException e) {
+			status.setSuccess(false);
 			status.setMessage("数据处理出错：" + e.getMessage());
 			log.error("findBackMyPwd[String] - " + e.getMessage(), e);
 		}

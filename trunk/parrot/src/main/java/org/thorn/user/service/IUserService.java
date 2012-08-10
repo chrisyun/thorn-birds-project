@@ -27,8 +27,8 @@ public interface IUserService {
 	public void delete(String ids) throws DBAccessException;
 
 	public Page<User> queryPage(String orgCode, String userName, String cumail,
-			String userAccount, long start, long limit, String sort, String dir)
-			throws DBAccessException;
+			String area, String userAccount, long start, long limit,
+			String sort, String dir) throws DBAccessException;
 
 	public void disabledUser(String ids, String isDisabled)
 			throws DBAccessException;

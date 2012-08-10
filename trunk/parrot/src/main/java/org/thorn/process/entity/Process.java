@@ -33,7 +33,7 @@ public class Process implements Serializable {
 	
 	private String handlerType;
 	
-	private String limit;
+	private String province;
 	
 	public Integer getId() {
 		return id;
@@ -95,11 +95,11 @@ public class Process implements Serializable {
 	public void setHandlerType(String handlerType) {
 		this.handlerType = handlerType;
 	}
-	public String getLimit() {
-		return limit;
+	public String getProvince() {
+		return province;
 	}
-	public void setLimit(String limit) {
-		this.limit = limit;
+	public void setProvince(String province) {
+		this.province = province;
 	}
 	
 }

@@ -26,4 +26,5 @@
 
 	<import resource="Thorn-Spring-Service.xml" />
 	<import resource="Thorn-Spring-Security.xml" />
+	<import resource="Thorn-Spring-App.xml" />
 </beans>
