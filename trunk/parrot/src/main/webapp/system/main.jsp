@@ -37,17 +37,21 @@
 		    useArrows: true,
 			rootVisible: false,
 		 	loader: loader,
-		 	hidden : true,
 			root : new Ext.tree.AsyncTreeNode({
 				text : "系统菜单",
 				id: "SYS",
 				leaf: false
 			}),
 			listeners : {
-				"append" : function(tree, parent, node) {
-					if(!tree.isVisible() && parent == tree.getRootNode() ) {
-						tree.show();
+				"beforeappend" : function(tree, parent, node) {
+					var sysMenu = menuPanel.findById("sysMenu");
+					
+					if(!sysMenu.isVisible()) {
+						sysMenu.show();
+						menuPanel.doLayout();
 					}
+					
+					return true;
 				}
 			}
 		});
@@ -84,8 +88,9 @@
 				items : [navMenuTree]
 			}, {
 				title : "系统菜单",
-				html : "",
 				border : false,
+				id : "sysMenu",
+				hidden : true,
 				iconCls : "silk-settings",
 				items : [sysMenuTree]
 			} ],
@@ -139,7 +144,7 @@
 			if(!Ext.isEmpty(openUrl)){
     			var prefix = "?";
     			if (openUrl.indexOf("?") > -1) {
-    				prefix = "&"
+    				prefix = "&";
         		}
     			openUrl = openUrl + prefix + "random=" + Math.random();
            	}
@@ -167,7 +172,7 @@
 				}}	
 			});
 			mainTab.activate(node.id);
-		}
+		};
 		
 		navMenuTree.on("click",function(node, ev){
 			treeClick(node,ev);
