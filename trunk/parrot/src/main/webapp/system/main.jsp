@@ -100,6 +100,7 @@
 				menu : new Ext.menu.Menu( {
 					items : [ {
 						text : "更换皮肤",
+						hidden : true,
 					 	menu: {
                				items: skinItemArray
                			}
