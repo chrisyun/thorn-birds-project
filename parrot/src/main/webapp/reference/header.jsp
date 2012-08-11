@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="thorn" uri="/thorn"%>
 <%
 String path = request.getContextPath();
@@ -102,9 +103,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				var user = {
 					userId 		: "<sec:authentication property="principal.username" />",
 					userName 	: "<sec:authentication property="principal.user.userName" />",
+					org			: "<sec:authentication property="principal.user.orgCode" />",
 					cumail 		: "<sec:authentication property="principal.user.cumail" />",
-					phone 		: "<sec:authentication property="principal.user.phone" />"
+					phone 		: "<sec:authentication property="principal.user.phone" />",
+					role		: new Array()
 				};
+				
+				<sec:authentication property="authorities" var="authorities" scope="page"/>
+				<c:forEach items="${authorities}" var="authority">
+				user.role.push("${authority.authority}");
+				</c:forEach>
 				
 				var yesOrNo = <thorn:dd  typeId="YESORNO" />;
 				

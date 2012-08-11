@@ -34,9 +34,9 @@ public class Project implements Serializable {
 	
 	private String isUnProject;
 	
-	private String bigNo;
+	private Integer bigNo;
 	
-	private String smallNo;
+	private Integer smallNo;
 	
 	private String batchNum;
 	
@@ -89,20 +89,20 @@ public class Project implements Serializable {
 	public void setIsUnProject(String isUnProject) {
 		this.isUnProject = isUnProject;
 	}
-
-	public String getBigNo() {
+	
+	public Integer getBigNo() {
 		return bigNo;
 	}
 
-	public void setBigNo(String bigNo) {
+	public void setBigNo(Integer bigNo) {
 		this.bigNo = bigNo;
 	}
 
-	public String getSmallNo() {
+	public Integer getSmallNo() {
 		return smallNo;
 	}
 
-	public void setSmallNo(String smallNo) {
+	public void setSmallNo(Integer smallNo) {
 		this.smallNo = smallNo;
 	}
 

@@ -1,0 +1,45 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="thorn" uri="/thorn"%>
+<jsp:include page="/springTag/header.jmt"></jsp:include>
+
+<script type="text/javascript" src="project.js"></script>
+<script type="text/javascript">
+
+	document.title = "Project - Page";
+	
+	var area = <thorn:dd  typeId="AREA" />;
+	var areaRender = function(str) {
+		return Render.dictRender(area, str);
+	};
+
+	var province = new Array();
+	var roles = user.role.join(",");
+	if (roles.indexOf(Configuration.keyRole.ADMIN) < 0
+			&& roles.indexOf(Configuration.keyRole.CENTRE) < 0) {
+		for ( var i = 0; i < area.length; i++) {
+			if (area[i][0] == user.org) {
+				province.push(area[i]);
+				break;
+			}
+		}
+	}
+	area = province;
+
+	var projectType = <thorn:dd  typeId="PROJECT_TYPE" />;
+	var projectTypeRender = function(str) {
+		return Render.dictRender(projectType, str);
+	};
+
+	var minority = <thorn:dd  typeId="MINORITY" />;
+	var minorityRender = function(str) {
+		return Render.dictRender(minority, str);
+	};
+
+	var userPermission = {
+		SAVE : '<sec:authorize url="/project/saveOrModify*.jmt">true</sec:authorize>',
+		MODIFY : '<sec:authorize url="/project/saveOrModify*.jmt">true</sec:authorize>',
+		REMOVE : '<sec:authorize url="/project/deleteProject.jmt">true</sec:authorize>',
+	};
+</script>
+<jsp:include page="../reference/footer.jsp"></jsp:include>
