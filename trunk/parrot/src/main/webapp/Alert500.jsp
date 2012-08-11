@@ -14,7 +14,7 @@ response.setStatus(HttpServletResponse.SC_OK);
     
 	<style type="text/css">
 	   	body {
-			background-color: #4E79B2;
+			background-color: #D2E0F1;
 		}
 		
 		#exception {

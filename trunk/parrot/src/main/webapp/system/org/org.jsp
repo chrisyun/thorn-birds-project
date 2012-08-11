@@ -24,7 +24,7 @@
 		SAVE : '<sec:authorize url="/org/saveOrModify*.jmt">true</sec:authorize>',
 		MODIFY : '<sec:authorize url="/org/saveOrModify*.jmt">true</sec:authorize>',
 		REMOVE : '<sec:authorize url="/org/deleteOrg.jmt">true</sec:authorize>',
-	}
+	};
 	
 </script>
 <jsp:include page="../../reference/footer.jsp"></jsp:include>

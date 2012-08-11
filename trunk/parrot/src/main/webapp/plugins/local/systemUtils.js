@@ -18,7 +18,7 @@ function completePage() {
         Ext.fly('loading-mask').fadeOut({
             remove:true
         });
-    }
+    };
 
     hideMask.defer(250);
 }

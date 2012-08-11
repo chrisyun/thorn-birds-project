@@ -8,8 +8,8 @@
 		<result column="CODE" property="code" jdbcType="VARCHAR" />
 		<result column="TYPE" property="type" jdbcType="VARCHAR" />
 		<result column="ISUNPROJECT" property="isUnProject" jdbcType="VARCHAR" />
-		<result column="BIGNO" property="bigNo" jdbcType="VARCHAR" />
-		<result column="SMALLNO" property="smallNo" jdbcType="VARCHAR" />
+		<result column="BIGNO" property="bigNo" jdbcType="DECIMAL" />
+		<result column="SMALLNO" property="smallNo" jdbcType="DECIMAL" />
 		<result column="BATCHNUM" property="batchNum" jdbcType="VARCHAR" />
 		<result column="MINORITY" property="minority" jdbcType="VARCHAR" />
 		<result column="AREA" property="area" jdbcType="VARCHAR" />
@@ -69,8 +69,8 @@
 			<if test="code != null and code != ''">#{code,jdbcType=VARCHAR},</if>
 			<if test="type != null and type != ''">#{type,jdbcType=VARCHAR},</if>
 			<if test="isUnProject != null and isUnProject != ''">#{isUnProject,jdbcType=VARCHAR},</if>
-			<if test="bigNo != null and bigNo != ''">#{bigNo,jdbcType=VARCHAR},</if>
-			<if test="smallNo != null and smallNo != ''">#{smallNo,jdbcType=VARCHAR},</if>
+			<if test="bigNo != null and bigNo != ''">#{bigNo,jdbcType=DECIMAL},</if>
+			<if test="smallNo != null and smallNo != ''">#{smallNo,jdbcType=DECIMAL},</if>
 			<if test="batchNum != null and batchNum != ''">#{batchNum,jdbcType=VARCHAR},</if>
 			<if test="minority != null and minority != ''">#{minority,jdbcType=VARCHAR},</if>
 			<if test="area != null and area != ''">#{area,jdbcType=VARCHAR},</if>
@@ -86,8 +86,8 @@
 			<if test="code != null and code != ''">CODE = #{code,jdbcType=VARCHAR},</if>
 			<if test="type != null and type != ''">TYPE = #{type,jdbcType=VARCHAR},</if>
 			<if test="isUnProject != null and isUnProject != ''">ISUNPROJECT = #{isUnProject,jdbcType=VARCHAR},</if>
-			<if test="bigNo != null and bigNo != ''">BIGNO = #{bigNo,jdbcType=VARCHAR},</if>
-			<if test="smallNo != null and smallNo != ''">SMALLNO = #{smallNo,jdbcType=VARCHAR},</if>
+			<if test="bigNo != null and bigNo != ''">BIGNO = #{bigNo,jdbcType=DECIMAL},</if>
+			<if test="smallNo != null and smallNo != ''">SMALLNO = #{smallNo,jdbcType=DECIMAL},</if>
 			<if test="batchNum != null and batchNum != ''">BATCHNUM = #{batchNum,jdbcType=VARCHAR},</if>
 			<if test="minority != null and minority != ''">MINORITY = #{minority,jdbcType=VARCHAR},</if>
 			<if test="area != null and area != ''">AREA = #{area,jdbcType=VARCHAR},</if>

@@ -12,7 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<style>
 	<!--
 	body {
-		background-color: #4E79B2;
+		background-color: #D2E0F1;
 	}
 	.error {
     	width: 400px;
