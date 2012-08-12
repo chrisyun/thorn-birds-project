@@ -3,10 +3,10 @@
 <%@ taglib prefix="thorn" uri="/thorn"%>
 <jsp:include page="/springTag/header.jmt"></jsp:include>
 
-<script type="text/javascript" src="project.js"></script>
+<script type="text/javascript" src="resever.js"></script>
 <script type="text/javascript">
 
-	document.title = "Project - Page";
+	document.title = "Resever - Page";
 	
 	var area = <thorn:dd  typeId="AREA" />;
 	var areaRender = function(str) {
@@ -28,21 +28,11 @@
 		}
 		area = province;
 	}
-	
-	var projectType = <thorn:dd  typeId="PROJECT_TYPE" />;
-	var projectTypeRender = function(str) {
-		return Render.dictRender(projectType, str);
-	};
-
-	var minority = <thorn:dd  typeId="MINORITY" />;
-	var minorityRender = function(str) {
-		return Render.dictRender(minority, str);
-	};
 
 	var userPermission = {
-		SAVE : '<sec:authorize url="/project/saveOrModify*.jmt">true</sec:authorize>',
-		MODIFY : '<sec:authorize url="/project/saveOrModify*.jmt">true</sec:authorize>',
-		REMOVE : '<sec:authorize url="/project/deleteProject.jmt">true</sec:authorize>',
+		SAVE : '<sec:authorize url="/resever/saveOrModify*.jmt">true</sec:authorize>',
+		MODIFY : '<sec:authorize url="/resever/saveOrModify*.jmt">true</sec:authorize>',
+		REMOVE : '<sec:authorize url="/resever/deleteResever.jmt">true</sec:authorize>',
 	};
 </script>
 <jsp:include page="../reference/footer.jsp"></jsp:include>

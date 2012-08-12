@@ -67,4 +67,11 @@ public class ProjectServiceImpl implements IProjectService {
 
 	}
 
+	public List<Project> queryList(String province) throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+		filter.put("province", province);
+
+		return myBatisDaoSupport.queryList(filter, Project.class);
+	}
+
 }

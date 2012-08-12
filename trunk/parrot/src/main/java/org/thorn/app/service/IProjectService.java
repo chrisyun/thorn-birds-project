@@ -1,5 +1,7 @@
 package org.thorn.app.service;
 
+import java.util.List;
+
 import org.thorn.app.entity.Project;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.web.entity.Page;
@@ -22,4 +24,7 @@ public interface IProjectService {
 			String userId, String type, String isUnProject, String province,
 			long start, long limit, String sort, String dir)
 			throws DBAccessException;
+	
+	public List<Project> queryList(String province) throws DBAccessException;
+	
 }

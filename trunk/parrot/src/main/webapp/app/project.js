@@ -2,6 +2,8 @@ var projectPageUrl = sys.path + "/project/getProjectPage.jmt";
 var projectSubmitUrl = sys.path + "/project/saveOrModifyProject.jmt";
 var projectDeleteUrl = sys.path + "/project/deleteProject.jmt";
 
+var getUsersByProvince = sys.path + "/user/getUserList.jmt";
+
 var pageSize = 20;
 
 Ext.onReady(function() {
@@ -11,19 +13,19 @@ Ext.onReady(function() {
 	var query_attr = {
 		title : "查询列表",
 		region : "north",
-		height : 70,
-		labelWidth : 70
+		height : 100,
+		labelWidth : 80
 	};
 
 	var query_form = new FormUtil(query_attr);
 
-	query_form.addComp(getComboBox("query_type", "项目类别", 120, projectType,
+	query_form.addComp(getComboBox("query_type", "项目类别", 160, projectType,
 			false), 0.3, true);
-	query_form.addComp(getText("query_name", "项目名称",120), 0.3, true);
-	query_form.addComp(getComboBox("query_area", "所属省份", 120, module, false),
+	query_form.addComp(getText("query_name", "项目名称",160), 0.3, true);
+	query_form.addComp(getComboBox("query_area", "所属省份", 160, area, false),
 			0.3, true);
-	query_form.addComp(getText("query_code", "项目编码",120), 0.3, true);
-	query_form.addComp(getText("query_userName", "申报单位",120), 0.3, true);
+	query_form.addComp(getText("query_code", "项目编码",160), 0.3, true);
+	query_form.addComp(getText("query_userName", "项目保护单位",160), 0.3, true);
 	query_form.addComp(getQueryBtn(onSubmitQueryHandler), 0.3, true);
 	/** ****************query panel end*************** */
 
@@ -32,12 +34,12 @@ Ext.onReady(function() {
 	var recordArray = [
 			getRecord(null, "id", "string"),
 			getRecord(null, "userId", "string"),
+			getRecord(null, "bigNo", "string"),
+			getRecord(null, "smallNo", "string"),
 			getRecord("省份", "province", "string", 80, true, areaRender),
-			getRecord("大项序号", "bigNo", "string", 100, true),
 			getRecord("项目类别", "type", "string", 150, true, projectTypeRender),
 			getRecord("项目编码", "code", "string", 100, false),
 			getRecord("项目名称", "name", "string", 200, true),
-			getRecord("子项序号", "smallNo", "string", 100, true),
 			getRecord("申报地区或单位", "area", "string", 200, false),
 			getRecord("批次", "batchNum", "string", 50, true),
 			getRecord("项目保护单位", "userName", "string", 200, true),
@@ -75,31 +77,64 @@ Ext.onReady(function() {
 		border : false
 	});
 	
-	project_form.addComp(getComboBox("province", "所属省份", 180, area, true), 0.5,
-			true);
-	project_form.addComp(getText("bigNo", "大项序号", 180), 0.5, true);
-	project_form.addComp(getComboBox("type", "项目类别", 180, projectType, true), 0.5,
-			true);
-	project_form.addComp(getText("code", "项目编码", 180), 0.5, true);
-	project_form.addComp(getText("name", "项目名称", 180), 0.5, true);
 	
-	project_form.addComp(getText("smallNo", "子项序号", 180), 0.5, true);
-	project_form.addComp(getComboBox("minority", "民族", 180, minority, true), 0.5,
-			true);
-	project_form.addComp(getComboBox("minority", "联合国非遗项目", 180, yesOrNo, true), 0.5,
-			true);
-	project_form.addComp(getText("batchNum", "批次", 180), 0.5, true);
-	project_form.addComp(getText("area", "申报地区或单位", 180), 0.5, true);
-	project_form.addComp(getComboBox("userId", "申报单位", 180, yesOrNo, true), 0.5,
-			true);
+	var userStore = new Ext.data.Store({
+		url : getUsersByProvince,
+		listeners : {
+			"beforeload" : function(thisStore) {
+				var province = project_form.findById("show_province").getValue();
+				thisStore.baseParams.area = province;
+			}
+		},
+		reader : new Ext.data.JsonReader({}, Ext.data.Record
+						.create([{
+									name : 'userId',
+									type : 'string'
+								}, {
+									name : 'userName',
+									type : 'string'
+								}]))
+	});
 	
+	var provinceCb = getComboBox("province", "所属省份", 180, area);
+	provinceCb.listeners = {
+		"change" : function(field, newValue, oldValue) {
+			project_form.findById("show_userId").setValue();
+			userStore.load();
+		}	
+	};
+	
+	project_form.addComp(provinceCb, 0.5, false);
+	project_form.addComp(getNumberText("bigNo", "大项序号", 180), 0.5, true);
+	project_form.addComp(getComboBox("type", "项目类别", 180, projectType),
+			0.5, false);
+	project_form.addComp(getText("code", "项目编码", 180), 0.5, false);
+	project_form.addComp(getText("name", "项目名称", 180), 0.5, false);
+
+	project_form.addComp(getNumberText("smallNo", "子项序号", 180), 0.5, true);
+	project_form.addComp(getComboBox("minority", "民族", 180, minority),
+			0.5, true);
+	project_form.addComp(getComboBox("isUnProject", "联合国非遗项目", 180,
+			yesOrNo), 0.5, true);
+	project_form.addComp(getText("batchNum", "批次", 180), 0.5, false);
+	project_form.addComp(getText("area", "申报地区或单位", 180), 0.5, false);
+	
+	var userCb = getComboBox("userId", "项目保护单位", 180, null);
+	userCb.valueField = "userId";
+	userCb.displayField = "userName";
+	userCb.lazyInit = true;
+	userCb.mode = "remote";
+	userCb.store = userStore;
+	
+	project_form.addComp(userCb, 0.5, false);
+
 	project_form.addComp(getHidden("opType"), 0, true);
 	project_form.addComp(getHidden("id"), 0, true);
 	
 	var project_win = new WindowUtil({
 		width : 650,
 		height : 340
-	}, project_form.getPanel(), null);
+	}, project_form.getPanel(), saveOrModify);
 
 	/** ****************project window end************ */
 
@@ -139,6 +174,8 @@ Ext.onReady(function() {
 			opType : Configuration.opType.MODIFY
 		};
 		project_form.getForm().setValues(values);
+		project_form.findById("show_userId").setRawValue(
+				selectedRecord.get("userName"));
 	}
 	
 	function saveOrModify() {
