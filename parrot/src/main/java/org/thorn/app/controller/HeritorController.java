@@ -1,5 +1,6 @@
 package org.thorn.app.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -102,6 +103,39 @@ public class HeritorController extends BaseController {
 		}
 
 		return page;
+	}
+
+	@RequestMapping("/getHeritorList")
+	@ResponseBody
+	public Page<Heritor> getHeritorList(String sort, String dir, String name,
+			String province) {
+		Page<Heritor> page = new Page<Heritor>();
+
+		try {
+			page.setReslutSet(heritorService.queryList(name, province, sort,
+					dir));
+		} catch (DBAccessException e) {
+			log.error("getHeritorList[Heritor] - " + e.getMessage(), e);
+		}
+
+		return page;
+	}
+	
+	@RequestMapping("/bingingProject")
+	@ResponseBody
+	public Status bingingProject(Integer projectId, String ids) {
+		Status status = new Status();
+		
+		try {
+			heritorService.modifyProject(projectId, ids);
+			status.setMessage("设置非遗项目传承人成功！");
+		} catch (DBAccessException e) {
+			status.setSuccess(false);
+			status.setMessage("设置非遗项目传承人失败：" + e.getMessage());
+			log.error("bingingProject[Heritor] - " + e.getMessage(), e);
+		}
+		
+		return status;
 	}
 
 }
