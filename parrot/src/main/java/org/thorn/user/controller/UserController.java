@@ -1,7 +1,9 @@
 package org.thorn.user.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -164,6 +166,24 @@ public class UserController extends BaseController {
 
 		return page;
 	}
+	
+	@RequestMapping("/getUserList")
+	@ResponseBody
+	public List<User> getUserList(String area) {
+		List<User> list = new ArrayList<User>();
+		
+		Set<String> areas = new HashSet<String>();
+		areas.add(area);
+		
+		try {
+			list = service.queryList(null, null, null, areas, null, null, null);
+		} catch (DBAccessException e) {
+			log.error("getUserList[User] - " + e.getMessage(), e);
+		}
+		
+		return list;
+	}
+	
 
 	@RequestMapping("/getUserPageByRole")
 	@ResponseBody

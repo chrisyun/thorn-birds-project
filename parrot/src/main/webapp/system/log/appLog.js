@@ -18,7 +18,8 @@ Ext.onReady(function() {
 
 	query_form.addComp(getDateText("query_startTime", "开始日期", 120, new Date()
 							.add(Date.MONTH, -1)), 0.2, true);
-	query_form.addComp(getDateText("query_endTime", "结束日期", 120), 0.2, true);
+	query_form.addComp(getDateText("query_endTime", "结束日期", 120, new Date()
+							.add(Date.DAY, 1)), 0.2, true);
 	query_form.addComp(getComboBox("query_module", "模块", 120, module, false),
 			0.2, true);
 	query_form.addComp(getComboBox("query_result", "操作结果", 120, handleResult,
@@ -130,15 +131,13 @@ Ext.onReady(function() {
 		var handleResult = Ext.getCmp("show_query_result").getValue();
 
 		var excelUrl = exportUrl + "?moduleName=" + moduleName
-				+ "&handleResult=" + handleResult
+				+ "&handleResult=" + handleResult +
 		"&startTime=" + startTime + "&endTime=" + endTime;
 		
 		document.getElementById("excelFrame").src = excelUrl;
 	}
 
 	function onSubmitQueryHandler() {
-		var thisForm = query_form.getForm();
-
 		var startTime = Ext.getCmp("query_startTime").getValue()
 				.format("Y-m-d");
 		var endTime = Ext.getCmp("query_endTime").getValue().format("Y-m-d");

@@ -81,7 +81,7 @@ public class ReseverController extends BaseController {
 	@RequestMapping("/getReseverPage")
 	@ResponseBody
 	public Page<Resever> getReseverPage(long start, long limit, String sort,
-			String dir, String name, String userName, String projectName,
+			String dir, String name, String userName, String resverName,
 			 String province) {
 		Page<Resever> page = new Page<Resever>();
 		String userId = null;
@@ -101,7 +101,7 @@ public class ReseverController extends BaseController {
 				}
 			}
 
-			page = reseverService.queryPage(projectName, userName, userId, province, start, limit, sort, dir);
+			page = reseverService.queryPage(resverName, userName, userId, province, start, limit, sort, dir);
 		} catch (DBAccessException e) {
 			log.error("getReseverPage[Resever] - " + e.getMessage(), e);
 		}

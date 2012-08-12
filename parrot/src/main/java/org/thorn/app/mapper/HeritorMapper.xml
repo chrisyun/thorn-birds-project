@@ -14,11 +14,12 @@
 		<result column="PROJECTID" property="projectId" jdbcType="DECIMAL" />
 		<result column="PROJECTNAME" property="projectName" jdbcType="VARCHAR" />
 		<result column="PROJECTCODE" property="projectCode" jdbcType="VARCHAR" />
+		<result column="PROVINCE" property="province" jdbcType="VARCHAR" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		H.ID,H.NAME,H.IDCARD,H.GENDER,H.BATCHNUM,H.REMARK,
-		H.ISDIE,H.DIEDATE,H.PROJECTID,P.PROJECTNAME,P.PROJECTCODE
+		H.ID,H.NAME,H.IDCARD,H.GENDER,H.BATCHNUM,H.REMARK,H.PROVINCE,
+		H.ISDIE,H.DIEDATE,H.PROJECTID,P.NAME AS PROJECTNAME,P.CODE AS PROJECTCODE
   	</sql>
 
 	<sql id="Where_Clause">
@@ -27,7 +28,7 @@
 				and H.NAME like CONCAT('%',#{name,jdbcType=VARCHAR},'%')
       		</if>
       		<if test="projectName != null and projectName != ''">
-				and P.PROJECTNAME like CONCAT('%',#{projectName,jdbcType=VARCHAR},'%')
+				and P.NAME like CONCAT('%',#{projectName,jdbcType=VARCHAR},'%')
       		</if>
 			<if test="id != null">
 				AND H.ID = #{id,jdbcType=DECIMAL}
@@ -42,7 +43,7 @@
 				AND H.GENDER = #{gender,jdbcType=VARCHAR}
       		</if>
       		<if test="province != null and province != ''">
-				AND P.PROVINCE = #{province,jdbcType=VARCHAR}
+				AND H.PROVINCE = #{province,jdbcType=VARCHAR}
       		</if>
 		</where>
 	</sql>
@@ -51,13 +52,14 @@
 		insert into T_HERITOR
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="name != null and name != ''">NAME,</if>
-			<if test="idCard != null and idCard != ''">CODE,</if>
-			<if test="gender != null and gender != ''">TYPE,</if>
-			<if test="batchNum != null and batchNum != ''">ISUNPROJECT,</if>
-			<if test="remark != null and remark != ''">BIGNO,</if>
-			<if test="isDie != null and isDie != ''">SMALLNO,</if>
-			<if test="dieDate != null and dieDate != ''">BATCHNUM,</if>
-			<if test="projectId != null and projectId != ''">MINORITY,</if>
+			<if test="idCard != null and idCard != ''">IDCARD,</if>
+			<if test="gender != null and gender != ''">GENDER,</if>
+			<if test="batchNum != null and batchNum != ''">BATCHNUM,</if>
+			<if test="remark != null and remark != ''">REMARK,</if>
+			<if test="isDie != null and isDie != ''">ISDIE,</if>
+			<if test="dieDate != null and dieDate != ''">DIEDATE,</if>
+			<if test="projectId != null and projectId != ''">PROJECTID,</if>
+			<if test="province != null and province != ''">PROVINCE,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="name != null and name != ''">#{name,jdbcType=VARCHAR},</if>
@@ -68,6 +70,7 @@
 			<if test="isDie != null and isDie != ''">#{isDie,jdbcType=VARCHAR},</if>
 			<if test="dieDate != null and dieDate != ''">#{dieDate,jdbcType=VARCHAR},</if>
 			<if test="projectId != null and projectId != ''">#{projectId,jdbcType=DECIMAL},</if>
+			<if test="province != null and province != ''">#{province,jdbcType=VARCHAR},</if>
 		</trim>
 	</insert>
 	
@@ -82,6 +85,7 @@
 			<if test="isDie != null and isDie != ''">ISDIE = #{isDie,jdbcType=VARCHAR},</if>
 			<if test="dieDate != null and dieDate != ''">DIEDATE = #{dieDate,jdbcType=VARCHAR},</if>
 			<if test="projectId != null and projectId != ''">PROJECTID = #{projectId,jdbcType=DECIMAL},</if>
+			<if test="province != null and province != ''">PROVINCE = #{province,jdbcType=VARCHAR},</if>
 		</set>
 		where ID = #{id,jdbcType=DECIMAL}
 	</update>

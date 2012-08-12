@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.thorn.app.entity.Project;
 import org.thorn.app.entity.Resever;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
@@ -54,7 +53,7 @@ public class ReseverServiceImpl implements IReseverService {
 
 		Page<Resever> page = new Page<Resever>();
 
-		page.setTotal(myBatisDaoSupport.queryCount(filter, Project.class));
+		page.setTotal(myBatisDaoSupport.queryCount(filter, Resever.class));
 		if (page.getTotal() > 0) {
 			page.setReslutSet(myBatisDaoSupport
 					.queryList(filter, Resever.class));

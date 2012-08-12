@@ -45,6 +45,8 @@ public class Heritor implements Serializable {
 	private String projectName;
 	
 	private String projectCode;
+	
+	private String province;
 
 	public Integer getId() {
 		return id;
@@ -132,6 +134,14 @@ public class Heritor implements Serializable {
 
 	public void setProjectCode(String projectCode) {
 		this.projectCode = projectCode;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
 	}
 }
 

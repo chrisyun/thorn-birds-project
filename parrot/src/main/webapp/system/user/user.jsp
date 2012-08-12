@@ -19,12 +19,12 @@
 	var defaultRole = <thorn:dd  typeId="DEFAULTROLE" />;
 	var defaultRoleRender = function(role) {
 		return Render.dictRender(defaultRole, role);
-	}
+	};
 	
 	var gender = <thorn:dd  typeId="GENDER" />;
 	var genderRender = function(str) {
 		return Render.dictRender(gender, str);
-	}
+	};
 	
 	var userPermission = {
 		SAVE : '<sec:authorize url="/user/saveOrModify*.jmt">true</sec:authorize>',
@@ -33,7 +33,7 @@
 		DISABLED : '<sec:authorize url="/user/disabledUser.jmt">true</sec:authorize>',
 		CHANGEPWD : '<sec:authorize url="/user/changePwd.jmt">true</sec:authorize>',
 		AUTH : '<sec:authorize url="/user/saveRoleByUser.jmt">true</sec:authorize>'
-	}
+	};
 	
 </script>
 <jsp:include page="../../reference/footer.jsp"></jsp:include>

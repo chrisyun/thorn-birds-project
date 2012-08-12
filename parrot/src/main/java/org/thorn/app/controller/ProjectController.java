@@ -1,5 +1,6 @@
 package org.thorn.app.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -77,7 +78,22 @@ public class ProjectController extends BaseController {
 
 		return status;
 	}
-
+	
+	@RequestMapping("/getProjectList")
+	@ResponseBody
+	public List<Project> getProjectList(String province) {
+		List<Project> list = new ArrayList<Project>();
+		
+		try {
+			list = projectService.queryList(province);
+		} catch (DBAccessException e) {
+			log.error("getProjectList[Project] - " + e.getMessage(), e);
+		}
+		
+		return list;
+	}
+	
+	
 	@RequestMapping("/getProjectPage")
 	@ResponseBody
 	public Page<Project> getProjectPage(long start, long limit, String sort,

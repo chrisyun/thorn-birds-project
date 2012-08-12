@@ -148,13 +148,14 @@ function getDateText(id, text, width, initValue, maxValue) {
 	
 	date.xtype = "datefield";
 	date.format="Y-m-d";
-	date.emptyText="请选择日期";
+//	date.emptyText="请选择日期";
 	 
 	date.fieldLabel = text;
 	date.id = id;
 	date.width = width;
-	date.value = initValue || new Date().add(Date.DAY, 1);
+//	date.value = initValue || new Date().add(Date.DAY, 1);
 	date.maxValue = maxValue || new Date().add(Date.DAY, 1);
+	date.value = initValue;
 
 	return date;
 }
