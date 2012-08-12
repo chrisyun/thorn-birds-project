@@ -112,7 +112,7 @@ body {
 			},{
 				xtype : "checkbox",
 				name : "_spring_security_remember_me",
-				boxLabel : "两周内不再登录"
+				boxLabel : "两周内自动登录"
 			},{
 				xtype:"panel",
 				width: 370,
