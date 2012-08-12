@@ -85,6 +85,8 @@ function getPwdText(id, text, width) {
 	var txt = getText(id, text, width);
 
 	txt.inputType = "password";
+	txt.vtype = "pwd";
+	txt.vtypeText = Validate.pwd;
 	return txt;
 }
 
