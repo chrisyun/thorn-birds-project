@@ -3,8 +3,13 @@ var projectSubmitUrl = sys.path + "/project/saveOrModifyProject.jmt";
 var projectDeleteUrl = sys.path + "/project/deleteProject.jmt";
 
 var getUsersByProvince = sys.path + "/user/getUserList.jmt";
+var getHeritorByProvince = sys.path + "/heritor/getHeritorList.jmt";
+var bingingProject = sys.path + "/heritor/bingingProject.jmt";
 
 var pageSize = 20;
+
+var chooseProvince;
+var chooseId;
 
 Ext.onReady(function() {
 	Ext.QuickTips.init();
@@ -48,6 +53,14 @@ Ext.onReady(function() {
 	var project_grid = new GridUtil(projectPageUrl, recordArray, pageSize);
 	
 	var grid_Bar = getCommonBar(saveHandler, modifyHandler, deleteHandler, userPermission);
+	if(userPermission.BINGING == "true") {
+		grid_Bar.push("-");
+		grid_Bar.push({
+			text : "设置项目传承人",
+			iconCls : "tree-auth",
+			handler : bingingHandler
+		});
+	}
 	project_grid.setBottomBar(grid_Bar);
 
 	var listeners = {
@@ -137,7 +150,108 @@ Ext.onReady(function() {
 	}, project_form.getPanel(), saveOrModify);
 
 	/** ****************project window end************ */
+	
+	
+	/** ****************heritor window start************ */
+	var checkedRender = function(data, metadata, record, rowIndex, colIndex) {
+		var projectId = record.get("projectId");
+		
+		if(!Ext.isEmpty(projectId) && projectId == chooseId) {
+			var sm = heritor_grid.getGrid().selModel;
+			
+			var selectedArray = sm.getSelections();
+			selectedArray.push(record);
+			
+			sm.selectRecords(selectedArray);
+		}
+		
+		return data;
+	};
+	
+ 	var heritor_recordArray = [
+ 	      			getRecord(null, "id", "string"),
+ 	      			getRecord(null, "projectId", "string"),
+ 	      			getRecord("省份", "province", "string", 80, true, areaRender),
+ 	      			getRecord("项目名称", "projectName", "string", 200, true, checkedRender),
+ 	      			getRecord("传承人", "name", "string", 100, true),
+ 	      			getRecord("性别", "gender", "string", 80, true, genderRender),
+ 	      			getRecord("是否去世", "isDie", "string", 120, true, yesOrNoRender)];
+ 	var heritor_grid = new GridUtil(getHeritorByProvince, heritor_recordArray);
+	
+	var heritor_name = new Ext.ux.form.SearchField({
+		id : "heritor_queryField",
+		width : 160,
+		emptyText : "请输入查询关键字"
+	});
+	heritor_grid.setTopBar([{
+		text : '传承人姓名:',
+		minWidth : 100
+	},heritor_name]);	
+	
+	heritor_grid.setGridPanel({
+		collapsible : false,
+		border : false,
+		region : "center",
+		split : false
+	});
+	
+	heritor_name.onTrigger2Click = loadHeritor;
+	
+	function loadHeritor() {
+		var heritorStore = heritor_grid.getStore();
+		var name = heritor_name.getValue();
+		heritorStore.baseParams.name = name;
+		heritorStore.baseParams.province = chooseProvince;
+		heritorStore.load();
+	}
+	
+	var heritor_Window = new WindowUtil({
+		title : "非遗传承人列表",
+		layout : 'border',
+		width : 680,
+		height : 420
+	},  heritor_grid.getGrid(), bingingHeritors);
+	
+	function bingingHeritors() {
+		var herGrid = heritor_grid.getGrid();
+		
+		if (herGrid.getSelectionModel().getCount() == 0) {
+			Ext.Msg.alert("提示信息", "请至少选择一条记录!");
+			return;
+		}
+		var selectedRecordArray = herGrid.getSelectionModel()
+				.getSelections();
+		
+		var ids = "";
+		for ( var i = 0; i < selectedRecordArray.length; i++) {
+			ids += selectedRecordArray[i].get("id") + ",";
+		}
 
+		var params = {
+			projectId : chooseId,
+			ids : ids
+		};
+		
+		var ajaxClass = new AjaxUtil(bingingProject);
+		ajaxClass.request(params, true, null, function(obj) {
+			heritor_Window.hide();
+		});
+	}
+	
+	function bingingHandler() {
+		if (grid.getSelectionModel().getCount() != 1) {
+			Ext.Msg.alert("提示信息", "请选择一条记录!");
+			return;
+		}
+		
+		heritor_Window.show("设置项目传承人");
+		var selectedRecord = grid.getSelectionModel().getSelected();
+		chooseProvince = selectedRecord.get("province");
+		chooseId = selectedRecord.get("id");
+		loadHeritor();
+	}
+	
+	/** ****************heritor window end************ */
 	function saveHandler() {
 		project_win.show("新增非遗项目");
 

@@ -90,6 +90,15 @@
 		where ID = #{id,jdbcType=DECIMAL}
 	</update>
 	
+	<update id="updateProject" parameterType="hashmap">
+		update T_HERITOR set PROJECTID = #{projectId,jdbcType=DECIMAL} 
+		where ID in
+		<foreach collection="list" item="item" open="(" close=")"
+			separator=",">
+			#{item,jdbcType=DECIMAL}
+		</foreach> 
+	</update>
+	
 	<delete id="delete">
 		delete from T_HERITOR where ID in
 		<foreach collection="list" item="item" open="(" close=")"

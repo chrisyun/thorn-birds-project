@@ -34,6 +34,16 @@ public class HeritorServiceImpl implements IHeritorService {
 		myBatisDaoSupport.modify(heritor);
 	}
 
+	public void modifyProject(Integer projectId, String ids)
+			throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+		List<String> list = LocalStringUtils.splitStr2Array(ids);
+		filter.put("projectId", projectId);
+		filter.put("list", list);
+
+		myBatisDaoSupport.modify(filter, "updateProject");
+	}
+
 	public void delete(String ids) throws DBAccessException {
 		List<String> list = LocalStringUtils.splitStr2Array(ids);
 		myBatisDaoSupport.deleteForBatch(list, Heritor.class);
@@ -62,6 +72,17 @@ public class HeritorServiceImpl implements IHeritorService {
 		}
 
 		return page;
+	}
+
+	public List<Heritor> queryList(String name, String province, String sort,
+			String dir) throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+		filter.put("name", name);
+		filter.put("province", province);
+		filter.put(Configuration.SROT_NAME, sort);
+		filter.put(Configuration.ORDER_NAME, dir);
+
+		return myBatisDaoSupport.queryList(filter, Heritor.class);
 	}
 
 }

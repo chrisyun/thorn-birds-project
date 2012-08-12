@@ -1,5 +1,7 @@
 package org.thorn.app.service;
 
+import java.util.List;
+
 import org.thorn.app.entity.Heritor;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.web.entity.Page;
@@ -21,4 +23,10 @@ public interface IHeritorService {
 	public Page<Heritor> queryPage(String name, String gender,
 			String projectName, String isDie, String province, long start,
 			long limit, String sort, String dir) throws DBAccessException;
+
+	public List<Heritor> queryList(String name, String province, String sort,
+			String dir) throws DBAccessException;
+
+	public void modifyProject(Integer projectId, String ids)
+			throws DBAccessException;
 }
