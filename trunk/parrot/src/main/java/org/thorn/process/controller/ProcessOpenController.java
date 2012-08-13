@@ -39,10 +39,10 @@ public class ProcessOpenController {
 		
 		if (StringUtils.equals(key, ProcessConfiguration.PROJECT_KEY)) {
 			model.put("pageUrl", ProcessConfiguration.PROJECT_JSP);
-			model.put("title", "AAAAAAAAAAAAA");
+			model.put("title", ProcessConfiguration.PROJECT_TITLE);
 		} else {
 			model.put("pageUrl", ProcessConfiguration.RESEVER_JSP);
-			model.put("title", "BBBBBBBBBBBBB");
+			model.put("title", ProcessConfiguration.RESEVER_TITLE);
 		}
 
 		return "/process/process";

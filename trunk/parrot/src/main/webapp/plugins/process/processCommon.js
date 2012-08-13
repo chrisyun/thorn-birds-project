@@ -4,18 +4,38 @@ function ProcessMinds(flowInstId, activityName, opType) {
 	this.opType = opType;
 	
 	this.mindsForm = new FormUtil({
-		title : "审批意见",
 		region : "center",
+		title : "填写当前环节意见",
+		collapsible : true,
 		id : "mindsForm",
-		autoHeight : true,
-		autoScroll : true,
-		html : "<div id='mindsDiv'></div>",
-		labelWidth : 180
+		border : true,
+		labelWidth : 70
+	});
+	
+	var width = window.screen.availWidth - 50;
+	
+	this.panel = new Ext.Panel({
+		region : "south",
+		layout : "border",
+		border : false,
+		split : true,
+		height : 120,
+		items : [{
+			title : "所有审批意见",
+			region : "west",
+			bodyStyle : "padding-top: 7px;",
+			margins : "2 0 0 0",
+			autoScroll : true,
+			border : true,
+			width : width/2 + 100,
+			split : true,
+			html : "<div id='mindsDiv'></div>"
+		}, this.mindsForm.getPanel()]
 	});
 		
 	if(opType == "create" || opType == "todo") {
 		this.mindsForm.addComp(getHidden("id"), 1.0, true);
-		this.mindsForm.addComp(getTextArea("mind", "意见", 500, 80), 1.0, false);
+		this.mindsForm.addComp(getTextArea("mind", "意见", 380, 70), 1.0, true);
 	}
 	
 	this.html = "";
@@ -55,7 +75,7 @@ function ProcessMinds(flowInstId, activityName, opType) {
 					&& user.userId == records[i].get("userId")) {
 				var values = {
 					id : records[i].get("id"),
-					minds : records[i].get("mind")
+					mind : records[i].get("mind")
 				};
 				this.mindsForm.getForm().setValues(values);
 			} else {
@@ -79,18 +99,21 @@ ProcessMinds.prototype.getMindPanel = function(){
 		this.store.load();
 	}
 	
-	return this.mindsForm.getPanel();
+	return this.panel;
 };
 
 ProcessMinds.prototype.getMind = function(){
 	var form = this.mindsForm.getForm();
 	
-	if (!form.isValid()) {
-		Ext.Msg.alert("提示信息", "请填写流程意见!");
-		return;
-	}
+//	if (!form.isValid()) {
+//		Ext.Msg.alert("提示信息", "请填写流程意见!");
+//		return;
+//	}
 	
-	return form.getValues();
+	var minds = new Object();
+	minds.id = this.mindsForm.findById("id").getValue();
+	minds.mind = this.mindsForm.findById("mind").getValue();
+	return minds;
 };
 
 

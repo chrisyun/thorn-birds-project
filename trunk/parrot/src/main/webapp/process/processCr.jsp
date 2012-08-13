@@ -2,26 +2,18 @@
 <%@ taglib prefix="thorn" uri="/thorn"%>
 <jsp:include page="/springTag/header.jmt"></jsp:include>
 
-<style>
-<!--
-.set {
-	margin-top: 20px;
-	margin-right: 2px;
-	margin-bottom: 20px;
-}
-
--->
-</style>
-
 <script type="text/javascript">
 
 	document.title = "Process - Create";
 	
 	function openNewFlow(type) {
 		var url = sys.path + "/wf/cm/startNewProcess.jmt?key=" + type;
-		//window.open (url, "flowPage", 
-		//		"height=600, width=1000, top=0, left=0, toolbar=no, menubar=no, scrollbars=auto,resizable=no,location=no, status=no");
-		window.open (url, "flowPage");
+		var height = window.screen.availHeight - 50;
+		var width = window.screen.availWidth - 50;
+		
+		window.open (url, "flowPage", 
+				"height="+height+", width="+width+", top=0, left=0, toolbar=no, menubar=no, scrollbars=yes,resizable=no,location=no, status=no");
+		//window.open (url, "flowPage");
 	}
 	
 	

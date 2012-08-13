@@ -58,8 +58,9 @@ Ext.onReady(function() {
 	barArray.push("-");
 	
 	tpanel = new Ext.Panel({
-		height : 70,
+		height : 75,
 		split : true,
+		margins : "0 0 0 2",
 		region : "north",
 		tbar : barArray,
 		html : thtml
@@ -68,6 +69,8 @@ Ext.onReady(function() {
 	contentPanel = new Ext.Panel({
 		split : true,
 		layout : "fit",
+		height : 500,
+		margins : "0 0 0 2",
 		region : "center",
 		html : html
 	});
@@ -96,21 +99,23 @@ Ext.onReady(function() {
 	var attPanel = upload.initShowPanel({
 		title : "附件信息",
 		split : true,
-		region : "north",
+		region : "center",
 		collapsible : true,
-		height : 100,
+		height : 130,
 		autoHeight : false,
 		autoWidth : false
 	}, processInfo.flowAtts);
 	
-	attPanel.add(new Ext.Toolbar(attArray));
+	if(attArray.length > 0) {
+		attPanel.add(new Ext.Toolbar(attArray));
+	}
+	
 	
 	var btn = new Array();
-	
 	if(processInfo.openType == "todo"
 		|| processInfo.openType == "create") {
 		for ( var i = 0; i < nextStep.length; i++) {
-			btn.push(getNextActivityBtn(nextStep[i], null));
+			btn.push(getNextActivityBtn(nextStep[i], submitProcessInfo));
 		}
 	}
 	
@@ -122,6 +127,7 @@ Ext.onReady(function() {
 		region : "south",
 		split : true,
 		height : 300,
+		margins : "0 0 0 2",
 		layout : "border",
 		border : false,
 		items : [attPanel, processMinds.getMindPanel()],
@@ -155,6 +161,11 @@ Ext.onReady(function() {
 		contentPanel.findByType("button").disable();
 		contentPanel.findByType("checkbox").disable();
 	}
+	
+	function submitProcessInfo(nextActivity) {
+		//表单验证
+	}
+	
 });
 
 
@@ -172,23 +183,22 @@ function addContentPanel(panel) {
 	contentPanel.doLayout();
 }
 
-function submitProcessInfo(title, appId, nextActivity) {
+//function submitProcessInfo(nextActivity) {
+//	var params = {
+//		taskId : processInfo.taskId,
+//		appId : appId,
+//		title : title,
+//		outcome : nextActivity,
+//		flowInstId : processInfo.flowInstId,
+//		flowAtts : upload.getgetUploadAttIds(),
+//		flowKey : processInfo.flowKey
+//	};
 	
-	var params = {
-		taskId : processInfo.taskId,
-		appId : appId,
-		title : title,
-		outcome : nextActivity,
-		flowInstId : processInfo.flowInstId,
-		flowAtts : upload.getgetUploadAttIds(),
-		flowKey : processInfo.flowKey
-	};
-	
-	var ajax = new AjaxUtil(processHandlerUrl);
-	ajax.request(params, true, null, function(){
-		closeThisWindow();
-	});
-}
+//	var ajax = new AjaxUtil(processHandlerUrl);
+//	ajax.request(params, true, null, function(){
+//		closeThisWindow();
+//	});
+//}
 
 function closeThisWindow() {
 	try {
