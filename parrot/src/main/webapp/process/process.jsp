@@ -1,5 +1,5 @@
-<%@page import="org.thorn.core.util.LocalStringUtils"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@page import="org.thorn.core.util.LocalStringUtils"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="thorn" uri="/thorn"%>
 <jsp:include page="/springTag/header.jmt"></jsp:include>
@@ -11,11 +11,11 @@
 	String creater = LocalStringUtils.defaultString((String) request.getAttribute("creater"));
 	String createrName = LocalStringUtils.defaultString((String) request.getAttribute("createrName"));
 	
-	String pid = LocalStringUtils.defaultString((String) request.getAttribute("appId"));
+	String pid = LocalStringUtils.defaultString((String) request.getAttribute("pid"));
 	String title = LocalStringUtils.defaultString((String) request.getAttribute("title"));
 	String openType = LocalStringUtils.defaultString((String) request.getAttribute("openType"));
 	String activityName = LocalStringUtils.defaultString((String) request.getAttribute("activityName"));
-	String contentPage = "/wfForm/" + LocalStringUtils.defaultString((String) request.getAttribute("pageUrl"));
+	String contentPage = "/app/" + LocalStringUtils.defaultString((String) request.getAttribute("pageUrl"));
 	
 	Set<String> nextStep = (Set<String>) request.getAttribute("nextStep");
 %>
@@ -24,16 +24,11 @@
 <script type="text/javascript" src="<%=path %>/plugins/ext-3.2.1/ux/MultiSelect.js"></script>
 <script type="text/javascript" src="<%=path %>/plugins/local/uploadUtils.js"></script>
 <script type="text/javascript" src="<%=path %>/plugins/process/processCommon.js"></script>
-<script type="text/javascript" src="process.js"></script>
+<script type="text/javascript" src="<%=path %>/process/process.js"></script>
 
 <script type="text/javascript">
 
 	document.title = "Workflow - Process";
-	
-	var flowTypeDD = <thorn:dd  typeId="FLOW_TYPE" />;
-	var flowTypeRender = function(str) {
-		return Render.dictRender(flowTypeDD, str);
-	};
 	
 	var processInfo = {
 		flowKey : "<%=flowKey %>",
@@ -43,6 +38,7 @@
 		activityName : "<%=activityName %>",
 		title : "<%=title%>",
 		pid : "<%=pid%>",
+		flowAtts : "",
 		openType : "<%=openType%>"
 	};
 	

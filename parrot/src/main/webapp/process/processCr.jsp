@@ -17,6 +17,14 @@
 
 	document.title = "Process - Create";
 	
+	function openNewFlow(type) {
+		var url = sys.path + "/wf/cm/startNewProcess.jmt?key=" + type;
+		//window.open (url, "flowPage", 
+		//		"height=600, width=1000, top=0, left=0, toolbar=no, menubar=no, scrollbars=auto,resizable=no,location=no, status=no");
+		window.open (url, "flowPage");
+	}
+	
+	
 	Ext.onReady(function() {
 		Ext.QuickTips.init();
 		
@@ -27,7 +35,7 @@
 			buttons : [{
 				text : "点击发起申报",
 				handler : function() {
-					
+					openNewFlow("project");
 				}
 			}]
 		});
@@ -49,7 +57,7 @@
 			buttons : [{
 				text : "点击发起申报",
 				handler : function() {
-					
+					openNewFlow("resever");
 				}
 			}]
 		});

@@ -14,4 +14,6 @@
 	<bean id="heritorService" class="org.thorn.app.service.HeritorServiceImpl" />
 	<bean id="reseverService" class="org.thorn.app.service.ReseverServiceImpl" />
 	
+	<bean id="flowService" class="org.thorn.process.service.FlowServiceImpl" />
+	
 </beans>
