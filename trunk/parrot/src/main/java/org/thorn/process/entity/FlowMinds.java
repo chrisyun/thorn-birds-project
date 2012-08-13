@@ -14,6 +14,7 @@ import org.thorn.dao.mybatis.annotation.MethodType;
  */
 @Mapper(nameSpace="FlowMindsMapper",node= {
 		@MapperNode(id="insert",type=MethodType.INSERT),
+		@MapperNode(id="update",type=MethodType.UPDATE),
 		@MapperNode(id="queryList",type=MethodType.QUERY_LIST)
 })
 public class FlowMinds implements Serializable {

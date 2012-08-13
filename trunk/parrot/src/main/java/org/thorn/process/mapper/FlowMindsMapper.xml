@@ -42,6 +42,18 @@
 		</trim>
 	</insert>
 	
+	<update id="update" parameterType="org.thorn.process.entity.FlowMinds">
+		update T_FLOW_MINDS
+		<set>
+			<if test="flowId != null and flowId != ''">FLOWID = #{flowId,jdbcType=DECIMAL},</if>
+			<if test="activityName != null and activityName != ''">ACTIVITYNAME = #{activityName,jdbcType=VARCHAR},</if>
+			<if test="userId != null and userId != ''">USERID = #{userId,jdbcType=VARCHAR},</if>
+			<if test="userName != null and userName != ''">USERNAME = #{userName,jdbcType=VARCHAR},</if>
+			<if test="mind != null and mind != ''">MIND = #{mind,jdbcType=VARCHAR},</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	
 	<select id="queryList" parameterType="hashmap" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />

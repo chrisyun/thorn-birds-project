@@ -1,4 +1,4 @@
-var tpanel,contentPanel,bPanel,viewport,upload;
+var tpanel,contentPanel,bPanel,upload;
 var processHandlerUrl = sys.path + "/wf/cm/handlerTask.jmt";
 
 Ext.onReady(function() {
@@ -24,8 +24,41 @@ Ext.onReady(function() {
 					"</td>" + 
 				"</tr></table>";
 	
+	//设置按钮：保存草稿、导出word、作废流程
+	var barArray = new Array();
+	
+	if(processInfo.openType == "create") {
+		barArray.push("-");
+		barArray.push({
+			text : "保存草稿",
+			handler : function() {
+				
+			}
+		});
+	} else {
+		barArray.push("-");
+		barArray.push({
+			text : "导出WORD",
+			handler : function() {
+				
+			}
+		});
+	}
+	
+	if(processInfo.openType == "todo"
+		&& user.userId == processInfo.creater) {
+		barArray.push("-");
+		barArray.push({
+			text : "作废流程",
+			handler : function() {
+				
+			}
+		});
+	}
+	barArray.push("-");
+	
 	tpanel = new Ext.Panel({
-		height : 100,
+		height : 70,
 		split : true,
 		region : "north",
 		tbar : barArray,
@@ -39,10 +72,67 @@ Ext.onReady(function() {
 		html : html
 	});
 	
-	viewport = new Ext.Viewport({
+	//附件上传
+	var attViewType = "read";
+	if(processInfo.openType == "create" 
+		|| (processInfo.openType == "todo" 
+			&& user.userId == processInfo.creater)) {
+		attViewType = "edit";
+	}
+	upload = new UploadUtil("flowAtt", attViewType);
+	
+	var attArray = new Array();
+	if(attViewType == "edit") {
+		attArray.push("-");
+		attArray.push({
+			text : "附件上传",
+			handler : function() {
+				upload.show("上传附件");
+			}
+		});
+		attArray.push("-");
+	}
+	
+	var attPanel = upload.initShowPanel({
+		title : "附件信息",
+		split : true,
+		region : "north",
+		collapsible : true,
+		height : 100,
+		autoHeight : false,
+		autoWidth : false
+	}, processInfo.flowAtts);
+	
+	attPanel.add(new Ext.Toolbar(attArray));
+	
+	var btn = new Array();
+	
+	if(processInfo.openType == "todo"
+		|| processInfo.openType == "create") {
+		for ( var i = 0; i < nextStep.length; i++) {
+			btn.push(getNextActivityBtn(nextStep[i], null));
+		}
+	}
+	
+	//流程意见
+	var processMinds = new ProcessMinds(processInfo.flowInstId,
+					processInfo.activityName, processInfo.openType);
+	
+	bPanel = new Ext.Panel({
+		region : "south",
+		split : true,
+		height : 300,
+		layout : "border",
+		border : false,
+		items : [attPanel, processMinds.getMindPanel()],
+		buttonAlign : "center",
+		buttons : btn
+	});
+		
+	var viewport = new Ext.Viewport({
 		border : false,
 		layout : "border",
-		items : [tpanel, contentPanel]
+		items : [tpanel, contentPanel, bPanel]
 	});
 	
 	//设置title
@@ -58,7 +148,8 @@ Ext.onReady(function() {
 	
 	// 非新建和待办打开，将所有的控件置为disabled
 	if(processInfo.openType != "create" 
-		&& processInfo.openType != "todo") {
+		&& !(processInfo.openType == "todo" 
+			&& user.userId == processInfo.creater)) {
 		contentPanel.findByType("textfield").disable();
 		contentPanel.findByType("textarea").disable();
 		contentPanel.findByType("button").disable();
