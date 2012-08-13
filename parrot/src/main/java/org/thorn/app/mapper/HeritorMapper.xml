@@ -98,6 +98,14 @@
 			#{item,jdbcType=DECIMAL}
 		</foreach> 
 	</update>
+	<update id="updateProjectNo" parameterType="hashmap">
+		update T_HERITOR set PROJECTID = null 
+		where PROJECTID = #{projectId,jdbcType=DECIMAL} and ID not in
+		<foreach collection="list" item="item" open="(" close=")"
+			separator=",">
+			#{item,jdbcType=DECIMAL}
+		</foreach> 
+	</update>
 	
 	<delete id="delete">
 		delete from T_HERITOR where ID in

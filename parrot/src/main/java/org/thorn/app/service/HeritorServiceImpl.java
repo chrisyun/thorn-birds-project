@@ -42,6 +42,7 @@ public class HeritorServiceImpl implements IHeritorService {
 		filter.put("list", list);
 
 		myBatisDaoSupport.modify(filter, "updateProject");
+		myBatisDaoSupport.modify(filter, "updateProjectNo");
 	}
 
 	public void delete(String ids) throws DBAccessException {
