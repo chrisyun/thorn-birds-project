@@ -12,7 +12,7 @@ Ext.onReady(function() {
 	var query_attr = {
 		title : "查询列表",
 		region : "north",
-		height : 125,
+		height : 130,
 		labelWidth : 100
 	};
 	
