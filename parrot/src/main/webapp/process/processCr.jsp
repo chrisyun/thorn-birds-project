@@ -12,8 +12,7 @@
 		var width = window.screen.availWidth - 50;
 		
 		window.open (url, "flowPage", 
-				"height="+height+", width="+width+", top=0, left=0, toolbar=no, menubar=no, scrollbars=yes,resizable=no,location=no, status=no");
-		//window.open (url, "flowPage");
+				"height="+height+", width="+width+", top=0, left=0, toolbar=no, menubar=no, scrollbars=yes,resizable=no,location=no, status=yes");
 	}
 	
 	

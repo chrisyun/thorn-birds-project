@@ -2,6 +2,7 @@ package org.thorn.process.entity;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.StringUtils;
 import org.thorn.dao.mybatis.annotation.Mapper;
 import org.thorn.dao.mybatis.annotation.MapperNode;
 import org.thorn.dao.mybatis.annotation.MethodType;
@@ -81,6 +82,11 @@ public class FlowMinds implements Serializable {
 	}
 
 	public void setTime(String time) {
+		if(StringUtils.isNotBlank(time) 
+				&& time.length() > 19) {
+			time = time.substring(0, 19);
+		}
+		
 		this.time = time;
 	}
 

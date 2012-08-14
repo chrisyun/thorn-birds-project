@@ -1,4 +1,4 @@
-var oneForm,twoForm,threeForm;
+var oneForm,twoForm,threeForm,mainTab;
 
 function startProcessHandler() {
 	
@@ -26,7 +26,7 @@ function startProcessHandler() {
 									type : 'string'
 								}]))
 	});
-	var projectCb = getComboBox("projectId", "项目", 500, null);
+	var projectCb = getComboBox("projectId", "申报补助项目名称", 500, null);
 	projectCb.valueField = "id";
 	projectCb.displayField = "name";
 	projectCb.lazyInit = true;
@@ -34,17 +34,17 @@ function startProcessHandler() {
 	projectCb.store = projectStore;
 	
 	oneForm.addComp(projectCb, 0.6, false);
-	oneForm.addComp(getComboBox("year", "申报年份", 220, year), 0.3, true);
-	oneForm.addComp(getText("createrName", "申报单位", 500), 0.6, false);
+	oneForm.addComp(getComboBox("year", "申报年份", 220, year), 0.3, false);
+	oneForm.addComp(getText("createrName", "申报单位名称", 500), 0.6, false);
 	
-	oneForm.addComp(getText("address", "地址", 220), 0.3, false);
-	oneForm.addComp(getText("postalCode", "邮政编码", 180), 0.3, true);
-	oneForm.addComp(getText("contacts", "联系人", 220), 0.3, false);
+	oneForm.addComp(getText("address", "联系地址", 220), 0.3, false);
+	oneForm.addComp(getText("postalCode", "邮政编码", 220), 0.3, true);
+	oneForm.addComp(getText("contacts", "申报项目负责人", 220), 0.3, false);
 	oneForm.addComp(getText("phone", "联系电话", 220), 0.3, false);
-	oneForm.addComp(getText("bankName", "开户行", 220), 0.3, false);
-	oneForm.addComp(getText("bank", "银行", 220), 0.3, false);
-	oneForm.addComp(getText("bankAccount", "银行1", 220), 0.3, false);
-	oneForm.addComp(getTextArea("companyCtf", "单位资质", 700, 80), 0.9, true);
+	oneForm.addComp(getText("bankName", "开户名称", 220), 0.3, false);
+	oneForm.addComp(getText("bank", "开户银行", 220), 0.3, false);
+	oneForm.addComp(getText("bankAccount", "开户账号", 220), 0.3, false);
+	oneForm.addComp(getTextArea("companyCtf", "申报单位具备资质", 800, 50), 0.9, false);
 	
 	twoForm = new FormUtil({
 		iconCls : "",
@@ -55,9 +55,9 @@ function startProcessHandler() {
 		labelWidth : 150
 	});
 	
-	twoForm.addComp(getTextArea("appReason", "备注", 700, 80), 0.9, true);
-	twoForm.addComp(getTextArea("content", "备注", 700, 80), 0.9, true);
-	twoForm.addComp(getTextArea("target", "备注", 700, 80), 0.9, true);
+	twoForm.addComp(getTextArea("appReason", "补助申请理由", 800, 50), 0.9, false);
+	twoForm.addComp(getTextArea("content", "补助资金使用内容", 800, 50), 0.9, false);
+	twoForm.addComp(getTextArea("target", "年度目标及预期效益", 800, 50), 0.9, false);
 	
 	threeForm = new FormUtil({
 		iconCls : "",
@@ -67,12 +67,12 @@ function startProcessHandler() {
 		collapsible : false,
 		labelWidth : 150
 	});
-	threeForm.addComp(getText("usedYear", "银行", 220), 0.3, false);
-	threeForm.addComp(getMoneyText("money", "金额（万元）", 220), 0.3, false);
-	threeForm.addComp(getTextArea("budget", "备注", 500, 60), 0.9, true);
+	threeForm.addComp(getText("usedYear", "资金使用年度", 220), 0.45, false);
+	threeForm.addComp(getMoneyText("money", "申请金额（万元）", 220), 0.45, false);
+	threeForm.addComp(getTextArea("budget", "预算测算依据及说明", 800, 50), 0.9, true);
 	
 	
-	var mainTab = new Ext.TabPanel( {
+	mainTab = new Ext.TabPanel( {
 		activeTab : 0,
 		margins : "2 0 2 0",
 		resizeTabs : true,
@@ -114,8 +114,6 @@ function startProcessHandler() {
 	
 	//非新建时load表单数据
 	if(processInfo.openType != "create") {
-		oneForm.findById("show_projectId").setDisabled(true);
-		
 		var ajax = new AjaxUtil(loadFormUrl);
 		ajax.getData({
 			id : processInfo.pid
@@ -128,6 +126,10 @@ function startProcessHandler() {
 			threeForm.getForm().setValues(data);
 			
 			oneForm.findById("show_projectId").setRawValue(data.projectName);
+			
+			if(!Ext.isEmpty(data.projectId)) {
+				oneForm.findById("show_projectId").setDisabled(true);
+			}
 			
 			reLoadAtts(data.attids);
 		});
@@ -154,21 +156,29 @@ function getFormValues() {
 	
 	var obj = new Object();
 	
-	var form1 = oneForm.getForm().getValues(false);
-	var form2 = twoForm.getForm().getValues(false);
-	var form3 = threeForm.getForm().getValues(false);
+	if(processInfo.openType == "create" 
+		|| (processInfo.openType == "todo" 
+			&& user.userId == processInfo.creater)) {
+		
+		var form1 = oneForm.getForm().getValues(false);
+		mainTab.activate("twoForm");
+		var form2 = twoForm.getForm().getValues(false);
+		mainTab.activate("threeForm");
+		var form3 = threeForm.getForm().getValues(false);
+		
+		for ( var attr in form1) {
+			obj["pc_" + attr] = form1[attr];
+		}
+		for ( var attr in form2) {
+			obj["pc_" + attr] = form2[attr];
+		}
+		for ( var attr in form3) {
+			obj["pc_" + attr] = form3[attr];
+		}
+		
+		obj.pc_projectName = oneForm.findById("show_projectId").getRawValue();
+	}
 	
-	for ( var attr in form1) {
-		obj["pc_" + attr] = form1[attr];
-	}
-	for ( var attr in form2) {
-		obj["pc_" + attr] = form2[attr];
-	}
-	for ( var attr in form3) {
-		obj["pc_" + attr] = form3[attr];
-	}
-	
-	obj.pc_projectName = oneForm.findById("show_projectId").getRawValue();
 	return obj;
 }
 

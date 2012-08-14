@@ -68,7 +68,7 @@ function ProcessMinds(flowInstId, activityName, opType) {
 	});
 	this.store.addListener("load", function(store, records) {
 		
-		this.html = "<table width='100%' style='color: blue;font-size: 13px;'>";
+		this.html = "<table width='100%' style='font-size: 13px;'>";
 		for(var i=0; i<records.length; i++ ) {
 			if(opType == "todo" && activityName == "起草暂存环节"
 					&& i == (records.length - 1)
@@ -81,9 +81,11 @@ function ProcessMinds(flowInstId, activityName, opType) {
 			} else {
 				
 				this.html += "<tr>" +
-							"<td align='right' width='20%'>" + records[i].get("activityName") + "：&nbsp;&nbsp;</td>" +
-							"<td>"  + records[i].get("mind") + "&nbsp;&nbsp;-----&nbsp;&nbsp;" + 
-							records[i].get("userName") + "&nbsp;&nbsp;" +records[i].get("time") + "</td>" +
+							"<td align='right' width='120px' style='word-break: break-all; word-wrap:break-word;'>" 
+							+ records[i].get("activityName") + "：&nbsp;&nbsp;</td>"
+							+ "<td style='word-break: break-all; word-wrap:break-word;'><span>"  
+							+ records[i].get("mind") + "&nbsp;&nbsp;———&nbsp;&nbsp;" 
+							+ records[i].get("userName") + "&nbsp;&nbsp;" +records[i].get("time") + "</span></td>" +
 						"</tr>";
 			}
 		}

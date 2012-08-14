@@ -3,6 +3,7 @@ var todoPageUrl = sys.path + "/wf/cm/getPendingPage.jmt";
 var getUsersByProvince = sys.path + "/user/getUserList.jmt";
 
 var pageSize = 20;
+var todostore;
 
 Ext.onReady(function() {
 	Ext.QuickTips.init();
@@ -11,8 +12,8 @@ Ext.onReady(function() {
 	var query_attr = {
 		title : "查询列表",
 		region : "north",
-		height : 120,
-		labelWidth : 70
+		height : 125,
+		labelWidth : 100
 	};
 	
 	var query_form = new FormUtil(query_attr);
@@ -54,12 +55,12 @@ Ext.onReady(function() {
 	userCb.store = userStore;
 	query_form.addComp(userCb, 0.3, true);
 	
-	
-	query_form.addComp(getText("query_createrName", "申报单位名称",300), 0.6, true);
 	query_form.addComp(getComboBox("query_flowStatus", "审批状态", 160, flowStatusDD, false),
 			0.3, true);
-	query_form.addComp(getDateText("query_startTime", "开始日期", 120), 0.3, true);
-	query_form.addComp(getDateText("query_endTime", "结束日期", 120), 0.3, true);
+	query_form.addComp(getText("query_createrName", "申报单位名称",300), 0.6, true);
+	
+	query_form.addComp(getDateText("query_startTime", "开始日期", 160), 0.3, true);
+	query_form.addComp(getDateText("query_endTime", "结束日期", 160), 0.3, true);
 	
 	query_form.addComp(getQueryBtn(onSubmitQueryHandler), 0.3, true);
 	/** ****************query panel end*************** */
@@ -92,7 +93,7 @@ Ext.onReady(function() {
 	/** ****************todo Grid panel end************ */
 
 	var grid = todo_grid.getGrid();
-	var store = todo_grid.getStore();
+	todostore = todo_grid.getStore();
 
 	function onSubmitQueryHandler() {
 
@@ -101,18 +102,24 @@ Ext.onReady(function() {
 		var province = Ext.getCmp("show_query_area").getValue();
 		var creater = Ext.getCmp("show_query_creater").getValue();
 		var createrName = Ext.getCmp("query_createrName").getValue();
-		var startTime = Ext.getCmp("query_startTime").getValue().format("Y-m-d");
-		var endTime = Ext.getCmp("query_endTime").getValue().format("Y-m-d");
+		var startTime = Ext.getCmp("query_startTime").getValue();
+		if(! Ext.isEmpty(startTime)) {
+			startTime = startTime.format("Y-m-d");
+		}
+		var endTime = Ext.getCmp("query_endTime").getValue();
+		if(! Ext.isEmpty(endTime)) {
+			endTime = endTime.format("Y-m-d");
+		}
 		
-		store.baseParams.flowType = flowType;
-		store.baseParams.flowStatus = flowStatus;
-		store.baseParams.province = province;
-		store.baseParams.creater = creater;
-		store.baseParams.createrName = createrName;
-		store.baseParams.startTime = startTime;
-		store.baseParams.endTime = endTime;
+		todostore.baseParams.flowType = flowType;
+		todostore.baseParams.flowStatus = flowStatus;
+		todostore.baseParams.province = province;
+		todostore.baseParams.creater = creater;
+		todostore.baseParams.createrName = createrName;
+		todostore.baseParams.startTime = startTime;
+		todostore.baseParams.endTime = endTime;
 
-		store.load({
+		todostore.load({
 					params : {
 						start : 0,
 						limit : todo_grid.pageSize
@@ -130,6 +137,9 @@ Ext.onReady(function() {
 	completePage();
 });
 
+function refreshGrid() {
+	todostore.reload();
+}
 
 function openTodoFlow(id) {
 	var url = sys.path + "/wf/cm/openTodoProcess.jmt?id=" + id;
@@ -137,6 +147,6 @@ function openTodoFlow(id) {
 	var width = window.screen.availWidth - 50;
 	
 	window.open (url, "flowPage", 
-			"height="+height+", width="+width+", top=0, left=0, toolbar=no, menubar=no, scrollbars=yes,resizable=no,location=no, status=no");
+			"height="+height+", width="+width+", top=0, left=0, toolbar=no, menubar=no, scrollbars=yes,resizable=no,location=no, status=yes");
 	//window.open (url, "flowPage");
 }

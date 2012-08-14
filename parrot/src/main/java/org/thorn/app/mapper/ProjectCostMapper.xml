@@ -99,6 +99,7 @@
 	<update id="update" parameterType="org.thorn.app.entity.ProjectCost">
 		update T_PROJECT_COST
 		<set>
+			<if test="id != null">ID = #{id,jdbcType=DECIMAL},</if>
 			<if test="projectId != null">PROJECTID = #{projectId,jdbcType=DECIMAL},</if>
 			<if test="projectName != null and projectName != ''">PROJECTNAME = #{projectName,jdbcType=VARCHAR},</if>
 			<if test="year != null">YEAR = #{year,jdbcType=DECIMAL},</if>

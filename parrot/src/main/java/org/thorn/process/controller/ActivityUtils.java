@@ -28,18 +28,20 @@ public class ActivityUtils {
 	private static final String RETO_PROVINCE = "打回省厅重新审批";
 
 	private static final String RETO_APPLY = "打回申报单位修改重新申报";
-	
+
 	private static final String TO_SAVE = "保存草稿";
-	
+
 	private static final String SP_SUCCESS = "success";
-	
+
 	private static final String SP_FAILURE = "failure";
 	
+	private static final String SP_APPLY = "apply";
+
 	private static final String HANDLER_ROLE = "role";
-	
+
 	private static final String HANDLER_USER = "user";
 
-	public static Set<String> getNextStep(User user, String curActivity) {
+	public static Set<String> getNextStep(String province, String curActivity) {
 
 		Set<String> nextStep = new HashSet<String>();
 
@@ -48,7 +50,7 @@ public class ActivityUtils {
 				|| StringUtils.equals(curActivity,
 						ProcessConfiguration.ACTIVITY_SAVE)) {
 
-			if (StringUtils.equals(user.getOrgCode(),
+			if (StringUtils.equals(province,
 					ProcessConfiguration.CENTRE_ORG_CODE)) {
 				nextStep.add(TO_CENTRE);
 			} else {
@@ -61,86 +63,102 @@ public class ActivityUtils {
 		} else if (StringUtils.equals(curActivity,
 				ProcessConfiguration.ACTIVITY_CENTRE)) {
 			nextStep.add(TO_SUCCESS);
-			nextStep.add(RETO_PROVINCE);
+			
+			if (StringUtils.equals(province,
+					ProcessConfiguration.CENTRE_ORG_CODE)) {
+				nextStep.add(RETO_APPLY);
+			} else {
+				nextStep.add(RETO_PROVINCE);
+			}
 		}
 
 		return nextStep;
 	}
-	
+
 	/**
 	 * 
 	 * @Description：
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-8-14 上午10:22:55
 	 * @param flowId
 	 * @param flowType
 	 * @param user
 	 * @param nextStep
-	 * @param creater	创建人ID
+	 * @param creater
+	 *            创建人ID
 	 * @param curActivity
-	 * @param pid		第一次新建时为空，作数据保存时要重新设置值
+	 * @param pid
+	 *            第一次新建时为空，作数据保存时要重新设置值
 	 * @return
 	 */
-	public static Process dealWithActivity(Integer flowId, String flowType,User user,
-			String nextStep, String creater, String curActivity, Integer pid) {
-		
+	public static Process dealWithActivity(Integer flowId, String flowType,
+			User user, String nextStep, String creater, String curActivity,
+			Integer pid) {
+
 		Process process = new Process();
-		
+
 		process.setId(flowId);
 		process.setFlowType(flowType);
 		process.setPid(pid);
-		
-		//新建流程时设置起草人信息
-		if(flowId == null) {
+
+		// 新建流程时设置起草人信息
+		if (flowId == null) {
 			process.setCreater(user.getUserId());
 			process.setCreaterName(user.getUserName());
 			process.setProvince(user.getArea());
-			
+
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			process.setCreateTime(df.format(new Date()));
 		}
-		
-		if(StringUtils.equals(nextStep, TO_PROVINCE)) {
+
+		if (StringUtils.equals(nextStep, TO_PROVINCE)) {
 			process.setActivity(ProcessConfiguration.ACTIVITY_PROVINCE);
-			process.setFlowStatus(null);
+			process.setFlowStatus(SP_APPLY);
 			process.setHandlerType(HANDLER_ROLE);
 			process.setHandler(AppConfiguration.ROLE_PROVINCE);
-			
-		} else if(StringUtils.equals(nextStep, TO_CENTRE)) {
+
+		} else if (StringUtils.equals(nextStep, TO_CENTRE)) {
 			process.setActivity(ProcessConfiguration.ACTIVITY_CENTRE);
-			process.setFlowStatus(SP_SUCCESS);
+			
+			if(StringUtils.equals(curActivity, ProcessConfiguration.ACTIVITY_CREATE)
+					|| StringUtils.equals(curActivity, ProcessConfiguration.ACTIVITY_SAVE)) {
+				process.setFlowStatus(SP_APPLY);
+			} else {
+				process.setFlowStatus(SP_SUCCESS);
+			}
+			
 			process.setHandlerType(HANDLER_ROLE);
 			process.setHandler(AppConfiguration.ROLE_CENTRAL);
-			
-		} else if(StringUtils.equals(nextStep, TO_SUCCESS)) {
+
+		} else if (StringUtils.equals(nextStep, TO_SUCCESS)) {
 			process.setActivity(ProcessConfiguration.ACTIVITY_FINISH);
 			process.setFlowStatus(SP_SUCCESS);
-			process.setHandlerType(null);
-			process.setHandler(null);
-			
-		} else if(StringUtils.equals(nextStep, RETO_PROVINCE)) {
+			process.setHandlerType("-");
+			process.setHandler("-");
+
+		} else if (StringUtils.equals(nextStep, RETO_PROVINCE)) {
 			process.setActivity(ProcessConfiguration.ACTIVITY_PROVINCE);
 			process.setFlowStatus(SP_FAILURE);
 			process.setHandlerType(HANDLER_ROLE);
 			process.setHandler(AppConfiguration.ROLE_PROVINCE);
-			
-		} else if(StringUtils.equals(nextStep, RETO_APPLY)) {
+
+		} else if (StringUtils.equals(nextStep, RETO_APPLY)) {
 			process.setActivity(ProcessConfiguration.ACTIVITY_CREATE);
 			process.setFlowStatus(SP_FAILURE);
 			process.setHandlerType(HANDLER_USER);
 			process.setHandler(creater);
-			
-		} else if(StringUtils.equals(nextStep, TO_SAVE)) {
+
+		} else if (StringUtils.equals(nextStep, TO_SAVE)) {
 			process.setActivity(ProcessConfiguration.ACTIVITY_SAVE);
-			process.setFlowStatus(null);
+			process.setFlowStatus(SP_APPLY);
 			process.setHandlerType(HANDLER_USER);
 			process.setHandler(creater);
 		} else {
 			return null;
 		}
-		
+
 		return process;
-		
+
 	}
 
 }

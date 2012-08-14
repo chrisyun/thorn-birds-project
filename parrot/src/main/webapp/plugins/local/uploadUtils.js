@@ -176,7 +176,7 @@ UploadUtil.prototype.initShowPanel = function(attrObj, ids) {
 		this.showPanel[attr] = attrObj[attr];
 	}
 	
-	loadAtt(ids);
+	this.loadAtt(ids);
 
 	return this.showPanel;
 };

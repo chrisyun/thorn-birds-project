@@ -22,7 +22,7 @@
   	</sql>
 	
 	<sql id="Pending_Clause">
-		AND ((HANDLERTYPE = 'role' and HANDLER in 
+		((HANDLERTYPE = 'role' and HANDLER in 
 		<foreach collection="roleList" item="item" open="(" close=")"
 			separator=",">
 			#{item,jdbcType=VARCHAR}

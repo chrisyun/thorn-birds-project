@@ -49,25 +49,28 @@ public class JsonExceptionResolver implements HandlerExceptionResolver, Ordered 
 			mv.addObject("success", false);
 			mv.addObject("message", ex.getMessage());
 
-			// 针对附件上传的错误做特殊处理
-			if (uri.indexOf("getupload.jmt") > 0) {
-				mv.setView(null);
-				StringBuilder json = new StringBuilder();
-				json.append("{\"success\":false,");
-				json.append("\"message\":\"附件上传失败：" + ex.getMessage() + "\"}");
-
-				ResponseHeaderUtils.setHtmlResponse(response);
-				try {
-					response.getWriter().write(json.toString());
-					response.getWriter().flush();
-				} catch (IOException e) {
-					log.warn("write response json exception:", e);
-				}
-			}
-
 			return mv;
 		}
+		
+		// 针对附件上传的错误做特殊处理
+		if (uri.indexOf("getupload.jmt") > 0) {
+			ModelAndView mv = new ModelAndView();
+			mv.setView(null);
+			StringBuilder json = new StringBuilder();
+			json.append("{\"success\":false,");
+			json.append("\"message\":\"附件上传失败：" + ex.getMessage() + "\"}");
 
+			ResponseHeaderUtils.setHtmlResponse(response);
+			try {
+				response.getWriter().write(json.toString());
+				response.getWriter().flush();
+			} catch (IOException e) {
+				log.warn("write response json exception:", e);
+			}
+			
+			return mv;
+		}
+		
 		return null;
 	}
 

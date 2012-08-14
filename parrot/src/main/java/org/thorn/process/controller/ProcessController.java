@@ -52,7 +52,7 @@ public class ProcessController extends BaseController {
 		model.put("activityName", ProcessConfiguration.ACTIVITY_CREATE);
 		model.put("pid", "");
 
-		Set<String> nextStep = ActivityUtils.getNextStep(user,
+		Set<String> nextStep = ActivityUtils.getNextStep(user.getOrgCode(),
 				ProcessConfiguration.ACTIVITY_CREATE);
 		model.put("nextStep", nextStep);
 
@@ -66,20 +66,19 @@ public class ProcessController extends BaseController {
 
 		return "/process/process";
 	}
-	
+
 	@RequestMapping("/openDoneProcess")
 	public String openDoneProcess(Integer pid, String flowType, ModelMap model) {
-		
+
 		Process process = null;
-		
+
 		try {
 			process = flowService.queryProcess(pid, flowType, null);
-			
-			if(process == null 
-					|| process.getPid() == null) {
+
+			if (process == null || process.getPid() == null) {
 				return "process/failure";
 			}
-			
+
 			model.put("flowKey", process.getFlowType());
 			model.put("flowInstId", process.getId());
 			model.put("creater", process.getCreater());
@@ -90,7 +89,8 @@ public class ProcessController extends BaseController {
 
 			model.put("nextStep", null);
 
-			if (StringUtils.equals(process.getFlowType(), ProcessConfiguration.PROJECT_KEY)) {
+			if (StringUtils.equals(process.getFlowType(),
+					ProcessConfiguration.PROJECT_KEY)) {
 				model.put("pageUrl", ProcessConfiguration.PROJECT_JSP);
 				model.put("title", ProcessConfiguration.PROJECT_TITLE);
 			} else {
@@ -99,42 +99,42 @@ public class ProcessController extends BaseController {
 			}
 
 			return "/process/process";
-			
+
 		} catch (DBAccessException e) {
 			log.error("openDoneProcess[Process] - " + e.getMessage(), e);
-			
+
 			return "process/failure";
 		}
 	}
-	
+
 	@RequestMapping("/openTodoProcess")
 	public String openTodoProcess(Integer id, ModelMap model) {
-		
+
 		Process process = null;
-		
+
 		try {
 			process = flowService.queryProcess(null, null, id);
-			
-			if(process == null 
-					|| process.getPid() == null) {
+
+			if (process == null || process.getPid() == null) {
 				return "process/failure";
 			}
-			
+
 			User user = SecurityUserUtils.getCurrentUser();
 
 			model.put("flowKey", process.getFlowType());
-			model.put("flowInstId", process.getId());
+			model.put("flowInstId", String.valueOf(process.getId()));
 			model.put("creater", process.getCreater());
 			model.put("createrName", process.getCreaterName());
 			model.put("openType", "todo");
 			model.put("activityName", process.getActivity());
-			model.put("pid", process.getPid());
+			model.put("pid", String.valueOf(process.getPid()));
 
-			Set<String> nextStep = ActivityUtils.getNextStep(user,
-					process.getActivity());
+			Set<String> nextStep = ActivityUtils.getNextStep(
+					process.getProvince(), process.getActivity());
 			model.put("nextStep", nextStep);
 
-			if (StringUtils.equals(process.getFlowType(), ProcessConfiguration.PROJECT_KEY)) {
+			if (StringUtils.equals(process.getFlowType(),
+					ProcessConfiguration.PROJECT_KEY)) {
 				model.put("pageUrl", ProcessConfiguration.PROJECT_JSP);
 				model.put("title", ProcessConfiguration.PROJECT_TITLE);
 			} else {
@@ -143,36 +143,36 @@ public class ProcessController extends BaseController {
 			}
 
 			return "/process/process";
-			
+
 		} catch (DBAccessException e) {
 			log.error("openTodoProcess[Process] - " + e.getMessage(), e);
-			
+
 			return "process/failure";
 		}
 	}
-	
+
 	@RequestMapping("/getPendingPage")
 	@ResponseBody
 	public Page<Process> getPendingPage(long start, long limit, String sort,
-			String dir, String flowType, String province,String flowStatus, String creater,
-			String createrName, String startTime, String endTime) {
+			String dir, String flowType, String province, String flowStatus,
+			String creater, String createrName, String startTime, String endTime) {
 		Page<Process> page = new Page<Process>();
 
 		try {
 			User user = SecurityUserUtils.getCurrentUser();
 			List<String> roles = SecurityUserUtils.getRoleList();
-			
-			if(!roles.contains(AppConfiguration.ROLE_CENTRAL)) {
+
+			if (!roles.contains(AppConfiguration.ROLE_CENTRAL)) {
 				province = user.getArea();
 			}
-			
-			page = flowService.queryPendingProcess(flowType, province, user.getUserId(),
-					roles, flowStatus, creater, createrName, startTime, endTime,
-					start, limit, sort, dir);
+
+			page = flowService.queryPendingProcess(flowType, province,
+					user.getUserId(), roles, flowStatus, creater, createrName,
+					startTime, endTime, start, limit, sort, dir);
 		} catch (DBAccessException e) {
 			log.error("getPendingPage[Process] - " + e.getMessage(), e);
 		}
-		
+
 		return page;
 	}
 
