@@ -38,7 +38,6 @@
 		activityName : "<%=activityName %>",
 		title : "<%=title%>",
 		pid : "<%=pid%>",
-		flowAtts : "",
 		openType : "<%=openType%>"
 	};
 	

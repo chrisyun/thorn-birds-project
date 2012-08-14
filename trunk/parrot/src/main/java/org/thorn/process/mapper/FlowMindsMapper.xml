@@ -18,7 +18,7 @@
 
 	<sql id="Where_Clause">
 		<where>
-			<if test="flowId != null and flowId != ''">
+			<if test="flowId != null">
 				AND FLOWID = #{flowId,jdbcType=DECIMAL}
       		</if>
 		</where>

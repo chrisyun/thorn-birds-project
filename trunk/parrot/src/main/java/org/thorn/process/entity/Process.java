@@ -15,7 +15,9 @@ import org.thorn.dao.mybatis.annotation.MethodType;
 @Mapper(nameSpace="ProcessMapper",node= {
 		@MapperNode(id="insert",type=MethodType.INSERT),
 		@MapperNode(id="update",type=MethodType.UPDATE),
-		@MapperNode(id="queryList",type=MethodType.QUERY_LIST)
+		@MapperNode(id="selectList",type=MethodType.QUERY),
+		@MapperNode(id="selectPageCount",type=MethodType.COUNT),
+		@MapperNode(id="selectPage",type=MethodType.QUERY_LIST)
 })
 public class Process implements Serializable {
 
