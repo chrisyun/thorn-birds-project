@@ -2,7 +2,7 @@ var heritorPageUrl = sys.path + "/heritor/getHeritorPage.jmt";
 var heritorSubmitUrl = sys.path + "/heritor/saveOrModifyHeritor.jmt";
 var heritorDeleteUrl = sys.path + "/heritor/deleteHeritor.jmt";
 
-var getProjectByProvince = sys.path + "/project/getProjectList.jmt";
+var getProjectByProvince = sys.path + "/project/getProjectByProvince.jmt";
 
 var pageSize = 20;
 

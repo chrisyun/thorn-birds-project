@@ -2,12 +2,21 @@ package org.thorn.process.entity;
 
 import java.io.Serializable;
 
+import org.thorn.dao.mybatis.annotation.Mapper;
+import org.thorn.dao.mybatis.annotation.MapperNode;
+import org.thorn.dao.mybatis.annotation.MethodType;
+
 /**
  * @ClassName: Process
  * @Description:
  * @author chenyun
  * @date 2012-8-9 上午10:50:56
  */
+@Mapper(nameSpace="ProcessMapper",node= {
+		@MapperNode(id="insert",type=MethodType.INSERT),
+		@MapperNode(id="update",type=MethodType.UPDATE),
+		@MapperNode(id="queryList",type=MethodType.QUERY_LIST)
+})
 public class Process implements Serializable {
 
 	/** */

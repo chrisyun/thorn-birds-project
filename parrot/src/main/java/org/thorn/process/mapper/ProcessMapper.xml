@@ -16,42 +16,50 @@
 		<result column="PROVINCE" property="province" jdbcType="VARCHAR" />
 	</resultMap>
 
-	<sql id="Base_Column_List">
-		ID,FLOWID, ACTIVITYNAME, USERID, USERNAME,TIME, MIND
-  	</sql>
-
-	<sql id="Where_Clause">
-		<where>
-			<if test="flowId != null and flowId != ''">
-				AND FLOWID = #{flowId,jdbcType=DECIMAL}
-      		</if>
-		</where>
-	</sql>
-
-	<insert id="insert" parameterType="org.thorn.process.entity.FlowMinds">
-		insert into T_FLOW_MINDS
+	<insert id="insert" keyProperty="id" useGeneratedKeys="true" 
+		parameterType="org.thorn.process.entity.Process">
+		insert into T_WORKFLOW
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="flowId != null and flowId != ''">FLOWID,</if>
-			<if test="activityName != null and activityName != ''">ACTIVITYNAME,</if>
-			<if test="userId != null and userId != ''">USERID,</if>
-			<if test="userName != null and userName != ''">USERNAME,</if>
-			<if test="mind != null and mind != ''">MIND,</if>
+			<if test="pid != null">PID,</if>
+			<if test="flowType != null and flowType != ''">FLOWTYPE,</if>
+			<if test="activity != null and activity != ''">ACTIVITY,</if>
+			<if test="flowStatus != null and flowStatus != ''">FLOWSTATUS,</if>
+			<if test="creater != null and creater != ''">CREATER,</if>
+			<if test="createrName != null and createrName != ''">CREATERNAME,</if>
+			<if test="createTime != null and createTime != ''">CREATETIME,</if>
+			<if test="handler != null and handler != ''">HANDLER,</if>
+			<if test="handlerType != null and handlerType != ''">HANDLERTYPE,</if>
+			<if test="province != null and province != ''">PROVINCE,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="flowId != null and flowId != ''">#{flowId,jdbcType=DECIMAL},</if>
-			<if test="activityName != null and activityName != ''">#{activityName,jdbcType=VARCHAR},</if>
-			<if test="userId != null and userId != ''">#{userId,jdbcType=VARCHAR},</if>
-			<if test="userName != null and userName != ''">#{userName,jdbcType=VARCHAR},</if>
-			<if test="mind != null and mind != ''">#{mind,jdbcType=VARCHAR},</if>
+			<if test="pid != null">#{pid,jdbcType=DECIMAL},</if>
+			<if test="flowType != null and flowType != ''">#{flowType,jdbcType=VARCHAR},</if>
+			<if test="activity != null and activity != ''">#{activity,jdbcType=VARCHAR},</if>
+			<if test="flowStatus != null and flowStatus != ''">#{flowStatus,jdbcType=VARCHAR},</if>
+			<if test="creater != null and creater != ''">#{creater,jdbcType=VARCHAR},</if>
+			<if test="createrName != null and createrName != ''">#{createrName,jdbcType=VARCHAR},</if>
+			<if test="createTime != null and createTime != ''">#{createTime,jdbcType=VARCHAR},</if>
+			<if test="handler != null and handler != ''">#{handler,jdbcType=VARCHAR},</if>
+			<if test="handlerType != null and handlerType != ''">#{handlerType,jdbcType=VARCHAR},</if>
+			<if test="province != null and province != ''">#{province,jdbcType=VARCHAR},</if>
 		</trim>
 	</insert>
 	
-	<select id="queryList" parameterType="hashmap" resultMap="BaseResultMap">
-		select
-		<include refid="Base_Column_List" />
-		from T_FLOW_MINDS
-		<include refid="Where_Clause" />
-		order by TIME ASC
-	</select>
+	<update id="update" parameterType="org.thorn.process.entity.Process">
+		update T_WORKFLOW
+		<set>
+			<if test="pid != null and pid != ''">PID = #{pid,jdbcType=DECIMAL},</if>
+			<if test="flowType != null and flowType != ''">FLOWTYPE = #{flowType,jdbcType=VARCHAR},</if>
+			<if test="activity != null and activity != ''">ACTIVITY = #{activity,jdbcType=VARCHAR},</if>
+			<if test="flowStatus != null and flowStatus != ''">FLOWSTATUS = #{flowStatus,jdbcType=VARCHAR},</if>
+			<if test="creater != null and creater != ''">CREATER = #{creater,jdbcType=VARCHAR},</if>
+			<if test="createrName != null and createrName != ''">CREATERNAME = #{createrName,jdbcType=VARCHAR},</if>
+			<if test="createTime != null and createTime != ''">CREATETIME = #{createTime,jdbcType=VARCHAR},</if>
+			<if test="handler != null and handler != ''">HANDLER = #{handler,jdbcType=VARCHAR},</if>
+			<if test="handlerType != null and handlerType != ''">HANDLERTYPE = #{handlerType,jdbcType=VARCHAR},</if>
+			<if test="province != null and province != ''">PROVINCE = #{province,jdbcType=VARCHAR},</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
 
 </mapper>

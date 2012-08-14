@@ -3,6 +3,7 @@ package org.thorn.app.service;
 import java.util.List;
 
 import org.thorn.app.entity.Project;
+import org.thorn.app.entity.ProjectCost;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.web.entity.Page;
 
@@ -25,6 +26,8 @@ public interface IProjectService {
 			long start, long limit, String sort, String dir)
 			throws DBAccessException;
 	
-	public List<Project> queryList(String province) throws DBAccessException;
+	public List<Project> queryProjectList(String province, String userId) throws DBAccessException;
+	
+	public ProjectCost queryProjectCost(Integer id) throws DBAccessException;
 	
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.process.entity.FlowMinds;
+import org.thorn.process.entity.Process;
 
 /**
  * @ClassName: IFlowService
@@ -14,6 +15,9 @@ import org.thorn.process.entity.FlowMinds;
 public interface IFlowService {
 
 	public List<FlowMinds> queryFlowMinds(Integer flowId)
+			throws DBAccessException;
+
+	public void dealWithEngine(Process process, FlowMinds flowMinds, Object form)
 			throws DBAccessException;
 
 }

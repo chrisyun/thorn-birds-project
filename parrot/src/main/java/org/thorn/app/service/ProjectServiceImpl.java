@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.thorn.app.entity.Project;
+import org.thorn.app.entity.ProjectCost;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
 import org.thorn.dao.exception.DBAccessException;
@@ -67,11 +68,21 @@ public class ProjectServiceImpl implements IProjectService {
 
 	}
 
-	public List<Project> queryList(String province) throws DBAccessException {
+	public List<Project> queryProjectList(String province, String userId)
+			throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
 		filter.put("province", province);
+		filter.put("userId", userId);
 
 		return myBatisDaoSupport.queryList(filter, Project.class);
+	}
+
+	public ProjectCost queryProjectCost(Integer id) throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+		filter.put("id", id);
+
+		return (ProjectCost) myBatisDaoSupport.queryOne(filter,
+				ProjectCost.class);
 	}
 
 }

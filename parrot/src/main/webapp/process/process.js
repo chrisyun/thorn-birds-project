@@ -1,5 +1,5 @@
 var tpanel,contentPanel,bPanel,upload;
-var processHandlerUrl = sys.path + "/wf/cm/handlerTask.jmt";
+var processHandlerUrl = sys.path + "/wf/cm/handlerProcess.jmt";
 
 Ext.onReady(function() {
 	Ext.QuickTips.init();
@@ -32,7 +32,7 @@ Ext.onReady(function() {
 		barArray.push({
 			text : "保存草稿",
 			handler : function() {
-				
+				handlerProcess("保存草稿");
 			}
 		});
 	} else {
@@ -118,6 +118,13 @@ Ext.onReady(function() {
 			btn.push(getNextActivityBtn(nextStep[i], submitProcessInfo));
 		}
 	}
+	btn.push({
+		text : "关闭",
+		iconCls : "slik-close",
+		handler : function() {
+			closeThisWindow();
+		}
+	});
 	
 	//流程意见
 	var processMinds = new ProcessMinds(processInfo.flowInstId,
@@ -162,9 +169,45 @@ Ext.onReady(function() {
 		contentPanel.findByType("checkbox").disable();
 	}
 	
+	//提交流程处理
 	function submitProcessInfo(nextActivity) {
 		//表单验证
+		try {
+			if(! VerificationForm()) {
+				return ;
+			}
+		} catch(e) {}
+		
+		handlerProcess(nextActivity);
 	}
+	
+	function handlerProcess(nextActivity) {
+		var minds = processMinds.getMind();
+		
+		var params = {
+			mindsId : minds.id,
+			minds : minds.mind,
+			flowId : processInfo.flowInstId,
+			flowType : processInfo.flowKey,
+			nextStep : nextActivity,
+			creater : processInfo.creater,
+			curActivity : processInfo.activityName,
+			pid : processInfo.pid,
+			flowAtts : upload.getUploadAttIds()
+		};
+		
+		var form = getFormValues();
+		
+		for ( var attr in form) {
+			params[attr] = form[attr];
+		}
+		
+		var ajax = new AjaxUtil(processHandlerUrl);
+		ajax.request(params, true, null, function(){
+			closeThisWindow();
+		});
+	}
+	
 	
 });
 
@@ -183,27 +226,10 @@ function addContentPanel(panel) {
 	contentPanel.doLayout();
 }
 
-//function submitProcessInfo(nextActivity) {
-//	var params = {
-//		taskId : processInfo.taskId,
-//		appId : appId,
-//		title : title,
-//		outcome : nextActivity,
-//		flowInstId : processInfo.flowInstId,
-//		flowAtts : upload.getgetUploadAttIds(),
-//		flowKey : processInfo.flowKey
-//	};
-	
-//	var ajax = new AjaxUtil(processHandlerUrl);
-//	ajax.request(params, true, null, function(){
-//		closeThisWindow();
-//	});
-//}
-
 function closeThisWindow() {
 	try {
 		window.opener.refreshGrid();
-	} catch(e) {alert(e);}
+	} catch(e) {}
 	window.close();
 }
 

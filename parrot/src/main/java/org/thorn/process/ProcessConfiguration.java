@@ -27,6 +27,8 @@ public interface ProcessConfiguration {
 	
 	public static final String ACTIVITY_CENTRE = "非遗司审批环节";
 	
+	public static final String ACTIVITY_FINISH = "审批完成已归档";
+	
 	public static final String CENTRE_ORG_CODE = "000";
 	
 }
