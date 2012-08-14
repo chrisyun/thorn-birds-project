@@ -81,6 +81,14 @@ function getMailText(id, text, width) {
 	return txt;
 }
 
+function getMoneyText(id, text, width) {
+	var txt = getText(id, text, width);
+
+	txt.vtype = "money";
+	txt.vtypeText = Validate.money;
+	return txt;
+}
+
 function getPwdText(id, text, width) {
 	var txt = getText(id, text, width);
 

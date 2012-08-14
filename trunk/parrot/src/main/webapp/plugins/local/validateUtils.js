@@ -4,6 +4,7 @@ var Validate = {
 	empty : "该输入项不能为空！",
 	pwd : "密码强度不够！密码长度为6-15位，至少包含数字、特殊符号和大、小写字母中的两种",
 	rpwd : "两次密码不一致！",
+	money : "该输入项为金额格式，精确到小数点后三位",
 	date : "该输入项为日期格式，格式YYYY-MM-DD",
 	redStar : '<em class="required">*</em>'
 };
@@ -12,6 +13,13 @@ Ext.apply(Ext.form.VTypes, {
 	number : function(val, field) {
 		if (!Ext.isEmpty(val)) {
 			var reg = /^[-]{0,1}[0-9]{1,}$/;
+			return reg.test(val);
+		}
+		return true;
+	},
+	money : function(val, field) {
+		if (!Ext.isEmpty(val)) {
+			var reg = /^[0-9]+[\.]{0,1}[0-9]{0,3}$/;
 			return reg.test(val);
 		}
 		return true;

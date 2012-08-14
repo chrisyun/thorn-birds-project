@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.thorn.app.AppConfiguration;
 import org.thorn.app.entity.Project;
+import org.thorn.app.entity.ProjectCost;
 import org.thorn.app.service.IProjectService;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
@@ -19,6 +20,7 @@ import org.thorn.dao.exception.DBAccessException;
 import org.thorn.security.SecurityUserUtils;
 import org.thorn.user.entity.User;
 import org.thorn.web.controller.BaseController;
+import org.thorn.web.entity.JsonResponse;
 import org.thorn.web.entity.Page;
 import org.thorn.web.entity.Status;
 
@@ -79,15 +81,30 @@ public class ProjectController extends BaseController {
 		return status;
 	}
 	
-	@RequestMapping("/getProjectList")
+	@RequestMapping("/getProjectByProvince")
 	@ResponseBody
-	public List<Project> getProjectList(String province) {
+	public List<Project> getProjectByProvince(String province) {
 		List<Project> list = new ArrayList<Project>();
 		
 		try {
-			list = projectService.queryList(province);
+			list = projectService.queryProjectList(province, null);
 		} catch (DBAccessException e) {
-			log.error("getProjectList[Project] - " + e.getMessage(), e);
+			log.error("getProjectByProvince[Project] - " + e.getMessage(), e);
+		}
+		
+		return list;
+	}
+	
+	@RequestMapping("/getProjectByUser")
+	@ResponseBody
+	public List<Project> getProjectByUser() {
+		List<Project> list = new ArrayList<Project>();
+		
+		try {
+			User user = SecurityUserUtils.getCurrentUser();
+			list = projectService.queryProjectList(null, user.getUserId());
+		} catch (DBAccessException e) {
+			log.error("getProjectByUser[Project] - " + e.getMessage(), e);
 		}
 		
 		return list;
@@ -125,5 +142,22 @@ public class ProjectController extends BaseController {
 
 		return page;
 	}
+	
+	@RequestMapping("/getProjectCostById")
+	@ResponseBody
+	public JsonResponse<ProjectCost> getProjectCostById(Integer id) {
+		JsonResponse<ProjectCost> json = new JsonResponse<ProjectCost>();
+		
+		try {
+			json.setObj(projectService.queryProjectCost(id));
+		} catch (DBAccessException e) {
+			json.setSuccess(false);
+			json.setMessage("项目费用获取失败：" + e.getMessage());
+			log.error("getProjectCostById[ProjectCost] - " + e.getMessage(), e);
+		}
+		
+		return json;
+	}
+	
 
 }
