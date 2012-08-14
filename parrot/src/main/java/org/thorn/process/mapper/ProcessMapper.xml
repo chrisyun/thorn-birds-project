@@ -16,6 +16,77 @@
 		<result column="PROVINCE" property="province" jdbcType="VARCHAR" />
 	</resultMap>
 
+	<sql id="Base_Column_List">
+		ID,PID,FLOWTYPE,ACTIVITY,FLOWSTATUS,CREATER,CREATERNAME,
+		CREATETIME,HANDLER,HANDLERTYPE,PROVINCE
+  	</sql>
+	
+	<sql id="Pending_Clause">
+		AND ((HANDLERTYPE = 'role' and HANDLER in 
+		<foreach collection="roleList" item="item" open="(" close=")"
+			separator=",">
+			#{item,jdbcType=VARCHAR}
+		</foreach>) 
+		OR (HANDLERTYPE = 'user' and HANDLER = #{userId,jdbcType=VARCHAR}))
+	</sql>
+	
+	<sql id="Where_Clause">
+		<if test="id != null">
+			AND ID = #{id,jdbcType=DECIMAL}
+   		</if>
+   		<if test="pid != null">
+			AND PID = #{pid,jdbcType=DECIMAL}
+   		</if>
+   		<if test="flowType != null and flowType != ''">
+			AND FLOWTYPE = #{flowType,jdbcType=VARCHAR}
+   		</if>
+   		<if test="province != null and province != ''">
+			AND PROVINCE = #{province,jdbcType=VARCHAR}
+   		</if>
+   		<if test="flowStatus != null and flowStatus != ''">
+			AND FLOWSTATUS = #{flowStatus,jdbcType=VARCHAR}
+   		</if>
+   		<if test="creater != null and creater != ''">
+			AND CREATER = #{creater,jdbcType=VARCHAR}
+   		</if>
+   		<if test="createrName != null and createrName != ''">
+			AND CREATERNAME like CONCAT('%',#{createrName,jdbcType=VARCHAR},'%')
+   		</if>
+   		<if test="startTime != null and startTime != ''">
+			AND CREATETIME &gt;= #{startTime,jdbcType=VARCHAR}
+    	</if>
+    	<if test="endTime != null and endTime != ''">
+			AND CREATETIME &lt;= #{endTime,jdbcType=VARCHAR}
+    	</if>
+	</sql>
+
+	<select id="selectPage" parameterType="hashmap"
+		resultMap="BaseResultMap">
+		<include refid="MySQLCommonMapper.pagingStart"/>
+		select
+		<include refid="Base_Column_List" />
+		from T_WORKFLOW 
+		where <include refid="Pending_Clause" />
+		<include refid="Where_Clause" />
+		<include refid="MySQLCommonMapper.sortInfo"/>
+		<include refid="MySQLCommonMapper.pagingEnd"/>
+	</select>
+	<select id="selectPageCount" parameterType="hashmap"
+		resultType="long">
+		select count(*) from T_WORKFLOW 
+		where <include refid="Pending_Clause" />
+		<include refid="Where_Clause" />
+	</select>
+	
+	<select id="selectList" parameterType="hashmap"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_WORKFLOW where 1=1 
+		<include refid="Where_Clause" />
+	</select>
+	
+
 	<insert id="insert" keyProperty="id" useGeneratedKeys="true" 
 		parameterType="org.thorn.process.entity.Process">
 		insert into T_WORKFLOW

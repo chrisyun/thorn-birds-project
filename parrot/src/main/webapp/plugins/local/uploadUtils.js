@@ -176,6 +176,12 @@ UploadUtil.prototype.initShowPanel = function(attrObj, ids) {
 		this.showPanel[attr] = attrObj[attr];
 	}
 	
+	loadAtt(ids);
+
+	return this.showPanel;
+};
+
+UploadUtil.prototype.loadAtt = function(ids) {
 	if (!Ext.isEmpty(ids)) {
 		var util = this;
 		
@@ -196,8 +202,6 @@ UploadUtil.prototype.initShowPanel = function(attrObj, ids) {
 			}
 		});
 	}
-
-	return this.showPanel;
 };
 
 UploadUtil.prototype.show = function(title) {

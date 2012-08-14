@@ -104,7 +104,7 @@ Ext.onReady(function() {
 		height : 130,
 		autoHeight : false,
 		autoWidth : false
-	}, processInfo.flowAtts);
+	}, "");
 	
 	if(attArray.length > 0) {
 		attPanel.add(new Ext.Toolbar(attArray));
@@ -224,6 +224,10 @@ function formLoadingComplate() {
 function addContentPanel(panel) {
 	contentPanel.add(panel);
 	contentPanel.doLayout();
+}
+
+function reLoadAtts(ids) {
+	upload.loadAtt(ids);
 }
 
 function closeThisWindow() {

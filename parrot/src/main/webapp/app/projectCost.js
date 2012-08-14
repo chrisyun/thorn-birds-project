@@ -128,14 +128,14 @@ function startProcessHandler() {
 			threeForm.getForm().setValues(data);
 			
 			oneForm.findById("show_projectId").setRawValue(data.projectName);
+			
+			reLoadAtts(data.attids);
 		});
 		
 		
 	} else {
 		oneForm.findById("createrName").setValue(user.userName);
 	}
-	
-	
 }
 
 function VerificationForm() {

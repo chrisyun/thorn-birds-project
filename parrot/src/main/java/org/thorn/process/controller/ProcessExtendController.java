@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.process.entity.FlowMinds;
 import org.thorn.process.service.IFlowService;
@@ -31,6 +32,8 @@ public class ProcessExtendController extends BaseController {
 	@Qualifier("flowService")
 	private IFlowService flowService;
 	
+	@RequestMapping("/getProcessMinds")
+	@ResponseBody
 	public List<FlowMinds> getProcessMinds(Integer flowId) {
 		
 		if(flowId == null) {
