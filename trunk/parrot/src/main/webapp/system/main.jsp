@@ -158,7 +158,7 @@
 			
 			if(tabNum < 2) {
 				tabNum++;
-			} else if(activateId != node.id) {
+			} else {
 				mainTab.remove(1);
 			}
 			

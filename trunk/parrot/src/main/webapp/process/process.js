@@ -163,10 +163,15 @@ Ext.onReady(function() {
 	if(processInfo.openType != "create" 
 		&& !(processInfo.openType == "todo" 
 			&& user.userId == processInfo.creater)) {
-		contentPanel.findByType("textfield").disable();
-		contentPanel.findByType("textarea").disable();
-		contentPanel.findByType("button").disable();
-		contentPanel.findByType("checkbox").disable();
+		
+		var fieldArray = contentPanel.findByType("textfield");
+		for(var i=0; i < fieldArray.length; i++) {
+			fieldArray[i].disable();
+		}
+		fieldArray = contentPanel.findByType("textarea");
+		for(var i=0; i < fieldArray.length; i++) {
+			fieldArray[i].disable();
+		}
 	}
 	
 	//提交流程处理
@@ -204,7 +209,17 @@ Ext.onReady(function() {
 		
 		var ajax = new AjaxUtil(processHandlerUrl);
 		ajax.request(params, true, null, function(){
-			closeThisWindow();
+			Ext.Msg.show( {
+				buttons : Ext.Msg.OK,
+				maxWidth : 200,
+				minWidth : 300,
+				msg : "<div style='margin: 5 5 8 15px;font-size: 15px;'>流程数据处理成功！</div>",
+				title : "提示信息",
+				icon : Ext.Msg.WARNING,
+				fn : function(btn) {
+					closeThisWindow();
+				}
+			} );
 		});
 	}
 	

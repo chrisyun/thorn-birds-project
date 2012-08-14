@@ -2,6 +2,7 @@ package org.thorn.process.entity;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.StringUtils;
 import org.thorn.dao.mybatis.annotation.Mapper;
 import org.thorn.dao.mybatis.annotation.MapperNode;
 import org.thorn.dao.mybatis.annotation.MethodType;
@@ -86,6 +87,10 @@ public class Process implements Serializable {
 		return createTime;
 	}
 	public void setCreateTime(String createTime) {
+		if(StringUtils.isNotBlank(createTime) 
+				&& createTime.length() > 19) {
+			createTime = createTime.substring(0, 19);
+		}
 		this.createTime = createTime;
 	}
 	public Integer getPid() {
