@@ -46,7 +46,7 @@ function startProcessHandler() {
 	oneForm.addComp(getText("bankName", "开户名称", 220), 0.3, false);
 	oneForm.addComp(getText("bank", "开户银行", 220), 0.3, false);
 	oneForm.addComp(getText("bankAccount", "开户账号", 220), 0.3, false);
-	oneForm.addComp(getTextArea("companyCtf", "申报单位具备资质", 800, 50), 0.9, false);
+	oneForm.addComp(getTextArea("companyCtf", "申报单位具备资质", 800, 70, 1000), 0.9, false);
 	
 	twoForm = new FormUtil({
 		iconCls : "",
@@ -54,12 +54,12 @@ function startProcessHandler() {
 		border : false,
 		id : "twoForm",
 		collapsible : false,
-		labelWidth : 150
+		labelWidth : 250
 	});
 	
-	twoForm.addComp(getTextArea("appReason", "补助申请理由", 800, 50), 0.9, false);
-	twoForm.addComp(getTextArea("content", "补助资金使用内容", 800, 50), 0.9, false);
-	twoForm.addComp(getTextArea("target", "年度目标及预期效益", 800, 50), 0.9, false);
+	twoForm.addComp(getTextArea("appReason", "补助申请理由", 800, 60, 1000), 1.0, false);
+	twoForm.addComp(getTextArea("content", "补助资金使用内容", 800, 60, 1000), 1.0, false);
+	twoForm.addComp(getTextArea("target", "年度目标及预期效益", 800, 60, 1000), 1.0, false);
 	
 
 	var cm = new Ext.grid.ColumnModel({
@@ -68,31 +68,31 @@ function startProcessHandler() {
 		},
 		columns : [ {
 			id : "detail",
-			header : "明细项",
+			header : "支出内容明细",
 			dataIndex : "detail",
-			width : 250,
+			width : 150,
 			editor : new Ext.form.ComboBox({
 				listClass: "x-combo-list-small",
 				typeAhead: true,
-				store : [ "预算类型1", "预算类型2", "预算类型3", "其他" ],
+				store : budgetArray,
 				triggerAction : "all"
-			})
-		}, {
-			id : "remark",
-			header : "说明",
-			dataIndex : "remark",
-			width : 500,
-			editor : new Ext.form.TextField({
-				maxLength : 200
 			})
 		}, {
 			id : "money",
 			header : "金额（万元）",
 			dataIndex : "money",
-			width : 120,
+			width : 100,
 			editor : new Ext.form.TextField({
 				vtype : "money",
 				vtypeText : Validate.money
+			})
+		}, {
+			id : "remark",
+			header : "说明",
+			dataIndex : "remark",
+			width : 400,
+			editor : new Ext.form.TextField({
+				maxLength : 100
 			})
 		} ]
 	});
@@ -140,9 +140,10 @@ function startProcessHandler() {
 	var budgetGrid = new Ext.grid.EditorGridPanel({
 		region:"center",
 		store : budgetStore,
+		margins : "2 2 2 2",
 		cm : cm,
 		height : 110,
-		title : "费用明细项",
+		title : "项目支出明细预算（双击表格进行修改）",
 		loadMask : {
 			msg : "数据获取中,请稍候..."
 		},
@@ -167,31 +168,32 @@ function startProcessHandler() {
 			}
 		},
 		bbar : [ {
-			text : "费用明细合计（万元）:",
+			text : "合计（万元）:",
 			xtype : "tbtext"
 		}, {
 			xtype : "textfield",
 			id : "budgetTotal",
-			width : 50,
+			width : 70,
 			readOnly : true
 		} ]
 	});
 	
 	threeForm = new FormUtil({
-		region:"north",
+		region:"west",
 		iconCls : "",
 		id : "budgetForm",
 		border : false,
 		collapsible : false,
-		split : false,
-		labelWidth : 200
+		split : true,
+		width : 600,
+		labelWidth : 140
 	});
-	threeForm.addComp(getText("usedYear", "资金使用年度", 220), 0.45, false);
-	threeForm.addComp(getMoneyText("money", "申请金额（万元）", 220), 0.45, false);
-	threeForm.addComp(getTextArea("budget", "预算测算依据及说明", 800, 50), 0.9, true);
+	threeForm.addComp(getText("usedYear", "资金使用年度", 380), 1.0, false);
+	threeForm.addComp(getMoneyText("money", "申请金额（万元）", 380), 1.0, false);
+	threeForm.addComp(getTextArea("budget", "预算测算依据及说明", 380, 120, 1000), 1.0, true);
 	
 	var budgetForm = new Ext.Panel({
-		title : "预算明细",
+		title : "金额及预算明细",
 		border : false,
 		collapsible : false,
 		id : "threeForm",
@@ -199,19 +201,7 @@ function startProcessHandler() {
 		margins : "2 0 0 0",
 		layout : "border",
 		collapsible : false,
-		items : [ threeForm.getPanel(), budgetGrid, {
-			region:"west",
-			width : 200,
-			border : false
-		}, {
-			region:"east",
-			width : 200,
-			border : false
-		}, {
-			region:"south",
-			height : 50,
-			border : false
-		} ]
+		items : [ threeForm.getPanel(), budgetGrid ]
 	});
 	
 	mainTab = new Ext.TabPanel( {

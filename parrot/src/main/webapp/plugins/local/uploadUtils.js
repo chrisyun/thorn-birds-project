@@ -95,7 +95,6 @@ function UploadUtil(id, type) {
 			var selectionsArray = multiSel.view.getSelectedIndexes();
 			//对数组排序，先删高位的
 			selectionsArray = selectionsArray.sort(sortNumber);
-			alert(selectionsArray);
 			for ( var i = 0; i < selectionsArray.length; i++) {
 				store.removeAt(selectionsArray[i]);
 			}
@@ -197,7 +196,7 @@ UploadUtil.prototype.loadAtt = function(ids) {
 				var att = new Object();
 				att.id = result[i].id;
 				att.name = result[i].fileName;
-
+				
 				util.addAtt(att);
 			}
 		});
@@ -220,6 +219,11 @@ UploadUtil.prototype.show = function(title) {
 
 UploadUtil.prototype.addAtt = function(att) {
 	var hiddenIds = this.uploadForm.findById(this.id + "_ids").getValue();
+	
+	if(Ext.isEmpty(hiddenIds)) {
+		hiddenIds = "";
+	}
+	
 	this.uploadForm.findById(this.id + "_ids").setValue(
 			hiddenIds + "," + att.id);
 
@@ -236,10 +240,11 @@ UploadUtil.prototype.addAtt = function(att) {
 
 UploadUtil.prototype.removeAtt = function(id) {
 	var hiddenIds = this.uploadForm.findById(this.id + "_ids").getValue();
-	var idArray = hiddenIds.split(id + ",");
+	
+	var idArray = hiddenIds.split("," + id);
 	this.uploadForm.findById(this.id + "_ids")
 			.setValue(idArray[0] + idArray[1]);
-
+	
 	Ext.getDom(this.id + "_" + id).innerHTML = "";
 	Ext.getDom(this.id + "_" + id).removeNode();
 };

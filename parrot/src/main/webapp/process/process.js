@@ -11,7 +11,7 @@ Ext.onReady(function() {
    						"<td align=\"center\" colspan=\"2\" id=\"title\" style=\"font-size: 18px;\"></td>" +
    					"</tr>" +
    					"<tr height=\"20%\">" +
-   						"<td width=\"70%\">&nbsp;</td>" +
+   						"<td style=\"font-size: 13px;color: red;\" width=\"70%\">&nbsp;&nbsp;&nbsp;&nbsp;注：带<em class=\"required\">*</em>为必填项</td>" +
    						"<td id=\"activityName\" style=\"font-size: 13px;\"></td>" +
    					"</tr>" +
    				"</table>";
@@ -43,7 +43,7 @@ Ext.onReady(function() {
 			text : "导出WORD",
 			handler : function() {
 				var wordUrl = exportWordUrl + "?pid=" + processInfo.pid
-				+ "&flowType=" + processInfo.flowKey;
+				+ "&flowType=" + processInfo.flowKey + "&num=" + Math.random();
 		
 				document.getElementById("wordFrame").src = wordUrl;
 			}
@@ -63,7 +63,9 @@ Ext.onReady(function() {
 					pid : processInfo.pid
 				};
 				
-				if(Ext.isEmpty(id) || Ext.isEmpty(flowType) || Ext.isEmpty(pid)) {
+				if(Ext.isEmpty(params.id) 
+						|| Ext.isEmpty(params.flowType) 
+						|| Ext.isEmpty(params.pid)) {
 					Ext.Msg.alert("提示信息", "参数有误，无法删除!");
 					return ;
 				}

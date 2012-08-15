@@ -180,8 +180,12 @@ public class HandlerController extends BaseController {
 
 	private List<CostBudget> getCostBudget(String budgetJson)
 			throws JsonParseException, JsonMappingException, IOException {
+		if(StringUtils.isEmpty(budgetJson)) {
+			return new ArrayList<CostBudget>();
+		}
+		
 		ObjectMapper mapper = new ObjectMapper();
-
+		
 		CostBudget[] budgets = mapper.readValue(budgetJson, CostBudget[].class);
 
 		return Arrays.asList(budgets);

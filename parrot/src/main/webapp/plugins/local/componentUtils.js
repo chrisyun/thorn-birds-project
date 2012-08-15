@@ -107,12 +107,13 @@ function getRPwdText(id, text, width, confirmTo) {
 	return txt;
 }
 
-function getTextArea(id, text, width, height) {
+function getTextArea(id, text, width, height, maxLength) {
 	var txt = getText(id, text, width);
 
 	txt.height = height;
 	txt.xtype = "textarea";
-
+	txt.maxLength = maxLength || 500;
+	
 	return txt;
 }
 

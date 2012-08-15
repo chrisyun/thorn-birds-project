@@ -1,11 +1,10 @@
 package org.thorn.process.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -142,10 +141,10 @@ public class FlowServiceImpl implements IFlowService {
 	public void deleteProcess(String id, String flowType, String pid)
 			throws DBAccessException {
 
-		Set<String> flowIds = new HashSet<String>();
+		List<String> flowIds = new ArrayList<String>();
 		flowIds.add(id);
 
-		Set<String> pids = new HashSet<String>();
+		List<String> pids = new ArrayList<String>();
 		pids.add(pid);
 
 		myBatisDaoSupport.deleteForBatch(flowIds, Process.class);
