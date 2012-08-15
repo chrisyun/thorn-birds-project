@@ -1,5 +1,6 @@
 var tpanel,contentPanel,bPanel,upload;
 var processHandlerUrl = sys.path + "/wf/cm/handlerProcess.jmt";
+var processDeleteUrl = sys.path + "/wf/cm/deleteProcess.jmt";
 
 Ext.onReady(function() {
 	Ext.QuickTips.init();
@@ -49,9 +50,38 @@ Ext.onReady(function() {
 		&& user.userId == processInfo.creater) {
 		barArray.push("-");
 		barArray.push({
-			text : "作废流程",
+			text : "删除流程",
 			handler : function() {
 				
+				var params = {
+					id : processInfo.flowInstId,
+					flowType : processInfo.flowKey,
+					pid : processInfo.pid
+				};
+				
+				if(Ext.isEmpty(id) || Ext.isEmpty(flowType) || Ext.isEmpty(pid)) {
+					Ext.Msg.alert("提示信息", "参数有误，无法删除!");
+					return ;
+				}
+				
+				Ext.Msg.confirm("确认提示", "确定删除这条申请流程?", function(btn) {
+					if (btn == "yes") {
+						var ajaxClass = new AjaxUtil(processDeleteUrl);
+						ajaxClass.request(params, true, null, function(obj) {
+							Ext.Msg.show( {
+								buttons : Ext.Msg.OK,
+								maxWidth : 200,
+								minWidth : 300,
+								msg : "<div style='margin: 5 5 8 15px;font-size: 15px;'>流程删除成功！</div>",
+								title : "提示信息",
+								icon : Ext.Msg.WARNING,
+								fn : function(btn) {
+									closeThisWindow();
+								}
+							} );
+						});
+					}
+				});
 			}
 		});
 	}

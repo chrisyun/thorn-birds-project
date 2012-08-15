@@ -1,11 +1,22 @@
 package org.thorn.process.controller;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.codehaus.jackson.JsonFactory;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.JsonToken;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +24,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.thorn.app.entity.CostBudget;
 import org.thorn.app.entity.ProjectCost;
+import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.process.ProcessConfiguration;
 import org.thorn.process.entity.FlowMinds;
@@ -44,7 +57,8 @@ public class HandlerController extends BaseController {
 	@ResponseBody
 	public Status handlerProcess(HttpServletRequest request, Integer mindsId,
 			String minds, Integer flowId, String flowType, String nextStep,
-			String creater, String curActivity, Integer pid, String flowAtts) {
+			String budgetJson, String creater, String curActivity, Integer pid,
+			String flowAtts) {
 		Status status = new Status();
 
 		User user = SecurityUserUtils.getCurrentUser();
@@ -69,13 +83,20 @@ public class HandlerController extends BaseController {
 		flowMinds.setMind(minds);
 
 		try {
-			flowService.dealWithEngine(process, flowMinds, form);
+			
+			List<CostBudget> list = getCostBudget(budgetJson);
+			
+			flowService.dealWithEngine(process, flowMinds, form, list);
 			status.setMessage("流程处理成功！");
 		} catch (DBAccessException e) {
 			status.setSuccess(false);
 			status.setMessage("数据保存失败：" + e.getMessage());
 			log.error("handlerProcess[Workflow] - " + e.getMessage(), e);
-		}
+		} catch (Exception e) {
+			status.setSuccess(false);
+			status.setMessage("数据解析失败：" + e.getMessage());
+			log.error("handlerProcess[Workflow] - " + e.getMessage(), e);
+		} 
 
 		return status;
 	}
@@ -98,7 +119,7 @@ public class HandlerController extends BaseController {
 		pc.setAttids(flowAtts);
 
 		String projectId = request.getParameter("pc_projectId");
-		if(StringUtils.isNotBlank(projectId)) {
+		if (StringUtils.isNotBlank(projectId)) {
 			pc.setProjectId(Integer.parseInt(projectId));
 		}
 
@@ -106,10 +127,10 @@ public class HandlerController extends BaseController {
 		pc.setProjectName(projectName);
 
 		String year = request.getParameter("pc_year");
-		if(StringUtils.isNotBlank(year)) {
+		if (StringUtils.isNotBlank(year)) {
 			pc.setYear(Integer.parseInt(year));
 		}
-		
+
 		String address = request.getParameter("pc_address");
 		pc.setAddress(address);
 
@@ -150,11 +171,20 @@ public class HandlerController extends BaseController {
 		pc.setBudget(budget);
 
 		String money = request.getParameter("pc_money");
-		if(StringUtils.isNotBlank(money)) {
+		if (StringUtils.isNotBlank(money)) {
 			pc.setMoney(Double.parseDouble(money));
 		}
 
 		return pc;
+	}
+
+	private List<CostBudget> getCostBudget(String budgetJson)
+			throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+
+		CostBudget[] budgets = mapper.readValue(budgetJson, CostBudget[].class);
+
+		return Arrays.asList(budgets);
 	}
 
 }

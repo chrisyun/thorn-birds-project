@@ -15,7 +15,6 @@ import org.thorn.dao.mybatis.annotation.MethodType;
 @Mapper(nameSpace="CostBudgetMapper",node= {
 		@MapperNode(id="insert",type=MethodType.INSERT),
 		@MapperNode(id="update",type=MethodType.UPDATE),
-		@MapperNode(id="delete",type=MethodType.DELETE_BATCH),
 		@MapperNode(id="selectList",type=MethodType.QUERY_LIST)
 })
 public class CostBudget implements Serializable {
@@ -81,6 +80,16 @@ public class CostBudget implements Serializable {
 
 	public void setMoney(double money) {
 		this.money = money;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		
+		if(o instanceof String) {
+			return o.equals(this.detail);
+		}
+		
+		return o.hashCode() == this.hashCode();
 	}
 	
 }

@@ -127,7 +127,7 @@
 	</update>
 	
 	<delete id="delete">
-		delete from T_PROJECT where ID in
+		delete from T_PROJECT_COST where ID in
 		<foreach collection="list" item="item" open="(" close=")"
 			separator=",">
 			#{item,jdbcType=DECIMAL}

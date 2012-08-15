@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 public class ResponseHeaderUtils {
 
 	private static final String EXCEL_CONTENT_TYPE = "application/vnd.ms-excel";
+	
+	private static final String WORD_CONTENT_TYPE = "application/msword";
 
 	private static final String JSON_CONTENT_TYPE = "text/javascript;charset=utf-8";
 
@@ -43,6 +45,25 @@ public class ResponseHeaderUtils {
 		name += ".xls";
 
 		response.setContentType(EXCEL_CONTENT_TYPE);
+		response.setCharacterEncoding("UTF-8");
+		response.addHeader("Content-Disposition", "attachment;filename=" + name
+				+ "\"");
+	}
+	
+	public static void setWordResponse(HttpServletResponse response,
+			String wordName) {
+
+		// 对文件名作中文处理
+		String name = wordName;
+		try {
+			name = new String(wordName.getBytes("GBK"), "ISO-8859-1");
+		} catch (UnsupportedEncodingException e) {
+			name = wordName;
+		}
+
+		name += ".doc";
+
+		response.setContentType(WORD_CONTENT_TYPE);
 		response.setCharacterEncoding("UTF-8");
 		response.addHeader("Content-Disposition", "attachment;filename=" + name
 				+ "\"");

@@ -132,5 +132,14 @@
 		</set>
 		where ID = #{id,jdbcType=DECIMAL}
 	</update>
-
+	
+	<delete id="delete">
+		delete from T_WORKFLOW where ID in
+		<foreach collection="list" item="item" open="(" close=")"
+			separator=",">
+			#{item,jdbcType=DECIMAL}
+		</foreach>
+	</delete>
+	
+	
 </mapper>

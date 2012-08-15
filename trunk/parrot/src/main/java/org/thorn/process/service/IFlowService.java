@@ -3,6 +3,7 @@ package org.thorn.process.service;
 import java.util.Collection;
 import java.util.List;
 
+import org.thorn.app.entity.CostBudget;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.process.entity.FlowMinds;
 import org.thorn.process.entity.Process;
@@ -19,8 +20,8 @@ public interface IFlowService {
 	public List<FlowMinds> queryFlowMinds(Integer flowId)
 			throws DBAccessException;
 
-	public void dealWithEngine(Process process, FlowMinds flowMinds, Object form)
-			throws DBAccessException;
+	public void dealWithEngine(Process process, FlowMinds flowMinds,
+			Object form, List<CostBudget> budgets) throws DBAccessException;
 
 	public Page<Process> queryPendingProcess(String flowType, String province,
 			String userId, Collection<String> roleList, String flowStatus,
@@ -31,4 +32,9 @@ public interface IFlowService {
 	public Process queryProcess(Integer pid, String flowType, Integer id)
 			throws DBAccessException;
 
+	public void deleteProcess(String id, String flowType, String pid)
+			throws DBAccessException;
+
+	public List<CostBudget> queryCostBudget(Integer pid, String type)
+			throws DBAccessException;
 }
