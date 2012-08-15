@@ -61,5 +61,13 @@
 		<include refid="Where_Clause" />
 		order by TIME ASC
 	</select>
+	
+	<delete id="delete">
+		delete from T_FLOW_MINDS where FLOWID ID in
+		<foreach collection="list" item="item" open="(" close=")"
+			separator=",">
+			#{item,jdbcType=DECIMAL}
+		</foreach>
+	</delete>
 
 </mapper>

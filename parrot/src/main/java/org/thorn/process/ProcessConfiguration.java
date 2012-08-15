@@ -13,11 +13,15 @@ public interface ProcessConfiguration {
 	
 	public static final String PROJECT_JSP = "projectCost.jsp";
 	
+	public static final String PROJECT_WORD = "projectTemplate.xml";
+	
 	public static final String RESEVER_KEY = "resever";
 	
 	public static final String RESEVER_TITLE = "国家级文化生态保护区补助费申报书";
 	
 	public static final String RESEVER_JSP = "reseverCost.jsp";
+	
+	public static final String RESEVER_WORD = "reseverTemplate.xml";
 	
 	public static final String ACTIVITY_CREATE = "申报环节";
 	

@@ -16,6 +16,7 @@ import org.thorn.dao.mybatis.annotation.MethodType;
 @Mapper(nameSpace="ProcessMapper",node= {
 		@MapperNode(id="insert",type=MethodType.INSERT),
 		@MapperNode(id="update",type=MethodType.UPDATE),
+		@MapperNode(id="delete",type=MethodType.DELETE_BATCH),
 		@MapperNode(id="selectList",type=MethodType.QUERY),
 		@MapperNode(id="selectPageCount",type=MethodType.COUNT),
 		@MapperNode(id="selectPage",type=MethodType.QUERY_LIST)
