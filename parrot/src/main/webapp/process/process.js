@@ -1,6 +1,7 @@
 var tpanel,contentPanel,bPanel,upload;
 var processHandlerUrl = sys.path + "/wf/cm/handlerProcess.jmt";
 var processDeleteUrl = sys.path + "/wf/cm/deleteProcess.jmt";
+var exportWordUrl = sys.path + "/wf/cm/exportProcessWord.jmt";
 
 Ext.onReady(function() {
 	Ext.QuickTips.init();
@@ -41,7 +42,10 @@ Ext.onReady(function() {
 		barArray.push({
 			text : "导出WORD",
 			handler : function() {
-				
+				var wordUrl = exportWordUrl + "?pid=" + processInfo.pid
+				+ "&flowType=" + processInfo.flowKey;
+		
+				document.getElementById("wordFrame").src = wordUrl;
 			}
 		});
 	}

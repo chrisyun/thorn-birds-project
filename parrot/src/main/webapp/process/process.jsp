@@ -54,3 +54,4 @@
 <jsp:include page="<%=contentPage%>"></jsp:include>
 <!-- 之间不能有空格，只能为1种情况 -->
 <jsp:include page="/reference/footer.jsp"></jsp:include>
+<iframe id="wordFrame" src="" style="display:none;"></iframe>
