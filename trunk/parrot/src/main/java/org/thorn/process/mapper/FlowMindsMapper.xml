@@ -63,7 +63,7 @@
 	</select>
 	
 	<delete id="delete">
-		delete from T_FLOW_MINDS where FLOWID ID in
+		delete from T_FLOW_MINDS where FLOWID in
 		<foreach collection="list" item="item" open="(" close=")"
 			separator=",">
 			#{item,jdbcType=DECIMAL}

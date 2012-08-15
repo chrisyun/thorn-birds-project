@@ -85,8 +85,8 @@ public class CostBudget implements Serializable {
 	@Override
 	public boolean equals(Object o) {
 		
-		if(o instanceof String) {
-			return o.equals(this.detail);
+		if(o instanceof CostBudget) {
+			return ((CostBudget) o).getDetail().equals(this.detail);
 		}
 		
 		return o.hashCode() == this.hashCode();

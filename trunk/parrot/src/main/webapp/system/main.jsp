@@ -128,9 +128,9 @@
 			border : false,
 			minTabWidth : 200,
 			items : [ {
-				title : "首页",
+				title : "我的待办",
 				iconCls : "silk-home",
-				autoScroll : true
+				html : "<iframe src='"+ sys.path +"/process/processTodo.jsp' width='100%' height='100%' frameborder='0'></iframe>"
 			}]
 		});
 

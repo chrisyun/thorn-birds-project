@@ -4,8 +4,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -100,10 +100,14 @@ public class ProcessExtendController extends BaseController {
 				list = flowService.queryCostBudget(pid, flowType);
 			}
 
+			CostBudget eqCb = new CostBudget();
+
 			for (Dict dt : details) {
 
 				String detail = dt.getDvalue();
-				if (!list.contains(detail)) {
+				eqCb.setDetail(detail);
+
+				if (!list.contains(eqCb)) {
 					CostBudget cb = new CostBudget();
 					cb.setDetail(detail);
 					cb.setType(flowType);
@@ -122,13 +126,13 @@ public class ProcessExtendController extends BaseController {
 
 	@RequestMapping("/exportProcessWord")
 	public void exportProcessWord(Integer pid, String flowType,
-			ServletContext context, HttpServletResponse response) {
-		
-		if(pid == null || StringUtils.isEmpty(flowType)) {
-			return ;
+			HttpSession session, HttpServletResponse response) {
+
+		if (pid == null || StringUtils.isEmpty(flowType)) {
+			return;
 		}
-		
-		String path = context.getRealPath("/");
+
+		String path = session.getServletContext().getRealPath("");
 
 		try {
 			if (StringUtils.equals(flowType, ProcessConfiguration.PROJECT_KEY)) {
@@ -137,42 +141,68 @@ public class ProcessExtendController extends BaseController {
 				List<CostBudget> budgets = flowService.queryCostBudget(pid,
 						flowType);
 
-				path += ProcessConfiguration.PROJECT_WORD;
+				path += "/" + ProcessConfiguration.PROJECT_WORD;
 
 				String words = TextfileUtils.readUTF8Text(path);
 
-				words = words.replaceAll("TprojectNameT", pc.getProjectName());
-				words = words.replaceAll("TcreaterNameT", pc.getCreaterName());
-				words = words.replaceAll("TaddressT", pc.getAddress());
-				words = words.replaceAll("TpostalCodeT", pc.getPostalCode());
-				words = words.replaceAll("TcontactsT", pc.getContacts());
-				words = words.replaceAll("TphoneT", pc.getPhone());
-				words = words.replaceAll("TbankNameT", pc.getBankName());
-				words = words.replaceAll("TbankT", pc.getBank());
-				words = words.replaceAll("TbankAccountT", pc.getBankAccount());
-				words = words.replaceAll("TcompanyCtfT", pc.getCompanyCtf());
-				words = words.replaceAll("TappReasonT", pc.getAppReason());
-				words = words.replaceAll("TcontentT", pc.getContent());
-				words = words.replaceAll("TtargetT", pc.getTarget());
-				words = words.replaceAll("TusedYearT", pc.getUsedYear());
-				words = words.replaceAll("TmoneyT",
-						String.valueOf(pc.getMoney()));
-				words = words.replaceAll("TbudgetT", pc.getBudget());
+				words = words.replaceAll("TprojectNameT",
+						StringUtils.defaultString(pc.getProjectName()));
+				words = words.replaceAll("TcreaterNameT",
+						StringUtils.defaultString(pc.getCreaterName()));
+				words = words.replaceAll("TaddressT",
+						StringUtils.defaultString(pc.getAddress()));
+				words = words.replaceAll("TpostalCodeT",
+						StringUtils.defaultString(pc.getPostalCode()));
+				words = words.replaceAll("TcontactsT",
+						StringUtils.defaultString(pc.getContacts()));
+				words = words.replaceAll("TphoneT",
+						StringUtils.defaultString(pc.getPhone()));
+				words = words.replaceAll("TbankNameT",
+						StringUtils.defaultString(pc.getBankName()));
+				words = words.replaceAll("TbankT",
+						StringUtils.defaultString(pc.getBank()));
+				words = words.replaceAll("TbankAccountT",
+						StringUtils.defaultString(pc.getBankAccount()));
+				words = words.replaceAll("TcompanyCtfT",
+						StringUtils.defaultString(pc.getCompanyCtf()));
+				words = words.replaceAll("TappReasonT",
+						StringUtils.defaultString(pc.getAppReason()));
+				words = words.replaceAll("TcontentT",
+						StringUtils.defaultString(pc.getContent()));
+				words = words.replaceAll("TtargetT",
+						StringUtils.defaultString(pc.getTarget()));
+				words = words.replaceAll("TusedYearT",
+						StringUtils.defaultString(pc.getUsedYear()));
+
+				Double money = pc.getMoney();
+				if (money == null) {
+					money = 0.0;
+				}
+
+				words = words.replaceAll("TmoneyT", String.valueOf(money));
+				words = words.replaceAll("TbudgetT",
+						StringUtils.defaultString(pc.getBudget()));
 
 				double totalMoney = 0;
 
 				int i = 1;
 				for (; i <= budgets.size(); i++) {
 
-					CostBudget bg = budgets.get(i);
+					CostBudget bg = budgets.get(i - 1);
 
 					words = words.replaceAll("TdetailO" + AZ[i - 1] + "T",
-							bg.getDetail());
+							StringUtils.defaultString(bg.getDetail()));
 					words = words.replaceAll("TremarkO" + AZ[i - 1] + "T",
-							bg.getRemark());
+							StringUtils.defaultString(bg.getRemark()));
+
+					money = bg.getMoney();
+					if (money == null) {
+						money = 0.0;
+					}
+
 					words = words.replaceAll(
 							"TbudgetOMoneyO" + AZ[i - 1] + "T",
-							String.valueOf(bg.getMoney()));
+							String.valueOf(money));
 					totalMoney += bg.getMoney();
 				}
 
