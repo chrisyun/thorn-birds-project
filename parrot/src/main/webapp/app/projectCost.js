@@ -6,7 +6,6 @@ function startProcessHandler() {
 	var loadFormUrl = sys.path + "/project/getProjectCostById.jmt";
 	var getBudgetUrl = sys.path + "/wf/cm/getBudget.jmt";
 	
-	
 	oneForm = new FormUtil({
 		iconCls : "",
 		title : "基本信息",
@@ -160,7 +159,9 @@ function startProcessHandler() {
 				
 				if(processInfo.openType != "create" 
 					&& !(processInfo.openType == "todo" 
-						&& user.userId == processInfo.creater)) {
+						&& user.userId == processInfo.creater)
+					&& !(processInfo.openType == "done" 
+						&& userPermission.MODIFY)) {
 					return false;
 				}
 				
@@ -288,44 +289,39 @@ function getFormValues() {
 	
 	var obj = new Object();
 	
-	if(processInfo.openType == "create" 
-		|| (processInfo.openType == "todo" 
-			&& user.userId == processInfo.creater)) {
+	var form1 = oneForm.getForm().getValues(false);
+	mainTab.activate("twoForm");
+	var form2 = twoForm.getForm().getValues(false);
+	mainTab.activate("threeForm");
+	var form3 = threeForm.getForm().getValues(false);
+	
+	for ( var attr in form1) {
+		obj["pc_" + attr] = form1[attr];
+	}
+	for ( var attr in form2) {
+		obj["pc_" + attr] = form2[attr];
+	}
+	for ( var attr in form3) {
+		obj["pc_" + attr] = form3[attr];
+	}
+	
+	obj.pc_projectName = oneForm.findById("show_projectId").getRawValue();
+	
+	var budgetJson = new Array();
+	
+	budgetStore.each(function(record) {
 		
-		var form1 = oneForm.getForm().getValues(false);
-		mainTab.activate("twoForm");
-		var form2 = twoForm.getForm().getValues(false);
-		mainTab.activate("threeForm");
-		var form3 = threeForm.getForm().getValues(false);
+		var id = record.get("id");
+		var money = record.get("money");
 		
-		for ( var attr in form1) {
-			obj["pc_" + attr] = form1[attr];
+		if((Ext.isEmpty(id) && !Ext.isEmpty(money) && money > 0)
+				|| !Ext.isEmpty(id)) {
+			budgetJson.push(record.data); 
 		}
-		for ( var attr in form2) {
-			obj["pc_" + attr] = form2[attr];
-		}
-		for ( var attr in form3) {
-			obj["pc_" + attr] = form3[attr];
-		}
-		
-		obj.pc_projectName = oneForm.findById("show_projectId").getRawValue();
-		
-		var budgetJson = new Array();
-		
-		budgetStore.each(function(record) {
-			
-			var id = record.get("id");
-			var money = record.get("money");
-			
-			if((Ext.isEmpty(id) && !Ext.isEmpty(money) && money > 0)
-					|| !Ext.isEmpty(id)) {
-				budgetJson.push(record.data); 
-			}
-		});
-		
-		if(budgetJson.length > 0) {
-			obj.budgetJson = Ext.encode(budgetJson);
-		}
+	});
+	
+	if(budgetJson.length > 0) {
+		obj.budgetJson = Ext.encode(budgetJson);
 	}
 	
 	return obj;

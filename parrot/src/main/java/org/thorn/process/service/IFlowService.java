@@ -23,6 +23,9 @@ public interface IFlowService {
 	public void dealWithEngine(Process process, FlowMinds flowMinds,
 			Object form, List<CostBudget> budgets) throws DBAccessException;
 
+	public void modifyProcessForm(Object form, List<CostBudget> budgets)
+			throws DBAccessException;
+
 	public Page<Process> queryPendingProcess(String flowType, String province,
 			String userId, Collection<String> roleList, String flowStatus,
 			String creater, String createrName, String startTime,

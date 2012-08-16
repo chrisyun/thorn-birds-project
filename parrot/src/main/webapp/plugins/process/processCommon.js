@@ -3,11 +3,17 @@ function ProcessMinds(flowInstId, activityName, opType) {
 	
 	this.opType = opType;
 	
+	var hidden = false;
+	if(opType == "done") {
+		hidden = true;
+	}
+	
 	this.mindsForm = new FormUtil({
 		region : "center",
 		title : "填写当前环节意见",
 		collapsible : true,
 		id : "mindsForm",
+		hidden : hidden,
 		border : true,
 		labelWidth : 70
 	});

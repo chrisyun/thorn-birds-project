@@ -2,6 +2,7 @@ package org.thorn.app.entity;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.StringUtils;
 import org.thorn.dao.mybatis.annotation.Mapper;
 import org.thorn.dao.mybatis.annotation.MapperNode;
 import org.thorn.dao.mybatis.annotation.MethodType;
@@ -70,6 +71,10 @@ public class ProjectCost implements Serializable {
 	private Double money;
 	
 	private String applyTime;
+	
+	private String isUnProject;
+	
+	private String type;
 
 	public Integer getId() {
 		return id;
@@ -252,7 +257,28 @@ public class ProjectCost implements Serializable {
 	}
 
 	public void setApplyTime(String applyTime) {
+		if(StringUtils.isNotBlank(applyTime) 
+				&& applyTime.length() > 19) {
+			applyTime = applyTime.substring(0, 19);
+		}
+		
 		this.applyTime = applyTime;
+	}
+
+	public String getIsUnProject() {
+		return isUnProject;
+	}
+
+	public void setIsUnProject(String isUnProject) {
+		this.isUnProject = isUnProject;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 }
 

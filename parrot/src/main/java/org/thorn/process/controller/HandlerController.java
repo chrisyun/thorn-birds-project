@@ -5,16 +5,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonToken;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
@@ -26,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.thorn.app.entity.CostBudget;
 import org.thorn.app.entity.ProjectCost;
-import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.process.ProcessConfiguration;
 import org.thorn.process.entity.FlowMinds;
@@ -44,7 +39,7 @@ import org.thorn.web.entity.Status;
  * @date 2012-8-14 上午09:50:18
  */
 @Controller
-@RequestMapping("/wf/cm")
+@RequestMapping("/wf")
 public class HandlerController extends BaseController {
 
 	static Logger log = LoggerFactory.getLogger(HandlerController.class);
@@ -53,7 +48,40 @@ public class HandlerController extends BaseController {
 	@Qualifier("flowService")
 	private IFlowService flowService;
 
-	@RequestMapping("/handlerProcess")
+	@RequestMapping("/modifyProcess")
+	@ResponseBody
+	public Status modifyProcess(HttpServletRequest request, String flowType,
+			String budgetJson, Integer pid, String flowAtts) {
+		Status status = new Status();
+
+		User user = SecurityUserUtils.getCurrentUser();
+
+		// 表单项处理
+		Object form = null;
+		if (StringUtils.equals(flowType, ProcessConfiguration.PROJECT_KEY)) {
+			form = getProjectCost(request, flowAtts, user, pid);
+		}
+
+		try {
+			List<CostBudget> list = getCostBudget(budgetJson);
+
+			flowService.modifyProcessForm(form, list);
+			status.setMessage("数据修改成功！");
+		} catch (DBAccessException e) {
+			status.setSuccess(false);
+			status.setMessage("数据保存失败：" + e.getMessage());
+			log.error("modifyProcess[Workflow] - " + e.getMessage(), e);
+		} catch (Exception e) {
+			status.setSuccess(false);
+			status.setMessage("数据解析失败：" + e.getMessage());
+			log.error("modifyProcess[Workflow] - " + e.getMessage(), e);
+		}
+
+		return status;
+
+	}
+
+	@RequestMapping("/cm/handlerProcess")
 	@ResponseBody
 	public Status handlerProcess(HttpServletRequest request, Integer mindsId,
 			String minds, Integer flowId, String flowType, String nextStep,
@@ -83,9 +111,9 @@ public class HandlerController extends BaseController {
 		flowMinds.setMind(minds);
 
 		try {
-			
+
 			List<CostBudget> list = getCostBudget(budgetJson);
-			
+
 			flowService.dealWithEngine(process, flowMinds, form, list);
 			status.setMessage("流程处理成功！");
 		} catch (DBAccessException e) {
@@ -96,7 +124,7 @@ public class HandlerController extends BaseController {
 			status.setSuccess(false);
 			status.setMessage("数据解析失败：" + e.getMessage());
 			log.error("handlerProcess[Workflow] - " + e.getMessage(), e);
-		} 
+		}
 
 		return status;
 	}
@@ -180,12 +208,12 @@ public class HandlerController extends BaseController {
 
 	private List<CostBudget> getCostBudget(String budgetJson)
 			throws JsonParseException, JsonMappingException, IOException {
-		if(StringUtils.isEmpty(budgetJson)) {
+		if (StringUtils.isEmpty(budgetJson)) {
 			return new ArrayList<CostBudget>();
 		}
-		
+
 		ObjectMapper mapper = new ObjectMapper();
-		
+
 		CostBudget[] budgets = mapper.readValue(budgetJson, CostBudget[].class);
 
 		return Arrays.asList(budgets);

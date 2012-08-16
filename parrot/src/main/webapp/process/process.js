@@ -50,8 +50,23 @@ Ext.onReady(function() {
 		});
 	}
 	
-	if(processInfo.openType == "todo"
-		&& user.userId == processInfo.creater) {
+	if(processInfo.openType == "done" 
+		&& userPermission.MODIFY) {
+		
+		barArray.push("-");
+		barArray.push({
+			text : "修改数据",
+			handler : function() {
+				processHandlerUrl = sys.path + "/wf/modifyProcess.jmt";
+				submitProcessInfo("修改");
+			}
+		});
+	}
+	
+	if((processInfo.openType == "todo"
+		&& user.userId == processInfo.creater)
+		|| (processInfo.openType == "done" 
+			&& userPermission.MODIFY)) {
 		barArray.push("-");
 		barArray.push({
 			text : "删除流程",
@@ -115,7 +130,9 @@ Ext.onReady(function() {
 	var attViewType = "read";
 	if(processInfo.openType == "create" 
 		|| (processInfo.openType == "todo" 
-			&& user.userId == processInfo.creater)) {
+			&& user.userId == processInfo.creater)
+		|| (processInfo.openType == "done" 
+			&& userPermission.MODIFY)) {
 		attViewType = "edit";
 	}
 	upload = new UploadUtil("flowAtt", attViewType);
@@ -198,7 +215,9 @@ Ext.onReady(function() {
 	// 非新建和待办打开，将所有的控件置为disabled
 	if(processInfo.openType != "create" 
 		&& !(processInfo.openType == "todo" 
-			&& user.userId == processInfo.creater)) {
+			&& user.userId == processInfo.creater)
+		&& !(processInfo.openType == "done" 
+			&& userPermission.MODIFY)) {
 		
 		var fieldArray = contentPanel.findByType("textfield");
 		for(var i=0; i < fieldArray.length; i++) {
