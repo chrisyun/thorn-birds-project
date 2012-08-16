@@ -152,17 +152,23 @@ Ext.onReady(function() {
 
 	function onSubmitQueryHandler() {
 
-		var startTime = Ext.getCmp("query_startTime").getValue()
-				.format("Y-m-d");
-		var endTime = Ext.getCmp("query_endTime").getValue().format("Y-m-d");
+		var startTime = Ext.getCmp("query_startTime").getValue();
+		var endTime = Ext.getCmp("query_endTime").getValue();
 		var uploader = Ext.getCmp("query_user").getValue();
 		var fileType = Ext.getCmp("query_type").getValue();
 
 		store.baseParams.fileType = fileType;
 		store.baseParams.uploader = uploader;
+		
+		if(!Ext.isEmpty(startTime)) {
+			startTime = startTime.format("Y-m-d");
+		}
 		store.baseParams.startTime = startTime;
+		if(!Ext.isEmpty(endTime)) {
+			endTime = endTime.format("Y-m-d");
+		}
 		store.baseParams.endTime = endTime;
-
+		
 		store.load({
 			params : {
 				start : 0,

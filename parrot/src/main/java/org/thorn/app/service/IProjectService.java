@@ -34,7 +34,7 @@ public interface IProjectService {
 	public Page<ProjectCost> queryCostPage(String name, Integer pid,
 			String userName, String userId, String isUnProject,
 			String province, String projectType, String startTime,
-			String endTime, long start, long limit, String sort, String dir)
-			throws DBAccessException;
+			String endTime, Integer year, long start, long limit, String sort,
+			String dir) throws DBAccessException;
 
 }

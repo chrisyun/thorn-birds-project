@@ -1,4 +1,4 @@
-var projectCostPageUrl = sys.path + "/project/getProjectCostPage.jmt";
+var pcPageUrl = sys.path + "/project/getProjectCostPage.jmt";
 
 var getUsersByProvince = sys.path + "/user/getUserList.jmt";
 var getProjectByProvince = sys.path + "/project/getProjectByProvince.jmt";
@@ -14,7 +14,7 @@ Ext.onReady(function() {
 		title : "查询列表",
 		region : "north",
 		height : 130,
-		labelWidth : 120
+		labelWidth : 100
 	};
 	
 	var query_form = new FormUtil(query_attr);
@@ -65,34 +65,37 @@ Ext.onReady(function() {
 			projectStore.load();
 		}	
 	};
-	query_form.addComp(provinceCb, 0.3, true);
+	query_form.addComp(provinceCb, 0.23, true);
 	
-	var projectCb = getComboBox("query_projectId", "传承人项目", 300, null);
+	var projectCb = getComboBox("query_projectId", "非遗项目", 290, null);
 	projectCb.valueField = "id";
 	projectCb.displayField = "name";
 	projectCb.lazyInit = true;
 	projectCb.mode = "remote";
 	projectCb.store = projectStore;
-	query_form.addComp(projectCb, 0.6, false);
+	query_form.addComp(projectCb, 0.35, true);
+	query_form.addComp(getText("query_name", "非遗项目名称",160), 0.23, true);
+	query_form.addComp(getDateText("query_startTime", "开始日期", 100), 0.19, true);
 	
-	
-	query_form.addComp(getComboBox("query_Type", "项目类型", 160, projectTypeDD, false),
-			0.3, true);
-	var userCb = getComboBox("query_creater", "申报单位", 300, null);
+	query_form.addComp(getComboBox("query_Type", "项目类别", 160, projectTypeDD, false),
+			0.23, true);
+	var userCb = getComboBox("query_creater", "申报单位", 290, null);
 	userCb.valueField = "userId";
 	userCb.displayField = "userName";
 	userCb.lazyInit = true;
 	userCb.mode = "remote";
 	userCb.store = userStore;
-	query_form.addComp(userCb, 0.6, true);
+	query_form.addComp(userCb, 0.35, true);
+	query_form.addComp(getText("query_createrName", "申报单位名称",160), 0.23, true);
+	query_form.addComp(getDateText("query_endTime", "结束日期", 100), 0.19, true);
 	
-	query_form.addComp(getComboBox("query_isUn", "联合国非遗项目", 160, yesOrNo, false),
-			0.3, true);
-	query_form.addComp(getText("query_name", "非遗项目名称",160), 0.3, true);
-	query_form.addComp(getText("query_createrName", "申报单位名称",160), 0.3, true);
 	
-	query_form.addComp(getDateText("query_startTime", "开始日期", 160), 0.3, true);
-	query_form.addComp(getDateText("query_endTime", "结束日期", 160), 0.3, true);
+	query_form.addComp(getComboBox("query_year", "申报年份", 160, year, false),
+			0.23, true);
+	query_form.addComp(getComboBox("query_isUn", "联合国非遗项目", 290, yesOrNo, false),
+			0.4, true);
+	
+	
 	
 	query_form.addComp(getQueryBtn(onSubmitQueryHandler), 0.3, true);
 	/** ****************query panel end*************** */
@@ -115,7 +118,7 @@ Ext.onReady(function() {
 			getRecord("申报年份", "year", "string", 100, true),
 			getRecord("申报地区或单位", "createrName", "string", 200, true),
 			getRecord("申报金额（万元）", "money", "string", 100, true),
-			getRecord("申报时间", "applyTime", "string", 100, true),
+			getRecord("申报时间", "applyTime", "string", 150, true),
 			getRecord("申报省份", "province", "string", 100, true, areaRender)];
 	var pc_grid = new GridUtil(pcPageUrl, recordArray, pageSize);
 	
@@ -142,8 +145,8 @@ Ext.onReady(function() {
 
 	function onSubmitQueryHandler() {
 
-		var projectType = Ext.getCmp("show_query_flowType").getValue();
-		var isUnProject = Ext.getCmp("show_query_flowStatus").getValue();
+		var projectType = Ext.getCmp("show_query_Type").getValue();
+		var isUnProject = Ext.getCmp("show_query_isUn").getValue();
 		
 		var pid = Ext.getCmp("show_query_projectId").getValue();
 		var name = Ext.getCmp("query_name").getValue();
@@ -152,6 +155,7 @@ Ext.onReady(function() {
 		var userId = Ext.getCmp("show_query_creater").getValue();
 		var userName = Ext.getCmp("query_createrName").getValue();
 		var startTime = Ext.getCmp("query_startTime").getValue();
+		var year = Ext.getCmp("show_query_year").getValue();
 		if(! Ext.isEmpty(startTime)) {
 			startTime = startTime.format("Y-m-d");
 		}
@@ -160,6 +164,7 @@ Ext.onReady(function() {
 			endTime = endTime.format("Y-m-d");
 		}
 		
+		pcstore.baseParams.year = year;
 		pcstore.baseParams.name = name;
 		pcstore.baseParams.pid = pid;
 		pcstore.baseParams.isUnProject = isUnProject;

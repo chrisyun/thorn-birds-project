@@ -88,8 +88,8 @@ public class ProjectServiceImpl implements IProjectService {
 	public Page<ProjectCost> queryCostPage(String name, Integer pid,
 			String userName, String userId, String isUnProject,
 			String province, String projectType, String startTime,
-			String endTime, long start, long limit, String sort, String dir)
-			throws DBAccessException {
+			String endTime, Integer year, long start, long limit, String sort,
+			String dir) throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
 		filter.put("projectName", name);
 		filter.put("projectId", pid);
@@ -100,6 +100,7 @@ public class ProjectServiceImpl implements IProjectService {
 		filter.put("province", province);
 		filter.put("startTime", startTime);
 		filter.put("endTime", endTime);
+		filter.put("year", year);
 		filter.put(Configuration.PAGE_LIMIT, limit);
 		filter.put(Configuration.PAGE_START, start);
 

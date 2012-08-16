@@ -33,6 +33,11 @@
 	var projectTypeRender = function(str) {
 		return Render.dictRender(projectTypeDD, str);
 	};
+	
+	var year = <thorn:dd  typeId="YEAR" />;
+	var yearRender = function(str) {
+		return Render.dictRender(year, str);
+	};
 
 </script>
 <jsp:include page="../reference/footer.jsp"></jsp:include>
