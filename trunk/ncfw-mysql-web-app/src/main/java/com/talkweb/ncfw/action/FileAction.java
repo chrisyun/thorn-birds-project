@@ -65,8 +65,6 @@ public class FileAction extends BaseAction {
 		String fileLimitSize = StringUtils.isEmpty(PropertiesUtils.getProperty("commonfile.file.fileSizeMaxLimit")) 
 			? "10240" : PropertiesUtils.getProperty("commonfile.file.fileSizeMaxLimit");
 		
-		fileLimitSize = "99999999999999999999999999";
-		
 		long sysLimitSize = Long.parseLong(fileLimitSize);
 		
 		if(uploadFile == null || uploadFile.length() == 0) {
@@ -75,11 +73,11 @@ public class FileAction extends BaseAction {
 			return null;
 		}
 		
-		if(sysLimitSize*1024 < uploadFile.length()) {
-			ProccessResultBean resultBean = new ProccessResultBean(false, "文件大小超过最大限制："+sysLimitSize+"KB");
-			HttpServletUtils.outJsonWhenUpload(this.getResponse(), resultBean);
-			return null;
-		}
+//		if(sysLimitSize*1024 < uploadFile.length()) {
+//			ProccessResultBean resultBean = new ProccessResultBean(false, "文件大小超过最大限制："+sysLimitSize+"KB");
+//			HttpServletUtils.outJsonWhenUpload(this.getResponse(), resultBean);
+//			return null;
+//		}
 		
 		CommonFile file = null;
 		try {
