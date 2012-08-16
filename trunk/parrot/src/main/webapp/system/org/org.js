@@ -144,7 +144,7 @@ Ext.onReady(function() {
 			false), 0.5, false);
 
 	org_form.addComp(getComboBox("area", "所属区域", 150, area, false),
-			0.5, true);
+			0.5, false);
 
 	org_form.addComp(getNumberText("sortNum", "排序号", 150), 0.5, true);
 
