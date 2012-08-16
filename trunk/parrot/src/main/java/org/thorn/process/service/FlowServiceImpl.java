@@ -44,6 +44,36 @@ public class FlowServiceImpl implements IFlowService {
 	}
 
 	@NoLogging
+	public void modifyProcessForm(Object form, List<CostBudget> budgets)
+			throws DBAccessException {
+		myBatisDaoSupport.modify(form);
+		
+		Integer pid = null;
+		String flowType = "";
+		if (form instanceof ProjectCost) {
+			pid = ((ProjectCost) form).getId();
+			flowType = ProcessConfiguration.PROJECT_KEY;
+		} else if (form instanceof ReseverCost) {
+			pid = ((ReseverCost) form).getId();
+			flowType = ProcessConfiguration.RESEVER_KEY;
+		}
+		
+		
+		// 保存预算明细
+		for (CostBudget budget : budgets) {
+
+			budget.setPid(pid);
+			budget.setType(flowType);
+
+			if (budget.getId() == null) {
+				myBatisDaoSupport.save(budget);
+			} else {
+				myBatisDaoSupport.modify(budget);
+			}
+		}
+	}
+
+	@NoLogging
 	public void dealWithEngine(Process process, FlowMinds flowMinds,
 			Object form, List<CostBudget> budgets) throws DBAccessException {
 		// 先处理表单项
@@ -75,14 +105,14 @@ public class FlowServiceImpl implements IFlowService {
 		} else {
 			myBatisDaoSupport.modify(flowMinds);
 		}
-		
+
 		// 保存预算明细
-		for(CostBudget budget : budgets) {
-			
+		for (CostBudget budget : budgets) {
+
 			budget.setPid(pid);
 			budget.setType(process.getFlowType());
-			
-			if(budget.getId() == null) {
+
+			if (budget.getId() == null) {
 				myBatisDaoSupport.save(budget);
 			} else {
 				myBatisDaoSupport.modify(budget);
@@ -156,8 +186,8 @@ public class FlowServiceImpl implements IFlowService {
 				ProcessConfiguration.RESEVER_KEY)) {
 			myBatisDaoSupport.deleteForBatch(pids, ReseverCost.class);
 		}
-		
-		//删除预算明细
+
+		// 删除预算明细
 		Map<String, Object> filter = new HashMap<String, Object>();
 		filter.put("type", flowType);
 		filter.put("pid", pid);

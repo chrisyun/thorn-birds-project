@@ -112,6 +112,7 @@ public class ProcessExtendController extends BaseController {
 					cb.setDetail(detail);
 					cb.setType(flowType);
 					cb.setMoney(0);
+					cb.setPid(pid);
 
 					list.add(cb);
 				}

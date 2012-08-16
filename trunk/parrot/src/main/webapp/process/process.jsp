@@ -49,6 +49,12 @@
 	<%
 		}
 	%>
+	
+	var userPermission = {
+		MODIFY : '<sec:authorize url="/wf/modifyProcess.jmt">true</sec:authorize>'
+	};
+	
+	
 </script>
 
 <jsp:include page="<%=contentPage%>"></jsp:include>

@@ -25,9 +25,16 @@ public interface IProjectService {
 			String userId, String type, String isUnProject, String province,
 			long start, long limit, String sort, String dir)
 			throws DBAccessException;
-	
-	public List<Project> queryProjectList(String province, String userId) throws DBAccessException;
-	
+
+	public List<Project> queryProjectList(String province, String userId)
+			throws DBAccessException;
+
 	public ProjectCost queryProjectCost(Integer id) throws DBAccessException;
-	
+
+	public Page<ProjectCost> queryCostPage(String name, Integer pid,
+			String userName, String userId, String isUnProject,
+			String province, String projectType, String startTime,
+			String endTime, long start, long limit, String sort, String dir)
+			throws DBAccessException;
+
 }

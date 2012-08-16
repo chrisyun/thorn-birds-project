@@ -80,37 +80,36 @@ public class ProjectController extends BaseController {
 
 		return status;
 	}
-	
+
 	@RequestMapping("/getProjectByProvince")
 	@ResponseBody
 	public List<Project> getProjectByProvince(String province) {
 		List<Project> list = new ArrayList<Project>();
-		
+
 		try {
 			list = projectService.queryProjectList(province, null);
 		} catch (DBAccessException e) {
 			log.error("getProjectByProvince[Project] - " + e.getMessage(), e);
 		}
-		
+
 		return list;
 	}
-	
+
 	@RequestMapping("/getProjectByUser")
 	@ResponseBody
 	public List<Project> getProjectByUser() {
 		List<Project> list = new ArrayList<Project>();
-		
+
 		try {
 			User user = SecurityUserUtils.getCurrentUser();
 			list = projectService.queryProjectList(null, user.getUserId());
 		} catch (DBAccessException e) {
 			log.error("getProjectByUser[Project] - " + e.getMessage(), e);
 		}
-		
+
 		return list;
 	}
-	
-	
+
 	@RequestMapping("/getProjectPage")
 	@ResponseBody
 	public Page<Project> getProjectPage(long start, long limit, String sort,
@@ -137,17 +136,17 @@ public class ProjectController extends BaseController {
 			page = projectService.queryPage(name, code, userName, userId, type,
 					isUnProject, province, start, limit, sort, dir);
 		} catch (DBAccessException e) {
-			log.error("getOrgPage[org] - " + e.getMessage(), e);
+			log.error("getProjectPage[Project] - " + e.getMessage(), e);
 		}
 
 		return page;
 	}
-	
+
 	@RequestMapping("/getProjectCostById")
 	@ResponseBody
 	public JsonResponse<ProjectCost> getProjectCostById(Integer id) {
 		JsonResponse<ProjectCost> json = new JsonResponse<ProjectCost>();
-		
+
 		try {
 			json.setObj(projectService.queryProjectCost(id));
 		} catch (DBAccessException e) {
@@ -155,9 +154,41 @@ public class ProjectController extends BaseController {
 			json.setMessage("项目费用获取失败：" + e.getMessage());
 			log.error("getProjectCostById[ProjectCost] - " + e.getMessage(), e);
 		}
-		
+
 		return json;
 	}
-	
+
+	@RequestMapping("/getProjectCostPage")
+	@ResponseBody
+	public Page<ProjectCost> getProjectCostPage(long start, long limit,
+			String sort, String dir, String name, Integer pid, String userName,
+			String userId, String isUnProject, String province,
+			String projectType, String startTime, String endTime) {
+		Page<ProjectCost> page = new Page<ProjectCost>();
+
+		try {
+			User user = SecurityUserUtils.getCurrentUser();
+			List<String> roleList = SecurityUserUtils.getRoleList();
+
+			if (!SecurityUserUtils.isSysAdmin()
+					&& !roleList.contains(AppConfiguration.ROLE_CENTRAL)) {
+
+				if (roleList.contains(AppConfiguration.ROLE_PROVINCE)) {
+					province = user.getArea();
+				} else {
+					province = user.getArea();
+					userId = user.getUserId();
+				}
+			}
+
+			page = projectService.queryCostPage(name, pid, userName, userId,
+					isUnProject, province, projectType, startTime, endTime,
+					start, limit, sort, dir);
+		} catch (DBAccessException e) {
+			log.error("getProjectCostPage[ProjectCost] - " + e.getMessage(), e);
+		}
+
+		return page;
+	}
 
 }

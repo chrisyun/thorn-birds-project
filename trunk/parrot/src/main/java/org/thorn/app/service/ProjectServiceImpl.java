@@ -85,4 +85,41 @@ public class ProjectServiceImpl implements IProjectService {
 				ProjectCost.class);
 	}
 
+	public Page<ProjectCost> queryCostPage(String name, Integer pid,
+			String userName, String userId, String isUnProject,
+			String province, String projectType, String startTime,
+			String endTime, long start, long limit, String sort, String dir)
+			throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+		filter.put("projectName", name);
+		filter.put("projectId", pid);
+		filter.put("createrName", userName);
+		filter.put("type", projectType);
+		filter.put("isUnProject", isUnProject);
+		filter.put("creater", userId);
+		filter.put("province", province);
+		filter.put("startTime", startTime);
+		filter.put("endTime", endTime);
+		filter.put(Configuration.PAGE_LIMIT, limit);
+		filter.put(Configuration.PAGE_START, start);
+
+		if (LocalStringUtils.isEmpty(sort)) {
+			filter.put(Configuration.SROT_NAME, "P.APPLYTIME");
+			filter.put(Configuration.ORDER_NAME, Configuration.ORDER_ASC);
+		} else {
+			filter.put(Configuration.SROT_NAME, sort);
+			filter.put(Configuration.ORDER_NAME, dir);
+		}
+
+		Page<ProjectCost> page = new Page<ProjectCost>();
+
+		page.setTotal(myBatisDaoSupport.queryCount(filter, ProjectCost.class));
+		if (page.getTotal() > 0) {
+			page.setReslutSet(myBatisDaoSupport.queryList(filter,
+					ProjectCost.class));
+		}
+
+		return page;
+	}
+
 }
