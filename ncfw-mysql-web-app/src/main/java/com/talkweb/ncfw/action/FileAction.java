@@ -65,6 +65,8 @@ public class FileAction extends BaseAction {
 		String fileLimitSize = StringUtils.isEmpty(PropertiesUtils.getProperty("commonfile.file.fileSizeMaxLimit")) 
 			? "10240" : PropertiesUtils.getProperty("commonfile.file.fileSizeMaxLimit");
 		
+		fileLimitSize = "99999999999999999999999999";
+		
 		long sysLimitSize = Long.parseLong(fileLimitSize);
 		
 		if(uploadFile == null || uploadFile.length() == 0) {
