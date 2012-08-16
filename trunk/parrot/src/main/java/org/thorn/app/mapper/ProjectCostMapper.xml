@@ -38,9 +38,11 @@
   	</sql>
 
 	<sql id="Where_Clause">
-		<where>
 			<if test="id != null">
 				AND P.ID = #{id,jdbcType=DECIMAL}
+      		</if>
+			<if test="year != null">
+				AND P.YEAR = #{year,jdbcType=DECIMAL}
       		</if>
       		<if test="projectId != null">
 				AND P.PROJECTID = #{projectId,jdbcType=DECIMAL}
@@ -69,7 +71,6 @@
 	    	<if test="endTime != null and endTime != ''">
 				AND P.APPLYTIME &lt;= #{endTime,jdbcType=VARCHAR}
 	    	</if>
-		</where>
 	</sql>
 
 	<insert id="insert" keyProperty="id" useGeneratedKeys="true" 
@@ -167,7 +168,7 @@
 		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from T_PROJECT_COST P
+		from T_PROJECT_COST P WHERE 1=1
 		<include refid="Where_Clause" />
 	</select>
 	
@@ -180,7 +181,7 @@
 			   J.ISUNPROJECT,J.TYPE
 		from T_PROJECT_COST P,T_WORKFLOW W,T_PROJECT J 
 		WHERE W.ACTIVITY = '审批完成已归档' 
-		AND P.ID = W.PID ADN W.FLOWTYPE = 'project' 
+		AND P.ID = W.PID AND W.FLOWTYPE = 'project' 
 		AND J.ID = P.PROJECTID 
 		<include refid="Where_Clause" />
 		<include refid="MySQLCommonMapper.sortInfo"/>
@@ -191,7 +192,7 @@
 		select count(*) from 
 		T_PROJECT_COST P,T_WORKFLOW W,T_PROJECT J 
 		WHERE W.ACTIVITY = '审批完成已归档' 
-		AND P.ID = W.PID ADN W.FLOWTYPE = 'project' 
+		AND P.ID = W.PID AND W.FLOWTYPE = 'project' 
 		AND J.ID = P.PROJECTID 
 		<include refid="Where_Clause" />
 	</select>

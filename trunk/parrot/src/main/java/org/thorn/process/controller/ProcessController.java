@@ -1,6 +1,6 @@
 package org.thorn.process.controller;
 
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -80,14 +80,14 @@ public class ProcessController extends BaseController {
 			}
 
 			model.put("flowKey", process.getFlowType());
-			model.put("flowInstId", process.getId());
+			model.put("flowInstId", String.valueOf(process.getId()));
 			model.put("creater", process.getCreater());
 			model.put("createrName", process.getCreaterName());
 			model.put("openType", "done");
 			model.put("activityName", process.getActivity());
-			model.put("pid", process.getPid());
+			model.put("pid", String.valueOf(process.getPid()));
 
-			model.put("nextStep", null);
+			model.put("nextStep", new HashSet<String>());
 
 			if (StringUtils.equals(process.getFlowType(),
 					ProcessConfiguration.PROJECT_KEY)) {
@@ -118,8 +118,6 @@ public class ProcessController extends BaseController {
 			if (process == null || process.getPid() == null) {
 				return "process/failure";
 			}
-
-			User user = SecurityUserUtils.getCurrentUser();
 
 			model.put("flowKey", process.getFlowType());
 			model.put("flowInstId", String.valueOf(process.getId()));

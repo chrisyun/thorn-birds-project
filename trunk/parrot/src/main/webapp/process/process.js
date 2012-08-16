@@ -57,8 +57,44 @@ Ext.onReady(function() {
 		barArray.push({
 			text : "修改数据",
 			handler : function() {
-				processHandlerUrl = sys.path + "/wf/modifyProcess.jmt";
-				submitProcessInfo("修改");
+				var processmModifyUrl = sys.path + "/wf/modifyProcess.jmt";
+				
+				//表单验证
+				try {
+					if(! VerificationForm()) {
+						return ;
+					}
+				} catch(e) {}
+				
+				var params = {
+						flowId : processInfo.flowInstId,
+						flowType : processInfo.flowKey,
+						creater : processInfo.creater,
+						curActivity : processInfo.activityName,
+						pid : processInfo.pid,
+						flowAtts : upload.getUploadAttIds()
+					};
+					
+					var form = getFormValues();
+					
+					for ( var attr in form) {
+						params[attr] = form[attr];
+					}
+					
+					var ajax = new AjaxUtil(processmModifyUrl);
+					ajax.request(params, true, null, function(){
+						Ext.Msg.show( {
+							buttons : Ext.Msg.OK,
+							maxWidth : 200,
+							minWidth : 300,
+							msg : "<div style='margin: 5 5 8 15px;font-size: 15px;'>流程数据修改成功！</div>",
+							title : "提示信息",
+							icon : Ext.Msg.WARNING,
+							fn : function(btn) {
+								closeThisWindow();
+							}
+						} );
+					});
 			}
 		});
 	}

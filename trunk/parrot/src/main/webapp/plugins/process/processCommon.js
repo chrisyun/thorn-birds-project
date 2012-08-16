@@ -9,7 +9,7 @@ function ProcessMinds(flowInstId, activityName, opType) {
 	}
 	
 	this.mindsForm = new FormUtil({
-		region : "center",
+		region : "east",
 		title : "填写当前环节意见",
 		collapsible : true,
 		id : "mindsForm",
@@ -28,7 +28,7 @@ function ProcessMinds(flowInstId, activityName, opType) {
 		height : 120,
 		items : [{
 			title : "所有审批意见",
-			region : "west",
+			region : "center",
 			bodyStyle : "padding-top: 7px;",
 			margins : "2 0 0 0",
 			autoScroll : true,

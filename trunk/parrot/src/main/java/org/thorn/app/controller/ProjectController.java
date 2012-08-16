@@ -3,6 +3,7 @@ package org.thorn.app.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +87,10 @@ public class ProjectController extends BaseController {
 	public List<Project> getProjectByProvince(String province) {
 		List<Project> list = new ArrayList<Project>();
 
+		if (StringUtils.isBlank(province)) {
+			return list;
+		}
+
 		try {
 			list = projectService.queryProjectList(province, null);
 		} catch (DBAccessException e) {
@@ -163,7 +168,7 @@ public class ProjectController extends BaseController {
 	public Page<ProjectCost> getProjectCostPage(long start, long limit,
 			String sort, String dir, String name, Integer pid, String userName,
 			String userId, String isUnProject, String province,
-			String projectType, String startTime, String endTime) {
+			String projectType, String startTime, String endTime, Integer year) {
 		Page<ProjectCost> page = new Page<ProjectCost>();
 
 		try {
@@ -183,7 +188,7 @@ public class ProjectController extends BaseController {
 
 			page = projectService.queryCostPage(name, pid, userName, userId,
 					isUnProject, province, projectType, startTime, endTime,
-					start, limit, sort, dir);
+					year, start, limit, sort, dir);
 		} catch (DBAccessException e) {
 			log.error("getProjectCostPage[ProjectCost] - " + e.getMessage(), e);
 		}
