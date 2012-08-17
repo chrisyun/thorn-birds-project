@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.thorn.app.entity.CostBudget;
 import org.thorn.app.entity.ProjectCost;
+import org.thorn.app.entity.ReseverCost;
 import org.thorn.app.service.IProjectService;
+import org.thorn.app.service.IReseverService;
 import org.thorn.core.util.TextfileUtils;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.dd.entity.Dict;
@@ -51,6 +53,10 @@ public class ProcessExtendController extends BaseController {
 	@Autowired
 	@Qualifier("projectService")
 	private IProjectService projectService;
+	
+	@Autowired
+	@Qualifier("reseverService")
+	private IReseverService reseverService;
 
 	@RequestMapping("/getProcessMinds")
 	@ResponseBody
@@ -218,6 +224,86 @@ public class ProcessExtendController extends BaseController {
 
 				ResponseHeaderUtils.setWordResponse(response,
 						ProcessConfiguration.PROJECT_TITLE);
+				OutputStream out = response.getOutputStream();
+				out.write(words.getBytes());
+				out.flush();
+			} else if (StringUtils.equals(flowType, ProcessConfiguration.RESEVER_KEY)) {
+
+				ReseverCost rc = reseverService.queryReseverCost(pid);
+				List<CostBudget> budgets = flowService.queryCostBudget(pid,
+						flowType);
+
+				path += "/" + ProcessConfiguration.RESEVER_WORD;
+
+				String words = TextfileUtils.readUTF8Text(path);
+
+				words = words.replaceAll("TreseverNameT",
+						StringUtils.defaultString(rc.getReseverName()));
+				words = words.replaceAll("TcreaterNameT",
+						StringUtils.defaultString(rc.getCreaterName()));
+				words = words.replaceAll("TaddressT",
+						StringUtils.defaultString(rc.getAddress()));
+				words = words.replaceAll("TpostalCodeT",
+						StringUtils.defaultString(rc.getPostalCode()));
+				words = words.replaceAll("TcontactsT",
+						StringUtils.defaultString(rc.getContacts()));
+				words = words.replaceAll("TphoneT",
+						StringUtils.defaultString(rc.getPhone()));
+				words = words.replaceAll("TappReasonT",
+						StringUtils.defaultString(rc.getAppReason()));
+				words = words.replaceAll("TcontentT",
+						StringUtils.defaultString(rc.getContent()));
+				words = words.replaceAll("TtargetT",
+						StringUtils.defaultString(rc.getTarget()));
+
+				Double applyMoney = rc.getApplyMoney();
+				Double givenMoney = rc.getGivenMoney();
+				if (applyMoney == null) {
+					applyMoney = 0.0;
+				}
+				if (givenMoney == null) {
+					givenMoney = 0.0;
+				}
+
+				words = words.replaceAll("TapplyMoneyT", String.valueOf(applyMoney));
+				words = words.replaceAll("TgivenMoneyT", String.valueOf(givenMoney));
+				words = words.replaceAll("TbudgetT",
+						StringUtils.defaultString(rc.getBudget()));
+
+				double totalMoney = 0;
+
+				int i = 1;
+				for (; i <= budgets.size(); i++) {
+
+					CostBudget bg = budgets.get(i - 1);
+
+					words = words.replaceAll("TdetailO" + AZ[i - 1] + "T",
+							StringUtils.defaultString(bg.getDetail()));
+					words = words.replaceAll("TremarkO" + AZ[i - 1] + "T",
+							StringUtils.defaultString(bg.getRemark()));
+
+					applyMoney = bg.getMoney();
+					if (applyMoney == null) {
+						applyMoney = 0.0;
+					}
+
+					words = words.replaceAll(
+							"TbudgetOMoneyO" + AZ[i - 1] + "T",
+							String.valueOf(applyMoney));
+					totalMoney += bg.getMoney();
+				}
+
+				for (; i <= 10; i++) {
+					words = words.replaceAll("TdetailO" + AZ[i - 1] + "T", "");
+					words = words.replaceAll("TremarkO" + AZ[i - 1] + "T", "");
+					words = words.replaceAll(
+							"TbudgetOMoneyO" + AZ[i - 1] + "T", "");
+				}
+				words = words.replaceAll("TtotalMoneyT",
+						String.valueOf(totalMoney));
+
+				ResponseHeaderUtils.setWordResponse(response,
+						ProcessConfiguration.RESEVER_TITLE);
 				OutputStream out = response.getOutputStream();
 				out.write(words.getBytes());
 				out.flush();

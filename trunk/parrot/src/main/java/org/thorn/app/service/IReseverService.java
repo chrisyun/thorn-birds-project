@@ -1,6 +1,9 @@
 package org.thorn.app.service;
 
+import java.util.List;
+
 import org.thorn.app.entity.Resever;
+import org.thorn.app.entity.ReseverCost;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.web.entity.Page;
 
@@ -21,4 +24,15 @@ public interface IReseverService {
 	public Page<Resever> queryPage(String name, String userName, String userId,
 			String province, long start, long limit, String sort, String dir)
 			throws DBAccessException;
+
+	public List<Resever> queryReseverList(String province, String userId)
+			throws DBAccessException;
+
+	public ReseverCost queryReseverCost(Integer id) throws DBAccessException;
+
+	public Page<ReseverCost> queryCostPage(String name, Integer pid,
+			String userName, String userId, String province, String startTime,
+			String endTime, Integer year, long start, long limit, String sort,
+			String dir) throws DBAccessException;
+
 }

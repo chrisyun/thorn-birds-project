@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.thorn.app.entity.CostBudget;
 import org.thorn.app.entity.ProjectCost;
+import org.thorn.app.entity.ReseverCost;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.process.ProcessConfiguration;
 import org.thorn.process.entity.FlowMinds;
@@ -95,6 +96,8 @@ public class HandlerController extends BaseController {
 		Object form = null;
 		if (StringUtils.equals(flowType, ProcessConfiguration.PROJECT_KEY)) {
 			form = getProjectCost(request, flowAtts, user, pid);
+		} else if (StringUtils.equals(flowType, ProcessConfiguration.RESEVER_KEY)) {
+			form = getReseverCost(request, flowAtts, user, pid);
 		}
 
 		// 流程环节处理
@@ -204,6 +207,72 @@ public class HandlerController extends BaseController {
 		}
 
 		return pc;
+	}
+	
+	private ReseverCost getReseverCost(HttpServletRequest request,
+			String flowAtts, User user, Integer pid) {
+
+		ReseverCost rc = new ReseverCost();
+
+		if (pid == null) {
+			rc.setCreater(user.getUserId());
+			rc.setCreaterName(user.getUserName());
+			rc.setProvince(user.getArea());
+
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			rc.setApplyTime(df.format(new Date()));
+		} else {
+			rc.setId(pid);
+		}
+		rc.setAttids(flowAtts);
+
+		String reseverId = request.getParameter("rc_reseverId");
+		if (StringUtils.isNotBlank(reseverId)) {
+			rc.setReseverId(Integer.parseInt(reseverId));
+		}
+
+		String reseverName = request.getParameter("rc_reseverName");
+		rc.setReseverName(reseverName);
+
+		String year = request.getParameter("rc_year");
+		if (StringUtils.isNotBlank(year)) {
+			rc.setYear(Integer.parseInt(year));
+		}
+
+		String address = request.getParameter("rc_address");
+		rc.setAddress(address);
+
+		String postalCode = request.getParameter("rc_postalCode");
+		rc.setPostalCode(postalCode);
+
+		String contacts = request.getParameter("rc_contacts");
+		rc.setContacts(contacts);
+
+		String phone = request.getParameter("rc_phone");
+		rc.setPhone(phone);
+
+		String appReason = request.getParameter("rc_appReason");
+		rc.setAppReason(appReason);
+
+		String content = request.getParameter("rc_content");
+		rc.setContent(content);
+
+		String target = request.getParameter("rc_target");
+		rc.setTarget(target);
+
+		String budget = request.getParameter("rc_budget");
+		rc.setBudget(budget);
+
+		String applyMoney = request.getParameter("rc_applyMoney");
+		if (StringUtils.isNotBlank(applyMoney)) {
+			rc.setApplyMoney(Double.parseDouble(applyMoney));
+		}
+		String givenMoney = request.getParameter("rc_givenMoney");
+		if (StringUtils.isNotBlank(givenMoney)) {
+			rc.setGivenMoney(Double.parseDouble(givenMoney));
+		}
+
+		return rc;
 	}
 
 	private List<CostBudget> getCostBudget(String budgetJson)

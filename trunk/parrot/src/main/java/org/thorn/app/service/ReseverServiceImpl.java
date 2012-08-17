@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.thorn.app.entity.Resever;
+import org.thorn.app.entity.ReseverCost;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
 import org.thorn.dao.exception.DBAccessException;
@@ -61,6 +62,58 @@ public class ReseverServiceImpl implements IReseverService {
 
 		return page;
 
+	}
+
+	public List<Resever> queryReseverList(String province, String userId)
+			throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+		filter.put("province", province);
+		filter.put("userId", userId);
+
+		return myBatisDaoSupport.queryList(filter, Resever.class);
+	}
+
+	public ReseverCost queryReseverCost(Integer id) throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+		filter.put("id", id);
+
+		return (ReseverCost) myBatisDaoSupport.queryOne(filter,
+				ReseverCost.class);
+	}
+
+	public Page<ReseverCost> queryCostPage(String name, Integer pid,
+			String userName, String userId, String province, String startTime,
+			String endTime, Integer year, long start, long limit, String sort,
+			String dir) throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+		filter.put("projectName", name);
+		filter.put("projectId", pid);
+		filter.put("createrName", userName);
+		filter.put("creater", userId);
+		filter.put("province", province);
+		filter.put("startTime", startTime);
+		filter.put("endTime", endTime);
+		filter.put("year", year);
+		filter.put(Configuration.PAGE_LIMIT, limit);
+		filter.put(Configuration.PAGE_START, start);
+
+		if (LocalStringUtils.isEmpty(sort)) {
+			filter.put(Configuration.SROT_NAME, "R.APPLYTIME");
+			filter.put(Configuration.ORDER_NAME, Configuration.ORDER_ASC);
+		} else {
+			filter.put(Configuration.SROT_NAME, sort);
+			filter.put(Configuration.ORDER_NAME, dir);
+		}
+
+		Page<ReseverCost> page = new Page<ReseverCost>();
+
+		page.setTotal(myBatisDaoSupport.queryCount(filter, ReseverCost.class));
+		if (page.getTotal() > 0) {
+			page.setReslutSet(myBatisDaoSupport.queryList(filter,
+					ReseverCost.class));
+		}
+
+		return page;
 	}
 
 }
