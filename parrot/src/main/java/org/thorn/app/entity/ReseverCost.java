@@ -17,6 +17,7 @@ import org.thorn.dao.mybatis.annotation.MethodType;
 		@MapperNode(id="update",type=MethodType.UPDATE),
 		@MapperNode(id="delete",type=MethodType.DELETE_BATCH),
 		@MapperNode(id="selectPageCount",type=MethodType.COUNT),
+		@MapperNode(id="selectList",type=MethodType.QUERY),
 		@MapperNode(id="selectPage",type=MethodType.QUERY_LIST)
 })
 public class ReseverCost implements Serializable {
