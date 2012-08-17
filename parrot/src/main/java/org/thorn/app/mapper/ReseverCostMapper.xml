@@ -155,7 +155,7 @@
 			   R.APPLYMONEY,R.GIVENMONEY,R.APPLYTIME
 		from T_RESEVER_COST R,T_WORKFLOW W 
 		WHERE W.ACTIVITY = '审批完成已归档' 
-		AND R.ID = W.PID AND W.FLOWTYPE = 'project' 
+		AND R.ID = W.PID AND W.FLOWTYPE = 'resever' 
 		<include refid="Where_Clause" />
 		<include refid="MySQLCommonMapper.sortInfo"/>
 		<include refid="MySQLCommonMapper.pagingEnd"/>
@@ -165,7 +165,7 @@
 		select count(*)  
 		from T_RESEVER_COST R,T_WORKFLOW W 
 		WHERE W.ACTIVITY = '审批完成已归档' 
-		AND R.ID = W.PID AND W.FLOWTYPE = 'project' 
+		AND R.ID = W.PID AND W.FLOWTYPE = 'resever' 
 		<include refid="Where_Clause" />
 	</select>
 </mapper>

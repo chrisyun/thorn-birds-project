@@ -114,6 +114,7 @@ Ext.onReady(function() {
 			getRecord(null, "id", "string"),
 			getRecord(null, "isUnProject", "string"),
 			getRecord("项目类别", "type", "string", 100, true, projectTypeRender),
+			getRecord("项目编码", "code", "string", 100, true),
 			getRecord("项目名称", "projectName", "string", 200, true, projectNameRender),
 			getRecord("申报年份", "year", "string", 100, true),
 			getRecord("申报地区或单位", "createrName", "string", 200, true),

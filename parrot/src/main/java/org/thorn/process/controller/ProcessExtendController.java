@@ -98,9 +98,14 @@ public class ProcessExtendController extends BaseController {
 	@ResponseBody
 	public List<CostBudget> getBudget(Integer pid, String flowType) {
 		List<CostBudget> list = new ArrayList<CostBudget>();
-
+		List<Dict> details = null;
+		
 		try {
-			List<Dict> details = DDUtils.queryDd("BUDGET_DETAIL");
+			if(StringUtils.equals(flowType, ProcessConfiguration.PROJECT_KEY)) {
+				details = DDUtils.queryDd("BUDGET_PROJECT_DETAIL");
+			} else if(StringUtils.equals(flowType, ProcessConfiguration.RESEVER_KEY)) {
+				details = DDUtils.queryDd("BUDGET_RESEVER_DETAIL");
+			}
 
 			if (pid != null) {
 				list = flowService.queryCostBudget(pid, flowType);

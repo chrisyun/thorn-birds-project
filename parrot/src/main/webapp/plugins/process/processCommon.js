@@ -8,17 +8,18 @@ function ProcessMinds(flowInstId, activityName, opType) {
 		hidden = true;
 	}
 	
+	var width = window.screen.availWidth - 50;
+	
 	this.mindsForm = new FormUtil({
 		region : "east",
 		title : "填写当前环节意见",
 		collapsible : true,
+		width : width/2 - 100,
 		id : "mindsForm",
 		hidden : hidden,
 		border : true,
 		labelWidth : 70
 	});
-	
-	var width = window.screen.availWidth - 50;
 	
 	this.panel = new Ext.Panel({
 		region : "south",
@@ -33,7 +34,6 @@ function ProcessMinds(flowInstId, activityName, opType) {
 			margins : "2 0 0 0",
 			autoScroll : true,
 			border : true,
-			width : width/2 + 100,
 			split : true,
 			html : "<div id='mindsDiv'></div>"
 		}, this.mindsForm.getPanel()]

@@ -12,7 +12,7 @@ function startProcessHandler() {
 		border : false,
 		id : "oneForm",
 		collapsible : false,
-		labelWidth : 150
+		labelWidth : 220
 	});
 	
 	var reseverStore = new Ext.data.Store({
@@ -27,21 +27,21 @@ function startProcessHandler() {
 									type : "string"
 								}]))
 	});
-	var reseverCb = getComboBox("reseverId", "文化生态保护区名称", 500, null);
+	var reseverCb = getComboBox("reseverId", "文化生态保护区名称", 300, null);
 	reseverCb.valueField = "id";
 	reseverCb.displayField = "name";
 	reseverCb.lazyInit = true;
 	reseverCb.mode = "remote";
 	reseverCb.store = reseverStore;
 	
-	oneForm.addComp(reseverCb, 0.6, false);
-	oneForm.addComp(getComboBox("year", "申报年份", 220, year), 0.3, false);
-	oneForm.addComp(getText("createrName", "建设实施单位", 500), 0.6, false);
+	oneForm.addComp(reseverCb, 1.0, false);
+	oneForm.addComp(getText("createrName", "建设实施单位名称", 300), 0.45, false);
 	
-	oneForm.addComp(getText("address", "联系地址", 220), 0.3, false);
-	oneForm.addComp(getText("postalCode", "邮政编码", 220), 0.3, true);
-	oneForm.addComp(getText("contacts", "申报项目负责人", 220), 0.3, false);
-	oneForm.addComp(getText("phone", "联系电话", 220), 0.3, false);
+	oneForm.addComp(getComboBox("year", "申报年份", 300, year), 0.5, false);
+	oneForm.addComp(getText("address", "联系地址", 300), 0.45, false);
+	oneForm.addComp(getText("postalCode", "邮政编码", 300), 0.5, true);
+	oneForm.addComp(getText("contacts", "单位负责人", 300), 0.45, false);
+	oneForm.addComp(getText("phone", "联系电话", 300), 0.5, false);
 	
 	twoForm = new FormUtil({
 		iconCls : "",
@@ -52,9 +52,9 @@ function startProcessHandler() {
 		labelWidth : 250
 	});
 	
+	twoForm.addComp(getTextArea("target", "建设总体目标及本年度目标", 800, 60, 1000), 1.0, false);
 	twoForm.addComp(getTextArea("appReason", "补助申请理由", 800, 60, 1000), 1.0, false);
 	twoForm.addComp(getTextArea("content", "补助资金使用内容", 800, 60, 1000), 1.0, false);
-	twoForm.addComp(getTextArea("target", "年度目标及预期效益", 800, 60, 1000), 1.0, false);
 
 	var cm = new Ext.grid.ColumnModel({
 		defaults : {
@@ -62,9 +62,9 @@ function startProcessHandler() {
 		},
 		columns : [ {
 			id : "detail",
-			header : "支出内容明细",
+			header : "当年中央财政拨款支出明细",
 			dataIndex : "detail",
-			width : 150,
+			width : 200,
 			editor : new Ext.form.ComboBox({
 				listClass: "x-combo-list-small",
 				typeAhead: true,
@@ -84,7 +84,7 @@ function startProcessHandler() {
 			id : "remark",
 			header : "说明",
 			dataIndex : "remark",
-			width : 400,
+			width : 350,
 			editor : new Ext.form.TextField({
 				maxLength : 100
 			})
@@ -137,7 +137,7 @@ function startProcessHandler() {
 		margins : "2 2 2 2",
 		cm : cm,
 		height : 110,
-		title : "项目支出明细预算（双击表格进行修改）",
+		title : "项目支出明细预算（单击表格进行修改）",
 		loadMask : {
 			msg : "数据获取中,请稍候..."
 		},
@@ -182,11 +182,11 @@ function startProcessHandler() {
 		collapsible : false,
 		split : true,
 		width : 600,
-		labelWidth : 140
+		labelWidth : 185
 	});
-	threeForm.addComp(getMoneyText("givenMoney", "已拨金额（万元）", 380), 1.0, false);
-	threeForm.addComp(getMoneyText("applyMoney", "申请金额（万元）", 380), 1.0, false);
-	threeForm.addComp(getTextArea("budget", "预算测算依据及说明", 380, 120, 1000), 1.0, true);
+	threeForm.addComp(getMoneyText("givenMoney", "当年中央财政拨款金额（万元）", 360), 1.0, false);
+	threeForm.addComp(getMoneyText("applyMoney", "申请中央财政拨款金额（万元）", 360), 1.0, false);
+	threeForm.addComp(getTextArea("budget", "预算测算依据及说明", 360, 120, 1000), 1.0, false);
 	
 	var budgetForm = new Ext.Panel({
 		title : "金额及预算明细",
@@ -300,7 +300,7 @@ function getFormValues() {
 		obj["rc_" + attr] = form3[attr];
 	}
 	
-	obj.pc_reseverName = oneForm.findById("show_reseverId").getRawValue();
+	obj.rc_reseverName = oneForm.findById("show_reseverId").getRawValue();
 	
 	var budgetJson = new Array();
 	

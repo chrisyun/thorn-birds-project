@@ -142,7 +142,7 @@ function startProcessHandler() {
 		margins : "2 2 2 2",
 		cm : cm,
 		height : 110,
-		title : "项目支出明细预算（双击表格进行修改）",
+		title : "项目支出明细预算（单击表格进行修改）",
 		loadMask : {
 			msg : "数据获取中,请稍候..."
 		},
