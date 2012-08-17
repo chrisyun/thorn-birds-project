@@ -97,11 +97,11 @@ Ext.onReady(function() {
 	/** ****************rc Grid panel start************ */
 	var recordArray = [
 			getRecord(null, "id", "string"),
-			getRecord("文化生态保护区名称", "reseverName", "string", 200, true, reseverNameRender),
+			getRecord("文化生态保护区名称", "reseverName", "string", 200, true),
 			getRecord("申报年份", "year", "string", 100, true),
 			getRecord("申报地区或单位", "createrName", "string", 200, true),
 			getRecord("已拨金额（万元）", "givenMoney", "string", 100, true),
-			getRecord("申报金额（万元）", "applyTime", "string", 100, true),
+			getRecord("申报金额（万元）", "applyMoney", "string", 100, true),
 			getRecord("申报时间", "applyTime", "string", 150, true),
 			getRecord("申报省份", "province", "string", 100, true, areaRender)];
 	var pc_grid = new GridUtil(pcPageUrl, recordArray, pageSize);

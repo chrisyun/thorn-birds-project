@@ -12,7 +12,7 @@
 		return Render.dictRender(year, str);
 	};
 
-	var budgetDD = <thorn:dd  typeId="BUDGET_DETAIL" />;
+	var budgetDD = <thorn:dd  typeId="BUDGET_PROJECT_DETAIL" />;
 	var budgetArray = new Array();
 	for ( var i = 0; i < budgetDD.length; i++) {
 		budgetArray.push(budgetDD[i][0]);
