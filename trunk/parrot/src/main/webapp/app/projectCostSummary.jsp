@@ -33,6 +33,11 @@
 	var yearRender = function(str) {
 		return Render.dictRender(year, str);
 	};
+	
+	var userPermission = {
+		EXCEL : '<sec:authorize url="/heritor/exportAllSummaryExcel.jmt">true</sec:authorize>'
+	};
 
 </script>
+<iframe id="excelFrame" src="" style="display:none;"></iframe>
 <jsp:include page="../reference/footer.jsp"></jsp:include>
