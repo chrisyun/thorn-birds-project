@@ -195,5 +195,31 @@ public class ProjectController extends BaseController {
 
 		return page;
 	}
+	
+	@RequestMapping("/getProjectCostSummary")
+	@ResponseBody
+	public Page<ProjectCost> getProjectCostSummary(Integer year,
+			String province, String sort, String dir) {
+		Page<ProjectCost> page = new Page<ProjectCost>();
+
+		try {
+			User user = SecurityUserUtils.getCurrentUser();
+			List<String> roleList = SecurityUserUtils.getRoleList();
+
+			if (!SecurityUserUtils.isSysAdmin()
+					&& !roleList.contains(AppConfiguration.ROLE_CENTRAL)) {
+
+				province = user.getArea();
+			}
+
+			page = projectService.queryCostPage(null, null, null, null, null,
+					province, null, null, null, year, null, null, sort, dir);
+		} catch (DBAccessException e) {
+			log.error("getProjectCostSummary[ProjectCost] - " + e.getMessage(), e);
+		}
+
+		return page;
+
+	}
 
 }

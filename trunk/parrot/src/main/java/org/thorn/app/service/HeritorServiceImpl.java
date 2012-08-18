@@ -7,7 +7,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.thorn.app.entity.Heritor;
-import org.thorn.app.entity.Project;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
 import org.thorn.dao.exception.DBAccessException;
@@ -66,7 +65,7 @@ public class HeritorServiceImpl implements IHeritorService {
 
 		Page<Heritor> page = new Page<Heritor>();
 
-		page.setTotal(myBatisDaoSupport.queryCount(filter, Project.class));
+		page.setTotal(myBatisDaoSupport.queryCount(filter, Heritor.class));
 		if (page.getTotal() > 0) {
 			page.setReslutSet(myBatisDaoSupport
 					.queryList(filter, Heritor.class));
@@ -75,15 +74,25 @@ public class HeritorServiceImpl implements IHeritorService {
 		return page;
 	}
 
-	public List<Heritor> queryList(String name, String province, String sort,
-			String dir) throws DBAccessException {
+	public List<Heritor> queryList(String name, String province, String isDie,
+			String sort, String dir) throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
 		filter.put("name", name);
+		filter.put("isDie", isDie);
 		filter.put("province", province);
 		filter.put(Configuration.SROT_NAME, sort);
 		filter.put(Configuration.ORDER_NAME, dir);
 
 		return myBatisDaoSupport.queryList(filter, Heritor.class);
+	}
+
+	public long queryHeritorCount(String province, String isDie)
+			throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+		filter.put("isDie", isDie);
+		filter.put("province", province);
+		
+		return myBatisDaoSupport.queryCount(filter, Heritor.class);
 	}
 
 }

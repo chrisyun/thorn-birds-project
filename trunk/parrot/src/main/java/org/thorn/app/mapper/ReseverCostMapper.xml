@@ -168,4 +168,14 @@
 		AND R.ID = W.PID AND W.FLOWTYPE = 'resever' 
 		<include refid="Where_Clause" />
 	</select>
+	
+	<select id="selectCostSum" parameterType="hashmap"
+		resultType="Long">
+		select sum(R.APPLYMONEY)*10000 
+		from T_RESEVER_COST R,T_WORKFLOW W 
+		WHERE W.ACTIVITY = '审批完成已归档' 
+		AND R.ID = W.PID AND W.FLOWTYPE = 'resever' 
+		AND R.PROVINCE = #{province,jdbcType=VARCHAR}
+		AND R.YEAR = #{year,jdbcType=DECIMAL}
+	</select>
 </mapper>
