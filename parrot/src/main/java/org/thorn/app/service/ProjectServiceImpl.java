@@ -88,7 +88,7 @@ public class ProjectServiceImpl implements IProjectService {
 	public Page<ProjectCost> queryCostPage(String name, Integer pid,
 			String userName, String userId, String isUnProject,
 			String province, String projectType, String startTime,
-			String endTime, Integer year, long start, long limit, String sort,
+			String endTime, Integer year, Long start, Long limit, String sort,
 			String dir) throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
 		filter.put("projectName", name);
@@ -121,6 +121,18 @@ public class ProjectServiceImpl implements IProjectService {
 		}
 
 		return page;
+	}
+
+	public Double queryProjectCostSum(Integer year, String province)
+			throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+		filter.put("province", province);
+		filter.put("year", year);
+
+		long money = myBatisDaoSupport.queryCount(filter,
+				"ProjectCostMapper.selectCostSum");
+
+		return (double) money / 10000;
 	}
 
 }

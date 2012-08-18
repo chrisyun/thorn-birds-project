@@ -35,4 +35,6 @@ public interface IReseverService {
 			String endTime, Integer year, long start, long limit, String sort,
 			String dir) throws DBAccessException;
 
+	public Double queryReseverCostSum(Integer year, String province)
+			throws DBAccessException;
 }

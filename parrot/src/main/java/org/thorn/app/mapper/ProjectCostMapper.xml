@@ -179,7 +179,7 @@
 		<include refid="MySQLCommonMapper.pagingStart"/>
 		select P.ID,P.PROJECTID,P.PROJECTNAME,P.YEAR,P.CREATER,
 			   P.CREATERNAME,P.PROVINCE,P.MONEY,P.APPLYTIME,
-			   J.ISUNPROJECT,J.TYPE,W.CODE
+			   J.ISUNPROJECT,J.TYPE,J.CODE,P.APPREASON
 		from T_PROJECT_COST P,T_WORKFLOW W,T_PROJECT J 
 		WHERE W.ACTIVITY = '审批完成已归档' 
 		AND P.ID = W.PID AND W.FLOWTYPE = 'project' 
@@ -196,6 +196,16 @@
 		AND P.ID = W.PID AND W.FLOWTYPE = 'project' 
 		AND J.ID = P.PROJECTID 
 		<include refid="Where_Clause" />
+	</select>
+	
+	<select id="selectCostSum" parameterType="hashmap"
+		resultType="Long">
+		select sum(P.MONEY)*10000 from 
+		T_PROJECT_COST P,T_WORKFLOW W
+		WHERE W.ACTIVITY = '审批完成已归档' 
+		AND P.ID = W.PID AND W.FLOWTYPE = 'project' 
+		AND P.PROVINCE = #{province,jdbcType=VARCHAR}
+		AND P.YEAR = #{year,jdbcType=DECIMAL}
 	</select>
 
 </mapper>

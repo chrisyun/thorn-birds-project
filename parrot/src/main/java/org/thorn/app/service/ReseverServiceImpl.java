@@ -116,4 +116,16 @@ public class ReseverServiceImpl implements IReseverService {
 		return page;
 	}
 
+	public Double queryReseverCostSum(Integer year, String province)
+			throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+		filter.put("province", province);
+		filter.put("year", year);
+
+		long money = myBatisDaoSupport.queryCount(filter,
+				"ReseverCostMapper.selectCostSum");
+
+		return (double) money / 10000;
+	}
+
 }
