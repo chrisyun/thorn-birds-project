@@ -28,11 +28,11 @@ public class ExcelUtils {
 	public static void setDateFormat(String dateFormat) {
 		df = new SimpleDateFormat(dateFormat);
 	}
-	
+
 	/**
 	 * 
 	 * @Description：
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-29 下午08:05:02
 	 * @param adapter
 	 * @param sheetName
@@ -48,37 +48,39 @@ public class ExcelUtils {
 		HSSFWorkbook workBook = new HSSFWorkbook();
 		// init style
 		style.initCellStyle(workBook);
-		
+
 		// set column width
 		HSSFSheet sheet = workBook.createSheet(sheetName);
 		for (int i = 0; i < widthArray.length; i++) {
 			sheet.setColumnWidth(i, (int) (widthArray[i] * 35.7));
 		}
-		
+
 		// creat excel txt header
 		HSSFRow header = sheet.createRow(0);
 		header.setHeight((short) 340);
 		addColumn2Row(header, adapter.getHeader(), HSSFCell.CELL_TYPE_STRING,
-				style);
+				style, adapter.getHeader().length);
 
 		// 冻结标题栏
 		sheet.createFreezePane(0, 1);
 
-		int excelColumn = adapter.getDataSourceOfSize();
-		for (int i = 0; i < excelColumn; i++) {
+		// 获取行数
+		int excelRow = adapter.getDataSourceOfSize();
+		for (int i = 0; i < excelRow; i++) {
 			// 0 is txt header
 			HSSFRow row = sheet.createRow(i + 1);
 			row.setHeight((short) 320);
-			addColumn2Row(row, adapter.getRow(i), -1, style);
+			addColumn2Row(row, adapter.getRow(i), -1, style,
+					adapter.getHeader().length);
 		}
 
 		workBook.write(os);
 	}
 
-	private static void addColumn2Row(HSSFRow row, Object[] content, int cellType,
-			ExcelStyle style) {
+	private static void addColumn2Row(HSSFRow row, Object[] content,
+			int cellType, ExcelStyle style, int columnNum) {
 
-		for (int i = 0; i < content.length; i++) {
+		for (int i = 0; i < columnNum; i++) {
 			HSSFCell cell = row.createCell(i);
 			Object obj = content[i];
 
