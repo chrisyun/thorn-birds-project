@@ -118,8 +118,12 @@ public class MyBatisDaoSupportImpl implements MyBatisDaoSupport {
 	public <T> long queryCount(Map<String, Object> filter, String mapperId)
 			throws DBAccessException {
 		try {
-
-			return (Long) sqlSessionTemplate.selectOne(mapperId, filter);
+			Object num = sqlSessionTemplate.selectOne(mapperId, filter);
+			if(num == null) {
+				return 0;
+			} else {
+				return (Long) num;
+			}
 		} catch (Exception e) {
 			throw new DBAccessException("MyBatisDaoSupport", "queryCount",
 					"mapper[" + mapperId + "]", e);
