@@ -1,4 +1,5 @@
 var summaryPageUrl = sys.path + "/project/getProjectCostSummary.jmt";
+var exportUrl = sys.path + "/project/exportProjectCostExcel.jmt";
 
 Ext.onReady(function() {
 	Ext.QuickTips.init();
@@ -49,17 +50,29 @@ Ext.onReady(function() {
 			getRecord("金额（万元）", "money", "string", 100, true),
 			getRecord("备注", "appReason", "string", 300, false, msgRender)];
 	var summary_grid = new GridUtil(summaryPageUrl, recordArray);
-	
 
-	summary_grid.setBottomBar([ {
+	var bBar = new Array();
+	bBar.push({
 		text : "合计（万元）:",
 		xtype : "tbtext"
-	}, {
+	});
+	bBar.push({
 		xtype : "textfield",
 		id : "summaryTotal",
-		width : 70,
+		width : 100,
 		readOnly : true
-	} ]);
+	});
+	if(userPermission.EXCEL) {
+		bBar.push("-");
+		bBar.push({
+			text : "费用导出",
+			iconCls : "silk-excel",
+			minWidth : Configuration.minBtnWidth,
+			handler : exportHandler
+		});
+	}
+	
+	summary_grid.setBottomBar(bBar);
 	
 	var grid_attr = {
 		title : "非遗项目补助费申报汇总列表（入选联合国教科文组织非物质文化遗产名录项目在项目名称前用“★”标注）",
@@ -90,6 +103,17 @@ Ext.onReady(function() {
 		summarystore.baseParams.province = province;
 
 		summarystore.load();
+	}
+	
+	function exportHandler() {
+		var province = Ext.getCmp("show_query_area").getValue();
+		var year = Ext.getCmp("show_query_year").getValue();
+
+		var excelUrl = exportUrl + "?province=" + province
+				+ "&year=" + year +
+		"&key=" + Math.random();
+		
+		document.getElementById("excelFrame").src = excelUrl;
 	}
 
 	var viewport = new Ext.Viewport({

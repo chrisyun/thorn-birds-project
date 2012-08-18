@@ -57,7 +57,7 @@ Ext.onReady(function() {
 	
 	query_form.addComp(getComboBox("query_flowStatus", "审批状态", 160, flowStatusDD, false),
 			0.3, true);
-	query_form.addComp(getText("query_createrName", "申报单位名称",300), 0.6, true);
+	query_form.addComp(getText("query_createrName", "申报单位名称",160), 0.6, true);
 	
 	query_form.addComp(getDateText("query_startTime", "开始日期", 160), 0.3, true);
 	query_form.addComp(getDateText("query_endTime", "结束日期", 160), 0.3, true);

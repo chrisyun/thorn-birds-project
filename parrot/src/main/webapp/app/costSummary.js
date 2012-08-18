@@ -1,4 +1,5 @@
 var summaryPageUrl = sys.path + "/heritor/summaryAllCost.jmt";
+var exportUrl = sys.path + "/heritor/exportAllSummaryExcel.jmt";
 
 Ext.onReady(function() {
 	Ext.QuickTips.init();
@@ -31,16 +32,29 @@ Ext.onReady(function() {
 			getRecord("项目名称", "name", "string", 300, true),
 			getRecord("金额（万元）", "money", "string", 100, true)];
 	var summary_grid = new GridUtil(summaryPageUrl, recordArray);
-
-	summary_grid.setBottomBar([ {
+	
+	var bBar = new Array();
+	bBar.push({
 		text : "合计（万元）:",
 		xtype : "tbtext"
-	}, {
+	});
+	bBar.push({
 		xtype : "textfield",
 		id : "summaryTotal",
 		width : 100,
 		readOnly : true
-	} ]);
+	});
+	if(userPermission.EXCEL) {
+		bBar.push("-");
+		bBar.push({
+			text : "费用导出",
+			iconCls : "silk-excel",
+			minWidth : Configuration.minBtnWidth,
+			handler : exportHandler
+		});
+	}
+	
+	summary_grid.setBottomBar(bBar);
 	
 	var grid_attr = {
 		title : "国家非物质文化遗产保护专项资金申报汇总表",
@@ -72,6 +86,18 @@ Ext.onReady(function() {
 		summarystore.baseParams.heritorMoney = heritorMoney;
 
 		summarystore.load();
+	}
+	
+	function exportHandler() {
+		var province = Ext.getCmp("show_query_area").getValue();
+		var year = Ext.getCmp("show_query_year").getValue();
+		
+		var excelUrl = exportUrl + "?province=" + province
+				+ "&heritorMoney=" + heritorMoney
+				+ "&year=" + year +
+				"&key=" + Math.random();
+		
+		document.getElementById("excelFrame").src = excelUrl;
 	}
 
 	var viewport = new Ext.Viewport({

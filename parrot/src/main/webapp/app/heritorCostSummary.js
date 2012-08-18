@@ -1,4 +1,5 @@
 var summaryPageUrl = sys.path + "/heritor/getHeritorList.jmt";
+var exportUrl = sys.path + "/heritor/exportHeritorCostExcel.jmt";
 
 Ext.onReady(function() {
 	Ext.QuickTips.init();
@@ -35,16 +36,29 @@ Ext.onReady(function() {
 			getRecord("项目名称", "projectName", "string", 200, true),
 			getRecord("金额（万元）", "money", "string", 120, true, moneyRender)];
 	var summary_grid = new GridUtil(summaryPageUrl, recordArray);
-
-	summary_grid.setBottomBar([ {
+	
+	var bBar = new Array();
+	bBar.push({
 		text : "合计（万元）:",
 		xtype : "tbtext"
-	}, {
+	});
+	bBar.push({
 		xtype : "textfield",
 		id : "summaryTotal",
-		width : 70,
+		width : 100,
 		readOnly : true
-	} ]);
+	});
+	if(userPermission.EXCEL) {
+		bBar.push("-");
+		bBar.push({
+			text : "费用导出",
+			iconCls : "silk-excel",
+			minWidth : Configuration.minBtnWidth,
+			handler : exportHandler
+		});
+	}
+	
+	summary_grid.setBottomBar(bBar);
 	
 	var grid_attr = {
 		title : "国家级代表性传承人补助费汇总列表",
@@ -90,6 +104,16 @@ Ext.onReady(function() {
 		summarystore_die.baseParams.province = province;
 		summarystore_die.baseParams.isDie = "YES";
 		summarystore_die.load();
+	}
+	
+	function exportHandler() {
+		var province = Ext.getCmp("show_query_area").getValue();
+
+		var excelUrl = exportUrl + "?province=" + province
+				+ "&heritorMoney=" + heritorMoney +
+				"&key=" + Math.random();
+		
+		document.getElementById("excelFrame").src = excelUrl;
 	}
 
 	var viewport = new Ext.Viewport({

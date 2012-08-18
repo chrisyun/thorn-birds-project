@@ -1,7 +1,10 @@
 package org.thorn.app.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -15,7 +18,11 @@ import org.thorn.app.AppConfiguration;
 import org.thorn.app.entity.Project;
 import org.thorn.app.entity.ProjectCost;
 import org.thorn.app.service.IProjectService;
+import org.thorn.core.excel.ArrayAdapter;
+import org.thorn.core.excel.ExcelStyle;
+import org.thorn.core.excel.ExcelUtils;
 import org.thorn.core.util.LocalStringUtils;
+import org.thorn.core.util.ReflectUtils;
 import org.thorn.dao.core.Configuration;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.security.SecurityUserUtils;
@@ -24,6 +31,8 @@ import org.thorn.web.controller.BaseController;
 import org.thorn.web.entity.JsonResponse;
 import org.thorn.web.entity.Page;
 import org.thorn.web.entity.Status;
+import org.thorn.web.util.DDUtils;
+import org.thorn.web.util.ResponseHeaderUtils;
 
 /**
  * @ClassName: ProjectController
@@ -195,7 +204,7 @@ public class ProjectController extends BaseController {
 
 		return page;
 	}
-	
+
 	@RequestMapping("/getProjectCostSummary")
 	@ResponseBody
 	public Page<ProjectCost> getProjectCostSummary(Integer year,
@@ -215,11 +224,86 @@ public class ProjectController extends BaseController {
 			page = projectService.queryCostPage(null, null, null, null, null,
 					province, null, null, null, year, null, null, sort, dir);
 		} catch (DBAccessException e) {
-			log.error("getProjectCostSummary[ProjectCost] - " + e.getMessage(), e);
+			log.error("getProjectCostSummary[ProjectCost] - " + e.getMessage(),
+					e);
 		}
 
 		return page;
+	}
 
+	@RequestMapping("/exportProjectCostExcel")
+	public void exportProjectCostExcel(Integer year, String province,
+			HttpServletResponse response) {
+
+		try {
+			User user = SecurityUserUtils.getCurrentUser();
+			List<String> roleList = SecurityUserUtils.getRoleList();
+
+			if (!SecurityUserUtils.isSysAdmin()
+					&& !roleList.contains(AppConfiguration.ROLE_CENTRAL)) {
+
+				province = user.getArea();
+			}
+
+			String provinceName = DDUtils.queryDdById("AREA", province);
+
+			List<ProjectCost> list = projectService.queryCostPage(null, null,
+					null, null, null, province, null, null, null, year, null,
+					null, null, null).getReslutSet();
+
+			StringBuilder title = new StringBuilder(String.valueOf(year));
+			title.append("年度").append(provinceName);
+			title.append("国家级非物质文化遗产代表性项目补助费申报汇总表");
+
+			ResponseHeaderUtils.setExcelResponse(response, title.toString());
+
+			String[] header = new String[] { "序号", "项目编号", "项目名称", "资金申报单位",
+					"金额（万元）", "备注" };
+			int[] columnWidth = new int[] { 100, 150, 250, 250, 100, 500 };
+
+			int i = 1;
+			Double money = 0.0;
+			for (ProjectCost pc : list) {
+				pc.setAddress(String.valueOf(i));
+
+				if (StringUtils.equals(pc.getIsUnProject(),
+						Configuration.DB_YES)) {
+					pc.setProjectName("★" + pc.getProjectName());
+				}
+
+				money += pc.getMoney();
+				i++;
+			}
+
+			ProjectCost pc = new ProjectCost();
+			pc.setAddress("合计");
+			pc.setCode("-");
+			pc.setProjectName("-");
+			pc.setCreaterName("-");
+			pc.setMoney(money);
+			list.add(pc);
+
+			String[] orderArray = new String[] { "address", "code",
+					"projectName", "createrName", "money", "appReason" };
+			List<Object[]> dataSource = ReflectUtils.object2Array(list);
+
+			ExcelStyle style = new ExcelStyle();
+
+			ArrayAdapter adapter = new ArrayAdapter(header, orderArray,
+					dataSource);
+
+			ExcelUtils.write2Excel(adapter, "汇总表", columnWidth, style,
+					response.getOutputStream());
+			response.getOutputStream().flush();
+		} catch (DBAccessException e) {
+			log.error(
+					"exportProjectCostExcel[ProjectCost] - " + e.getMessage(),
+					e);
+		} catch (IOException e) {
+			log.error(
+					"exportProjectCostExcel[ProjectCost] - " + e.getMessage(),
+					e);
+		}
 	}
 
 }
