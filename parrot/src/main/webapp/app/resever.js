@@ -32,10 +32,10 @@ Ext.onReady(function() {
 			getRecord(null, "id", "string"),
 			getRecord(null, "userId", "string"),
 			getRecord("省份", "province", "string", 80, true, areaRender),
-			getRecord("文化生态保护区", "name", "string", 100, false),
-			getRecord("批复时间", "buildTime", "string", 200, true),
-			getRecord("申报地区或单位", "area", "string", 200, true),
-			getRecord("建设单位", "userName", "string", 200, true)];
+			getRecord("文化生态保护区", "name", "string", 200, false),
+			getRecord("批复时间", "buildTime", "string", 100, true),
+			getRecord("申报地区或单位", "area", "string", 250, true),
+			getRecord("建设单位", "userName", "string", 100, true)];
 	var resever_grid = new GridUtil(reseverPageUrl, recordArray, pageSize);
 	
 	var grid_Bar = getCommonBar(saveHandler, modifyHandler, deleteHandler, userPermission);
@@ -95,9 +95,7 @@ Ext.onReady(function() {
 	};
 	
 	resever_form.addComp(provinceCb, 0.5, false);
-	resever_form.addComp(getText("name", "保护区名称", 180), 0.5, false);
-	resever_form.addComp(getText("area", "申报地区或单位", 180), 0.5, false);
-	resever_form.addComp(getText("buildTime", "批复时间", 180), 0.5, false);
+	
 	var userCb = getComboBox("userId", "项目保护单位", 180, null);
 	userCb.valueField = "userId";
 	userCb.displayField = "userName";
@@ -106,6 +104,11 @@ Ext.onReady(function() {
 	userCb.store = userStore;
 	
 	resever_form.addComp(userCb, 0.5, false);
+	
+	resever_form.addComp(getText("name", "保护区名称", 480), 1.0, false);
+	resever_form.addComp(getText("area", "申报地区或单位", 480), 1.0, false);
+	resever_form.addComp(getText("buildTime", "批复时间", 180), 0.5, false);
+	
 
 	resever_form.addComp(getHidden("opType"), 0, true);
 	resever_form.addComp(getHidden("id"), 0, true);
