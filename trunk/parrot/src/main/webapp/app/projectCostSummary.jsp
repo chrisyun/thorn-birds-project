@@ -35,7 +35,7 @@
 	};
 	
 	var userPermission = {
-		EXCEL : '<sec:authorize url="/heritor/exportAllSummaryExcel.jmt">true</sec:authorize>'
+		EXCEL : '<sec:authorize url="/project/exportProjectCostExcel.jmt">true</sec:authorize>'
 	};
 
 </script>

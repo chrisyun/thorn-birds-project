@@ -83,7 +83,7 @@ body {
 					xtype:"panel",
 					layout : "form",
 					border: false,
-					columnWidth : 0.5,
+					columnWidth : 0.7,
 					items: [{
 						xtype:"textfield",
 						name : "ValidateCode",
@@ -104,7 +104,7 @@ body {
 					}]
 				},{
 					id : "codeLabel",
-					hidden : true,
+					//hidden : true,
 					xtype:"label",
 					html:'<img alt="验证码" id="authImage" align="middle" width="80" height="24" />&nbsp;<a href="javascript:refresh();">看不清</a>'
 				}]
@@ -211,7 +211,7 @@ body {
 				doSub();
 			}
 		}
-		
+		refresh();
 		completePage();
 		
 	});
