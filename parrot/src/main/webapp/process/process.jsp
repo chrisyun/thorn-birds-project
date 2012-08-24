@@ -28,7 +28,7 @@
 
 <script type="text/javascript">
 
-	document.title = "Workflow - Process";
+	document.title = "费用申报流程页面";
 	
 	var processInfo = {
 		flowKey : "<%=flowKey %>",
