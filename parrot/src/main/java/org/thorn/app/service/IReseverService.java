@@ -37,4 +37,7 @@ public interface IReseverService {
 
 	public Double queryReseverCostSum(Integer year, String province)
 			throws DBAccessException;
+
+	public ReseverCost queryReseverDW(Integer reseverId)
+			throws DBAccessException;
 }

@@ -52,7 +52,7 @@ public class HandlerController extends BaseController {
 	@RequestMapping("/modifyProcess")
 	@ResponseBody
 	public Status modifyProcess(HttpServletRequest request, String flowType,
-			String budgetJson, Integer pid, String flowAtts) {
+			String budgetJson, Integer pid, String flowAtts, String creater) {
 		Status status = new Status();
 
 		User user = SecurityUserUtils.getCurrentUser();
@@ -60,7 +60,7 @@ public class HandlerController extends BaseController {
 		// 表单项处理
 		Object form = null;
 		if (StringUtils.equals(flowType, ProcessConfiguration.PROJECT_KEY)) {
-			form = getProjectCost(request, flowAtts, user, pid);
+			form = getProjectCost(request, flowAtts, user, pid, creater);
 		}
 
 		try {
@@ -95,9 +95,10 @@ public class HandlerController extends BaseController {
 		// 表单项处理
 		Object form = null;
 		if (StringUtils.equals(flowType, ProcessConfiguration.PROJECT_KEY)) {
-			form = getProjectCost(request, flowAtts, user, pid);
-		} else if (StringUtils.equals(flowType, ProcessConfiguration.RESEVER_KEY)) {
-			form = getReseverCost(request, flowAtts, user, pid);
+			form = getProjectCost(request, flowAtts, user, pid, creater);
+		} else if (StringUtils.equals(flowType,
+				ProcessConfiguration.RESEVER_KEY)) {
+			form = getReseverCost(request, flowAtts, user, pid, creater);
 		}
 
 		// 流程环节处理
@@ -133,7 +134,7 @@ public class HandlerController extends BaseController {
 	}
 
 	private ProjectCost getProjectCost(HttpServletRequest request,
-			String flowAtts, User user, Integer pid) {
+			String flowAtts, User user, Integer pid, String creater) {
 
 		ProjectCost pc = new ProjectCost();
 
@@ -146,6 +147,7 @@ public class HandlerController extends BaseController {
 			pc.setApplyTime(df.format(new Date()));
 		} else {
 			pc.setId(pid);
+			pc.setCreater(creater);
 		}
 		pc.setAttids(flowAtts);
 
@@ -206,11 +208,16 @@ public class HandlerController extends BaseController {
 			pc.setMoney(Double.parseDouble(money));
 		}
 
+		String ueId = request.getParameter("pc_id");
+		if (StringUtils.isNotBlank(ueId)) {
+			pc.setUeId(Integer.parseInt(ueId));
+		}
+
 		return pc;
 	}
-	
+
 	private ReseverCost getReseverCost(HttpServletRequest request,
-			String flowAtts, User user, Integer pid) {
+			String flowAtts, User user, Integer pid, String creater) {
 
 		ReseverCost rc = new ReseverCost();
 

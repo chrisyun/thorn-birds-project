@@ -96,7 +96,7 @@ Ext.onReady(function() {
 	
 	resever_form.addComp(provinceCb, 0.5, false);
 	
-	var userCb = getComboBox("userId", "项目保护单位", 180, null);
+	var userCb = getComboBox("userId", "建设单位", 180, null);
 	userCb.valueField = "userId";
 	userCb.displayField = "userName";
 	userCb.lazyInit = true;

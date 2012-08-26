@@ -128,4 +128,13 @@ public class ReseverServiceImpl implements IReseverService {
 		return (double) money / 10000;
 	}
 
+	public ReseverCost queryReseverDW(Integer reseverId)
+			throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+		filter.put("reseverId", reseverId);
+
+		return (ReseverCost) myBatisDaoSupport.queryOne(filter,
+				"ReseverCostMapper.selectMax");
+	}
+
 }

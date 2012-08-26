@@ -4,6 +4,7 @@ function startProcessHandler() {
 	
 	var getReseverByUser = sys.path + "/resever/getReseverByUser.jmt";
 	var loadFormUrl = sys.path + "/resever/getReseverCostById.jmt";
+	var loadBaseInfoUrl = sys.path + "/resever/getReseverDW.jmt";
 	var getBudgetUrl = sys.path + "/wf/cm/getBudget.jmt";
 	
 	oneForm = new FormUtil({
@@ -11,6 +12,7 @@ function startProcessHandler() {
 		title : "基本信息",
 		border : false,
 		id : "oneForm",
+		autoScroll : true,
 		collapsible : false,
 		labelWidth : 220
 	});
@@ -27,12 +29,42 @@ function startProcessHandler() {
 									type : "string"
 								}]))
 	});
+	
+	var ajaxInfo = new AjaxUtil(loadBaseInfoUrl);
+	
 	var reseverCb = getComboBox("reseverId", "文化生态保护区名称", 300, null);
 	reseverCb.valueField = "id";
 	reseverCb.displayField = "name";
 	reseverCb.lazyInit = true;
 	reseverCb.mode = "remote";
 	reseverCb.store = reseverStore;
+	reseverCb.listeners = {
+		"change" : function(field, newValue, oldValue) {
+			ajaxInfo.getData({
+				reseverId : newValue
+			}, null, function(scope, data) {
+				
+				var values = new Object();
+				
+				if(Ext.isEmpty(data)) {
+					values.address = "";
+					values.postalCode = "";
+					values.contacts = "";
+					values.phone = "";
+				} else {
+					values.address = data.address;
+					values.postalCode = data.postalCode;
+					values.contacts = data.contacts;
+					values.phone = data.phone;
+				}
+				
+				oneForm.getForm().setValues(values);
+			});
+		}	
+	};
+	
+	
+	
 	
 	oneForm.addComp(reseverCb, 1.0, false);
 	oneForm.addComp(getText("createrName", "建设实施单位名称", 300), 0.45, false);
@@ -48,6 +80,7 @@ function startProcessHandler() {
 		title : "详细信息",
 		border : false,
 		id : "twoForm",
+		autoScroll : true,
 		collapsible : false,
 		labelWidth : 250
 	});
@@ -179,6 +212,7 @@ function startProcessHandler() {
 		iconCls : "",
 		id : "budgetForm",
 		border : false,
+		autoScroll : true,
 		collapsible : false,
 		split : true,
 		width : 600,
@@ -208,27 +242,34 @@ function startProcessHandler() {
 		minTabWidth : 120,
 		buttonAlign : "center",
 		buttons : [{
+			id : "lastStep",
 			text : "上一步",
+			hidden : true,
 			minWidth : 200,
 			handler : function() {
 				var activateId = mainTab.getActiveTab().getItemId();
 				
 				if(activateId == "twoForm") {
 					mainTab.activate("oneForm");
+					Ext.getCmp("lastStep").hide();
 				} else if(activateId == "threeForm") {
 					mainTab.activate("twoForm");
+					Ext.getCmp("nextStep").show();
 				}
 			}
 		}, {
 			text : "下一步",
+			id : "nextStep",
 			minWidth : 200,
 			handler : function() {
 				var activateId = mainTab.getActiveTab().getItemId();
 				
 				if(activateId == "oneForm") {
 					mainTab.activate("twoForm");
+					Ext.getCmp("lastStep").show();
 				} else if(activateId == "twoForm") {
 					mainTab.activate("threeForm");
+					Ext.getCmp("nextStep").hide();
 				}
 			}
 		}],
@@ -261,8 +302,6 @@ function startProcessHandler() {
 			
 			reLoadAtts(data.attids);
 		});
-		
-		
 	} else {
 		oneForm.findById("createrName").setValue(user.userName);
 	}

@@ -4,6 +4,7 @@ function startProcessHandler() {
 	
 	var getProjectByUser = sys.path + "/project/getProjectByUser.jmt";
 	var loadFormUrl = sys.path + "/project/getProjectCostById.jmt";
+	var loadBaseInfoUrl = sys.path + "/project/getProjectDW.jmt";
 	var getBudgetUrl = sys.path + "/wf/cm/getBudget.jmt";
 	
 	oneForm = new FormUtil({
@@ -12,6 +13,7 @@ function startProcessHandler() {
 		border : false,
 		id : "oneForm",
 		collapsible : false,
+		autoScroll : true,
 		labelWidth : 150
 	});
 	
@@ -47,10 +49,13 @@ function startProcessHandler() {
 	oneForm.addComp(getText("bankAccount", "开户账号", 220), 0.3, false);
 	oneForm.addComp(getTextArea("companyCtf", "申报单位具备资质", 800, 70, 1000), 0.9, false);
 	
+	oneForm.addComp(getHidden("id"), 0, true);
+	
 	twoForm = new FormUtil({
 		iconCls : "",
 		title : "详细信息",
 		border : false,
+		autoScroll : true,
 		id : "twoForm",
 		collapsible : false,
 		labelWidth : 250
@@ -186,6 +191,7 @@ function startProcessHandler() {
 		border : false,
 		collapsible : false,
 		split : true,
+		autoScroll : true,
 		width : 600,
 		labelWidth : 140
 	});
@@ -213,27 +219,34 @@ function startProcessHandler() {
 		minTabWidth : 120,
 		buttonAlign : "center",
 		buttons : [{
+			id : "lastStep",
 			text : "上一步",
+			hidden : true,
 			minWidth : 200,
 			handler : function() {
 				var activateId = mainTab.getActiveTab().getItemId();
 				
 				if(activateId == "twoForm") {
 					mainTab.activate("oneForm");
+					Ext.getCmp("lastStep").hide();
 				} else if(activateId == "threeForm") {
 					mainTab.activate("twoForm");
+					Ext.getCmp("nextStep").show();
 				}
 			}
 		}, {
 			text : "下一步",
+			id : "nextStep",
 			minWidth : 200,
 			handler : function() {
 				var activateId = mainTab.getActiveTab().getItemId();
 				
 				if(activateId == "oneForm") {
 					mainTab.activate("twoForm");
+					Ext.getCmp("lastStep").show();
 				} else if(activateId == "twoForm") {
 					mainTab.activate("threeForm");
+					Ext.getCmp("nextStep").hide();
 				}
 			}
 		}],
@@ -263,13 +276,18 @@ function startProcessHandler() {
 			if(!Ext.isEmpty(data.projectId)) {
 				oneForm.findById("show_projectId").setDisabled(true);
 			}
-			
+			oneForm.findById("id").setValue();
 			reLoadAtts(data.attids);
 		});
 		
 		
 	} else {
 		oneForm.findById("createrName").setValue(user.userName);
+		
+		var ajax = new AjaxUtil(loadBaseInfoUrl);
+		ajax.getData(null, null, function(scope, data) {
+			oneForm.getForm().setValues(data);
+		});
 	}
 }
 

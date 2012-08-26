@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.thorn.app.entity.Project;
 import org.thorn.app.entity.ProjectCost;
+import org.thorn.app.entity.UserExtend;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
 import org.thorn.dao.exception.DBAccessException;
@@ -133,6 +134,55 @@ public class ProjectServiceImpl implements IProjectService {
 				"ProjectCostMapper.selectCostSum");
 
 		return (double) money / 10000;
+	}
+
+	public UserExtend queryUserExtend(String userId) throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+		filter.put("userId", userId);
+		return (UserExtend) myBatisDaoSupport
+				.queryOne(filter, UserExtend.class);
+	}
+
+	public void save(UserExtend ue) throws DBAccessException {
+		myBatisDaoSupport.save(ue);
+	}
+
+	public void modify(UserExtend ue) throws DBAccessException {
+		myBatisDaoSupport.modify(ue);
+	}
+
+	public Page<UserExtend> queryPage(String orgCode, String userName,
+			String cumail, String userId, long start, long limit, String sort,
+			String dir) throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+		filter.put("orgCode", orgCode);
+		filter.put("userName", userName);
+		filter.put("cumail", cumail);
+		filter.put("userId", userId);
+		
+		filter.put("isShow", Configuration.DB_YES);
+		filter.put("isDisabled", Configuration.DB_NO);
+		
+		filter.put(Configuration.PAGE_LIMIT, limit);
+		filter.put(Configuration.PAGE_START, start);
+
+		if (LocalStringUtils.isEmpty(sort)) {
+			filter.put(Configuration.SROT_NAME, "U.SORTNUM");
+			filter.put(Configuration.ORDER_NAME, Configuration.ORDER_ASC);
+		} else {
+			filter.put(Configuration.SROT_NAME, sort);
+			filter.put(Configuration.ORDER_NAME, dir);
+		}
+
+		Page<UserExtend> page = new Page<UserExtend>();
+
+		page.setTotal(myBatisDaoSupport.queryCount(filter, UserExtend.class));
+		if (page.getTotal() > 0) {
+			page.setReslutSet(myBatisDaoSupport.queryList(filter,
+					UserExtend.class));
+		}
+
+		return page;
 	}
 
 }

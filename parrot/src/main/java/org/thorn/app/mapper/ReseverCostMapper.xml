@@ -147,6 +147,14 @@
 		<include refid="Where_Clause" />
 	</select>
 	
+	<select id="selectMax" parameterType="hashmap"
+		resultMap="BaseResultMap">
+		select R.ADDRESS,R.POSTALCODE,R.CONTACTS,R.PHONE from t_resever_cost R 
+		where R.applytime =  
+		(select max(c.applytime) from t_resever_cost c 
+		where c.RESEVERID = #{reseverId,jdbcType=DECIMAL} group by c.RESEVERID)
+	</select>
+	
 	<select id="selectPage" parameterType="hashmap"
 		resultMap="BaseResultMap">
 		<include refid="MySQLCommonMapper.pagingStart"/>

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.thorn.app.AppConfiguration;
 import org.thorn.app.entity.Project;
 import org.thorn.app.entity.ProjectCost;
+import org.thorn.app.entity.UserExtend;
 import org.thorn.app.service.IProjectService;
 import org.thorn.core.excel.ArrayAdapter;
 import org.thorn.core.excel.ExcelStyle;
@@ -49,6 +50,67 @@ public class ProjectController extends BaseController {
 	@Autowired
 	@Qualifier("projectService")
 	private IProjectService projectService;
+	
+	@RequestMapping("/getProjectDW")
+	@ResponseBody
+	public JsonResponse<UserExtend> getProjectDW() {
+		JsonResponse<UserExtend> json = new JsonResponse<UserExtend>();
+
+		try {
+			User user = SecurityUserUtils.getCurrentUser();
+			json.setObj(projectService.queryUserExtend(user.getUserId()));
+		} catch (DBAccessException e) {
+			json.setSuccess(false);
+			json.setMessage("数据获取失败：" + e.getMessage());
+			log.error("getProjectDW[UserExtend] - " + e.getMessage(), e);
+		}
+
+		return json;
+	}
+	
+	@RequestMapping("/dw/getProjectDWPage")
+	@ResponseBody
+	public Page<UserExtend> getProjectDWPage(long start, long limit,
+			String sort, String dir, String orgCode, String userName,
+			String cumail, String userId) {
+		Page<UserExtend> page = new Page<UserExtend>();
+
+		try {
+			User user = SecurityUserUtils.getCurrentUser();
+
+			if (!SecurityUserUtils.isSysAdmin()) {
+				orgCode = user.getOrgCode();
+			}
+
+			page = projectService.queryPage(orgCode, userName, cumail, userId,
+					start, limit, sort, dir);
+		} catch (DBAccessException e) {
+			log.error("getProjectDWPage[UserExtend] - " + e.getMessage(), e);
+		}
+
+		return page;
+	}
+	
+	@RequestMapping("/dw/saveOrModifyProjectDW")
+	@ResponseBody
+	public Status saveOrModifyProjectDW(UserExtend ue, String opType) {
+		Status status = new Status();
+
+		try {
+			if (LocalStringUtils.equals(opType, Configuration.OP_SAVE)) {
+				projectService.save(ue);
+			} else if (LocalStringUtils.equals(opType, Configuration.OP_MODIFY)) {
+				projectService.modify(ue);
+			}
+			status.setMessage("修改项目保护单位基本信息成功！");
+		} catch (DBAccessException e) {
+			status.setSuccess(false);
+			status.setMessage("数据保存失败：" + e.getMessage());
+			log.error("saveOrModifyProjectDW[UserExtend] - " + e.getMessage(), e);
+		}
+
+		return status;
+	}
 
 	@RequestMapping("/saveOrModifyProject")
 	@ResponseBody

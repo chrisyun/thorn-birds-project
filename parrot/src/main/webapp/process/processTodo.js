@@ -83,10 +83,17 @@ Ext.onReady(function() {
 			getRecord("申报省份", "province", "string", 100, true, areaRender)];
 	var todo_grid = new GridUtil(todoPageUrl, recordArray, pageSize);
 	
+	var listeners = {
+		celldblclick : function(thisGrid, rowIndex, columnIndex, ev) {
+			showHandler();
+		}
+	};
+	todo_grid.setListeners(listeners);
+	
 	todo_grid.setBottomBar();
 
 	var grid_attr = {
-		title : "待办列表",
+		title : "待办列表（双击表格或单击申报单位链接打开待办）",
 		region : "center"
 	};
 	todo_grid.setGridPanel(grid_attr);
@@ -94,7 +101,19 @@ Ext.onReady(function() {
 
 	var grid = todo_grid.getGrid();
 	todostore = todo_grid.getStore();
-
+	
+	function showHandler() {
+		if (grid.getSelectionModel().getCount() != 1) {
+			Ext.Msg.alert("提示信息", "请选择一条记录!");
+			return;
+		}
+		var selectedRecord = grid.getSelectionModel().getSelected();
+		
+		var id = selectedRecord.get("id");
+		openTodoFlow(id);
+	}
+	
+	
 	function onSubmitQueryHandler() {
 
 		var flowType = Ext.getCmp("show_query_flowType").getValue();

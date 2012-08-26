@@ -26,7 +26,7 @@ function ProcessMinds(flowInstId, activityName, opType) {
 		layout : "border",
 		border : false,
 		split : true,
-		height : 120,
+		height : 110,
 		items : [{
 			title : "所有审批意见",
 			region : "center",
@@ -41,7 +41,7 @@ function ProcessMinds(flowInstId, activityName, opType) {
 		
 	if(opType == "create" || opType == "todo") {
 		this.mindsForm.addComp(getHidden("id"), 1.0, true);
-		this.mindsForm.addComp(getTextArea("mind", "意见", 380, 70), 1.0, true);
+		this.mindsForm.addComp(getTextArea("mind", "意见", 380, 60), 1.0, true);
 	}
 	
 	this.html = "";

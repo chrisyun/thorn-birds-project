@@ -29,15 +29,7 @@ Ext.onReady(function() {
 	//设置按钮：保存草稿、导出word、作废流程
 	var barArray = new Array();
 	
-	if(processInfo.openType == "create") {
-		barArray.push("-");
-		barArray.push({
-			text : "保存草稿",
-			handler : function() {
-				handlerProcess("保存草稿");
-			}
-		});
-	} else {
+	if(processInfo.openType != "create") {
 		barArray.push("-");
 		barArray.push({
 			text : "导出WORD",
@@ -190,7 +182,8 @@ Ext.onReady(function() {
 		split : true,
 		region : "center",
 		collapsible : true,
-		height : 130,
+		height : 100,
+		autoScroll : true,
 		autoHeight : false,
 		autoWidth : false
 	}, "");
@@ -207,6 +200,17 @@ Ext.onReady(function() {
 			btn.push(getNextActivityBtn(nextStep[i], submitProcessInfo));
 		}
 	}
+	if(processInfo.openType == "create") {
+		btn.push({
+			text : "保存草稿",
+			iconCls : "silk-tick",
+			handler : function() {
+				handlerProcess("保存草稿");
+			}
+		});
+	}
+	
+	
 	btn.push({
 		text : "关闭",
 		iconCls : "slik-close",
@@ -222,7 +226,7 @@ Ext.onReady(function() {
 	bPanel = new Ext.Panel({
 		region : "south",
 		split : true,
-		height : 300,
+		height : 260,
 		margins : "0 0 0 2",
 		layout : "border",
 		border : false,
