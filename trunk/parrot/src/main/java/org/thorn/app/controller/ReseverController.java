@@ -40,7 +40,24 @@ public class ReseverController extends BaseController {
 	@Autowired
 	@Qualifier("reseverService")
 	private IReseverService reseverService;
-
+	
+	@RequestMapping("/getReseverDW")
+	@ResponseBody
+	public JsonResponse<ReseverCost> getReseverDW(Integer reseverId) {
+		JsonResponse<ReseverCost> json = new JsonResponse<ReseverCost>();
+		
+		try {
+			json.setObj(reseverService.queryReseverDW(reseverId));
+		} catch (DBAccessException e) {
+			json.setSuccess(false);
+			json.setMessage("数据获取失败：" + e.getMessage());
+			log.error("getReseverDW[ReseverCost] - " + e.getMessage(), e);
+		}
+		
+		return json;
+	}
+	
+	
 	@RequestMapping("/saveOrModifyResever")
 	@ResponseBody
 	public Status saveOrModifyResever(Resever resever, String opType) {

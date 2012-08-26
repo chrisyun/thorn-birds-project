@@ -1,17 +1,20 @@
 package org.thorn.process.service;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.thorn.app.entity.CostBudget;
 import org.thorn.app.entity.ProjectCost;
 import org.thorn.app.entity.ReseverCost;
+import org.thorn.app.entity.UserExtend;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
 import org.thorn.dao.exception.DBAccessException;
@@ -53,6 +56,18 @@ public class FlowServiceImpl implements IFlowService {
 		if (form instanceof ProjectCost) {
 			pid = ((ProjectCost) form).getId();
 			flowType = ProcessConfiguration.PROJECT_KEY;
+			
+			//修改承担单位信息
+			UserExtend ue = new UserExtend();
+			try {
+				BeanUtils.copyProperties(ue, form);
+				ue.setUserId(((ProjectCost) form).getCreater());
+				myBatisDaoSupport.modify(ue);
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
 		} else if (form instanceof ReseverCost) {
 			pid = ((ReseverCost) form).getId();
 			flowType = ProcessConfiguration.RESEVER_KEY;
@@ -76,8 +91,12 @@ public class FlowServiceImpl implements IFlowService {
 	@NoLogging
 	public void dealWithEngine(Process process, FlowMinds flowMinds,
 			Object form, List<CostBudget> budgets) throws DBAccessException {
+		//true为新增，false为修改
+		boolean ueOp = false;
+		
 		// 先处理表单项
 		if (process.getPid() == null) {
+			ueOp = true;
 			myBatisDaoSupport.save(form);
 		} else {
 			myBatisDaoSupport.modify(form);
@@ -86,6 +105,25 @@ public class FlowServiceImpl implements IFlowService {
 		Integer pid = null;
 		if (form instanceof ProjectCost) {
 			pid = ((ProjectCost) form).getId();
+			
+			//修改承担单位信息
+			UserExtend ue = new UserExtend();
+			try {
+				BeanUtils.copyProperties(ue, form);
+				ue.setUserId(((ProjectCost) form).getCreater());
+				
+				if(ueOp && ((ProjectCost) form).getUeId() == null) {
+					myBatisDaoSupport.save(ue);
+				} else if(StringUtils.isNotBlank(ue.getUserId())) {
+					myBatisDaoSupport.modify(ue);
+				}
+
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+			
 		} else if (form instanceof ReseverCost) {
 			pid = ((ReseverCost) form).getId();
 		}

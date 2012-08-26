@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.thorn.app.entity.Project;
 import org.thorn.app.entity.ProjectCost;
+import org.thorn.app.entity.UserExtend;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.web.entity.Page;
 
@@ -14,6 +15,16 @@ import org.thorn.web.entity.Page;
  * @date 2012-8-10 上午10:59:16
  */
 public interface IProjectService {
+
+	public UserExtend queryUserExtend(String userId) throws DBAccessException;
+
+	public void save(UserExtend ue) throws DBAccessException;
+
+	public void modify(UserExtend ue) throws DBAccessException;
+
+	public Page<UserExtend> queryPage(String orgCode, String userName,
+			String cumail, String userId, long start, long limit, String sort,
+			String dir) throws DBAccessException;
 
 	public void save(Project project) throws DBAccessException;
 

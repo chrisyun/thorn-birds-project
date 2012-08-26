@@ -77,6 +77,8 @@ public class ProjectCost implements Serializable {
 	private String type;
 	
 	private String code;
+	
+	private Integer ueId;
 
 	public Integer getId() {
 		return id;
@@ -289,6 +291,14 @@ public class ProjectCost implements Serializable {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public Integer getUeId() {
+		return ueId;
+	}
+
+	public void setUeId(Integer ueId) {
+		this.ueId = ueId;
 	}
 }
 
