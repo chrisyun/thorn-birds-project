@@ -197,7 +197,7 @@ Ext.onReady(function() {
 		params : {
 			start : 0,
 			limit : userExtend_grid.pageSize,
-			orgCode : "ROOT"
+			orgCode : ""
 		}
 	});
 
