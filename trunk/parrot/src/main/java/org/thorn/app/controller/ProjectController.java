@@ -77,8 +77,10 @@ public class ProjectController extends BaseController {
 
 		try {
 			User user = SecurityUserUtils.getCurrentUser();
-
-			if (!SecurityUserUtils.isSysAdmin()) {
+			List<String> roles = SecurityUserUtils.getRoleList();
+			
+			if (!SecurityUserUtils.isSysAdmin() 
+					&& !roles.contains(AppConfiguration.ROLE_CENTRAL)) {
 				orgCode = user.getOrgCode();
 			}
 
