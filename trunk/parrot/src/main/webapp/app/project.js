@@ -138,9 +138,30 @@ Ext.onReady(function() {
 	userCb.lazyInit = true;
 	userCb.mode = "remote";
 	userCb.store = userStore;
+	userCb.listeners = {
+		"expand" : function(field) {
+			userStore.removeAll();
+			userStore.reload();
+		}	
+	};
+	
 	
 	project_form.addComp(userCb, 0.5, false);
-
+	project_form.addComp(getButton({
+		text : "新建项目承担单位",
+		handler : function() {
+			var url = sys.path + "/system/user/user.jsp?createUser=v"; 
+			
+			parent.window.setActivate(url, {
+				id : "USER",
+				text : "新建项目承担单位",
+				attributes : {
+					iconCls : "tree-user"
+				}
+			});
+		}
+	}), 0.5, true);
+	
 	project_form.addComp(getHidden("opType"), 0, true);
 	project_form.addComp(getHidden("id"), 0, true);
 	

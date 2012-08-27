@@ -158,8 +158,8 @@ Ext.onReady(function() {
 			0.5, true);
 	user_form.addComp(getComboBox("defaultRole", "默认角色", 150,
 			defaultRole, false), 0.5, false);
-	user_form.addComp(getMailText("cumail", "邮箱", 150), 0.5, false);
-	user_form.addComp(getOrgTreeSelect("orgCode", 150, false), 0.5,
+	user_form.addComp(getMailText("cumail", "邮箱", 442), 1.0, false);
+	user_form.addComp(getOrgTreeSelect("orgCode", 442, false), 1.0,
 			false);
 	user_form.addComp(getText("phone", "电话", 150), 0.5, true);
 	user_form.addComp(getPwdText("userPwd", "密码", 150), 0.5, true);
@@ -175,7 +175,7 @@ Ext.onReady(function() {
 
 	var user_win = new WindowUtil( {
 		width : 600,
-		height : 300
+		height : 338
 	}, user_form.getPanel(), saveOrModify);
 	/** *****************org window start************ */
 
@@ -464,4 +464,9 @@ Ext.onReady(function() {
 	});
 
 	completePage();
+	
+	var thisUrl = window.location.href;
+	if(thisUrl.indexOf("createUser") > 0) {
+		saveHandler();
+	}
 });
