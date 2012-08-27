@@ -16,7 +16,7 @@
 <script type="text/javascript" src="<%=path %>/plugins/local/theme.js" ></script>
 <script type="text/javascript">
 	var tabNum = 0;
-	
+	var mainTab;
 	document.title = "非物质文化遗产项目管理平台  - 首页";
 	
 	var leftTreeUrl = sys.path + "/resource/getLeftTree.jmt";
@@ -120,7 +120,7 @@
 				}]
 		});
 
-		var mainTab = new Ext.TabPanel( {
+		mainTab = new Ext.TabPanel( {
 			region : "center",
 			activeTab : 0,
 			margins : "2 0 2 0",
@@ -150,29 +150,7 @@
     			openUrl = openUrl + prefix + "random=" + Math.random();
            	}
 			
-			var activateId = mainTab.getActiveTab().getItemId();
-			
-			if(activateId == node.id) {
-				return ;
-			}
-			
-			if(tabNum < 2) {
-				tabNum++;
-			} else {
-				mainTab.remove(1);
-			}
-			
-			mainTab.add( {
-				title : node.text,
-				html : "<iframe src='"+ openUrl +"' width='100%' height='100%' frameborder='0'></iframe>",
-				iconCls : node.attributes.iconCls,
-				id : node.id,
-				closable : true,
-				listeners : {beforeclose:function(){
-					tabNum--;
-				}}	
-			});
-			mainTab.activate(node.id);
+			setActivate(openUrl, node);
 		};
 		
 		navMenuTree.on("click",function(node, ev){
@@ -214,6 +192,38 @@
 			}
 		});
 	}
+	
+	function setActivate(openUrl, node) {
+		var activateId = mainTab.getActiveTab().getItemId();
+		
+		if(node != null && activateId == node.id) {
+			return ;
+		}
+		
+		if(mainTab.getItem(node.id) != null) {
+			mainTab.remove(node.id);
+			tabNum--;
+		}
+		
+		if(tabNum < 2) {
+			tabNum++;
+		} else {
+			mainTab.remove(1);
+		}
+		
+		mainTab.add( {
+			title : node.text,
+			html : "<iframe src='"+ openUrl +"' width='100%' height='100%' frameborder='0'></iframe>",
+			iconCls : node.attributes.iconCls,
+			id : node.id,
+			closable : true,
+			listeners : {beforeclose:function(){
+				tabNum--;
+			}}	
+		});
+		mainTab.activate(node.id);
+	}
+	
 </script>
 	
 <jsp:include page="../reference/footer.jsp"></jsp:include>
