@@ -187,6 +187,20 @@ public class ProjectController extends BaseController {
 
 		return list;
 	}
+	
+	@RequestMapping("/getProjectOfDW")
+	@ResponseBody
+	public Page<Project> getProjectByUser(String userId) {
+		Page<Project> page = new Page<Project>();
+		
+		try {
+			page.setReslutSet(projectService.queryProjectList(null, userId));
+		} catch (DBAccessException e) {
+			log.error("getProjectByUser[Project] - " + e.getMessage(), e);
+		}
+		
+		return page;
+	}
 
 	@RequestMapping("/getProjectPage")
 	@ResponseBody

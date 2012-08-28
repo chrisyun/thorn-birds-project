@@ -1,5 +1,6 @@
 var userExtendPageUrl = sys.path + "/project/dw/getProjectDWPage.jmt";
 var userExtendSubmitUrl = sys.path + "/project/dw/saveOrModifyProjectDW.jmt";
+var getDWProjectUrl = sys.path + "/project/getProjectOfDW.jmt";
 
 var pageSize = 20;
 
@@ -83,6 +84,7 @@ Ext.onReady(function() {
 	var userExtend_form = new FormUtil( {
 		id : "userExtendForm",
 		collapsible : false,
+		region : "center",
 		labelWidth : 120,
 		border : false
 	});
@@ -100,11 +102,28 @@ Ext.onReady(function() {
 	
 	userExtend_form.addComp(getHidden("id"), 0, true);
 	userExtend_form.addComp(getHidden("opType"), 0, true);
-
+	
+	var project_recordArray = [
+ 	      	getRecord("项目类别", "type", "string", 150, true, projectTypeRender),
+			getRecord("项目编码", "code", "string", 100, false),
+			getRecord("项目名称", "name", "string", 200, true)];
+	var project_grid = new GridUtil(getDWProjectUrl, project_recordArray);
+	project_grid.setGridPanel({
+		collapsible : false,
+		border : false,
+		region : "south",
+		split : true
+	});
+	
 	var userExtend_win = new WindowUtil( {
 		width : 700,
 		height : 380
-	}, userExtend_form.getPanel(), saveOrModify);
+	}, {
+		xtype : "panel",
+		layout : "border",
+		items : [ userExtend_form.getPanel() , 
+			project_grid.getGrid()]
+	}, saveOrModify);
 	/** *****************userextend window start************ */
 	function modifyHandler() {
 		if (grid.getSelectionModel().getCount() != 1) {
@@ -132,6 +151,11 @@ Ext.onReady(function() {
 			companyCtf : selectedRecord.get("companyCtf"),
 			id : selectedRecord.get("id")
 		};
+		
+		project_grid.getStore().load({
+			userId : values.userId
+		});
+		
 		userExtend_form.getForm().setValues(values);
 		if(Ext.isEmpty(values.id)) {
 			userExtend_form.findById("opType").setValue(Configuration.opType.SAVE);
