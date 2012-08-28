@@ -23,7 +23,7 @@ Ext.onReady(function() {
 	
 	var now = new Date(); 
 	Ext.getCmp("show_query_year").setValue(now.getFullYear());
-	Ext.getCmp("show_query_area").setValue(user.org);
+//	Ext.getCmp("show_query_area").setValue(user.org);
 	
 	/** ****************query panel end*************** */
 
