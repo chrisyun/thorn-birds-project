@@ -145,7 +145,6 @@ Ext.onReady(function() {
 		}	
 	};
 	
-	
 	project_form.addComp(userCb, 0.5, false);
 	project_form.addComp(getButton({
 		text : "新建项目承担单位",

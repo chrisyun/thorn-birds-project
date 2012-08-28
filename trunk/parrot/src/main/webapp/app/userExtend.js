@@ -11,13 +11,15 @@ Ext.onReady(function() {
 	var query_attr = {
 		title : "查询列表",
 		region : "north",
-		height : 80,
+		height : 70,
 		labelWidth : 70
 	};
 	var query_form = new FormUtil(query_attr);
+	query_form.addComp(getComboBox("query_area", "所属省份", 160, area, false),
+			0.23, true);
 	query_form.addComp(getText("query_code", "单位编码", 120), 0.23, true);
 	query_form.addComp(getText("query_name", "承担单位", 120), 0.23, true);
-	query_form.addComp(getQueryBtn(onSubmitQueryHandler), 0.3, true);
+	query_form.addComp(getQueryBtn(onSubmitQueryHandler), 0.2, true);
 	/** ****************query panel end*************** */
 
 	/** ****************userExtend Grid panel start************ */
@@ -27,7 +29,7 @@ Ext.onReady(function() {
 			getRecord(null, "postalCode", "string"),
 			getRecord(null, "companyCtf", "string"),
 			getRecord(null, "bankAccount", "string"),
-			getRecord(null, "userId", "string"),
+			getRecord("单位编码", "userId", "string", 100, true),
 			getRecord("承担单位名称", "userName", "string", 150, false),
 			getRecord("联系地址", "address", "string", 200, false),
 			getRecord("单位负责人", "contacts", "string", 80, false),
@@ -65,28 +67,14 @@ Ext.onReady(function() {
 	/** ****************userExtend Grid panel end************ */
 	var grid = userExtend_grid.getGrid();
 	var store = userExtend_grid.getStore();
-	/** ****************org tree setting start************ */
-	doStore = function(node) {
-		store.baseParams = {
-			"orgCode" : node.attributes.pid
-		};
-		store.reload( {
-			params : {
-				start : 0,
-				limit : userExtend_grid.pageSize
-			}
-		});
-	};
-
-	/** ****************org tree setting end************ */
 
 	/** ****************org window start************ */
 	var userExtend_form = new FormUtil( {
+		title : "承担单位信息",
 		id : "userExtendForm",
 		collapsible : false,
-		region : "center",
-		labelWidth : 120,
-		border : false
+		border : false,
+		labelWidth : 120
 	});
 	userExtend_form.addComp(getText("userId", "单位编码", 180), 0.5, true);
 	userExtend_form.addComp(getText("userName", "项目承担单位", 180), 0.5, true);
@@ -98,7 +86,7 @@ Ext.onReady(function() {
 	userExtend_form.addComp(getText("bankName", "开户名称", 520), 1.0, false);
 	userExtend_form.addComp(getText("bank", "开户银行", 520), 1.0, false);
 	userExtend_form.addComp(getText("bankAccount", "开户账号", 520), 1.0, false);
-	userExtend_form.addComp(getTextArea("companyCtf", "申报单位具备资质", 520, 80, 1000), 1.0, false);
+	userExtend_form.addComp(getTextArea("companyCtf", "申报单位具备资质", 520, 70, 1000), 1.0, false);
 	
 	userExtend_form.addComp(getHidden("id"), 0, true);
 	userExtend_form.addComp(getHidden("opType"), 0, true);
@@ -109,20 +97,29 @@ Ext.onReady(function() {
 			getRecord("项目名称", "name", "string", 200, true)];
 	var project_grid = new GridUtil(getDWProjectUrl, project_recordArray);
 	project_grid.setGridPanel({
+		title : "承担项目列表",
 		collapsible : false,
+		autoScroll : true,
+		border : false
+	});
+	
+	var tab = new Ext.TabPanel( {
+		activeTab : 0,
+		resizeTabs : true,
 		border : false,
-		region : "south",
-		split : true
+		minTabWidth : 140,
+		items : [ userExtend_form.getPanel() , 
+					project_grid.getGrid()]
 	});
 	
 	var userExtend_win = new WindowUtil( {
 		width : 700,
-		height : 380
+		height : 370
 	}, {
 		xtype : "panel",
-		layout : "border",
-		items : [ userExtend_form.getPanel() , 
-			project_grid.getGrid()]
+		layout : "fit",
+		border : false,
+		items : [ tab ]
 	}, saveOrModify);
 	/** *****************userextend window start************ */
 	function modifyHandler() {
@@ -153,7 +150,9 @@ Ext.onReady(function() {
 		};
 		
 		project_grid.getStore().load({
-			userId : values.userId
+			params : {
+				userId : values.userId
+			}
 		});
 		
 		userExtend_form.getForm().setValues(values);
@@ -190,12 +189,11 @@ Ext.onReady(function() {
 
 		var name = Ext.getCmp("query_name").getValue();
 		var code = Ext.getCmp("query_code").getValue();
-//		var mail = Ext.getCmp("query_mail").getValue();
+		var orgCode = Ext.getCmp("show_query_area").getValue();
 
 		store.baseParams.userName = name;
 		store.baseParams.userId = code;
-//		store.baseParams.cumail = mail;
-		store.baseParams.orgCode = "";
+		store.baseParams.orgCode = orgCode;
 		
 		store.load( {
 			params : {
@@ -208,22 +206,10 @@ Ext.onReady(function() {
 	var viewport = new Ext.Viewport( {
 		border : false,
 		layout : "border",
-		items : [ orgTree, {
-			border : false,
-			region : "center",
-			layout : "border",
-			split : true,
-			items : [ query_form.getPanel(), userExtend_grid.getGrid() ]
-		} ]
+		items : [ query_form.getPanel(), userExtend_grid.getGrid() ]
 	});
 
-	grid.getStore().reload( {
-		params : {
-			start : 0,
-			limit : userExtend_grid.pageSize,
-			orgCode : ""
-		}
-	});
+	onSubmitQueryHandler();
 
 	completePage();
 });
