@@ -69,7 +69,7 @@ Ext.onReady(function() {
 	var heritor_form = new FormUtil({
 		id : "heritorForm",
 		collapsible : false,
-		labelWidth : 110,
+		labelWidth : 90,
 		border : false
 	});
 	
@@ -106,13 +106,13 @@ Ext.onReady(function() {
 	heritor_form.addComp(provinceCb, 0.5, false);
 	
 	heritor_form.addComp(getText("batchNum", "批次", 180), 0.5, false);
-	var projectCb = getComboBox("projectId", "传承人项目", 180, null);
+	var projectCb = getComboBox("projectId", "传承人项目", 500, null);
 	projectCb.valueField = "id";
 	projectCb.displayField = "name";
 	projectCb.lazyInit = true;
 	projectCb.mode = "remote";
 	projectCb.store = projectStore;
-	heritor_form.addComp(projectCb, 0.5, false);
+	heritor_form.addComp(projectCb, 1.0, false);
 	
 	heritor_form.addComp(getComboBox("isDie", "是否去世", 180, yesOrNo), 0.5, false);
 	heritor_form.addComp(getDateText("dieDate", "去世时间", 180, null), 0.5, true);
@@ -124,7 +124,7 @@ Ext.onReady(function() {
 	
 	var heritor_win = new WindowUtil({
 		width : 650,
-		height : 340
+		height : 320
 	}, heritor_form.getPanel(), saveOrModify);
 
 	/** ****************heritor window end************ */
