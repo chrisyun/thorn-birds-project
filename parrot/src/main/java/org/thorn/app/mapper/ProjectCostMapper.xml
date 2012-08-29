@@ -29,6 +29,7 @@
 		<result column="ISUNPROJECT" property="isUnProject" jdbcType="VARCHAR" />
 		<result column="TYPE" property="type" jdbcType="VARCHAR" />
 		<result column="CODE" property="code" jdbcType="VARCHAR" />
+		<result column="AREA" property="area" jdbcType="VARCHAR" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
@@ -169,7 +170,7 @@
 		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from T_PROJECT_COST P WHERE 1=1
+		from T_PROJECT_COST P where 1=1
 		<include refid="Where_Clause" />
 	</select>
 	
@@ -179,7 +180,7 @@
 		<include refid="MySQLCommonMapper.pagingStart"/>
 		select P.ID,P.PROJECTID,P.PROJECTNAME,P.YEAR,P.CREATER,
 			   P.CREATERNAME,P.PROVINCE,P.MONEY,P.APPLYTIME,
-			   J.ISUNPROJECT,J.TYPE,J.CODE,P.APPREASON
+			   J.ISUNPROJECT,J.TYPE,J.CODE,P.APPREASON,J.AREA
 		from T_PROJECT_COST P,T_WORKFLOW W,T_PROJECT J 
 		WHERE W.ACTIVITY = '审批完成已归档' 
 		AND P.ID = W.PID AND W.FLOWTYPE = 'project' 

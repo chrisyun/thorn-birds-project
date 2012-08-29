@@ -29,19 +29,6 @@ Ext.onReady(function() {
 	//设置按钮：保存草稿、导出word、作废流程
 	var barArray = new Array();
 	
-	if(processInfo.openType != "create") {
-		barArray.push("-");
-		barArray.push({
-			text : "导出WORD",
-			handler : function() {
-				var wordUrl = exportWordUrl + "?pid=" + processInfo.pid
-				+ "&flowType=" + processInfo.flowKey + "&num=" + Math.random();
-		
-				document.getElementById("wordFrame").src = wordUrl;
-			}
-		});
-	}
-	
 	if(processInfo.openType == "done" 
 		&& userPermission.MODIFY) {
 		
@@ -206,6 +193,16 @@ Ext.onReady(function() {
 			iconCls : "silk-tick",
 			handler : function() {
 				handlerProcess("保存草稿");
+			}
+		});
+	} else  {
+		btn.push({
+			text : "导出WORD",
+			handler : function() {
+				var wordUrl = exportWordUrl + "?pid=" + processInfo.pid
+				+ "&flowType=" + processInfo.flowKey + "&num=" + Math.random();
+		
+				document.getElementById("wordFrame").src = wordUrl;
 			}
 		});
 	}

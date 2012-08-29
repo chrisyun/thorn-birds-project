@@ -7,10 +7,12 @@
 <script type="text/javascript" src="<%=path%>/app/reseverCost.js"></script>
 <script type="text/javascript">
 <!--
-	var year = <thorn:dd  typeId="YEAR" />;
-	var yearRender = function(str) {
-		return Render.dictRender(year, str);
-	};
+	var year = new Array();
+	var now = new Date(); 
+	var curYear = now.getFullYear();
+	var nextYear = parseInt(curYear) + 1;
+	year.push([curYear,curYear]);
+	year.push([nextYear,nextYear]);
 
 	var budgetDD = <thorn:dd  typeId="BUDGET_RESEVER_DETAIL" />;
 	var budgetArray = new Array();

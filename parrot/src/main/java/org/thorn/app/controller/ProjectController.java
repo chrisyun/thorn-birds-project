@@ -50,7 +50,7 @@ public class ProjectController extends BaseController {
 	@Autowired
 	@Qualifier("projectService")
 	private IProjectService projectService;
-	
+
 	@RequestMapping("/getProjectDW")
 	@ResponseBody
 	public JsonResponse<UserExtend> getProjectDW() {
@@ -67,7 +67,7 @@ public class ProjectController extends BaseController {
 
 		return json;
 	}
-	
+
 	@RequestMapping("/dw/getProjectDWPage")
 	@ResponseBody
 	public Page<UserExtend> getProjectDWPage(long start, long limit,
@@ -78,8 +78,8 @@ public class ProjectController extends BaseController {
 		try {
 			User user = SecurityUserUtils.getCurrentUser();
 			List<String> roles = SecurityUserUtils.getRoleList();
-			
-			if (!SecurityUserUtils.isSysAdmin() 
+
+			if (!SecurityUserUtils.isSysAdmin()
 					&& !roles.contains(AppConfiguration.ROLE_CENTRAL)) {
 				orgCode = user.getOrgCode();
 			}
@@ -92,7 +92,7 @@ public class ProjectController extends BaseController {
 
 		return page;
 	}
-	
+
 	@RequestMapping("/dw/saveOrModifyProjectDW")
 	@ResponseBody
 	public Status saveOrModifyProjectDW(UserExtend ue, String opType) {
@@ -108,7 +108,8 @@ public class ProjectController extends BaseController {
 		} catch (DBAccessException e) {
 			status.setSuccess(false);
 			status.setMessage("数据保存失败：" + e.getMessage());
-			log.error("saveOrModifyProjectDW[UserExtend] - " + e.getMessage(), e);
+			log.error("saveOrModifyProjectDW[UserExtend] - " + e.getMessage(),
+					e);
 		}
 
 		return status;
@@ -187,18 +188,18 @@ public class ProjectController extends BaseController {
 
 		return list;
 	}
-	
+
 	@RequestMapping("/getProjectOfDW")
 	@ResponseBody
 	public Page<Project> getProjectByUser(String userId) {
 		Page<Project> page = new Page<Project>();
-		
+
 		try {
 			page.setReslutSet(projectService.queryProjectList(null, userId));
 		} catch (DBAccessException e) {
 			log.error("getProjectByUser[Project] - " + e.getMessage(), e);
 		}
-		
+
 		return page;
 	}
 
@@ -335,9 +336,9 @@ public class ProjectController extends BaseController {
 
 			ResponseHeaderUtils.setExcelResponse(response, title.toString());
 
-			String[] header = new String[] { "序号", "项目编号", "项目名称", "资金申报单位",
-					"金额（万元）", "备注" };
-			int[] columnWidth = new int[] { 100, 150, 250, 250, 100, 500 };
+			String[] header = new String[] { "序号", "项目编号", "项目名称", "申报地区或单位",
+					"资金申报单位", "金额（万元）", "备注" };
+			int[] columnWidth = new int[] { 100, 150, 250, 250, 250, 100, 500 };
 
 			int i = 1;
 			Double money = 0.0;
@@ -362,7 +363,7 @@ public class ProjectController extends BaseController {
 			list.add(pc);
 
 			String[] orderArray = new String[] { "address", "code",
-					"projectName", "createrName", "money", "appReason" };
+					"projectName", "area", "createrName", "money", "appReason" };
 			List<Object[]> dataSource = ReflectUtils.object2Array(list);
 
 			ExcelStyle style = new ExcelStyle();
