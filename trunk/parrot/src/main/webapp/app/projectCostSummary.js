@@ -46,6 +46,7 @@ Ext.onReady(function() {
 			getRecord(null, "isUnProject", "string"),
 			getRecord("项目编号", "code", "string", 100, true),
 			getRecord("项目名称", "projectName", "string", 200, true, projectNameRender),
+			getRecord("申报地区或单位", "area", "string", 200, true),
 			getRecord("资金申报单位", "createrName", "string", 200, true),
 			getRecord("金额（万元）", "money", "string", 100, true),
 			getRecord("备注", "appReason", "string", 300, false, msgRender)];

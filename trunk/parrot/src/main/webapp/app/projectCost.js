@@ -37,7 +37,7 @@ function startProcessHandler() {
 	projectCb.store = projectStore;
 	
 	oneForm.addComp(projectCb, 0.6, false);
-	oneForm.addComp(getComboBox("year", "申报年份", 220, year), 0.3, false);
+	oneForm.addComp(getComboBox("year", "资金申报年份", 220, year), 0.3, false);
 	oneForm.addComp(getText("createrName", "申报单位名称", 500), 0.6, false);
 	
 	oneForm.addComp(getText("address", "联系地址", 220), 0.3, false);
@@ -156,8 +156,10 @@ function startProcessHandler() {
 			"validateedit" : function(e) {
 				if(e.field == "money") {
 					var total = Ext.getCmp("budgetTotal").getValue();
-					total = parseFloat(total) - parseFloat(e.originalValue) + parseFloat(e.value);
+					
+					total = parseFloat(total)  + parseFloat(e.value) - parseFloat(e.originalValue);
 					Ext.getCmp("budgetTotal").setValue(total);
+					threeForm.findById("money").setValue(total);
 				}
 			},
 			"beforeedit" : function(e) {
@@ -195,9 +197,10 @@ function startProcessHandler() {
 		width : 600,
 		labelWidth : 140
 	});
-	threeForm.addComp(getText("usedYear", "资金使用年度", 380), 1.0, false);
-	threeForm.addComp(getMoneyText("money", "申请金额（万元）", 380), 1.0, false);
+	threeForm.addComp(getHidden("usedYear"),1.0,true);
+	threeForm.addComp(getMoneyText("money", "申请金额（万元）", 380), 1.0, true);
 	threeForm.addComp(getTextArea("budget", "预算测算依据及说明", 380, 120, 1000), 1.0, true);
+	threeForm.findById("money").disable();
 	
 	var budgetForm = new Ext.Panel({
 		title : "金额及预算明细",
@@ -322,7 +325,8 @@ function getFormValues() {
 	for ( var attr in form3) {
 		obj["pc_" + attr] = form3[attr];
 	}
-	
+	obj.pc_money = threeForm.findById("money").getValue();
+	obj.pc_usedYear = obj.pc_year;
 	obj.pc_projectName = oneForm.findById("show_projectId").getRawValue();
 	
 	var budgetJson = new Array();
