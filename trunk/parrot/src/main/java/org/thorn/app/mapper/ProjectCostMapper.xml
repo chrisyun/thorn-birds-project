@@ -49,6 +49,9 @@
       		<if test="projectId != null">
 				AND P.PROJECTID = #{projectId,jdbcType=DECIMAL}
       		</if>
+      		<if test="provinceArea != null and provinceArea != ''">
+				AND P.PROVINCE in (select dname from t_sys_dict where TYPEID = #{provinceArea,jdbcType=VARCHAR})
+      		</if>
       		<if test="projectName != null and projectName != ''">
 				and P.PROJECTNAME like CONCAT('%',#{projectName,jdbcType=VARCHAR},'%')
       		</if>

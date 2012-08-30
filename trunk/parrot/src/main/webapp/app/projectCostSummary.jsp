@@ -13,6 +13,11 @@
 		return Render.dictRender(area, str);
 	};
 
+	var provinceAreaDD = <thorn:dd  typeId="PROVINCE_AREA" />;
+	var provinceAreaDDRender = function(str) {
+		return Render.dictRender(provinceAreaDD, str);
+	};
+	
 	var province = new Array();
 
 	var temp = new Array();

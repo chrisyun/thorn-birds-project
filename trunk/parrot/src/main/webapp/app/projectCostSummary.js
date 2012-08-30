@@ -15,11 +15,13 @@ Ext.onReady(function() {
 	var query_form = new FormUtil(query_attr);
 	
 	query_form.addComp(getComboBox("query_year", "申报年份", 160, year, false),
-			0.3, true);
+			0.26, true);
+	query_form.addComp(getComboBox("query_pArea", "省份地区", 160, provinceAreaDD, false),
+			0.26, true);
 	var provinceCb = getComboBox("query_area", "申报省份", 160, area, false);
-	query_form.addComp(provinceCb, 0.3, true);
+	query_form.addComp(provinceCb, 0.26, true);
 	
-	query_form.addComp(getQueryBtn(onSubmitQueryHandler), 0.3, true);
+	query_form.addComp(getQueryBtn(onSubmitQueryHandler), 0.22, true);
 	
 	var now = new Date(); 
 	Ext.getCmp("show_query_year").setValue(now.getFullYear());
@@ -99,19 +101,21 @@ Ext.onReady(function() {
 
 		var province = Ext.getCmp("show_query_area").getValue();
 		var year = Ext.getCmp("show_query_year").getValue();
+		var pArea = Ext.getCmp("show_query_pArea").getValue();
 		
 		summarystore.baseParams.year = year;
 		summarystore.baseParams.province = province;
-
+		summarystore.baseParams.provinceArea = pArea;
 		summarystore.load();
 	}
 	
 	function exportHandler() {
 		var province = Ext.getCmp("show_query_area").getValue();
 		var year = Ext.getCmp("show_query_year").getValue();
-
+		var pArea = Ext.getCmp("show_query_pArea").getValue();
+		
 		var excelUrl = exportUrl + "?province=" + province
-				+ "&year=" + year +
+				+ "&year=" + year + "&provinceArea=" + pArea +
 		"&key=" + Math.random();
 		
 		document.getElementById("excelFrame").src = excelUrl;

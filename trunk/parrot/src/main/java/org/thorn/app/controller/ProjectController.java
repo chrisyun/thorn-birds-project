@@ -207,7 +207,7 @@ public class ProjectController extends BaseController {
 	@ResponseBody
 	public Page<Project> getProjectPage(long start, long limit, String sort,
 			String dir, String name, String code, String userName, String type,
-			String isUnProject, String province) {
+			String isUnProject, String province, String provinceArea) {
 		Page<Project> page = new Page<Project>();
 		String userId = null;
 
@@ -227,7 +227,8 @@ public class ProjectController extends BaseController {
 			}
 
 			page = projectService.queryPage(name, code, userName, userId, type,
-					isUnProject, province, start, limit, sort, dir);
+					isUnProject, province, provinceArea, start, limit, sort,
+					dir);
 		} catch (DBAccessException e) {
 			log.error("getProjectPage[Project] - " + e.getMessage(), e);
 		}
@@ -276,7 +277,7 @@ public class ProjectController extends BaseController {
 
 			page = projectService.queryCostPage(name, pid, userName, userId,
 					isUnProject, province, projectType, startTime, endTime,
-					year, start, limit, sort, dir);
+					year, null, start, limit, sort, dir);
 		} catch (DBAccessException e) {
 			log.error("getProjectCostPage[ProjectCost] - " + e.getMessage(), e);
 		}
@@ -287,7 +288,7 @@ public class ProjectController extends BaseController {
 	@RequestMapping("/getProjectCostSummary")
 	@ResponseBody
 	public Page<ProjectCost> getProjectCostSummary(Integer year,
-			String province, String sort, String dir) {
+			String province, String provinceArea, String sort, String dir) {
 		Page<ProjectCost> page = new Page<ProjectCost>();
 
 		try {
@@ -301,7 +302,8 @@ public class ProjectController extends BaseController {
 			}
 
 			page = projectService.queryCostPage(null, null, null, null, null,
-					province, null, null, null, year, null, null, sort, dir);
+					province, null, null, null, year, provinceArea, null, null,
+					sort, dir);
 		} catch (DBAccessException e) {
 			log.error("getProjectCostSummary[ProjectCost] - " + e.getMessage(),
 					e);
@@ -312,7 +314,7 @@ public class ProjectController extends BaseController {
 
 	@RequestMapping("/exportProjectCostExcel")
 	public void exportProjectCostExcel(Integer year, String province,
-			HttpServletResponse response) {
+			String provinceArea, HttpServletResponse response) {
 
 		try {
 			User user = SecurityUserUtils.getCurrentUser();
@@ -327,11 +329,18 @@ public class ProjectController extends BaseController {
 			String provinceName = DDUtils.queryDdById("AREA", province);
 
 			List<ProjectCost> list = projectService.queryCostPage(null, null,
-					null, null, null, province, null, null, null, year, null,
-					null, null, null).getReslutSet();
+					null, null, null, province, null, null, null, year, provinceArea,
+					null, null, null, null).getReslutSet();
 
 			StringBuilder title = new StringBuilder(String.valueOf(year));
-			title.append("年度").append(provinceName);
+			title.append("年度");
+			
+			if(StringUtils.isBlank(provinceName)) {
+				title.append(provinceArea);
+			} else {
+				title.append(provinceName);
+			}
+			
 			title.append("国家级非物质文化遗产代表性项目补助费申报汇总表");
 
 			ResponseHeaderUtils.setExcelResponse(response, title.toString());
@@ -371,8 +380,8 @@ public class ProjectController extends BaseController {
 			ArrayAdapter adapter = new ArrayAdapter(header, orderArray,
 					dataSource);
 
-			ExcelUtils.write2Excel(adapter, "汇总表", columnWidth, style,
-					response.getOutputStream());
+			ExcelUtils.write2Excel(adapter, "汇总表", columnWidth, style, response
+					.getOutputStream());
 			response.getOutputStream().flush();
 		} catch (DBAccessException e) {
 			log.error(
