@@ -42,7 +42,7 @@ public class ProjectServiceImpl implements IProjectService {
 
 	public Page<Project> queryPage(String name, String code, String userName,
 			String userId, String type, String isUnProject, String province,
-			long start, long limit, String sort, String dir)
+			String provinceArea, long start, long limit, String sort, String dir)
 			throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
 		filter.put("name", name);
@@ -52,6 +52,7 @@ public class ProjectServiceImpl implements IProjectService {
 		filter.put("isUnProject", isUnProject);
 		filter.put("userId", userId);
 		filter.put("province", province);
+		filter.put("provinceArea", provinceArea);
 		filter.put(Configuration.PAGE_LIMIT, limit);
 		filter.put(Configuration.PAGE_START, start);
 		filter.put(Configuration.SROT_NAME, sort);
@@ -89,8 +90,8 @@ public class ProjectServiceImpl implements IProjectService {
 	public Page<ProjectCost> queryCostPage(String name, Integer pid,
 			String userName, String userId, String isUnProject,
 			String province, String projectType, String startTime,
-			String endTime, Integer year, Long start, Long limit, String sort,
-			String dir) throws DBAccessException {
+			String endTime, Integer year, String provinceArea, Long start,
+			Long limit, String sort, String dir) throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
 		filter.put("projectName", name);
 		filter.put("projectId", pid);
@@ -102,6 +103,7 @@ public class ProjectServiceImpl implements IProjectService {
 		filter.put("startTime", startTime);
 		filter.put("endTime", endTime);
 		filter.put("year", year);
+		filter.put("provinceArea", provinceArea);
 		filter.put(Configuration.PAGE_LIMIT, limit);
 		filter.put(Configuration.PAGE_START, start);
 
@@ -159,10 +161,10 @@ public class ProjectServiceImpl implements IProjectService {
 		filter.put("userName", userName);
 		filter.put("cumail", cumail);
 		filter.put("userId", userId);
-		
+
 		filter.put("isShow", Configuration.DB_YES);
 		filter.put("isDisabled", Configuration.DB_NO);
-		
+
 		filter.put(Configuration.PAGE_LIMIT, limit);
 		filter.put(Configuration.PAGE_START, start);
 

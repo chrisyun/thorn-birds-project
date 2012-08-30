@@ -46,6 +46,9 @@
       		<if test="userId != null and userId != ''">
 				AND P.USERID = #{userId,jdbcType=VARCHAR}
       		</if>
+      		<if test="provinceArea != null and provinceArea != ''">
+				AND P.PROVINCE in (select dname from t_sys_dict where TYPEID = #{provinceArea,jdbcType=VARCHAR})
+      		</if>
 		</where>
 	</sql>
 

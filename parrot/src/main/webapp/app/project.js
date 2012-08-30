@@ -25,13 +25,15 @@ Ext.onReady(function() {
 	var query_form = new FormUtil(query_attr);
 
 	query_form.addComp(getComboBox("query_type", "项目类别", 160, projectType,
-			false), 0.3, true);
-	query_form.addComp(getText("query_name", "项目名称",160), 0.3, true);
+			false), 0.26, true);
+	query_form.addComp(getText("query_name", "项目名称",160), 0.26, true);
+	query_form.addComp(getComboBox("query_pArea", "省份地区", 160, provinceAreaDD, false),
+			0.26, true);
 	query_form.addComp(getComboBox("query_area", "所属省份", 160, area, false),
-			0.3, true);
-	query_form.addComp(getText("query_code", "项目编码",160), 0.3, true);
-	query_form.addComp(getText("query_userName", "项目保护单位",160), 0.3, true);
-	query_form.addComp(getQueryBtn(onSubmitQueryHandler), 0.3, true);
+			0.26, true);
+	query_form.addComp(getText("query_code", "项目编码",160), 0.26, true);
+	query_form.addComp(getText("query_userName", "项目保护单位",160), 0.26, true);
+	query_form.addComp(getQueryBtn(onSubmitQueryHandler), 0.22, true);
 	/** ****************query panel end*************** */
 
 	/** ****************project Grid panel start************ */
@@ -374,6 +376,7 @@ Ext.onReady(function() {
 		var type = Ext.getCmp("show_query_type").getValue();
 		var name = Ext.getCmp("query_name").getValue();
 		var area = Ext.getCmp("show_query_area").getValue();
+		var pArea = Ext.getCmp("show_query_pArea").getValue();
 		var code = Ext.getCmp("query_code").getValue();
 		var userName = Ext.getCmp("query_userName").getValue();
 
@@ -382,6 +385,7 @@ Ext.onReady(function() {
 		store.baseParams.userName = userName;
 		store.baseParams.type = type;
 		store.baseParams.province = area;
+		store.baseParams.provinceArea = pArea;
 
 		store.load({
 					params : {
