@@ -5,13 +5,13 @@
 
 	<defaultCache name="defaultCache" 
 		maxElementsInMemory="10000"
-		eternal="false"
+		eternal="true"
 		overflowToDisk="true" 
 		maxElementsOnDisk="10000000" diskPersistent="false"
 		diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU"></defaultCache>
 	
 	<cache name="securityCache" 
-		timeToLiveSeconds="1800"
+		timeToLiveSeconds="18000"
 		maxElementsInMemory="500"
 		overflowToDisk="true"
 		maxElementsOnDisk="0" 
