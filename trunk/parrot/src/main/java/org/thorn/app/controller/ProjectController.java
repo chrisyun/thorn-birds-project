@@ -336,7 +336,8 @@ public class ProjectController extends BaseController {
 			title.append("年度");
 			
 			if(StringUtils.isBlank(provinceName)) {
-				title.append(provinceArea);
+				String areaName = DDUtils.queryDdById("PROVINCE_AREA", provinceArea);
+				title.append(areaName);
 			} else {
 				title.append(provinceName);
 			}
