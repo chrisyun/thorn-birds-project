@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="FlowMindsMapper">
 
-	<resultMap id="BaseResultMap" type="org.thorn.process.entity.FlowMinds">
+	<resultMap id="BaseResultMap" type="com.parrot.process.entity.FlowMinds">
 		<id column="ID" property="id" jdbcType="DECIMAL" />
 		<result column="FLOWID" property="flowId" jdbcType="DECIMAL" />
 		<result column="ACTIVITYNAME" property="activityName" jdbcType="VARCHAR" />
@@ -24,7 +24,7 @@
 		</where>
 	</sql>
 
-	<insert id="insert" parameterType="org.thorn.process.entity.FlowMinds">
+	<insert id="insert" parameterType="com.parrot.process.entity.FlowMinds">
 		insert into T_FLOW_MINDS
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="flowId != null and flowId != ''">FLOWID,</if>
@@ -42,7 +42,7 @@
 		</trim>
 	</insert>
 	
-	<update id="update" parameterType="org.thorn.process.entity.FlowMinds">
+	<update id="update" parameterType="com.parrot.process.entity.FlowMinds">
 		update T_FLOW_MINDS
 		<set>
 			<if test="flowId != null and flowId != ''">FLOWID = #{flowId,jdbcType=DECIMAL},</if>

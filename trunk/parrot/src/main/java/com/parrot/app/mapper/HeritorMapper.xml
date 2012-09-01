@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="HeritorMapper">
 
-	<resultMap id="BaseResultMap" type="org.thorn.app.entity.Heritor">
+	<resultMap id="BaseResultMap" type="com.parrot.app.entity.Heritor">
 		<id column="ID" property="id" jdbcType="DECIMAL" />
 		<result column="NAME" property="name" jdbcType="VARCHAR" />
 		<result column="IDCARD" property="idCard" jdbcType="VARCHAR" />
@@ -48,7 +48,7 @@
 		</where>
 	</sql>
 
-	<insert id="insert" parameterType="org.thorn.app.entity.Heritor">
+	<insert id="insert" parameterType="com.parrot.app.entity.Heritor">
 		insert into T_HERITOR
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="name != null and name != ''">NAME,</if>
@@ -74,7 +74,7 @@
 		</trim>
 	</insert>
 	
-	<update id="update" parameterType="org.thorn.app.entity.Heritor">
+	<update id="update" parameterType="com.parrot.app.entity.Heritor">
 		update T_HERITOR
 		<set>
 			<if test="name != null and name != ''">NAME = #{name,jdbcType=VARCHAR},</if>

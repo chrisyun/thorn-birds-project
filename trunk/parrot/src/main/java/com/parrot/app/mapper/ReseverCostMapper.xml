@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="ReseverCostMapper">
 
-	<resultMap id="BaseResultMap" type="org.thorn.app.entity.ReseverCost">
+	<resultMap id="BaseResultMap" type="com.parrot.app.entity.ReseverCost">
 		<id column="ID" property="id" jdbcType="DECIMAL" />
 		<result column="RESEVERID" property="reseverId" jdbcType="DECIMAL" />
 		<result column="RESEVERNAME" property="reseverName" jdbcType="VARCHAR" />
@@ -61,7 +61,7 @@
 	</sql>
 
 	<insert id="insert" keyProperty="id" useGeneratedKeys="true" 
-		parameterType="org.thorn.app.entity.ReseverCost">
+		parameterType="com.parrot.app.entity.ReseverCost">
 		insert into T_RESEVER_COST
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="reseverId != null">RESEVERID,</if>
@@ -105,7 +105,7 @@
 		</trim>
 	</insert>
 	
-	<update id="update" parameterType="org.thorn.app.entity.ReseverCost">
+	<update id="update" parameterType="com.parrot.app.entity.ReseverCost">
 		update T_RESEVER_COST
 		<set>
 			<if test="id != null">ID = #{id,jdbcType=DECIMAL},</if>

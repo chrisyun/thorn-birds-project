@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="CostBudgetMapper">
 
-	<resultMap id="BaseResultMap" type="org.thorn.app.entity.CostBudget">
+	<resultMap id="BaseResultMap" type="com.parrot.app.entity.CostBudget">
 		<id column="ID" property="id" jdbcType="DECIMAL" />
 		<result column="PID" property="pid" jdbcType="DECIMAL" />
 		<result column="TYPE" property="type" jdbcType="VARCHAR" />
@@ -26,7 +26,7 @@
 		</where>
 	</sql>
 
-	<insert id="insert" parameterType="org.thorn.app.entity.CostBudget">
+	<insert id="insert" parameterType="com.parrot.app.entity.CostBudget">
 		insert into T_COST_BUDGET
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="pid != null">PID,</if>
@@ -44,7 +44,7 @@
 		</trim>
 	</insert>
 	
-	<update id="update" parameterType="org.thorn.app.entity.Project">
+	<update id="update" parameterType="com.parrot.app.entity.Project">
 		update T_COST_BUDGET
 		<set>
 			<if test="pid != null">PID = #{pid,jdbcType=DECIMAL},</if>
