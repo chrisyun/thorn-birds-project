@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="ProjectCostMapper">
 
-	<resultMap id="BaseResultMap" type="org.thorn.app.entity.ProjectCost">
+	<resultMap id="BaseResultMap" type="com.parrot.app.entity.ProjectCost">
 		<id column="ID" property="id" jdbcType="DECIMAL" />
 		<result column="PROJECTID" property="projectId" jdbcType="DECIMAL" />
 		<result column="PROJECTNAME" property="projectName" jdbcType="VARCHAR" />
@@ -79,7 +79,7 @@
 	</sql>
 
 	<insert id="insert" keyProperty="id" useGeneratedKeys="true" 
-		parameterType="org.thorn.app.entity.ProjectCost">
+		parameterType="com.parrot.app.entity.ProjectCost">
 		insert into T_PROJECT_COST
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="projectId != null">PROJECTID,</if>
@@ -131,7 +131,7 @@
 		</trim>
 	</insert>
 	
-	<update id="update" parameterType="org.thorn.app.entity.ProjectCost">
+	<update id="update" parameterType="com.parrot.app.entity.ProjectCost">
 		update T_PROJECT_COST
 		<set>
 			<if test="id != null">ID = #{id,jdbcType=DECIMAL},</if>

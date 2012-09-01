@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="ReseverMapper">
 
-	<resultMap id="BaseResultMap" type="org.thorn.app.entity.Resever">
+	<resultMap id="BaseResultMap" type="com.parrot.app.entity.Resever">
 		<id column="ID" property="id" jdbcType="DECIMAL" />
 		<result column="NAME" property="name" jdbcType="VARCHAR" />
 		<result column="BULIDTIME" property="buildTime" jdbcType="VARCHAR" />
@@ -36,7 +36,7 @@
 		</where>
 	</sql>
 
-	<insert id="insert" parameterType="org.thorn.app.entity.Resever">
+	<insert id="insert" parameterType="com.parrot.app.entity.Resever">
 		insert into T_RESERVE
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="name != null and name != ''">NAME,</if>
@@ -54,7 +54,7 @@
 		</trim>
 	</insert>
 	
-	<update id="update" parameterType="org.thorn.app.entity.Resever">
+	<update id="update" parameterType="com.parrot.app.entity.Resever">
 		update T_RESERVE
 		<set>
 			<if test="name != null and name != ''">NAME = #{name,jdbcType=VARCHAR},</if>

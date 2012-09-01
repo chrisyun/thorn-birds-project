@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="ProcessMapper">
 
-	<resultMap id="BaseResultMap" type="org.thorn.process.entity.Process">
+	<resultMap id="BaseResultMap" type="com.parrot.process.entity.Process">
 		<id column="ID" property="id" jdbcType="DECIMAL" />
 		<result column="PID" property="pid" jdbcType="DECIMAL" />
 		<result column="FLOWTYPE" property="flowType" jdbcType="VARCHAR" />
@@ -88,7 +88,7 @@
 	
 
 	<insert id="insert" keyProperty="id" useGeneratedKeys="true" 
-		parameterType="org.thorn.process.entity.Process">
+		parameterType="com.parrot.process.entity.Process">
 		insert into T_WORKFLOW
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="pid != null">PID,</if>
@@ -116,7 +116,7 @@
 		</trim>
 	</insert>
 	
-	<update id="update" parameterType="org.thorn.process.entity.Process">
+	<update id="update" parameterType="com.parrot.process.entity.Process">
 		update T_WORKFLOW
 		<set>
 			<if test="pid != null and pid != ''">PID = #{pid,jdbcType=DECIMAL},</if>
