@@ -77,4 +77,4 @@ var Render = {
 		Ext.getCmp("detailField").setValue(
 				document.getElementById(contentEl).innerHTML);
 	}
-}
+};
