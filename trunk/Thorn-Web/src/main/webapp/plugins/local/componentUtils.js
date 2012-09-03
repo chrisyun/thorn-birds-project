@@ -81,10 +81,20 @@ function getMailText(id, text, width) {
 	return txt;
 }
 
+function getMoneyText(id, text, width) {
+	var txt = getText(id, text, width);
+
+	txt.vtype = "money";
+	txt.vtypeText = Validate.money;
+	return txt;
+}
+
 function getPwdText(id, text, width) {
 	var txt = getText(id, text, width);
 
 	txt.inputType = "password";
+	txt.vtype = "pwd";
+	txt.vtypeText = Validate.pwd;
 	return txt;
 }
 
@@ -97,12 +107,13 @@ function getRPwdText(id, text, width, confirmTo) {
 	return txt;
 }
 
-function getTextArea(id, text, width, height) {
+function getTextArea(id, text, width, height, maxLength) {
 	var txt = getText(id, text, width);
 
 	txt.height = height;
 	txt.xtype = "textarea";
-
+	txt.maxLength = maxLength || 500;
+	
 	return txt;
 }
 
@@ -113,7 +124,7 @@ function getComboBox(id, text, width, array, isReadonly) {
 	select.hiddenName = id;
 	select.width = width;
 	select.fieldLabel = text;
-	select.readOnly = isReadonly
+	select.readOnly = isReadonly;
 
 	select.xtype = "combo";
 	select.valueField = "value";
@@ -127,7 +138,7 @@ function getComboBox(id, text, width, array, isReadonly) {
 	select.store = new Ext.data.SimpleStore( {
 		fields : [ 'value', 'text' ],
 		data : array
-	})
+	});
 
 	return select;
 }
@@ -148,13 +159,14 @@ function getDateText(id, text, width, initValue, maxValue) {
 	
 	date.xtype = "datefield";
 	date.format="Y-m-d";
-	date.emptyText="请选择日期";
+//	date.emptyText="请选择日期";
 	 
 	date.fieldLabel = text;
 	date.id = id;
 	date.width = width;
-	date.value = initValue || new Date().add(Date.DAY, 1);
+//	date.value = initValue || new Date().add(Date.DAY, 1);
 	date.maxValue = maxValue || new Date().add(Date.DAY, 1);
+	date.value = initValue;
 
 	return date;
 }

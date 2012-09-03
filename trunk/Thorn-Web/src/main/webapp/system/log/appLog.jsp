@@ -20,7 +20,7 @@
 	
 	var userPermission = {
 		EXPORT : '<sec:authorize url="/log/exportLogExcel.jmt">true</sec:authorize>'
-	}
+	};
 	
 </script>
 <iframe id="excelFrame" src="" style="display:none;"></iframe>

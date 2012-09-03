@@ -21,5 +21,11 @@ var Configuration = {
 		COMMON : 80,
 		MIN : 60
 	},
+	keyRole : {
+		ADMIN : "SYSADMIN",
+		USER  : "COMMONUSER",
+		PROVINCE : "PROVINCEUSER",
+		CENTRE	: "CENTRALUSER"
+	},
 	pageSize : 20
 };

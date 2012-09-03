@@ -161,6 +161,11 @@
 	background-image: url(images/local/icons/folder_wrench.png) !important;
 	background-repeat: no-repeat;
 }
+
+.silk-rss {
+	background-image: url(images/local/icons/rss_go.png) !important;
+	background-repeat: no-repeat;
+}
 .silk-table-refresh {
 	background-image: url(images/local/icons/table_refresh.png) !important;
 	background-repeat: no-repeat;

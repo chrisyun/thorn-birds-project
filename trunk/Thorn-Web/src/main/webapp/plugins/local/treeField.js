@@ -403,7 +403,7 @@ Ext.form.TreeField = Ext.extend(Ext.form.TriggerField,  {
         }
     },
     clearValue : function () {
-    	this.setValue('')
+    	this.setValue('');
     },
     onResize: function(w, h){   
         Ext.form.TreeField.superclass.onResize.apply(this, arguments);   

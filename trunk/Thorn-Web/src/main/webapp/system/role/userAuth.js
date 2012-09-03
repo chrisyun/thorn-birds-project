@@ -28,6 +28,7 @@ Ext.onReady(function() {
 		hiddenName : "roleCode",
 		triggerAction : "all",
 		resizable : true,
+		editable : false,
 		lazyInit : true,
 		mode : "remote",
 		width : 120,
@@ -39,11 +40,11 @@ Ext.onReady(function() {
 					url : getAllRoleUrl,
 					reader : new Ext.data.JsonReader({}, Ext.data.Record
 									.create([{
-												name : 'roleCode',
-												type : 'string'
+												name : "roleCode",
+												type : "string"
 											}, {
-												name : 'roleName',
-												type : 'string'
+												name : "roleName",
+												type : "string"
 											}]))
 				})
 	};

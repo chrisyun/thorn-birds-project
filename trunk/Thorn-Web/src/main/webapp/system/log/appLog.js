@@ -18,7 +18,8 @@ Ext.onReady(function() {
 
 	query_form.addComp(getDateText("query_startTime", "开始日期", 120, new Date()
 							.add(Date.MONTH, -1)), 0.2, true);
-	query_form.addComp(getDateText("query_endTime", "结束日期", 120), 0.2, true);
+	query_form.addComp(getDateText("query_endTime", "结束日期", 120, new Date()
+							.add(Date.DAY, 1)), 0.2, true);
 	query_form.addComp(getComboBox("query_module", "模块", 120, module, false),
 			0.2, true);
 	query_form.addComp(getComboBox("query_result", "操作结果", 120, handleResult,
@@ -34,18 +35,18 @@ Ext.onReady(function() {
 	var recordArray = [
 			getRecord(null, "id", "string"),
 			getRecord(null, "parameters", "string"),
-			getRecord("模块名称", "moduleName", "string", 100, false, moduleRender),
-			getRecord("方法名称", "methodName", "string", 180, true),
+			getRecord("模块名称", "moduleName", "string", 200, false, moduleRender),
+			getRecord("方法名称", "methodName", "string", 150, true),
 			getRecord("操作人", "userId", "string", 70, true),
-			getRecord("操作时间", "executeTime", "string", 100, true),
+			getRecord("操作时间", "executeTime", "string", 150, true),
 			getRecord("操作结果", "handleResult", "string", 50, true,
 					handleResultRender),
-			getRecord("错误信息", "errorMsg", "string", 300, false, msgRender)];
+			getRecord("错误信息", "errorMsg", "string", 200, false, msgRender)];
 	var log_grid = new GridUtil(logPageUrl, recordArray, pageSize);
 	
 	var bar = null;
 	if(userPermission.EXPORT == "true") {
-		var bar = ["-",{
+		bar = ["-",{
 					text : "日志导出",
 					iconCls : "silk-excel",
 					minWidth : Configuration.minBtnWidth,
@@ -130,15 +131,13 @@ Ext.onReady(function() {
 		var handleResult = Ext.getCmp("show_query_result").getValue();
 
 		var excelUrl = exportUrl + "?moduleName=" + moduleName
-				+ "&handleResult=" + handleResult
+				+ "&handleResult=" + handleResult +
 		"&startTime=" + startTime + "&endTime=" + endTime;
 		
 		document.getElementById("excelFrame").src = excelUrl;
 	}
 
 	function onSubmitQueryHandler() {
-		var thisForm = query_form.getForm();
-
 		var startTime = Ext.getCmp("query_startTime").getValue()
 				.format("Y-m-d");
 		var endTime = Ext.getCmp("query_endTime").getValue().format("Y-m-d");

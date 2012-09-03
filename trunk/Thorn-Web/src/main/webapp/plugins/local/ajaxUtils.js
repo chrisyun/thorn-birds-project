@@ -41,7 +41,7 @@ AjaxUtil.prototype.getData = function(params, scope, callback) {
 			Message.showErrorMsgBox(failMsg);
 		}
 	});
-}
+};
 
 AjaxUtil.prototype.request = function(params, showMsg, scope, callback) {
 	if (showMsg) {
@@ -81,7 +81,7 @@ AjaxUtil.prototype.request = function(params, showMsg, scope, callback) {
 			Message.showErrorMsgBox(failMsg);
 		}
 	});
-}
+};
 
 AjaxUtil.prototype.submit = function(thisForm, params, showMsg, scope, callback) {
 	if (showMsg) {
@@ -101,7 +101,12 @@ AjaxUtil.prototype.submit = function(thisForm, params, showMsg, scope, callback)
 
 			// 调用回调函数
 			if(callback != null) {
-				callback(scope);
+				
+				if(!Ext.isEmpty(action.result.obj)) {
+					callback(scope, action.result.obj);
+				} else {
+					callback(scope);
+				}
 			}
 		},
 		failure : function(form, action) {
@@ -113,4 +118,4 @@ AjaxUtil.prototype.submit = function(thisForm, params, showMsg, scope, callback)
 			Message.showErrorMsgBox(failMsg);
 		}
 	});
-}
+};
