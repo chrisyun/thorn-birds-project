@@ -6,9 +6,9 @@
 	<div id="header">
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 			<tr>
-		   		<td width="664"><img src="<%=path %>/resources/images/local/title-1a.jpg" width="664" height="67" /></td>
-		    	<td background="<%=path %>/resources/images/local/title-2a.jpg">&nbsp;</td>
-		    	<td width="372"><img src="<%=path %>/resources/images/local/title-3a.jpg" width="372" height="67" /></td>
+		   		<td width="880"><img src="<%=path %>/resources/images/local/title-1.jpg" width="880" height="95" /></td>
+		    	<td background="<%=path %>/resources/images/local/title-2.jpg">&nbsp;</td>
+		    	<td width="80"><img src="<%=path %>/resources/images/local/title-3.jpg" width="80" height="95" /></td>
 		  	</tr>
 		</table>
 	</div>
@@ -16,7 +16,7 @@
 <script type="text/javascript" src="<%=path %>/plugins/local/theme.js" ></script>
 <script type="text/javascript">
 	var tabNum = 0;
-	
+	var mainTab;
 	document.title = "Home - Page";
 	
 	var leftTreeUrl = sys.path + "/resource/getLeftTree.jmt";
@@ -41,7 +41,19 @@
 				text : "系统菜单",
 				id: "SYS",
 				leaf: false
-			})
+			}),
+			listeners : {
+				"beforeappend" : function(tree, parent, node) {
+					var sysMenu = menuPanel.findById("sysMenu");
+					
+					if(!sysMenu.isVisible()) {
+						sysMenu.show();
+						menuPanel.doLayout();
+					}
+					
+					return true;
+				}
+			}
 		});
 		
 		var navMenuTree = new Ext.tree.TreePanel( {
@@ -76,8 +88,9 @@
 				items : [navMenuTree]
 			}, {
 				title : "系统菜单",
-				html : "",
 				border : false,
+				id : "sysMenu",
+				hidden : true,
 				iconCls : "silk-settings",
 				items : [sysMenuTree]
 			} ],
@@ -87,6 +100,7 @@
 				menu : new Ext.menu.Menu( {
 					items : [ {
 						text : "更换皮肤",
+						hidden : false,
 					 	menu: {
                				items: skinItemArray
                			}
@@ -106,7 +120,7 @@
 				}]
 		});
 
-		var mainTab = new Ext.TabPanel( {
+		mainTab = new Ext.TabPanel( {
 			region : "center",
 			activeTab : 0,
 			margins : "2 0 2 0",
@@ -116,7 +130,7 @@
 			items : [ {
 				title : "首页",
 				iconCls : "silk-home",
-				autoScroll : true
+				html : "<iframe src='' width='100%' height='100%' frameborder='0'></iframe>"
 			}]
 		});
 
@@ -131,35 +145,13 @@
 			if(!Ext.isEmpty(openUrl)){
     			var prefix = "?";
     			if (openUrl.indexOf("?") > -1) {
-    				prefix = "&"
+    				prefix = "&";
         		}
     			openUrl = openUrl + prefix + "random=" + Math.random();
            	}
 			
-			var activateId = mainTab.getActiveTab().getItemId();
-			
-			if(activateId == node.id) {
-				return ;
-			}
-			
-			if(tabNum < 2) {
-				tabNum++;
-			} else if(activateId != node.id) {
-				mainTab.remove(1);
-			}
-			
-			mainTab.add( {
-				title : node.text,
-				html : "<iframe src='"+ openUrl +"' width='100%' height='100%' frameborder='0'></iframe>",
-				iconCls : node.attributes.iconCls,
-				id : node.id,
-				closable : true,
-				listeners : {beforeclose:function(){
-					tabNum--;
-				}}	
-			});
-			mainTab.activate(node.id);
-		}
+			setActivate(openUrl, node);
+		};
 		
 		navMenuTree.on("click",function(node, ev){
 			treeClick(node,ev);
@@ -173,7 +165,7 @@
 			layout : "border",
 			items : [ {
 				region : "north",
-				height : 67,
+				height : 97,
 				contentEl: "header"
 			}, menuPanel, mainTab/*, {
 				region : "south",
@@ -200,6 +192,38 @@
 			}
 		});
 	}
+	
+	function setActivate(openUrl, node) {
+		var activateId = mainTab.getActiveTab().getItemId();
+		
+		if(node != null && activateId == node.id) {
+			return ;
+		}
+		
+		if(mainTab.getItem(node.id) != null) {
+			mainTab.remove(node.id);
+			tabNum--;
+		}
+		
+		if(tabNum < 2) {
+			tabNum++;
+		} else {
+			mainTab.remove(1);
+		}
+		
+		mainTab.add( {
+			title : node.text,
+			html : "<iframe src='"+ openUrl +"' width='100%' height='100%' frameborder='0'></iframe>",
+			iconCls : node.attributes.iconCls,
+			id : node.id,
+			closable : true,
+			listeners : {beforeclose:function(){
+				tabNum--;
+			}}	
+		});
+		mainTab.activate(node.id);
+	}
+	
 </script>
 	
 <jsp:include page="../reference/footer.jsp"></jsp:include>

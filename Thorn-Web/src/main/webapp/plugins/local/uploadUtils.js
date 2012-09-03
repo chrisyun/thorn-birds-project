@@ -13,6 +13,7 @@ function UploadUtil(id, type) {
 		autoHeight : true,
 		bodyStyle : "padding: 10px 10px 0 10px;",
 		labelWidth : 80,
+		labelAlign : "right",
 		height : 130,
 		defaults : {
 			anchor : "95%",
@@ -94,7 +95,6 @@ function UploadUtil(id, type) {
 			var selectionsArray = multiSel.view.getSelectedIndexes();
 			//对数组排序，先删高位的
 			selectionsArray = selectionsArray.sort(sortNumber);
-			alert(selectionsArray);
 			for ( var i = 0; i < selectionsArray.length; i++) {
 				store.removeAt(selectionsArray[i]);
 			}
@@ -175,6 +175,12 @@ UploadUtil.prototype.initShowPanel = function(attrObj, ids) {
 		this.showPanel[attr] = attrObj[attr];
 	}
 	
+	this.loadAtt(ids);
+
+	return this.showPanel;
+};
+
+UploadUtil.prototype.loadAtt = function(ids) {
 	if (!Ext.isEmpty(ids)) {
 		var util = this;
 		
@@ -190,16 +196,15 @@ UploadUtil.prototype.initShowPanel = function(attrObj, ids) {
 				var att = new Object();
 				att.id = result[i].id;
 				att.name = result[i].fileName;
-
+				
 				util.addAtt(att);
 			}
 		});
 	}
-
-	return this.showPanel;
-}
+};
 
 UploadUtil.prototype.show = function(title) {
+	this.uploadWin.setTitle(title);
 	this.uploadWin.show();
 	if(this.type == "read") {
 		var multiSel = this.selectPanel.findById(this.id + "_multiSel");
@@ -210,10 +215,15 @@ UploadUtil.prototype.show = function(title) {
 	}
 	
 	
-}
+};
 
 UploadUtil.prototype.addAtt = function(att) {
 	var hiddenIds = this.uploadForm.findById(this.id + "_ids").getValue();
+	
+	if(Ext.isEmpty(hiddenIds)) {
+		hiddenIds = "";
+	}
+	
 	this.uploadForm.findById(this.id + "_ids").setValue(
 			hiddenIds + "," + att.id);
 
@@ -226,22 +236,23 @@ UploadUtil.prototype.addAtt = function(att) {
 	// 向下拉列表中添加数据
 	var store = this.selectPanel.findById(this.id + "_multiSel").store;
 	store.loadData( [ [ att.id, att.name ] ], true);
-}
+};
 
 UploadUtil.prototype.removeAtt = function(id) {
 	var hiddenIds = this.uploadForm.findById(this.id + "_ids").getValue();
-	var idArray = hiddenIds.split(id + ",");
+	
+	var idArray = hiddenIds.split("," + id);
 	this.uploadForm.findById(this.id + "_ids")
 			.setValue(idArray[0] + idArray[1]);
-
+	
 	Ext.getDom(this.id + "_" + id).innerHTML = "";
 	Ext.getDom(this.id + "_" + id).removeNode();
-}
+};
 
 UploadUtil.prototype.getUploadAttIds = function() {
 	return this.uploadForm.findById(this.id + "_ids").getValue();
-}
+};
 
 function getDownloadUrl(att) {
 	return downloadUrl + "?id=" + att.id;
-}
+};

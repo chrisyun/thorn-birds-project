@@ -57,5 +57,5 @@ function setActiveStyleSheet(_theme) {
 	var ajax = new AjaxUtil(sys.path + "/theme/change.jmt");
 	ajax.request(params, false, null, function(){
 		setTimeout("window.location.reload()", 1000);
-	})
+	});
 }

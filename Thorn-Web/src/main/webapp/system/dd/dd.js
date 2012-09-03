@@ -89,7 +89,7 @@ Ext.onReady(function() {
 	/** ****************ddGrid panel end************ */
 
 	var dt_grid = grid_dt.getGrid();
-	var dd_grid = grid_dd.getGrid()
+	var dd_grid = grid_dd.getGrid();
 
 	/**
 	 * 数据字典类型删除方法
@@ -140,7 +140,8 @@ Ext.onReady(function() {
 				}
 
 				var params = {
-					ids : ids
+					ids : ids,
+					typeId : typeId
 				};
 
 				var ajaxClass = new AjaxUtil(ddDeleteUrl);
@@ -184,13 +185,11 @@ Ext.onReady(function() {
 			return;
 		}
 
-		var dtForm = dt_form.getPanel();
-
 		dt_win.show("修改数据字典类型");
-		dtForm.getForm().reset();
+		dt_form.getForm().reset();
 
 		// 将主键置为不可编辑
-		setTextReadOnly(dtForm.findById("ename"));
+		setTextReadOnly(dt_form.findById("ename"));
 
 		var selectedRecord = dt_grid.getSelectionModel().getSelected();
 		var values = {
@@ -199,7 +198,7 @@ Ext.onReady(function() {
 			typeDesc : selectedRecord.get("typeDesc"),
 			dtFormType : Configuration.opType.MODIFY
 		};
-		dtForm.getForm().setValues(values);
+		dt_form.getForm().setValues(values);
 	}
 
 	function dtSaveOrModify() {

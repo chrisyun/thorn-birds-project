@@ -13,6 +13,7 @@ var pageSize = 20;
 var role_grid;
 var sysMenuTree;
 var navMenuTree;
+
 var roleCode;
 
 var member_grid;
@@ -246,7 +247,7 @@ Ext.onReady(function() {
 							leaf : false
 						})
 			});
-
+	
 	function saveAuthHandler() {
 
 		if (Ext.isEmpty(roleCode)) {
@@ -273,7 +274,7 @@ Ext.onReady(function() {
 				resIds += checkNodes[i].id + ",";
 //			}
 		}
-
+		
 		var ajax = new AjaxUtil(roleSaveAuthUrl);
 		ajax.request({
 					roleCode : roleCode,
@@ -391,8 +392,6 @@ Ext.onReady(function() {
 
 		var memStore = member_grid.getStore();
 
-		var params = {};
-
 		switch (queryType) {
 			case "姓名" :
 				var name = Ext.getCmp("member_queryField").getValue();
@@ -413,7 +412,7 @@ Ext.onReady(function() {
 						limit : member_grid.pageSize
 					}
 				});
-	}
+	};
 	completePage();	
 });
 
