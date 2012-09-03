@@ -22,6 +22,8 @@
 		<result column="GIVENMONEY" property="givenMoney" jdbcType="DOUBLE" />
 		<result column="BUDGET" property="budget" jdbcType="VARCHAR" />
 		<result column="APPLYTIME" property="applyTime" jdbcType="VARCHAR" />
+		<result column="ACTIVITY" property="activity" jdbcType="VARCHAR" />
+		<result column="FLOWSTATUS" property="flowStatus" jdbcType="VARCHAR" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
@@ -57,6 +59,12 @@
 	    	</if>
 	    	<if test="endTime != null and endTime != ''">
 				AND R.APPLYTIME &lt;= #{endTime,jdbcType=VARCHAR}
+	    	</if>
+	    	<if test="activity != null and activity != ''">
+				AND W.ACTIVITY = #{activity,jdbcType=VARCHAR}
+	    	</if>
+	    	<if test="flowStatus != null and flowStatus != ''">
+				AND W.FLOWSTATUS = #{flowStatus,jdbcType=VARCHAR}
 	    	</if>
 	</sql>
 
@@ -160,10 +168,10 @@
 		<include refid="MySQLCommonMapper.pagingStart"/>
 		select R.ID,R.RESEVERID,R.RESEVERNAME,R.YEAR,
 			   R.CREATER,R.CREATERNAME,R.PROVINCE,
-			   R.APPLYMONEY,R.GIVENMONEY,R.APPLYTIME
+			   R.APPLYMONEY,R.GIVENMONEY,R.APPLYTIME,
+			   W.ACTIVITY,W.FLOWSTATUS
 		from T_RESEVER_COST R,T_WORKFLOW W 
-		WHERE W.ACTIVITY = '审批完成已归档' 
-		AND R.ID = W.PID AND W.FLOWTYPE = 'resever' 
+		WHERE R.ID = W.PID AND W.FLOWTYPE = 'resever' 
 		<include refid="Where_Clause" />
 		<include refid="MySQLCommonMapper.sortInfo"/>
 		<include refid="MySQLCommonMapper.pagingEnd"/>
@@ -172,8 +180,7 @@
 		resultType="long">
 		select count(*)  
 		from T_RESEVER_COST R,T_WORKFLOW W 
-		WHERE W.ACTIVITY = '审批完成已归档' 
-		AND R.ID = W.PID AND W.FLOWTYPE = 'resever' 
+		WHERE R.ID = W.PID AND W.FLOWTYPE = 'resever' 
 		<include refid="Where_Clause" />
 	</select>
 	

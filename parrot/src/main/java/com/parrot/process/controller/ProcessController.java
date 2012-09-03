@@ -67,7 +67,7 @@ public class ProcessController extends BaseController {
 		return "/process/process";
 	}
 
-	@RequestMapping("/openDoneProcess")
+	@RequestMapping("/openDoneOrDoingProcess")
 	public String openDoneProcess(Integer pid, String flowType, ModelMap model) {
 
 		Process process = null;
@@ -83,7 +83,13 @@ public class ProcessController extends BaseController {
 			model.put("flowInstId", String.valueOf(process.getId()));
 			model.put("creater", process.getCreater());
 			model.put("createrName", process.getCreaterName());
-			model.put("openType", "done");
+			
+			if(StringUtils.equals(process.getActivity(), ProcessConfiguration.ACTIVITY_FINISH)) {
+				model.put("openType", "done");
+			} else {
+				model.put("openType", "doing");
+			}
+			
 			model.put("activityName", process.getActivity());
 			model.put("pid", String.valueOf(process.getPid()));
 
@@ -106,7 +112,7 @@ public class ProcessController extends BaseController {
 			return "process/failure";
 		}
 	}
-
+	
 	@RequestMapping("/openTodoProcess")
 	public String openTodoProcess(Integer id, ModelMap model) {
 

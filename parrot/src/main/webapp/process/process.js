@@ -80,7 +80,8 @@ Ext.onReady(function() {
 	
 	if((processInfo.openType == "todo"
 		&& user.userId == processInfo.creater)
-		|| (processInfo.openType == "done" 
+		|| ((processInfo.openType == "done" 
+			|| processInfo.openType == "doing")
 			&& userPermission.MODIFY)) {
 		barArray.push("-");
 		barArray.push({
@@ -195,7 +196,7 @@ Ext.onReady(function() {
 				handlerProcess("保存草稿");
 			}
 		});
-	} else  {
+	} else if(processInfo.openType == "done") {
 		btn.push({
 			text : "导出WORD",
 			handler : function() {

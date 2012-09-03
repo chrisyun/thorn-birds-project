@@ -19,6 +19,8 @@ import com.parrot.app.entity.Project;
 import com.parrot.app.entity.ProjectCost;
 import com.parrot.app.entity.UserExtend;
 import com.parrot.app.service.IProjectService;
+import com.parrot.process.ProcessConfiguration;
+
 import org.thorn.core.excel.ArrayAdapter;
 import org.thorn.core.excel.ExcelStyle;
 import org.thorn.core.excel.ExcelUtils;
@@ -257,7 +259,8 @@ public class ProjectController extends BaseController {
 	public Page<ProjectCost> getProjectCostPage(long start, long limit,
 			String sort, String dir, String name, Integer pid, String userName,
 			String userId, String isUnProject, String province,
-			String projectType, String startTime, String endTime, Integer year) {
+			String activity, String flowStatus, String projectType,
+			String startTime, String endTime, Integer year) {
 		Page<ProjectCost> page = new Page<ProjectCost>();
 
 		try {
@@ -277,7 +280,7 @@ public class ProjectController extends BaseController {
 
 			page = projectService.queryCostPage(name, pid, userName, userId,
 					isUnProject, province, projectType, startTime, endTime,
-					year, null, start, limit, sort, dir);
+					year, null, activity, flowStatus, start, limit, sort, dir);
 		} catch (DBAccessException e) {
 			log.error("getProjectCostPage[ProjectCost] - " + e.getMessage(), e);
 		}
@@ -302,8 +305,9 @@ public class ProjectController extends BaseController {
 			}
 
 			page = projectService.queryCostPage(null, null, null, null, null,
-					province, null, null, null, year, provinceArea, null, null,
-					sort, dir);
+					province, null, null, null, year, provinceArea,
+					ProcessConfiguration.ACTIVITY_FINISH, "success", null,
+					null, sort, dir);
 		} catch (DBAccessException e) {
 			log.error("getProjectCostSummary[ProjectCost] - " + e.getMessage(),
 					e);
@@ -329,19 +333,21 @@ public class ProjectController extends BaseController {
 			String provinceName = DDUtils.queryDdById("AREA", province);
 
 			List<ProjectCost> list = projectService.queryCostPage(null, null,
-					null, null, null, province, null, null, null, year, provinceArea,
-					null, null, null, null).getReslutSet();
+					null, null, null, province, null, null, null, year,
+					provinceArea, "审批完成已归档", "success", null, null, null, null)
+					.getReslutSet();
 
 			StringBuilder title = new StringBuilder(String.valueOf(year));
 			title.append("年度");
-			
-			if(StringUtils.isBlank(provinceName)) {
-				String areaName = DDUtils.queryDdById("PROVINCE_AREA", provinceArea);
+
+			if (StringUtils.isBlank(provinceName)) {
+				String areaName = DDUtils.queryDdById("PROVINCE_AREA",
+						provinceArea);
 				title.append(areaName);
 			} else {
 				title.append(provinceName);
 			}
-			
+
 			title.append("国家级非物质文化遗产代表性项目补助费申报汇总表");
 
 			ResponseHeaderUtils.setExcelResponse(response, title.toString());
@@ -381,8 +387,8 @@ public class ProjectController extends BaseController {
 			ArrayAdapter adapter = new ArrayAdapter(header, orderArray,
 					dataSource);
 
-			ExcelUtils.write2Excel(adapter, "汇总表", columnWidth, style, response
-					.getOutputStream());
+			ExcelUtils.write2Excel(adapter, "汇总表", columnWidth, style,
+					response.getOutputStream());
 			response.getOutputStream().flush();
 		} catch (DBAccessException e) {
 			log.error(

@@ -14,7 +14,7 @@ Ext.onReady(function() {
 		title : "查询列表",
 		region : "north",
 		height : 130,
-		labelWidth : 100
+		labelWidth : 90
 	};
 	
 	var query_form = new FormUtil(query_attr);
@@ -87,23 +87,28 @@ Ext.onReady(function() {
 	query_form.addComp(userCb, 0.4, true);
 	query_form.addComp(getText("query_createrName", "申报单位名称",160), 0.3, true);
 	
+	query_form.addComp(getComboBox("query_activity", "当前环节", 160, 
+			[["申报环节","申报环节"],["起草暂存环节","起草暂存环节"],["省厅审批环节","省厅审批环节"],
+			 ["非遗司审批环节","非遗司审批环节"],["审批完成已归档","审批完成已归档"]], false),
+			0.3, true);
+	query_form.addComp(getDateText("query_startTime", "开始日期", 90), 0.19, true);
+	query_form.addComp(getDateText("query_endTime", "结束日期", 90), 0.25, true);
 	
-	query_form.addComp(getDateText("query_startTime", "开始日期", 160), 0.3, true);
-	query_form.addComp(getDateText("query_endTime", "结束日期", 160), 0.4, true);
-	
-	query_form.addComp(getQueryBtn(onSubmitQueryHandler), 0.3, true);
+	query_form.addComp(getQueryBtn(onSubmitQueryHandler), 0.2, true);
 	/** ****************query panel end*************** */
 
 	/** ****************rc Grid panel start************ */
 	var recordArray = [
 			getRecord(null, "id", "string"),
 			getRecord("文化生态保护区名称", "reseverName", "string", 200, true),
-			getRecord("申报年份", "year", "string", 100, true),
-			getRecord("申报地区或单位", "createrName", "string", 200, true),
-			getRecord("已拨金额（万元）", "givenMoney", "string", 100, true),
-			getRecord("申报金额（万元）", "applyMoney", "string", 100, true),
+			getRecord("申报年份", "year", "string", 60, true),
+			getRecord("申报地区或单位", "createrName", "string", 150, true),
+			getRecord("已拨金额(万元)", "givenMoney", "string", 100, true),
+			getRecord("申报金额(万元)", "applyMoney", "string", 100, true),
 			getRecord("申报时间", "applyTime", "string", 150, true),
-			getRecord("申报省份", "province", "string", 100, true, areaRender)];
+			getRecord("当前环节", "activity", "string", 100, true),
+			getRecord("审批结果", "flowStatus", "string", 80, true, flowStatusRender),
+			getRecord("申报省份", "province", "string", 60, true, areaRender)];
 	var pc_grid = new GridUtil(pcPageUrl, recordArray, pageSize);
 	
 	pc_grid.setBottomBar();
@@ -132,6 +137,7 @@ Ext.onReady(function() {
 		var pid = Ext.getCmp("show_query_reseverId").getValue();
 		var name = Ext.getCmp("query_name").getValue();
 		
+		var activity = Ext.getCmp("show_query_activity").getValue();
 		var province = Ext.getCmp("show_query_area").getValue();
 		var userId = Ext.getCmp("show_query_creater").getValue();
 		var userName = Ext.getCmp("query_createrName").getValue();
@@ -145,6 +151,7 @@ Ext.onReady(function() {
 			endTime = endTime.format("Y-m-d");
 		}
 		
+		pcstore.baseParams.activity = activity;
 		pcstore.baseParams.year = year;
 		pcstore.baseParams.name = name;
 		pcstore.baseParams.pid = pid;
@@ -177,7 +184,7 @@ function refreshGrid() {
 }
 
 function openDoneFlow(id, type) {
-	var url = sys.path + "/wf/cm/openDoneProcess.jmt?pid=" 
+	var url = sys.path + "/wf/cm/openDoneOrDoingProcess.jmt?pid=" 
 		+ id + "&flowType=" + type;
 	var height = window.screen.availHeight - 50;
 	var width = window.screen.availWidth - 50;

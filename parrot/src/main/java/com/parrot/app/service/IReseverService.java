@@ -32,8 +32,9 @@ public interface IReseverService {
 
 	public Page<ReseverCost> queryCostPage(String name, Integer pid,
 			String userName, String userId, String province, String startTime,
-			String endTime, Integer year, long start, long limit, String sort,
-			String dir) throws DBAccessException;
+			String endTime, Integer year, String activity, String flowStatus,
+			long start, long limit, String sort, String dir)
+			throws DBAccessException;
 
 	public Double queryReseverCostSum(Integer year, String province)
 			throws DBAccessException;

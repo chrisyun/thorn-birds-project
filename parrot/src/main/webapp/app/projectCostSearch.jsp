@@ -38,6 +38,10 @@
 	var yearRender = function(str) {
 		return Render.dictRender(year, str);
 	};
-
+	
+	var flowStatusDD = <thorn:dd  typeId="FLOW_STATUS" />;
+	var flowStatusRender = function(str) {
+		return Render.dictRender(flowStatusDD, str);
+	};
 </script>
 <jsp:include page="../reference/footer.jsp"></jsp:include>
