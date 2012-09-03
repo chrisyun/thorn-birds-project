@@ -4,7 +4,7 @@ function ProcessMinds(flowInstId, activityName, opType) {
 	this.opType = opType;
 	
 	var hidden = false;
-	if(opType == "done") {
+	if(opType == "done" || opType == "doing") {
 		hidden = true;
 	}
 	

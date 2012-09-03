@@ -90,8 +90,9 @@ public class ProjectServiceImpl implements IProjectService {
 	public Page<ProjectCost> queryCostPage(String name, Integer pid,
 			String userName, String userId, String isUnProject,
 			String province, String projectType, String startTime,
-			String endTime, Integer year, String provinceArea, Long start,
-			Long limit, String sort, String dir) throws DBAccessException {
+			String endTime, Integer year, String provinceArea, String activity,
+			String flowStatus, Long start, Long limit, String sort, String dir)
+			throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
 		filter.put("projectName", name);
 		filter.put("projectId", pid);
@@ -103,7 +104,9 @@ public class ProjectServiceImpl implements IProjectService {
 		filter.put("startTime", startTime);
 		filter.put("endTime", endTime);
 		filter.put("year", year);
-		filter.put("provinceArea", provinceArea);
+		filter.put("endTime", endTime);
+		filter.put("activity", activity);
+		filter.put("flowStatus", flowStatus);
 		filter.put(Configuration.PAGE_LIMIT, limit);
 		filter.put(Configuration.PAGE_START, start);
 

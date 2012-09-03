@@ -63,6 +63,26 @@ public class ReseverCost implements Serializable {
 	private Double givenMoney;
 	
 	private String applyTime;
+	
+	private String activity;
+	
+	private String flowStatus;
+	
+	public String getActivity() {
+		return activity;
+	}
+
+	public void setActivity(String activity) {
+		this.activity = activity;
+	}
+
+	public String getFlowStatus() {
+		return flowStatus;
+	}
+
+	public void setFlowStatus(String flowStatus) {
+		this.flowStatus = flowStatus;
+	}
 
 	public Integer getId() {
 		return id;

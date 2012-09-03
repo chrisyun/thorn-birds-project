@@ -30,6 +30,8 @@
 		<result column="TYPE" property="type" jdbcType="VARCHAR" />
 		<result column="CODE" property="code" jdbcType="VARCHAR" />
 		<result column="AREA" property="area" jdbcType="VARCHAR" />
+		<result column="ACTIVITY" property="activity" jdbcType="VARCHAR" />
+		<result column="FLOWSTATUS" property="flowStatus" jdbcType="VARCHAR" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
@@ -75,6 +77,12 @@
 	    	</if>
 	    	<if test="endTime != null and endTime != ''">
 				AND P.APPLYTIME &lt;= #{endTime,jdbcType=VARCHAR}
+	    	</if>
+	    	<if test="activity != null and activity != ''">
+				AND W.ACTIVITY = #{activity,jdbcType=VARCHAR}
+	    	</if>
+	    	<if test="flowStatus != null and flowStatus != ''">
+				AND W.FLOWSTATUS = #{flowStatus,jdbcType=VARCHAR}
 	    	</if>
 	</sql>
 
@@ -183,10 +191,10 @@
 		<include refid="MySQLCommonMapper.pagingStart"/>
 		select P.ID,P.PROJECTID,P.PROJECTNAME,P.YEAR,P.CREATER,
 			   P.CREATERNAME,P.PROVINCE,P.MONEY,P.APPLYTIME,
-			   J.ISUNPROJECT,J.TYPE,J.CODE,P.APPREASON,J.AREA
+			   J.ISUNPROJECT,J.TYPE,J.CODE,P.APPREASON,J.AREA,
+			   W.ACTIVITY,W.FLOWSTATUS
 		from T_PROJECT_COST P,T_WORKFLOW W,T_PROJECT J 
-		WHERE W.ACTIVITY = '审批完成已归档' 
-		AND P.ID = W.PID AND W.FLOWTYPE = 'project' 
+		WHERE P.ID = W.PID AND W.FLOWTYPE = 'project' 
 		AND J.ID = P.PROJECTID 
 		<include refid="Where_Clause" />
 		<include refid="MySQLCommonMapper.sortInfo"/>
@@ -196,8 +204,7 @@
 		resultType="long">
 		select count(*) from 
 		T_PROJECT_COST P,T_WORKFLOW W,T_PROJECT J 
-		WHERE W.ACTIVITY = '审批完成已归档' 
-		AND P.ID = W.PID AND W.FLOWTYPE = 'project' 
+		WHERE P.ID = W.PID AND W.FLOWTYPE = 'project' 
 		AND J.ID = P.PROJECTID 
 		<include refid="Where_Clause" />
 	</select>

@@ -61,7 +61,6 @@ public class ReseverServiceImpl implements IReseverService {
 		}
 
 		return page;
-
 	}
 
 	public List<Resever> queryReseverList(String province, String userId)
@@ -83,8 +82,9 @@ public class ReseverServiceImpl implements IReseverService {
 
 	public Page<ReseverCost> queryCostPage(String name, Integer pid,
 			String userName, String userId, String province, String startTime,
-			String endTime, Integer year, long start, long limit, String sort,
-			String dir) throws DBAccessException {
+			String endTime, Integer year, String activity, String flowStatus,
+			long start, long limit, String sort, String dir)
+			throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
 		filter.put("projectName", name);
 		filter.put("projectId", pid);
@@ -94,6 +94,8 @@ public class ReseverServiceImpl implements IReseverService {
 		filter.put("startTime", startTime);
 		filter.put("endTime", endTime);
 		filter.put("year", year);
+		filter.put("activity", activity);
+		filter.put("flowStatus", flowStatus);
 		filter.put(Configuration.PAGE_LIMIT, limit);
 		filter.put(Configuration.PAGE_START, start);
 

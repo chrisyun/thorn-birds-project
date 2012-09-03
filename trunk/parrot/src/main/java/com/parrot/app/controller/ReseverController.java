@@ -40,12 +40,12 @@ public class ReseverController extends BaseController {
 	@Autowired
 	@Qualifier("reseverService")
 	private IReseverService reseverService;
-	
+
 	@RequestMapping("/getReseverDW")
 	@ResponseBody
 	public JsonResponse<ReseverCost> getReseverDW(Integer reseverId) {
 		JsonResponse<ReseverCost> json = new JsonResponse<ReseverCost>();
-		
+
 		try {
 			json.setObj(reseverService.queryReseverDW(reseverId));
 		} catch (DBAccessException e) {
@@ -53,11 +53,10 @@ public class ReseverController extends BaseController {
 			json.setMessage("数据获取失败：" + e.getMessage());
 			log.error("getReseverDW[ReseverCost] - " + e.getMessage(), e);
 		}
-		
+
 		return json;
 	}
-	
-	
+
 	@RequestMapping("/saveOrModifyResever")
 	@ResponseBody
 	public Status saveOrModifyResever(Resever resever, String opType) {
@@ -185,7 +184,7 @@ public class ReseverController extends BaseController {
 	public Page<ReseverCost> getReseverCostPage(long start, long limit,
 			String sort, String dir, String name, Integer pid, String userName,
 			String userId, String province, String startTime, String endTime,
-			Integer year) {
+			Integer year, String activity, String flowStatus) {
 		Page<ReseverCost> page = new Page<ReseverCost>();
 
 		try {
@@ -203,9 +202,9 @@ public class ReseverController extends BaseController {
 				}
 			}
 
-			page = reseverService
-					.queryCostPage(name, pid, userName, userId, province,
-							startTime, endTime, year, start, limit, sort, dir);
+			page = reseverService.queryCostPage(name, pid, userName, userId,
+					province, startTime, endTime, year, activity, flowStatus,
+					start, limit, sort, dir);
 		} catch (DBAccessException e) {
 			log.error("getReseverCostPage[ReseverCost] - " + e.getMessage(), e);
 		}

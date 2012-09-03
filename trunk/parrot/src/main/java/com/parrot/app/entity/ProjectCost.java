@@ -81,6 +81,26 @@ public class ProjectCost implements Serializable {
 	private Integer ueId;
 	
 	private String area;
+	
+	private String activity;
+	
+	private String flowStatus;
+
+	public String getActivity() {
+		return activity;
+	}
+
+	public void setActivity(String activity) {
+		this.activity = activity;
+	}
+
+	public String getFlowStatus() {
+		return flowStatus;
+	}
+
+	public void setFlowStatus(String flowStatus) {
+		this.flowStatus = flowStatus;
+	}
 
 	public String getArea() {
 		return area;
