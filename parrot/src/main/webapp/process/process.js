@@ -170,7 +170,7 @@ Ext.onReady(function() {
 		split : true,
 		region : "center",
 		collapsible : true,
-		height : 100,
+		height : 90,
 		autoScroll : true,
 		autoHeight : false,
 		autoWidth : false
@@ -224,7 +224,7 @@ Ext.onReady(function() {
 	bPanel = new Ext.Panel({
 		region : "south",
 		split : true,
-		height : 260,
+		height : 230,
 		margins : "0 0 0 2",
 		layout : "border",
 		border : false,
