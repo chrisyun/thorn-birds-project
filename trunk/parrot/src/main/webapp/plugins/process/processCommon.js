@@ -26,7 +26,7 @@ function ProcessMinds(flowInstId, activityName, opType) {
 		layout : "border",
 		border : false,
 		split : true,
-		height : 110,
+		height : 100,
 		items : [{
 			title : "所有审批意见",
 			region : "center",
