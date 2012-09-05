@@ -230,7 +230,7 @@ public class ProcessExtendController extends BaseController {
 				ResponseHeaderUtils.setWordResponse(response,
 						ProcessConfiguration.PROJECT_TITLE);
 				OutputStream out = response.getOutputStream();
-				out.write(words.getBytes());
+				out.write(words.getBytes("UTF-8"));
 				out.flush();
 			} else if (StringUtils.equals(flowType, ProcessConfiguration.RESEVER_KEY)) {
 
@@ -310,7 +310,7 @@ public class ProcessExtendController extends BaseController {
 				ResponseHeaderUtils.setWordResponse(response,
 						ProcessConfiguration.RESEVER_TITLE);
 				OutputStream out = response.getOutputStream();
-				out.write(words.getBytes());
+				out.write(words.getBytes("UTF-8"));
 				out.flush();
 			}
 		} catch (Exception e) {
