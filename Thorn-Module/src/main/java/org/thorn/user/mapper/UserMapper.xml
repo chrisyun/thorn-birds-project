@@ -8,7 +8,7 @@
 	
 	<resultMap id="BaseResultMap" type="org.thorn.user.entity.User">
 		<id column="USERID" property="userId" jdbcType="VARCHAR" />
-		<result column="UNAME" property="userName" jdbcType="VARCHAR" />
+		<result column="USERNAME" property="userName" jdbcType="VARCHAR" />
 		<result column="SN" property="sn" jdbcType="VARCHAR" />
 		<result column="USERACCOUNT" property="userAccount" jdbcType="VARCHAR" />
 		<result column="USERPWD" property="userPwd" jdbcType="VARCHAR" />
@@ -27,7 +27,7 @@
 
 
 	<sql id="Base_Column_List">
-		U.USERID, U.UNAME, U.SN, U.USERACCOUNT,
+		U.USERID, U.USERNAME, U.SN, U.USERACCOUNT,
 		U.USERPWD, U.GENDER, U.ORGCODE,
 		U.DEFAULTROLE, U.CUMAIL, U.PHONE,
 		U.ISDISABLED, U.ISSHOW, U.SORTNUM,
@@ -44,7 +44,7 @@
 					 or U.USERACCOUNT = #{idOrAccount,jdbcType=VARCHAR})
       		</if>
 			<if test="userName != null and userName != ''">
-				and U.UNAME like CONCAT('%',#{userName,jdbcType=VARCHAR},'%')
+				and U.USERNAME like CONCAT('%',#{userName,jdbcType=VARCHAR},'%')
       		</if>
 			<if test="sn != null and sn != ''">
 				and U.SN = #{sn,jdbcType=VARCHAR}
@@ -107,7 +107,7 @@
 		insert into T_SYS_USER
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="userId != null and userId != ''">USERID,</if>
-			<if test="userName != null and userName != ''">UNAME,</if>
+			<if test="userName != null and userName != ''">USERNAME,</if>
 			<if test="sn != null and sn != ''">SN,</if>
 			<if test="userAccount != null and userAccount != ''">USERACCOUNT,</if>
 			<if test="userPwd != null and userPwd != ''">USERPWD,</if>
@@ -140,7 +140,7 @@
 		update T_SYS_USER
 		<set>
 			<if test="sortNum != null">SORTNUM = #{sortNum,jdbcType=DECIMAL},</if>
-			<if test="userName != null and userName != ''">UNAME = #{userName,jdbcType=VARCHAR},</if>
+			<if test="userName != null and userName != ''">USERNAME = #{userName,jdbcType=VARCHAR},</if>
 			<if test="sn != null and sn != ''">SN = #{sn,jdbcType=VARCHAR},</if>
 			<if test="userAccount != null and userAccount != ''">USERACCOUNT = #{userAccount,jdbcType=VARCHAR},</if>
 			<if test="userPwd != null and userPwd != ''">USERPWD = #{userPwd,jdbcType=VARCHAR},</if>

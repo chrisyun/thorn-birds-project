@@ -48,7 +48,7 @@
 	<!-- ****************************User******************************** -->
 	<resultMap id="UserResultMap" type="org.thorn.user.entity.User">
 		<id column="USERID" property="userId" jdbcType="VARCHAR" />
-		<result column="UNAME" property="userName" jdbcType="VARCHAR" />
+		<result column="USERNAME" property="userName" jdbcType="VARCHAR" />
 		<result column="SN" property="sn" jdbcType="VARCHAR" />
 		<result column="USERACCOUNT" property="userAccount" jdbcType="VARCHAR" />
 		<result column="USERPWD" property="userPwd" jdbcType="VARCHAR" />
@@ -92,7 +92,7 @@
 	</delete>
 
 	<sql id="User_Role_Column_List">
-		U.USERID,U.USERACCOUNT,U.UNAME,U.CUMAIL,
+		U.USERID,U.USERACCOUNT,U.USERNAME,U.CUMAIL,
 		U.ISSHOW,U.ISDISABLED,U.DEFAULTROLE 
 	</sql>
 	
@@ -103,7 +103,7 @@
 			and R.ROLECODE = #{roleCode,jdbcType=VARCHAR} 
       	</if>
 		<if test="userName != null and userName != ''">
-			and U.UNAME like CONCAT('%',#{userName,jdbcType=VARCHAR},'%')
+			and U.USERNAME like CONCAT('%',#{userName,jdbcType=VARCHAR},'%')
       	</if>
      	<if test="idOrAccount != null and idOrAccount != ''">
 			and (U.USERID = #{idOrAccount,jdbcType=VARCHAR} 
