@@ -8,12 +8,12 @@
 		<result column="BULIDTIME" property="buildTime" jdbcType="VARCHAR" />
 		<result column="AREA" property="area" jdbcType="VARCHAR" />
 		<result column="USERID" property="userId" jdbcType="VARCHAR" />
-		<result column="UNAME" property="userName" jdbcType="VARCHAR" />
+		<result column="USERNAME" property="userName" jdbcType="VARCHAR" />
 		<result column="PROVINCE" property="province" jdbcType="VARCHAR" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		R.ID,R.NAME,R.BULIDTIME,R.AREA,R.USERID,U.UNAME,R.PROVINCE
+		R.ID,R.NAME,R.BULIDTIME,R.AREA,R.USERID,U.USERNAME,R.PROVINCE
   	</sql>
 
 	<sql id="Where_Clause">
@@ -22,7 +22,7 @@
 				and R.NAME like CONCAT('%',#{name,jdbcType=VARCHAR},'%')
       		</if>
       		<if test="userName != null and userName != ''">
-				and U.UNAME like CONCAT('%',#{userName,jdbcType=VARCHAR},'%')
+				and U.USERNAME like CONCAT('%',#{userName,jdbcType=VARCHAR},'%')
       		</if>
 			<if test="id != null">
 				AND R.ID = #{id,jdbcType=DECIMAL}

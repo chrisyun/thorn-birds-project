@@ -14,13 +14,13 @@
 		<result column="MINORITY" property="minority" jdbcType="VARCHAR" />
 		<result column="AREA" property="area" jdbcType="VARCHAR" />
 		<result column="USERID" property="userId" jdbcType="VARCHAR" />
-		<result column="UNAME" property="userName" jdbcType="VARCHAR" />
+		<result column="USERNAME" property="userName" jdbcType="VARCHAR" />
 		<result column="PROVINCE" property="province" jdbcType="VARCHAR" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
 		P.ID,P.NAME,P.CODE,P.TYPE,P.ISUNPROJECT,P.BIGNO,P.SMALLNO,
-		P.BATCHNUM,P.MINORITY,P.AREA,P.USERID,U.UNAME,P.PROVINCE
+		P.BATCHNUM,P.MINORITY,P.AREA,P.USERID,U.USERNAME,P.PROVINCE
   	</sql>
 
 	<sql id="Where_Clause">
@@ -29,7 +29,7 @@
 				and P.NAME like CONCAT('%',#{name,jdbcType=VARCHAR},'%')
       		</if>
       		<if test="userName != null and userName != ''">
-				and U.UNAME like CONCAT('%',#{userName,jdbcType=VARCHAR},'%')
+				and U.USERNAME like CONCAT('%',#{userName,jdbcType=VARCHAR},'%')
       		</if>
 			<if test="id != null">
 				AND P.ID = #{id,jdbcType=DECIMAL}

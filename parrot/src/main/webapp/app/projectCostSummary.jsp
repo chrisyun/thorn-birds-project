@@ -9,11 +9,13 @@
 	document.title = "ProjectCostSummary - Page";
 	
 	var area = <thorn:dd  typeId="AREA" />;
+	area.unshift(["","全部"]);
 	var areaRender = function(str) {
 		return Render.dictRender(area, str);
 	};
 
 	var provinceAreaDD = <thorn:dd  typeId="PROVINCE_AREA" />;
+	provinceAreaDD.unshift(["","全部"]);
 	var provinceAreaDDRender = function(str) {
 		return Render.dictRender(provinceAreaDD, str);
 	};

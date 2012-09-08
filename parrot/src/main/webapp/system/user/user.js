@@ -320,7 +320,7 @@ Ext.onReady(function() {
 			var opType = thisForm.findById("opType").getValue();
 
 			if (opType == Configuration.opType.SAVE) {
-				obj.form.getForm().reset();
+				//obj.form.getForm().reset();
 				thisForm.findById("opType").setValue(opType);
 				Ext.getCmp("show_orgCode").setValue(currentActiveNode);
 			} else {
