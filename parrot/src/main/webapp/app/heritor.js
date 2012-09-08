@@ -112,7 +112,7 @@ Ext.onReady(function() {
 	projectCb.lazyInit = true;
 	projectCb.mode = "remote";
 	projectCb.store = projectStore;
-	heritor_form.addComp(projectCb, 1.0, false);
+	heritor_form.addComp(projectCb, 1.0, true);
 	
 	heritor_form.addComp(getComboBox("isDie", "是否去世", 180, yesOrNo), 0.5, false);
 	heritor_form.addComp(getDateText("dieDate", "去世时间", 180, null), 0.5, true);
