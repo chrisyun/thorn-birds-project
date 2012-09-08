@@ -88,7 +88,7 @@ Ext.onReady(function() {
 	query_form.addComp(getText("query_createrName", "申报单位名称",160), 0.3, true);
 	
 	query_form.addComp(getComboBox("query_activity", "当前环节", 160, 
-			[["申报环节","申报环节"],["起草暂存环节","起草暂存环节"],["省厅审批环节","省厅审批环节"],
+			[["","全部"],["申报环节","申报环节"],["起草暂存环节","起草暂存环节"],["省厅审批环节","省厅审批环节"],
 			 ["非遗司审批环节","非遗司审批环节"],["审批完成已归档","审批完成已归档"]], false),
 			0.3, true);
 	query_form.addComp(getDateText("query_startTime", "开始日期", 90), 0.19, true);

@@ -190,4 +190,11 @@ public class ProjectServiceImpl implements IProjectService {
 		return page;
 	}
 
+	public Project queryProject(String projectName) throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+		filter.put("name", projectName);
+
+		return (Project) myBatisDaoSupport.queryOne(filter, Project.class);
+	}
+
 }

@@ -5,7 +5,7 @@
 	<resultMap id="BaseResultMap" type="com.parrot.app.entity.UserExtend">
 		<id column="ID" property="id" jdbcType="DECIMAL" />
 		<result column="USERID" property="userId" jdbcType="VARCHAR" />
-		<result column="UNAME" property="userName" jdbcType="VARCHAR" />
+		<result column="USERNAME" property="userName" jdbcType="VARCHAR" />
 		<result column="ORGCODE" property="orgCode" jdbcType="VARCHAR" />
 		<result column="ADDRESS" property="address" jdbcType="VARCHAR" />
 		<result column="POSTALCODE" property="postalCode" jdbcType="VARCHAR" />
@@ -19,7 +19,7 @@
 
 	<sql id="Base_Column_List">
 		P.ID,P.ADDRESS,P.POSTALCODE,P.CONTACTS,P.PHONE,P.BANKNAME,P.BANK,
-		P.BANKACCOUNT,P.COMPANYCTF,U.USERID, U.UNAME,U.ORGCODE
+		P.BANKACCOUNT,P.COMPANYCTF,U.USERID, U.USERNAME,U.ORGCODE
   	</sql>
 
 	<sql id="Where_Clause">
@@ -30,7 +30,7 @@
 			and U.USERID = #{userId,jdbcType=VARCHAR}
 	    	</if>
 		<if test="userName != null and userName != ''">
-			and U.UNAME like CONCAT('%',#{userName,jdbcType=VARCHAR},'%')
+			and U.USERNAME like CONCAT('%',#{userName,jdbcType=VARCHAR},'%')
       		</if>
 		<if test="orgCode != null and orgCode != ''">
 			and U.ORGCODE = #{orgCode,jdbcType=VARCHAR}

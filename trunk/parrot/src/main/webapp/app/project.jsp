@@ -14,6 +14,7 @@
 	};
 	
 	var provinceAreaDD = <thorn:dd  typeId="PROVINCE_AREA" />;
+	provinceAreaDD.unshift(["","全部"]);
 	var provinceAreaDDRender = function(str) {
 		return Render.dictRender(provinceAreaDD, str);
 	};
@@ -35,6 +36,7 @@
 	}
 	
 	var projectType = <thorn:dd  typeId="PROJECT_TYPE" />;
+	projectType.unshift(["","全部"]);
 	var projectTypeRender = function(str) {
 		return Render.dictRender(projectType, str);
 	};

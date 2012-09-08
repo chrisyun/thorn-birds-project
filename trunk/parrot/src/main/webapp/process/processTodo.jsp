@@ -30,11 +30,13 @@
 	}
 	
 	var flowTypeDD = <thorn:dd  typeId="FLOW_TYPE" />;
+	flowTypeDD.unshift(["","全部"]);
 	var flowTypeRender = function(str) {
 		return Render.dictRender(flowTypeDD, str);
 	};
 	
 	var flowStatusDD = <thorn:dd  typeId="FLOW_STATUS" />;
+	flowStatusDD.unshift(["","全部"]);
 	var flowStatusRender = function(str) {
 		return Render.dictRender(flowStatusDD, str);
 	};

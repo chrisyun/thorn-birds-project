@@ -30,11 +30,13 @@
 	}
 	
 	var year = <thorn:dd  typeId="YEAR" />;
+	year.unshift(["","全部"]);
 	var yearRender = function(str) {
 		return Render.dictRender(year, str);
 	};
 	
 	var flowStatusDD = <thorn:dd  typeId="FLOW_STATUS" />;
+	flowStatusDD.unshift(["","全部"]);
 	var flowStatusRender = function(str) {
 		return Render.dictRender(flowStatusDD, str);
 	};

@@ -9,6 +9,7 @@
 	document.title = "Heritor - Page";
 	
 	var area = <thorn:dd  typeId="AREA" />;
+	area.unshift(["","全部"]);
 	var areaRender = function(str) {
 		return Render.dictRender(area, str);
 	};
@@ -28,6 +29,8 @@
 		}
 		area = province;
 	}
+	
+	yesOrNo.unshift(["","全部"]);
 	
 	var gender = <thorn:dd  typeId="GENDER" />;
 	var genderRender = function(str) {

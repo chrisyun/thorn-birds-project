@@ -119,9 +119,9 @@ function getTextArea(id, text, width, height, maxLength) {
 
 function getComboBox(id, text, width, array, isReadonly) {
 	
-	if(array != null && array.length > 1) {
-		array.unshift(["","全部"]);
-	}
+//	if(array != null && array.length > 1) {
+//		array.unshift(["","全部"]);
+//	}
 	
 	var select = new Object();
 

@@ -95,7 +95,7 @@ Ext.onReady(function() {
 	query_form.addComp(getComboBox("query_isUn", "联合国非遗项目", 290, yesOrNo, false),
 			0.35, true);
 	query_form.addComp(getComboBox("query_activity", "当前环节", 160, 
-			[["申报环节","申报环节"],["起草暂存环节","起草暂存环节"],["省厅审批环节","省厅审批环节"],
+			[["","全部"],["申报环节","申报环节"],["起草暂存环节","起草暂存环节"],["省厅审批环节","省厅审批环节"],
 			 ["非遗司审批环节","非遗司审批环节"],["审批完成已归档","审批完成已归档"]], false),
 			0.25, true);
 	
