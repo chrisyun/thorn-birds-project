@@ -90,7 +90,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <script type="text/javascript" src="<%=path %>/plugins/local/windowUtils.js" ></script>
         <script type="text/javascript" src="<%=path %>/plugins/local/gridUtils.js" ></script>
         <script type="text/javascript" src="<%=path %>/plugins/local/formUtils.js" ></script>
-        
+        <div id="userEscape" style="display: none;"></div>
         
         <script type="text/javascript">
         	document.getElementById('loading-msg').innerHTML = 'Initializing...';
