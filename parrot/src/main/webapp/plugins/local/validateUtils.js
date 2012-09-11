@@ -26,7 +26,24 @@ Ext.apply(Ext.form.VTypes, {
 	},
 	pwd : function(val, field) {
 		if (!Ext.isEmpty(val) && val.length >= 6 && val.length < 16) {
-			var strength = val.replace(/^(?:([a-z])|([A-Z])|([0-9])|(.)){5,}|(.)+$/g, "$1$2$3$4$5").length;
+			
+			var strength = 0;
+			var numReg = /[0-9]{1,}/;
+			if(numReg.test(val)) {
+				strength++;
+			}
+			
+			var charReg = /[a-z]{1,}/;
+			if(charReg.test(val)) {
+				strength++;
+			}
+			
+			var charReg = /[A-Z]{1,}/;
+			if(charReg.test(val)) {
+				strength++;
+			}
+			
+//			var strength = val.replace(/^(?:([a-z])|([A-Z])|([0-9])|(.)){5,}|(.)+$/g, "$1$2$3$4$5").length;
 			if(strength > 1) {
 				return true;
 			} else {

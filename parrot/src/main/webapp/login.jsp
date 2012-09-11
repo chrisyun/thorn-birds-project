@@ -24,6 +24,7 @@ body {
 <script type="text/javascript" src="plugins/local/mouseUtils.js" ></script>
 
 <table class="bg" width="1000px" height="500px" align="center">
+<tr><td>&nbsp;</td></tr>
 </table>
 
 <script type="text/javascript">
@@ -213,7 +214,6 @@ body {
 		}
 		refresh();
 		completePage();
-		
 	});
 
 	function refresh() {

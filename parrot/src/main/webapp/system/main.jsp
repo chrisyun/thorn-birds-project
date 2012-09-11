@@ -6,8 +6,8 @@
 	<div id="header">
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 			<tr>
-		   		<td width="880"><img src="<%=path %>/resources/images/local/title.jpg" width="880" height="95" /></td>
 		    	<td background="<%=path %>/resources/images/local/blank.png">&nbsp;</td>
+		    	<td width="880"><img src="<%=path %>/resources/images/local/title.jpg" width="880" height="95" /></td>
 		  	</tr>
 		</table>
 	</div>
