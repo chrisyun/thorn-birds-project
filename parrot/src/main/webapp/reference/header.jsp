@@ -11,6 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 	<head>
+		<!-- <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />   -->
 		<title>Page</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<!-- no cache headers -->
@@ -18,7 +19,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<meta http-equiv="no-cache">
 		<meta http-equiv="Expires" content="-1">
 		<meta http-equiv="Cache-Control" content="no-cache">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<!-- end no cache headers -->
 	</head>
 	<style type="text/css">
@@ -58,6 +59,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		font: normal 10px arial, tahoma, sans-serif;
 	}
 	</style>
+
+	<script type="text/javascript">
+	if ((typeof Range !== "undefined") && !Range.prototype.createContextualFragment) {
+		Range.prototype.createContextualFragment = function(html) {
+			var frag = document.createDocumentFragment(), div = document
+					.createElement("div");
+			frag.appendChild(div);
+			div.outerHTML = html;
+			return frag;
+		};
+	}
+	</script>
+
 	<body>
 		<div id="loading-mask" style=""></div>
 		<div id="loading">
