@@ -137,7 +137,7 @@ http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 	<!-- ************************************************* -->
 	<beans:bean id="messageSource"
 		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-		<beans:property name="basename" value="classpath*:messages_local_CN" />
+		<beans:property name="basename" value="classpath:messages_local_CN" />
 	</beans:bean>
 
 	<beans:bean id="userSecurityCache"
