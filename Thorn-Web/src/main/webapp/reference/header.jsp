@@ -12,6 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
 	<head>
 		<title>Page</title>
+		<!-- <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />   -->
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<!-- no cache headers -->
 		<meta http-equiv="Pragma" content="no-cache">
@@ -58,6 +59,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		font: normal 10px arial, tahoma, sans-serif;
 	}
 	</style>
+	
+	<script type="text/javascript">
+	if ((typeof Range !== "undefined") && !Range.prototype.createContextualFragment) {
+		Range.prototype.createContextualFragment = function(html) {
+			var frag = document.createDocumentFragment(), div = document
+					.createElement("div");
+			frag.appendChild(div);
+			div.outerHTML = html;
+			return frag;
+		};
+	}
+	</script>
+	
+	
 	<body>
 		<div id="loading-mask" style=""></div>
 		<div id="loading">
@@ -75,7 +90,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <script type="text/javascript" src="<%=path %>/plugins/ext-3.2.1/adapter/ext/ext-base.js" ></script>
         <script type="text/javascript">document.getElementById('loading-msg').innerHTML = 'Loading UI Components...';</script>
         <!-- <script type="text/javascript" src="<%=path %>/plugins/ext-3.2.1/ext-all-debug.js"></script> -->
-        <script type="text/javascript" src="<%=path %>/plugins/ext-3.2.1/ext-all.js"></script>
+        <script type="text/javascript" src="<%=path %>/plugins/ext-3.2.1/ext-all-fix.js"></script>
         <script type="text/javascript" src="<%=path %>/plugins/ext-3.2.1/ext-lang-zh_CN.js"></script>
         <script type="text/javascript" src="<%=path %>/plugins/ext-3.2.1/ux/SearchField.js"></script>
         
