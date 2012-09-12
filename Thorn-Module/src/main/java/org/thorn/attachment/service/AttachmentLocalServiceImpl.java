@@ -48,21 +48,31 @@ public class AttachmentLocalServiceImpl extends AttachmentDBServiceImpl
 			dir.mkdirs();
 		}
 		
-		String[] name = null;
-		if(att.getFileName().indexOf(".") > 0) {
-			name = att.getFileName().split("\\.");
-			name[1] = "." + name[1];
+		//本地保存文件设置文件不为中文名
+		String[] name = new String[]{"","",String.valueOf(System.currentTimeMillis())};
+		int sindex = att.getFileName().lastIndexOf(".");
+		if(sindex > 0) {
+			name[0] = att.getFileName().substring(0, sindex);
+			name[1] = att.getFileName().substring(sindex);
 		} else {
-			name = new String[]{att.getFileName(),""};
+			name[0] = att.getFileName();
 		}
 		
-		String onlyName = att.getFileName();
-		String fileName = path.toString() + att.getFileName();
+		
+//		if(att.getFileName().indexOf(".") > 0) {
+//			name = att.getFileName().split("\\.");
+//			name[1] = "." + name[1];
+//		} else {
+//			name = new String[]{att.getFileName(),""};
+//		}
+		
+		String onlyName = name[2] + name[1];
+		String fileName = path.toString() + onlyName;
 		File attfile = new File(fileName);
 		
 		int i = 1;
 		while(attfile.exists()) {
-			onlyName = name[0] + "_" + i + name[1];
+			onlyName = name[2] + "_" + i + name[1];
 			fileName = path.toString() + onlyName;
 			attfile = new File(fileName);
 			i++;
