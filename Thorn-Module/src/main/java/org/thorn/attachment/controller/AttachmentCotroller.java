@@ -49,7 +49,8 @@ public class AttachmentCotroller extends BaseController {
 			HttpServletResponse response) throws IOException {
 
 		Attachment att = new Attachment();
-		att.setFileName(fileName);
+		//去掉空格
+		att.setFileName(fileName.replaceAll(" ", ""));
 
 		User user = SecurityUserUtils.getCurrentUser();
 		att.setUploader(user.getUserId());
@@ -135,7 +136,6 @@ public class AttachmentCotroller extends BaseController {
 
 		try {
 			att = attService.downloadAtt(id);
-			
 			if(att == null) {
 				ResponseHeaderUtils.setHtmlResponse(response);
 				// 跳到一个不存在的页面去
@@ -148,6 +148,7 @@ public class AttachmentCotroller extends BaseController {
 				out.write(att.getFile());
 				out.flush();
 			} else {
+				log.debug("att path : " + att.getFilePath());
 				response.sendRedirect(att.getFilePath());
 			}
 
