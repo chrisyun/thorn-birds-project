@@ -15,8 +15,7 @@ function FormUtil(attrObj) {
 			xtype : "panel",
 			border : false,
 			layout : "form"
-		},
-		items : [ {} ]
+		}
 	});
 
 	for ( var attr in attrObj) {

@@ -41,7 +41,7 @@ function ProcessMinds(flowInstId, activityName, opType) {
 		
 	if(opType == "create" || opType == "todo") {
 		this.mindsForm.addComp(getHidden("id"), 1.0, true);
-		this.mindsForm.addComp(getTextArea("mind", "意见", 380, 60), 1.0, true);
+		this.mindsForm.addComp(getTextArea("mind", "意见", 450, 50), 1.0, true);
 	}
 	
 	this.html = "";
