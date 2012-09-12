@@ -88,7 +88,7 @@ body {
 					items: [{
 						xtype:"textfield",
 						name : "ValidateCode",
-						width : 70,
+						width : 50,
 						fieldLabel : "验证码",
 						labelWidth : 100,
 						allowBlank: false,
