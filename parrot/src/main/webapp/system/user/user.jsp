@@ -6,7 +6,6 @@
 <script type="text/javascript" src="../../plugins/local/treeField.js"></script>
 <script type="text/javascript" src="../org/orgTree.js"></script>
 <script type="text/javascript" src="userPwd.js"></script>
-<script type="text/javascript" src="user.js"></script>
 <script type="text/javascript">
 
 	document.title = "User - Manage";
@@ -36,4 +35,5 @@
 	};
 	
 </script>
+<script type="text/javascript" src="user.js"></script>
 <jsp:include page="../../reference/footer.jsp"></jsp:include>

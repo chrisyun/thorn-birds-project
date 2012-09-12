@@ -54,10 +54,10 @@ var UserPwd = function(_type) {
 			}
 		});
 	}
-}
+};
 
 UserPwd.prototype.show = function(uid) {
 	this.form.getForm().reset();
 	this.form.findById("userId").setValue(uid);
 	this.win.show("修改密码");
-}
+};
