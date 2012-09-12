@@ -5,7 +5,6 @@
 
 <script type="text/javascript" src="../../plugins/local/treeField.js"></script>
 <script type="text/javascript" src="orgTree.js"></script>
-<script type="text/javascript" src="org.js"></script>
 <script type="text/javascript">
 
 	document.title = "Org - Manage";
@@ -23,8 +22,8 @@
 	var userPermission = {
 		SAVE : '<sec:authorize url="/org/saveOrModify*.jmt">true</sec:authorize>',
 		MODIFY : '<sec:authorize url="/org/saveOrModify*.jmt">true</sec:authorize>',
-		REMOVE : '<sec:authorize url="/org/deleteOrg.jmt">true</sec:authorize>',
+		REMOVE : '<sec:authorize url="/org/deleteOrg.jmt">true</sec:authorize>'
 	};
-	
 </script>
+<script type="text/javascript" src="org.js"></script>
 <jsp:include page="../../reference/footer.jsp"></jsp:include>

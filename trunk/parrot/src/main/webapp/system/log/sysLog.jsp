@@ -11,7 +11,7 @@
 	
 	var userPermission = {
 		MODIFY : '<sec:authorize url="/log/modifyLogLevel.jmt">true</sec:authorize>'
-	}
+	};
 	
 	Ext.onReady(function() {
 		Ext.QuickTips.init();

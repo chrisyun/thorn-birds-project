@@ -5,8 +5,6 @@
 <script type="text/javascript" src="../../plugins/ext-3.2.1/ux/FileUploadField.js"></script>
 <script type="text/javascript" src="../../plugins/ext-3.2.1/ux/MultiSelect.js"></script>
 <script type="text/javascript" src="../../plugins/local/uploadUtils.js"></script>
-<script type="text/javascript" src="attachment.js"></script>
-
 <style type="text/css">
 #attManager {
     background-color: #fff;
@@ -67,7 +65,7 @@
 	var userPermission = {
 		DOWNLOAD : '<sec:authorize url="/att/download.jmt">true</sec:authorize>',
 		DELETE : '<sec:authorize url="/att/delete.jmt">true</sec:authorize>'
-	}
-	
+	};
 </script>
+<script type="text/javascript" src="attachment.js"></script>
 <jsp:include page="../../reference/footer.jsp"></jsp:include>
