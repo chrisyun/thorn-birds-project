@@ -141,7 +141,7 @@ function startProcessHandler() {
 		},
 		baseParams : {
 			pid : processInfo.pid,
-			flowType : processInfo.flowKey,
+			flowType : processInfo.flowKey
 		},
 		reader : new Ext.data.JsonReader({}, Ext.data.Record.create([ {
 			name : "id",
