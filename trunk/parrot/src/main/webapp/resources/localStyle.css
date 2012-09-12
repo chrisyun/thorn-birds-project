@@ -1,3 +1,8 @@
+/** 修正IE9下datefield控件问题*/
+.x-date-menu {
+    width: 175px !important;
+}
+
 /** 让按钮字体大小不随鼠标滑动变化*/
 .x-btn-text-icon .x-btn-icon-small-left .x-btn-text{
     background-position: 0 center;/*默认*/

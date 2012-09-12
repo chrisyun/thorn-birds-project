@@ -14,7 +14,7 @@ Ext.onReady(function() {
 		title : "查询列表",
 		region : "north",
 		height : 130,
-		labelWidth : 90
+		labelWidth : 100
 	};
 	
 	var query_form = new FormUtil(query_attr);

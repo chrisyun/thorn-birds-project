@@ -3,7 +3,6 @@
 <%@ taglib prefix="thorn" uri="/thorn"%>
 <jsp:include page="/springTag/header.jmt"></jsp:include>
 
-<script type="text/javascript" src="resever.js"></script>
 <script type="text/javascript">
 
 	document.title = "Resever - Page";
@@ -33,7 +32,8 @@
 	var userPermission = {
 		SAVE : '<sec:authorize url="/resever/saveOrModify*.jmt">true</sec:authorize>',
 		MODIFY : '<sec:authorize url="/resever/saveOrModify*.jmt">true</sec:authorize>',
-		REMOVE : '<sec:authorize url="/resever/deleteResever.jmt">true</sec:authorize>',
+		REMOVE : '<sec:authorize url="/resever/deleteResever.jmt">true</sec:authorize>'
 	};
 </script>
+<script type="text/javascript" src="resever.js"></script>
 <jsp:include page="../reference/footer.jsp"></jsp:include>

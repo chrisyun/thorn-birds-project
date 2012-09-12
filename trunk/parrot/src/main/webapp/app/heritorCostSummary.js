@@ -18,7 +18,7 @@ Ext.onReady(function() {
 	
 	query_form.addComp(getQueryBtn(onSubmitQueryHandler), 0.3, true);
 
-//	Ext.getCmp("show_query_area").setValue(user.org);
+	Ext.getCmp("show_query_area").setValue(user.org);
 	
 	/** ****************query panel end*************** */
 
