@@ -117,6 +117,50 @@ public class ProjectController extends BaseController {
 		return status;
 	}
 
+	@RequestMapping("/dw/getProjectDWExcel")
+	public void exportProjectDWExcel(String orgCode, String userName,
+			String cumail, String userId, HttpServletResponse response) {
+
+		try {
+			User user = SecurityUserUtils.getCurrentUser();
+			List<String> roles = SecurityUserUtils.getRoleList();
+
+			if (!SecurityUserUtils.isSysAdmin()
+					&& !roles.contains(AppConfiguration.ROLE_CENTRAL)) {
+				orgCode = user.getOrgCode();
+			}
+
+			List<UserExtend> list = projectService.queryList(orgCode, userName,
+					cumail, userId);
+
+			String title = "项目承担单位列表";
+			ResponseHeaderUtils.setExcelResponse(response, title);
+
+			String[] header = new String[] { "单位编码", "承担单位名称", "联系地址", "单位负责人",
+					"联系电话", "开户名称", "开户银行", "银行账号" };
+			int[] columnWidth = new int[] { 150, 250, 250, 150, 150, 150, 150,
+					250 };
+
+			String[] orderArray = new String[] { "userId", "userName",
+					"address", "contacts", "phone", "bankName", "bank",
+					"bankAccount" };
+			List<Object[]> dataSource = ReflectUtils.object2Array(list);
+
+			ExcelStyle style = new ExcelStyle();
+
+			ArrayAdapter adapter = new ArrayAdapter(header, orderArray,
+					dataSource);
+
+			ExcelUtils.write2Excel(adapter, "项目承担单位", columnWidth, style,
+					response.getOutputStream());
+			response.getOutputStream().flush();
+		} catch (DBAccessException e) {
+			log.error("exportProjectDWExcel[UserExtend] - " + e.getMessage(), e);
+		} catch (IOException e) {
+			log.error("exportProjectDWExcel[UserExtend] - " + e.getMessage(), e);
+		}
+	}
+
 	@RequestMapping("/saveOrModifyProject")
 	@ResponseBody
 	public Status saveOrModifyProject(Project project, String opType) {

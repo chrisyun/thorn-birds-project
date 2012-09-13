@@ -15,7 +15,10 @@ import org.thorn.web.entity.Page;
  * @date 2012-8-10 上午10:59:16
  */
 public interface IProjectService {
-
+	
+	public List<UserExtend> queryList(String orgCode, String userName,
+			String cumail, String userId) throws DBAccessException;
+	
 	public UserExtend queryUserExtend(String userId) throws DBAccessException;
 
 	public void save(UserExtend ue) throws DBAccessException;

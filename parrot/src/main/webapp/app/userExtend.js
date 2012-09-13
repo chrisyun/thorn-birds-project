@@ -1,6 +1,7 @@
 var userExtendPageUrl = sys.path + "/project/dw/getProjectDWPage.jmt";
 var userExtendSubmitUrl = sys.path + "/project/dw/saveOrModifyProjectDW.jmt";
 var getDWProjectUrl = sys.path + "/project/getProjectOfDW.jmt";
+var getDWExcelUrl = sys.path + "/project/dw/getProjectDWExcel.jmt";
 
 var pageSize = 20;
 
@@ -48,6 +49,15 @@ Ext.onReady(function() {
 			handler : modifyHandler
 		});
 	}
+	bar.push("-");
+	bar.push({
+		text : "费用导出",
+		iconCls : "silk-excel",
+		minWidth : Configuration.minBtnWidth,
+		handler : exportHandler
+	});
+	
+	
 	userExtend_grid.setBottomBar(bar);
 	
 	var listeners = {
@@ -182,7 +192,19 @@ Ext.onReady(function() {
 			obj.win.hide();
 		});
 	}
-
+	
+	function exportHandler() {
+		var name = Ext.getCmp("query_name").getValue();
+		var code = Ext.getCmp("query_code").getValue();
+		var orgCode = Ext.getCmp("show_query_area").getValue();
+		
+		var excelUrl = getDWExcelUrl + "?name=" + name
+				+ "&code=" + code + "&orgCode=" + orgCode +
+		"&key=" + Math.random();
+		
+		document.getElementById("excelFrame").src = excelUrl;
+	}
+	
 	function onSubmitQueryHandler() {
 		var thisForm = query_form.getForm();
 		var store = grid.getStore();
