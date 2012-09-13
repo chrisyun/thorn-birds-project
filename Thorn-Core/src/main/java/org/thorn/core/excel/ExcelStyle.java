@@ -51,11 +51,11 @@ public class ExcelStyle {
 		cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 
 		HSSFFont font = workBook.createFont();
-		font.setFontName("幼圆");
+		font.setFontName("宋体");
 		font.setFontHeightInPoints((short) 9);
 		font.setColor(HSSFColor.BLACK.index);
-		font.setBoldweight(font.BOLDWEIGHT_BOLD);
-		font.setItalic(true);
+//		font.setBoldweight(font.BOLDWEIGHT_BOLD);
+//		font.setItalic(true);
 		//删除线
 //		font.setStrikeout(true);
 		//下划线
