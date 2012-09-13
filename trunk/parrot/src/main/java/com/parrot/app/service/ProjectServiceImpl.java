@@ -190,6 +190,20 @@ public class ProjectServiceImpl implements IProjectService {
 		return page;
 	}
 
+	public List<UserExtend> queryList(String orgCode, String userName,
+			String cumail, String userId) throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+		filter.put("orgCode", orgCode);
+		filter.put("userName", userName);
+		filter.put("cumail", cumail);
+		filter.put("userId", userId);
+
+		filter.put("isShow", Configuration.DB_YES);
+		filter.put("isDisabled", Configuration.DB_NO);
+
+		return myBatisDaoSupport.queryList(filter, UserExtend.class);
+	}
+
 	public Project queryProject(String projectName) throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
 		filter.put("name", projectName);
