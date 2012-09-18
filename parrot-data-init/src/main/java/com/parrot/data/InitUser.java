@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -83,6 +84,34 @@ public class InitUser {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateUsrPwd() {
+		
+		IUserService service = SpringContext.getBean("userService");
+		try {
+			List<User> list = service.queryList(null, null, null, null, null, null, null);
+			
+			System.out.println("----------" + list.size() + "-------------------------");
+			
+			for(User user : list) {
+				
+				if(StringUtils.equals("ADMIN", user.getUserId())) {
+					continue;
+				}
+				
+				user.setUserPwd("111www");
+				
+				try {
+					service.changePwd(user.getUserId(), "111www");
+				} catch (DBAccessException e) {
+					log.error("insert user : " + user.getUserId() + " error");
+				}
+			}
+		} catch (DBAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
