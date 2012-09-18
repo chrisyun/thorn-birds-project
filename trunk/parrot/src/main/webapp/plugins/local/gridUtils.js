@@ -20,13 +20,10 @@ function GridUtil(dataUrl, recordArray, pageSize) {
 		}
 	    return start + rowIndex + 1;   
 	}; 
-	
-	
-	columnArray.push(getRecord("序号", "_num", "number", 40, false, rowNumRender));
-	
 	this.sm = new Ext.grid.CheckboxSelectionModel({});
 	columnArray.push(this.sm);
-
+	columnArray.push(getRecord("序号", "_num", "number", 40, false, rowNumRender));
+	
 	for (var i = 0; i < recordArray.length; i++) {
 		var store = new Object();
 		store.name = recordArray[i].id;
