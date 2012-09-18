@@ -36,7 +36,7 @@ public class PdfUtils {
 			BaseFont bfChinese = BaseFont.createFont("STSong-Light",
 					"UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
 			// 设置字体大小
-			Font titleFont = new Font(bfChinese, 15, Font.BOLD);
+			Font titleFont = new Font(bfChinese, 13, Font.BOLD);
 			Paragraph titlePa = new Paragraph(title, titleFont);
 			titlePa.setAlignment(Element.ALIGN_CENTER);
 			
@@ -53,13 +53,13 @@ public class PdfUtils {
 			// 设置表格默认为边框1
 			table.getDefaultCell().setBorder(1);
 			
-			Font headerFont = new Font(bfChinese, 12, Font.BOLD);
+			Font headerFont = new Font(bfChinese, 10, Font.BOLD);
 			for (String header : headers) {
 				table.addCell(getHeaderCell(header, headerFont));
 			}
 			table.completeRow();
 			
-			Font contentFont = new Font(bfChinese, 12, Font.BOLD);
+			Font contentFont = new Font(bfChinese, 8, Font.BOLD);
 			for(String[] rows : content) {
 				for(String row : rows) {
 					PdfPCell cell = new PdfPCell(new Paragraph(row, contentFont));
