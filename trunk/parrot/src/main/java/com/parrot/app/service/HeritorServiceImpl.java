@@ -11,6 +11,7 @@ import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.dao.mybatis.helper.MyBatisDaoSupport;
+import org.thorn.log.Logging;
 import org.thorn.web.entity.Page;
 
 /**
@@ -24,15 +25,18 @@ public class HeritorServiceImpl implements IHeritorService {
 	@Autowired
 	@Qualifier("myBatisDaoSupport")
 	private MyBatisDaoSupport myBatisDaoSupport;
-
+	
+	@Logging
 	public void save(Heritor heritor) throws DBAccessException {
 		myBatisDaoSupport.save(heritor);
 	}
-
+	
+	@Logging
 	public void modify(Heritor heritor) throws DBAccessException {
 		myBatisDaoSupport.modify(heritor);
 	}
-
+	
+	@Logging
 	public void modifyProject(Integer projectId, String ids)
 			throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
@@ -40,10 +44,11 @@ public class HeritorServiceImpl implements IHeritorService {
 		filter.put("projectId", projectId);
 		filter.put("list", list);
 
-		myBatisDaoSupport.modify(filter, "updateProject");
-		myBatisDaoSupport.modify(filter, "updateProjectNo");
+		myBatisDaoSupport.modify(filter, "HeritorMapper.updateProject");
+		myBatisDaoSupport.modify(filter, "HeritorMapper.updateProjectNo");
 	}
-
+	
+	@Logging
 	public void delete(String ids) throws DBAccessException {
 		List<String> list = LocalStringUtils.splitStr2Array(ids);
 		myBatisDaoSupport.deleteForBatch(list, Heritor.class);
