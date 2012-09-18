@@ -6,7 +6,24 @@ function GridUtil(dataUrl, recordArray, pageSize) {
 	var storeArray = new Array();
 
 	var columnArray = new Array();
-	columnArray.push(new Ext.grid.RowNumberer({}));
+//	columnArray.push(new Ext.grid.RowNumberer({}));
+	
+	var rowNumRender = function(name, metadata, record, rowIndex, colIndex, store) {	
+		var start = 0;
+		if(!Ext.isEmpty(store.lastOptions)
+				&& !Ext.isEmpty(store.lastOptions.params)
+				&& !Ext.isEmpty(store.lastOptions.params.start)) {
+			start = store.lastOptions.params.start;
+			if(isNaN(start)) {
+		    	start = 0;
+		    }
+		}
+	    return start + rowIndex + 1;   
+	}; 
+	
+	
+	columnArray.push(getRecord("序号", "_num", "number", 40, false, rowNumRender));
+	
 	this.sm = new Ext.grid.CheckboxSelectionModel({});
 	columnArray.push(this.sm);
 
