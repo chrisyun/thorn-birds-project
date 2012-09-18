@@ -21,7 +21,8 @@ public class Start {
 		SpringContext context = new SpringContext();
 		context.setApplicationContext(new String[] { "Thorn-Spring.xml" });
 		
-//		InitUser user = new InitUser();
+		InitUser user = new InitUser();
+		user.updateUsrPwd();
 //		
 //		user.start();
 		
@@ -29,8 +30,8 @@ public class Start {
 //		
 //		project.start();
 		
-		InitHeritor her = new InitHeritor();
-		her.start();
+//		InitHeritor her = new InitHeritor();
+//		her.start();
 		
 	}
 
