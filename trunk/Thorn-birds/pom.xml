@@ -38,6 +38,7 @@
 		<module>Thorn-Web</module>
 		<module>kaola</module>
 		<module>parrot</module>
+		<module>parrot-data-init</module>
 		<module>Thorn-Module</module>
 	</modules>
 
