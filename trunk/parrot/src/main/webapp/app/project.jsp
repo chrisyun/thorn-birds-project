@@ -40,6 +40,12 @@
 	var projectTypeRender = function(str) {
 		return Render.dictRender(projectType, str);
 	};
+	
+	var projectOtherType = <thorn:dd  typeId="PROJECT_OTHERTYPE" />;
+	projectOtherType.unshift(["","全部"]);
+	var projectOtherTypeRender = function(str) {
+		return Render.dictRender(projectOtherType, str);
+	};
 
 	var minority = <thorn:dd  typeId="MINORITY" />;
 	var minorityRender = function(str) {

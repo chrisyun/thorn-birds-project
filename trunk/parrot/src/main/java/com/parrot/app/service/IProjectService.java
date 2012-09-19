@@ -15,10 +15,10 @@ import org.thorn.web.entity.Page;
  * @date 2012-8-10 上午10:59:16
  */
 public interface IProjectService {
-	
+
 	public List<UserExtend> queryList(String orgCode, String userName,
 			String cumail, String userId) throws DBAccessException;
-	
+
 	public UserExtend queryUserExtend(String userId) throws DBAccessException;
 
 	public void save(UserExtend ue) throws DBAccessException;
@@ -37,8 +37,8 @@ public interface IProjectService {
 
 	public Page<Project> queryPage(String name, String code, String userName,
 			String userId, String type, String isUnProject, String province,
-			String provinceArea, long start, long limit, String sort, String dir)
-			throws DBAccessException;
+			String provinceArea, String otherType, long start, long limit,
+			String sort, String dir) throws DBAccessException;
 
 	public List<Project> queryProjectList(String province, String userId)
 			throws DBAccessException;
@@ -54,7 +54,7 @@ public interface IProjectService {
 
 	public Double queryProjectCostSum(Integer year, String province)
 			throws DBAccessException;
-	
+
 	public Project queryProject(String projectName) throws DBAccessException;
 
 }

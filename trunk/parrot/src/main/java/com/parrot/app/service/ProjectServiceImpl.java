@@ -27,17 +27,17 @@ public class ProjectServiceImpl implements IProjectService {
 	@Autowired
 	@Qualifier("myBatisDaoSupport")
 	private MyBatisDaoSupport myBatisDaoSupport;
-	
+
 	@Logging
 	public void save(Project project) throws DBAccessException {
 		myBatisDaoSupport.save(project);
 	}
-	
+
 	@Logging
 	public void modify(Project project) throws DBAccessException {
 		myBatisDaoSupport.modify(project);
 	}
-	
+
 	@Logging
 	public void delete(String ids) throws DBAccessException {
 		List<String> list = LocalStringUtils.splitStr2Array(ids);
@@ -46,8 +46,8 @@ public class ProjectServiceImpl implements IProjectService {
 
 	public Page<Project> queryPage(String name, String code, String userName,
 			String userId, String type, String isUnProject, String province,
-			String provinceArea, long start, long limit, String sort, String dir)
-			throws DBAccessException {
+			String provinceArea, String otherType, long start, long limit,
+			String sort, String dir) throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
 		filter.put("name", name);
 		filter.put("code", code);
@@ -57,6 +57,7 @@ public class ProjectServiceImpl implements IProjectService {
 		filter.put("userId", userId);
 		filter.put("province", province);
 		filter.put("provinceArea", provinceArea);
+		filter.put("otherType", otherType);
 		filter.put(Configuration.PAGE_LIMIT, limit);
 		filter.put(Configuration.PAGE_START, start);
 		filter.put(Configuration.SROT_NAME, sort);

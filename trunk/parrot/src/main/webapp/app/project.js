@@ -25,15 +25,17 @@ Ext.onReady(function() {
 	var query_form = new FormUtil(query_attr);
 
 	query_form.addComp(getComboBox("query_type", "项目类别", 160, projectType,
-			false), 0.26, true);
-	query_form.addComp(getText("query_name", "项目名称",160), 0.26, true);
+			false), 0.23, true);
+	query_form.addComp(getText("query_name", "项目名称",160), 0.23, true);
 	query_form.addComp(getComboBox("query_pArea", "省份地区", 160, provinceAreaDD, false),
-			0.26, true);
+			0.23, true);
 	query_form.addComp(getComboBox("query_area", "所属省份", 160, area, false),
-			0.26, true);
-	query_form.addComp(getText("query_code", "项目编码",160), 0.26, true);
-	query_form.addComp(getText("query_userName", "项目保护单位",160), 0.26, true);
-	query_form.addComp(getQueryBtn(onSubmitQueryHandler), 0.22, true);
+			0.23, true);
+	query_form.addComp(getText("query_code", "项目编码",160), 0.23, true);
+	query_form.addComp(getText("query_userName", "项目保护单位",160), 0.23, true);
+	query_form.addComp(getComboBox("query_otype", "项目分类", 160, projectOtherType, false),
+			0.25, true);
+	query_form.addComp(getQueryBtn(onSubmitQueryHandler), 0.23, true);
 	/** ****************query panel end*************** */
 
 	/** ****************project Grid panel start************ */
@@ -43,6 +45,7 @@ Ext.onReady(function() {
 			getRecord(null, "userId", "string"),
 			getRecord(null, "bigNo", "string"),
 			getRecord(null, "smallNo", "string"),
+			getRecord(null, "minority", "string"),
 			getRecord("省份", "province", "string", 80, true, areaRender),
 			getRecord("项目类别", "type", "string", 150, true, projectTypeRender),
 			getRecord("项目编码", "code", "string", 100, false),
@@ -50,8 +53,8 @@ Ext.onReady(function() {
 			getRecord("申报地区或单位", "area", "string", 200, false),
 			getRecord("批次", "batchNum", "string", 50, true),
 			getRecord("项目保护单位", "userName", "string", 200, true),
-			getRecord("民族", "minority", "string", 80, true, minorityRender),
-			getRecord("联合国非遗项目", "isUnProject", "string", 130, true, yesOrNoRender)];
+			getRecord("项目分类", "otherType", "string", 100, true, projectOtherTypeRender),
+			getRecord("联合国非遗项目", "isUnProject", "string", 120, true, yesOrNoRender)];
 	var project_grid = new GridUtil(projectPageUrl, recordArray, pageSize);
 	
 	var grid_Bar = getCommonBar(saveHandler, modifyHandler, deleteHandler, userPermission);
@@ -123,8 +126,15 @@ Ext.onReady(function() {
 	project_form.addComp(getNumberText("bigNo", "大项序号", 180), 0.5, true);
 	project_form.addComp(getComboBox("type", "项目类别", 180, projectType),
 			0.5, false);
+	
 	project_form.addComp(getText("code", "项目编码", 180), 0.5, false);
-	project_form.addComp(getText("name", "项目名称", 180), 0.5, false);
+	project_form.addComp(getText("name", "项目名称", 498), 1.0, false);
+	
+	var modifyType = projectOtherType.slice(0);
+	modifyType.shift();
+	modifyType.unshift([" ","无"]);
+	project_form.addComp(getComboBox("otherType", "项目分类", 180, modifyType),
+			0.5, true);
 
 	project_form.addComp(getNumberText("smallNo", "子项序号", 180), 0.5, true);
 	project_form.addComp(getComboBox("minority", "民族", 180, minority),
@@ -134,7 +144,7 @@ Ext.onReady(function() {
 	project_form.addComp(getText("batchNum", "批次", 180), 0.5, false);
 	project_form.addComp(getText("area", "申报地区或单位", 180), 0.5, false);
 	
-	var userCb = getComboBox("userId", "项目保护单位", 180, null);
+	var userCb = getComboBox("userId", "项目保护单位", 300, null);
 	userCb.valueField = "userId";
 	userCb.displayField = "userName";
 	userCb.lazyInit = true;
@@ -147,7 +157,7 @@ Ext.onReady(function() {
 		}	
 	};
 	
-	project_form.addComp(userCb, 0.5, false);
+	project_form.addComp(userCb, 0.7, false);
 	project_form.addComp(getButton({
 		text : "新建项目承担单位",
 		handler : function() {
@@ -161,7 +171,7 @@ Ext.onReady(function() {
 				}
 			});
 		}
-	}), 0.5, true);
+	}), 0.3, true);
 	
 	project_form.addComp(getHidden("opType"), 0, true);
 	project_form.addComp(getHidden("id"), 0, true);
@@ -304,6 +314,7 @@ Ext.onReady(function() {
 			bigNo : selectedRecord.get("bigNo"),
 			smallNo : selectedRecord.get("smallNo"),
 			batchNum : selectedRecord.get("batchNum"),
+			otherType : selectedRecord.get("otherType"),
 			area : selectedRecord.get("area"),
 			userId : selectedRecord.get("userId"),
 			province : selectedRecord.get("province"),
@@ -379,8 +390,10 @@ Ext.onReady(function() {
 		var pArea = Ext.getCmp("show_query_pArea").getValue();
 		var code = Ext.getCmp("query_code").getValue();
 		var userName = Ext.getCmp("query_userName").getValue();
-
+		var otherType = Ext.getCmp("show_query_otype").getValue();
+		
 		store.baseParams.name = name;
+		store.baseParams.otherType = otherType;
 		store.baseParams.code = code;
 		store.baseParams.userName = userName;
 		store.baseParams.type = type;
