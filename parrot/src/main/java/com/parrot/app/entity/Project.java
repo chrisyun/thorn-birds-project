@@ -50,6 +50,8 @@ public class Project implements Serializable {
 	private String userName;
 	
 	private String province;
+	
+	private String otherType;
 
 	public Integer getId() {
 		return id;
@@ -153,6 +155,14 @@ public class Project implements Serializable {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public String getOtherType() {
+		return otherType;
+	}
+
+	public void setOtherType(String otherType) {
+		this.otherType = otherType;
 	}
 	
 }
