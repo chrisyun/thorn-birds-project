@@ -67,7 +67,20 @@
 		<servlet-name>thorn</servlet-name>
 		<url-pattern>*.jmt</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>thorn</servlet-name>
+		<url-pattern>*.jhtml</url-pattern>
+	</servlet-mapping>
 
+	<!-- sitemesh -->
+	<filter>
+		<filter-name>sitemesh</filter-name>
+		<filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>sitemesh</filter-name>
+		<url-pattern>*.jhtml</url-pattern>
+	</filter-mapping>
 
 	<!-- 验证码 -->
 	<servlet>
@@ -78,16 +91,16 @@
 		<servlet-name>ImageValidateCodeServlet</servlet-name>
 		<url-pattern>/resources/ImageValidateCodeServlet</url-pattern>
 	</servlet-mapping>
-	
+
 	<!-- http查看日志 -->
 	<servlet>
 		<servlet-name>ViewLastLog</servlet-name>
 		<servlet-class>org.thorn.log.controller.SysLogViewController</servlet-class>
 	</servlet>
-  	<servlet-mapping>
-    	<servlet-name>ViewLastLog</servlet-name>
-    	<url-pattern>/system/log/sysLogView.jsp</url-pattern>
-  	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ViewLastLog</servlet-name>
+		<url-pattern>/system/log/sysLogView.jsp</url-pattern>
+	</servlet-mapping>
 
 
 	<jsp-config>
@@ -98,7 +111,7 @@
 	</jsp-config>
 
 	<welcome-file-list>
-		<welcome-file>login.jsp</welcome-file>
+		<welcome-file>login.jhtml</welcome-file>
 	</welcome-file-list>
 
 	<!-- 错误页面 ,错误页面必须指定 isErrorPage="true" -->
