@@ -1,6 +1,7 @@
 package org.thorn.web.controller;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
@@ -17,38 +18,36 @@ import org.thorn.web.entity.Status;
  */
 @Controller
 public class SystemController {
-	
-	/**
-	 * 
-	 * @Description：解析spring的皮肤标签，必须通过spring的controller进行跳转
-	 * @author：chenyun 	        
-	 * @date：2012-5-25 上午10:22:53
-	 * @return
-	 */
-	@RequestMapping("/springTag/header")
-	public String header() {
-		return "/reference/header";
+
+	@RequestMapping("/**/*.jhtml")
+	public String toJsp(HttpServletRequest request) {
+		String url = request.getServletPath();
+		url = url.replaceAll(".jhtml", "");
+
+		return url;
 	}
-	
+
 	/**
 	 * 
 	 * @Description：处理自定义换肤的请求
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-5-25 上午10:22:29
-	 * @param theme		皮肤类型
+	 * @param theme
+	 *            皮肤类型
 	 * @param response
 	 * @return
 	 */
 	@RequestMapping("/theme/change")
 	@ResponseBody
-	public Status changeTheme(String theme,HttpServletResponse response) {
+	public Status changeTheme(String theme, HttpServletResponse response) {
 		Status status = new Status();
-		
-		Cookie cookie = new Cookie(CookieThemeResolver.DEFAULT_COOKIE_NAME,theme);
+
+		Cookie cookie = new Cookie(CookieThemeResolver.DEFAULT_COOKIE_NAME,
+				theme);
 		cookie.setPath("/");
 		cookie.setMaxAge(600000);
 		response.addCookie(cookie);
-		
+
 		status.setMessage("更换皮肤成功!");
 
 		return status;
