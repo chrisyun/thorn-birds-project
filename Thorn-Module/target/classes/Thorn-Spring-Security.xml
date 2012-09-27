@@ -17,8 +17,8 @@ http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 		<intercept-url pattern="/plugins/**" filters="none" />
 		<intercept-url pattern="/user/findBackMyPwd.jmt" filters="none" />
 		<intercept-url pattern="/Alert**" filters="none" />
-		<intercept-url pattern="/login.jsp*" filters="none" />
-		<intercept-url pattern="/**/*.js" filters="none" />
+		<intercept-url pattern="/login.jhtml*" filters="none" />
+		<intercept-url pattern="/js/**" filters="none" />
 		
 		<!-- 检测失效的sessionId,超时时定位到另外一个URL -->
 		<session-management invalid-session-url="/AlertTimeOut.jsp">
@@ -32,7 +32,7 @@ http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 
 		<!-- logout需要清除cookie及数据库信息，必须配置rememberme节点 -->
 		<remember-me data-source-ref="dataSource-jdbc" />
-		<logout logout-success-url="/login.jsp" invalidate-session="true" />
+		<logout logout-success-url="/login.jhtml" invalidate-session="true" />
 
 		<custom-filter ref="loginFilter" position="FORM_LOGIN_FILTER" />
 		<custom-filter ref="permissionFilter" before="FILTER_SECURITY_INTERCEPTOR" />
@@ -90,12 +90,12 @@ http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 	</beans:bean>
 	<beans:bean id="loginSuccessHandler"
 		class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
-		<beans:property name="defaultTargetUrl" value="/system/main.jsp" />
+		<beans:property name="defaultTargetUrl" value="/main.jhtml" />
 		<beans:property name="alwaysUseDefaultTargetUrl" value="true" />
 	</beans:bean>
 	<beans:bean id="loginFailureHandler"
 		class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
-		<beans:property name="defaultFailureUrl" value="/login.jsp?error=true"></beans:property>
+		<beans:property name="defaultFailureUrl" value="/login.jhtml?error=true"></beans:property>
 	</beans:bean>
 	<!-- ************************************************* -->
 	<!-- REMEMBER-ME filter -->
@@ -129,7 +129,7 @@ http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 
 	<beans:bean id="authenticationProcessingFilterEntryPoint"
 		class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
-		<beans:property name="loginFormUrl" value="/login.jsp"></beans:property>
+		<beans:property name="loginFormUrl" value="/login.jhtml"></beans:property>
 	</beans:bean>
 
 	<!-- ************************************************* -->
