@@ -20,5 +20,5 @@ function completePage() {
         });
     };
 
-    hideMask.defer(250);
+    Ext.defer(hideMask, 250);
 }
