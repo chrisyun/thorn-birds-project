@@ -16,12 +16,14 @@
 		<result column="USERID" property="userId" jdbcType="VARCHAR" />
 		<result column="USERNAME" property="userName" jdbcType="VARCHAR" />
 		<result column="PROVINCE" property="province" jdbcType="VARCHAR" />
-		<result column="OTHERTYPE" property="otherType" jdbcType="VARCHAR" />
+		<result column="ISJHXM" property="isJhxm" jdbcType="VARCHAR" />
+		<result column="ISWHXM" property="isWhxm" jdbcType="VARCHAR" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
 		P.ID,P.NAME,P.CODE,P.TYPE,P.ISUNPROJECT,P.BIGNO,P.SMALLNO,
-		P.BATCHNUM,P.MINORITY,P.AREA,P.USERID,U.USERNAME,P.PROVINCE,P.OTHERTYPE
+		P.BATCHNUM,P.MINORITY,P.AREA,P.USERID,U.USERNAME,
+		P.PROVINCE,P.ISJHXM,P.ISWHXM
   	</sql>
 
 	<sql id="Where_Clause">
@@ -47,8 +49,11 @@
       		<if test="userId != null and userId != ''">
 				AND P.USERID = #{userId,jdbcType=VARCHAR}
       		</if>
-      		<if test="otherType != null and otherType != ''">
-				AND P.OTHERTYPE = #{otherType,jdbcType=VARCHAR}
+      		<if test="isJhxm != null and isJhxm != ''">
+				AND P.ISJHXM = #{isJhxm,jdbcType=VARCHAR}
+      		</if>
+      		<if test="isWhxm != null and isWhxm != ''">
+				AND P.ISWHXM = #{isWhxm,jdbcType=VARCHAR}
       		</if>
       		<if test="provinceArea != null and provinceArea != ''">
 				AND P.PROVINCE in (select dname from t_sys_dict where TYPEID = #{provinceArea,jdbcType=VARCHAR})
@@ -70,7 +75,8 @@
 			<if test="area != null and area != ''">AREA,</if>
 			<if test="userId != null and userId != ''">USERID,</if>
 			<if test="province != null and province != ''">PROVINCE,</if>
-			<if test="otherType != null and otherType != ''">OTHERTYPE,</if>
+			<if test="isJhxm != null and isJhxm != ''">ISJHXM,</if>
+			<if test="isWhxm != null and isWhxm != ''">ISWHXM,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="name != null and name != ''">#{name,jdbcType=VARCHAR},</if>
@@ -84,7 +90,8 @@
 			<if test="area != null and area != ''">#{area,jdbcType=VARCHAR},</if>
 			<if test="userId != null and userId != ''">#{userId,jdbcType=VARCHAR},</if>
 			<if test="province != null and province != ''">#{province,jdbcType=VARCHAR},</if>
-			<if test="otherType != null and otherType != ''">#{otherType,jdbcType=VARCHAR},</if>
+			<if test="isJhxm != null and isJhxm != ''">#{isJhxm,jdbcType=VARCHAR},</if>
+			<if test="isWhxm != null and isWhxm != ''">#{isWhxm,jdbcType=VARCHAR},</if>
 		</trim>
 	</insert>
 	
@@ -102,7 +109,8 @@
 			<if test="area != null and area != ''">AREA = #{area,jdbcType=VARCHAR},</if>
 			<if test="userId != null and userId != ''">USERID = #{userId,jdbcType=VARCHAR},</if>
 			<if test="province != null and province != ''">PROVINCE = #{province,jdbcType=VARCHAR},</if>
-			<if test="otherType != null and otherType != ''">OTHERTYPE = #{otherType,jdbcType=VARCHAR},</if>
+			<if test="isJhxm != null and isJhxm != ''">ISJHXM = #{isJhxm,jdbcType=VARCHAR},</if>
+			<if test="isWhxm != null and isWhxm != ''">ISWHXM = #{isWhxm,jdbcType=VARCHAR},</if>
 		</set>
 		where ID = #{id,jdbcType=DECIMAL}
 	</update>

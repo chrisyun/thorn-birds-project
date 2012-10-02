@@ -254,7 +254,7 @@ public class ProjectController extends BaseController {
 	public Page<Project> getProjectPage(long start, long limit, String sort,
 			String dir, String name, String code, String userName, String type,
 			String isUnProject, String province, String provinceArea,
-			String otherType) {
+			String isJhxm, String isWhxm) {
 		Page<Project> page = new Page<Project>();
 		String userId = null;
 
@@ -274,7 +274,7 @@ public class ProjectController extends BaseController {
 			}
 
 			page = projectService.queryPage(name, code, userName, userId, type,
-					isUnProject, province, provinceArea, otherType, start,
+					isUnProject, province, provinceArea, isJhxm, isWhxm, start,
 					limit, sort, dir);
 		} catch (DBAccessException e) {
 			log.error("getProjectPage[Project] - " + e.getMessage(), e);

@@ -37,8 +37,8 @@ public interface IProjectService {
 
 	public Page<Project> queryPage(String name, String code, String userName,
 			String userId, String type, String isUnProject, String province,
-			String provinceArea, String otherType, long start, long limit,
-			String sort, String dir) throws DBAccessException;
+			String provinceArea, String isJhxm, String isWhxm, long start,
+			long limit, String sort, String dir) throws DBAccessException;
 
 	public List<Project> queryProjectList(String province, String userId)
 			throws DBAccessException;

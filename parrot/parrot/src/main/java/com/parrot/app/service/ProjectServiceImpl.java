@@ -28,17 +28,17 @@ public class ProjectServiceImpl implements IProjectService {
 	@Qualifier("myBatisDaoSupport")
 	private MyBatisDaoSupport myBatisDaoSupport;
 
-	@Logging
+	@Logging("项目信息保存")
 	public void save(Project project) throws DBAccessException {
 		myBatisDaoSupport.save(project);
 	}
 
-	@Logging
+	@Logging("项目信息修改")
 	public void modify(Project project) throws DBAccessException {
 		myBatisDaoSupport.modify(project);
 	}
 
-	@Logging
+	@Logging("项目信息删除")
 	public void delete(String ids) throws DBAccessException {
 		List<String> list = LocalStringUtils.splitStr2Array(ids);
 		myBatisDaoSupport.deleteForBatch(list, Project.class);
@@ -46,8 +46,8 @@ public class ProjectServiceImpl implements IProjectService {
 
 	public Page<Project> queryPage(String name, String code, String userName,
 			String userId, String type, String isUnProject, String province,
-			String provinceArea, String otherType, long start, long limit,
-			String sort, String dir) throws DBAccessException {
+			String provinceArea, String isJhxm, String isWhxm, long start,
+			long limit, String sort, String dir) throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
 		filter.put("name", name);
 		filter.put("code", code);
@@ -57,7 +57,8 @@ public class ProjectServiceImpl implements IProjectService {
 		filter.put("userId", userId);
 		filter.put("province", province);
 		filter.put("provinceArea", provinceArea);
-		filter.put("otherType", otherType);
+		filter.put("isJhxm", isJhxm);
+		filter.put("isWhxm", isWhxm);
 		filter.put(Configuration.PAGE_LIMIT, limit);
 		filter.put(Configuration.PAGE_START, start);
 		filter.put(Configuration.SROT_NAME, sort);
@@ -153,10 +154,12 @@ public class ProjectServiceImpl implements IProjectService {
 				.queryOne(filter, UserExtend.class);
 	}
 
+	@Logging("项目承担单位初始化")
 	public void save(UserExtend ue) throws DBAccessException {
 		myBatisDaoSupport.save(ue);
 	}
 
+	@Logging("项目承担单位修改")
 	public void modify(UserExtend ue) throws DBAccessException {
 		myBatisDaoSupport.modify(ue);
 	}
