@@ -51,7 +51,9 @@ public class Project implements Serializable {
 	
 	private String province;
 	
-	private String otherType;
+	private String isJhxm;
+	
+	private String isWhxm;
 
 	public Integer getId() {
 		return id;
@@ -157,12 +159,20 @@ public class Project implements Serializable {
 		this.userName = userName;
 	}
 
-	public String getOtherType() {
-		return otherType;
+	public String getIsJhxm() {
+		return isJhxm;
 	}
 
-	public void setOtherType(String otherType) {
-		this.otherType = otherType;
+	public void setIsJhxm(String isJhxm) {
+		this.isJhxm = isJhxm;
+	}
+
+	public String getIsWhxm() {
+		return isWhxm;
+	}
+
+	public void setIsWhxm(String isWhxm) {
+		this.isWhxm = isWhxm;
 	}
 	
 }
