@@ -53,8 +53,8 @@ public class CSVUtils {
 			String filePath) throws IOException {
 
 		List<String[]> allRows = new ArrayList<String[]>();
-		allRows.containsAll(header);
-		allRows.containsAll(rows);
+		allRows.addAll(header);
+		allRows.addAll(rows);
 
 		write2Csv(allRows, filePath, DEFAULT_SEPARATOR);
 	}
