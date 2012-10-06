@@ -1,14 +1,18 @@
 package org.thorn.log;
 
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.thorn.core.util.ExecutorUtils;
 import org.thorn.dao.core.Configuration;
 import org.thorn.log.entity.AppLog;
@@ -23,6 +27,8 @@ import org.thorn.security.SecurityUserUtils;
  */
 @Aspect
 public class AppLogAdvisor {
+	
+	static private Logger log = LoggerFactory.getLogger(AppLogAdvisor.class);
 	
 	/**
 	 * 
@@ -76,32 +82,52 @@ public class AppLogAdvisor {
 	}
 	
 	private AppLog getAppLog(JoinPoint jp) {
+
 		Object[] args = jp.getArgs();
 		String methodName = jp.getSignature().getName();
+
 		String className = jp.getTarget().getClass().getName();
 		String userId = SecurityUserUtils.getCurrentUser().getUserId();
-		
+
+		Class[] argsCls = new Class[args.length];
+		for (int i = 0; i < argsCls.length; i++) {
+			argsCls[i] = args[i].getClass();
+		}
+
+		try {
+			Method mt = jp.getTarget().getClass()
+					.getMethod(methodName, argsCls);
+
+			Logging logAn = mt.getAnnotation(Logging.class);
+
+			if (logAn != null && StringUtils.isNotBlank(logAn.value())) {
+				methodName = logAn.value();
+			}
+		} catch (Exception e) {
+			log.warn("getAppLog[getAnnotation-Method] failure", e.getMessage());
+		}
+
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		
+
 		AppLog log = new AppLog();
 		log.setExecuteTime(df.format(new Date()));
 		log.setMethodName(methodName);
 		log.setModuleName(className);
 		log.setUserId(userId);
-		
-		//将参数转换为json
+
+		// 将参数转换为json
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			String parameter = mapper.writeValueAsString(args);
-			if(parameter.length() > 1000) {
+			if (parameter.length() > 1000) {
 				parameter = parameter.substring(0, 1000);
 			}
 			log.setParameters(parameter);
 		} catch (Exception e) {
 			log.setParameters(e.getMessage());
 			e.printStackTrace();
-		} 
-		
+		}
+
 		return log;
 	}
 }
