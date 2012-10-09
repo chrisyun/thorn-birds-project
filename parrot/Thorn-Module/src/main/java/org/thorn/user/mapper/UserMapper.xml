@@ -76,7 +76,7 @@
 			<if test="isShow != null and isShow != ''">
 				and U.ISSHOW = #{isShow,jdbcType=VARCHAR}
       		</if>
-			<if test="defaultrole != null and defaultrole != ''">
+			<if test="defaultRole != null and defaultRole != ''">
 				and U.DEFAULTROLE = #{defaultRole,jdbcType=VARCHAR}
       		</if>
       		<if test="areas != null">

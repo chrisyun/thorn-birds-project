@@ -50,11 +50,11 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	public void save(User user) throws DBAccessException {
-		
+
 		String numTemp = "0000";
-		
+
 		String seqNum = incrSequence.nextStringValue();
-		
+
 		seqNum = numTemp.substring(seqNum.length()) + seqNum;
 
 		String userId = "FY" + user.getOrgCode() + seqNum;
@@ -106,6 +106,15 @@ public class UserServiceImpl implements IUserService {
 		for (String uid : list) {
 			userCache.removeUserFromCache(uid.toUpperCase());
 		}
+	}
+
+	public List<User> querySysAdmin() throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+
+		filter.put("defaultRole", "SYSADMIN");
+		filter.put("isDisabled", Configuration.DB_NO);
+
+		return userDao.queryList(filter);
 	}
 
 	public List<User> queryList(String orgCode, String userName, String cumail,

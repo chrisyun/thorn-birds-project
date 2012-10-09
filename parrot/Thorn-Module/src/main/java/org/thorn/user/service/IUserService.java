@@ -40,4 +40,6 @@ public interface IUserService {
 			Collection<String> areas, String userAccount,
 			Collection<String> userIds, Collection<String> orgIds)
 			throws DBAccessException;
+
+	public List<User> querySysAdmin() throws DBAccessException;
 }
