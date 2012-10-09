@@ -25,17 +25,17 @@ public class HeritorServiceImpl implements IHeritorService {
 	@Autowired
 	@Qualifier("myBatisDaoSupport")
 	private MyBatisDaoSupport myBatisDaoSupport;
-	
+
 	@Logging("传承人信息新增")
 	public void save(Heritor heritor) throws DBAccessException {
 		myBatisDaoSupport.save(heritor);
 	}
-	
+
 	@Logging("传承人信息修改")
 	public void modify(Heritor heritor) throws DBAccessException {
 		myBatisDaoSupport.modify(heritor);
 	}
-	
+
 	@Logging("设置传承人所在项目")
 	public void modifyProject(Integer projectId, String ids)
 			throws DBAccessException {
@@ -47,7 +47,7 @@ public class HeritorServiceImpl implements IHeritorService {
 		myBatisDaoSupport.modify(filter, "HeritorMapper.updateProject");
 		myBatisDaoSupport.modify(filter, "HeritorMapper.updateProjectNo");
 	}
-	
+
 	@Logging("删除传承人")
 	public void delete(String ids) throws DBAccessException {
 		List<String> list = LocalStringUtils.splitStr2Array(ids);
@@ -80,11 +80,13 @@ public class HeritorServiceImpl implements IHeritorService {
 	}
 
 	public List<Heritor> queryList(String name, String province, String isDie,
-			String sort, String dir) throws DBAccessException {
+			Integer projectId, String sort, String dir)
+			throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
 		filter.put("name", name);
 		filter.put("isDie", isDie);
 		filter.put("province", province);
+		filter.put("projectId", projectId);
 		filter.put(Configuration.SROT_NAME, sort);
 		filter.put(Configuration.ORDER_NAME, dir);
 
@@ -96,7 +98,7 @@ public class HeritorServiceImpl implements IHeritorService {
 		Map<String, Object> filter = new HashMap<String, Object>();
 		filter.put("isDie", isDie);
 		filter.put("province", province);
-		
+
 		return myBatisDaoSupport.queryCount(filter, Heritor.class);
 	}
 

@@ -25,7 +25,8 @@ public interface IHeritorService {
 			long limit, String sort, String dir) throws DBAccessException;
 
 	public List<Heritor> queryList(String name, String province, String isDie,
-			String sort, String dir) throws DBAccessException;
+			Integer projectId, String sort, String dir)
+			throws DBAccessException;
 
 	public void modifyProject(Integer projectId, String ids)
 			throws DBAccessException;
