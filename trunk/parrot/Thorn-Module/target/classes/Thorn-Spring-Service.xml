@@ -43,8 +43,8 @@
 	<bean id="attDao" class="org.thorn.attachment.dao.AttachmentDaoImpl" />
 	<!-- <bean id="attService" class="org.thorn.attachment.service.AttachmentDBServiceImpl" /> -->
 	<bean id="attService" class="org.thorn.attachment.service.AttachmentLocalServiceImpl">
-		<property name="savePath" value="D:\attach" />
-		<property name="httpPath" value="http://localhost:8080/Thorn-Web/upload/attach" />
+		<property name="savePath" value="C:\Program Files\Tomcat 6.0\webapps\download\" />
+		<property name="httpPath" value="http://59.252.212.3:8082/download" />
 	</bean>
 	
 	
