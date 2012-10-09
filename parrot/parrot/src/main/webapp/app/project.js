@@ -92,12 +92,12 @@ Ext.onReady(function() {
 
 	/** ****************project window start************ */
 	var project_form = new FormUtil({
+		title  : "项目信息",
 		id : "projectForm",
 		collapsible : false,
 		labelWidth : 120,
 		border : false
 	});
-	
 	
 	var userStore = new Ext.data.Store({
 		url : getUsersByProvince,
@@ -179,10 +179,36 @@ Ext.onReady(function() {
 	project_form.addComp(getHidden("opType"), 0, true);
 	project_form.addComp(getHidden("id"), 0, true);
 	
+	var _heritor_recordArray = [
+	    getRecord("传承人名称", "name", "string", 200),
+		getRecord("身份证号码", "idCard", "string", 300, false),
+		getRecord("是否去世", "isDie", "string", 130, false, yesOrNoRender)];
+	var _heritor_grid = new GridUtil(getHeritorByProvince, _heritor_recordArray);
+	_heritor_grid.setGridPanel({
+		title : "传承人列表",
+		collapsible : false,
+		autoScroll : true,
+		border : false
+	});
+	
+	var tab = new Ext.TabPanel( {
+		activeTab : 0,
+		resizeTabs : true,
+		border : false,
+		minTabWidth : 140,
+		items : [ project_form.getPanel() , 
+		          _heritor_grid.getGrid()]
+	});
+	
 	var project_win = new WindowUtil({
 		width : 650,
 		height : 340
-	}, project_form.getPanel(), saveOrModify);
+	}, {
+		xtype : "panel",
+		layout : "fit",
+		border : false,
+		items : [ tab ]
+	}, saveOrModify);
 
 	/** ****************project window end************ */
 	
@@ -295,6 +321,8 @@ Ext.onReady(function() {
 				Configuration.opType.SAVE);
 		
 		project_form.findById("show_province").setValue(user.org);
+		
+		_heritor_grid.getStore().removeAll();
 	}
 	
 	function modifyHandler() {
@@ -327,6 +355,13 @@ Ext.onReady(function() {
 		project_form.getForm().setValues(values);
 		project_form.findById("show_userId").setRawValue(
 				selectedRecord.get("userName"));
+		
+		_heritor_grid.getStore().load({
+			params : {
+				projectId : values.id
+			}
+		});
+		
 	}
 	
 	function saveOrModify() {

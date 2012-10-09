@@ -134,7 +134,7 @@ public class HeritorController extends BaseController {
 	@RequestMapping("/getHeritorList")
 	@ResponseBody
 	public Page<Heritor> getHeritorList(String sort, String dir, String name,
-			String province, String isDie) {
+			String province, String isDie, Integer projectId) {
 		Page<Heritor> page = new Page<Heritor>();
 
 		try {
@@ -152,7 +152,7 @@ public class HeritorController extends BaseController {
 			}
 
 			page.setReslutSet(heritorService.queryList(name, province, isDie,
-					sort, dir));
+					projectId, sort, dir));
 		} catch (DBAccessException e) {
 			log.error("getHeritorList[Heritor] - " + e.getMessage(), e);
 		}
@@ -179,8 +179,8 @@ public class HeritorController extends BaseController {
 
 	@RequestMapping("/summaryAllCost")
 	@ResponseBody
-	public Page<CostSummary> summaryAllCost(Integer year,
-			String province, Integer heritorMoney) {
+	public Page<CostSummary> summaryAllCost(Integer year, String province,
+			Integer heritorMoney) {
 
 		Page<CostSummary> page = new Page<CostSummary>();
 
@@ -253,58 +253,58 @@ public class HeritorController extends BaseController {
 		if (heritorMoney == null) {
 			heritorMoney = 1;
 		}
-		
+
 		try {
 			String provinceName = DDUtils.queryDdById("AREA", province);
-			
+
 			StringBuilder title = new StringBuilder(String.valueOf(year));
 			title.append("年度").append(provinceName);
 			title.append("国家非物质文化遗产保护专项资金申报汇总表");
-			
+
 			ResponseHeaderUtils.setExcelResponse(response, title.toString());
 
 			String[] header = new String[] { "序号", "项目名称", "金额（万元）" };
 			int[] columnWidth = new int[] { 100, 300, 100 };
-			
+
 			double money = 0;
-			
+
 			CostSummary hMap = new CostSummary();
 			long hMoney = heritorService.queryHeritorCount(province,
 					Configuration.DB_NO) * heritorMoney;
 			hMap.setName("国家级代表性传承人补助费");
 			hMap.setMoney(String.valueOf(hMoney));
 			hMap.setNum("2");
-			
+
 			money += hMoney;
-			
+
 			CostSummary pMap = new CostSummary();
 			Double pMoney = projectService.queryProjectCostSum(year, province);
 			pMap.setName("国家级非物质文化遗产代表性项目补助费");
 			pMap.setMoney(String.valueOf(pMoney));
 			pMap.setNum("1");
-			
+
 			money += pMoney;
-			
+
 			CostSummary rMap = new CostSummary();
 			Double rMoney = reseverService.queryReseverCostSum(year, province);
 			rMap.setName("国家级文化生态保护区补助费");
 			rMap.setMoney(String.valueOf(rMoney));
 			rMap.setNum("3");
-			
+
 			money += rMoney;
-			
+
 			CostSummary total = new CostSummary();
 			total.setName("-");
 			total.setMoney(String.valueOf(money));
 			total.setNum("合计");
-			
+
 			List<CostSummary> list = new ArrayList<CostSummary>();
 			list.add(pMap);
 			list.add(hMap);
 			list.add(rMap);
 			list.add(total);
-			
-			String[] orderArray = new String[] { "num", "name", "money"};
+
+			String[] orderArray = new String[] { "num", "name", "money" };
 			List<Object[]> dataSource = ReflectUtils.object2Array(list);
 
 			ExcelStyle style = new ExcelStyle();
@@ -315,7 +315,7 @@ public class HeritorController extends BaseController {
 			ExcelUtils.write2Excel(adapter, "汇总表", columnWidth, style,
 					response.getOutputStream());
 			response.getOutputStream().flush();
-			
+
 		} catch (DBAccessException e) {
 			log.error("exportAllSummaryExcel[Double] - " + e.getMessage(), e);
 		} catch (IOException e) {
@@ -339,10 +339,10 @@ public class HeritorController extends BaseController {
 			String provinceName = DDUtils.queryDdById("AREA", province);
 
 			List<Heritor> listLive = heritorService.queryList(null, province,
-					Configuration.DB_NO, null, null);
+					Configuration.DB_NO, null, null, null);
 
 			List<Heritor> listDie = heritorService.queryList(null, province,
-					Configuration.DB_YES, null, null);
+					Configuration.DB_YES, null, null, null);
 
 			StringBuilder title = new StringBuilder(provinceName);
 			title.append("国家级代表性传承人补助费申报书");
