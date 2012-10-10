@@ -55,6 +55,6 @@ public interface IProjectService {
 	public Double queryProjectCostSum(Integer year, String province)
 			throws DBAccessException;
 
-	public Project queryProject(String projectName) throws DBAccessException;
+	public Project queryProject(Integer projectId) throws DBAccessException;
 
 }

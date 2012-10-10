@@ -219,6 +219,26 @@ public class ProjectController extends BaseController {
 
 		return list;
 	}
+	
+	@RequestMapping("/getProjectById")
+	@ResponseBody
+	public JsonResponse<Project> getProjectById(Integer projectId) {
+		JsonResponse<Project> json = new JsonResponse<Project>();
+		
+		if(projectId == null) {
+			return json;
+		}
+		
+		try {
+			json.setObj(projectService.queryProject(projectId));
+		} catch (DBAccessException e) {
+			json.setSuccess(false);
+			json.setMessage("查询项目信息失败");
+			log.error("getProjectById[Project] - " + e.getMessage(), e);
+		}
+		
+		return json;
+	}
 
 	@RequestMapping("/getProjectByUser")
 	@ResponseBody

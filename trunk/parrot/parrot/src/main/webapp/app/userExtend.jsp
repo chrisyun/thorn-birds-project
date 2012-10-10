@@ -9,6 +9,7 @@
 	document.title = "UserExtend - Manage";
 	
 	var area = <thorn:dd  typeId="AREA" />;
+	area.unshift(["","全部"]);
 	var areaRender = function(str) {
 		return Render.dictRender(area, str);
 	};
