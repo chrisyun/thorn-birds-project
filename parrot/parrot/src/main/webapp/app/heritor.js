@@ -106,13 +106,33 @@ Ext.onReady(function() {
 	heritor_form.addComp(provinceCb, 0.5, false);
 	
 	heritor_form.addComp(getText("batchNum", "批次", 180), 0.5, false);
-	var projectCb = getComboBox("projectId", "传承人项目", 500, null);
+	var projectCb = getComboBox("projectId", "传承人项目", 340, null);
 	projectCb.valueField = "id";
 	projectCb.displayField = "name";
 	projectCb.lazyInit = true;
 	projectCb.mode = "remote";
 	projectCb.store = projectStore;
-	heritor_form.addComp(projectCb, 1.0, true);
+	heritor_form.addComp(projectCb, 0.7, true);
+	heritor_form.addComp(getButton({
+		text : "查询项目信息",
+		handler : function() {
+			var pid = heritor_form.findById("show_projectId").getValue();
+			
+			if(Ext.isEmpty(pid)) {
+				return ;
+			}
+			var url = sys.path + "/app/project.jsp?pid=" + pid; 
+			
+			parent.window.setActivate(url, {
+				id : "PROJECTINFO",
+				text : "项目信息管理",
+				attributes : {
+					iconCls : ""
+				}
+			});
+		}
+	}), 0.3, true);
+	
 	
 	heritor_form.addComp(getComboBox("isDie", "是否去世", 180, yesOrNo), 0.5, false);
 	heritor_form.addComp(getDateText("dieDate", "去世时间", 180, null), 0.5, true);

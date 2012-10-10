@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -147,9 +145,9 @@ public class HeritorController extends BaseController {
 				province = user.getArea();
 			}
 
-			if (StringUtils.isBlank(isDie)) {
-				isDie = Configuration.DB_NO;
-			}
+//			if (StringUtils.isBlank(isDie)) {
+//				isDie = Configuration.DB_NO;
+//			}
 
 			page.setReslutSet(heritorService.queryList(name, province, isDie,
 					projectId, sort, dir));

@@ -2,6 +2,8 @@ var projectPageUrl = sys.path + "/project/getProjectPage.jmt";
 var projectSubmitUrl = sys.path + "/project/saveOrModifyProject.jmt";
 var projectDeleteUrl = sys.path + "/project/deleteProject.jmt";
 
+var projectUrl = sys.path + "/project/getProjectById.jmt";
+
 var getUsersByProvince = sys.path + "/user/getUserList.jmt";
 var getHeritorByProvince = sys.path + "/heritor/getHeritorList.jmt";
 var bingingProject = sys.path + "/heritor/bingingProject.jmt";
@@ -182,6 +184,7 @@ Ext.onReady(function() {
 	var _heritor_recordArray = [
 	    getRecord("传承人名称", "name", "string", 200),
 		getRecord("身份证号码", "idCard", "string", 300, false),
+		getRecord("性别", "gender", "string", 100, false, genderRender),
 		getRecord("是否去世", "isDie", "string", 130, false, yesOrNoRender)];
 	var _heritor_grid = new GridUtil(getHeritorByProvince, _heritor_recordArray);
 	_heritor_grid.setGridPanel({
@@ -315,7 +318,7 @@ Ext.onReady(function() {
 	/** ****************heritor window end************ */
 	function saveHandler() {
 		project_win.show("新增非遗项目");
-
+		project_win.showSaveBtn();
 		project_form.getForm().reset();
 		project_form.findById("opType").setValue(
 				Configuration.opType.SAVE);
@@ -325,6 +328,28 @@ Ext.onReady(function() {
 		_heritor_grid.getStore().removeAll();
 	}
 	
+	function showHandler(projectId) {
+		project_win.show("非遗项目信息");
+		project_win.hideSaveBtn();
+		project_form.getForm().reset();
+		
+		var ajax = new AjaxUtil(projectUrl);
+		ajax.getData({
+			projectId : projectId
+		},null,function(scope, data){
+			project_form.getForm().setValues(data);
+			project_form.findById("show_userId").setRawValue(
+					data.userName);
+		});
+		
+		_heritor_grid.getStore().load({
+			params : {
+				projectId : projectId
+			}
+		});
+		
+	}
+	
 	function modifyHandler() {
 		if (grid.getSelectionModel().getCount() != 1) {
 			Ext.Msg.alert("提示信息", "请选择一条记录!");
@@ -332,7 +357,7 @@ Ext.onReady(function() {
 		}
 
 		project_win.show("修改非遗项目");
-
+		project_win.showSaveBtn();
 		project_form.getForm().reset();
 
 		var selectedRecord = grid.getSelectionModel().getSelected();
@@ -361,7 +386,6 @@ Ext.onReady(function() {
 				projectId : values.id
 			}
 		});
-		
 	}
 	
 	function saveOrModify() {
@@ -457,4 +481,11 @@ Ext.onReady(function() {
 
 	onSubmitQueryHandler();
 	completePage();
+	
+	var args = getRequestArguments();
+	var proId = args['pid'];
+	if(proId != null && !Ext.isEmpty(proId)) {
+		showHandler(proId);
+	}
+	
 });

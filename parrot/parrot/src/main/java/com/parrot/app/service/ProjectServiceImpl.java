@@ -212,9 +212,9 @@ public class ProjectServiceImpl implements IProjectService {
 		return myBatisDaoSupport.queryList(filter, UserExtend.class);
 	}
 
-	public Project queryProject(String projectName) throws DBAccessException {
+	public Project queryProject(Integer projectId) throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
-		filter.put("name", projectName);
+		filter.put("id", projectId);
 
 		return (Project) myBatisDaoSupport.queryOne(filter, Project.class);
 	}
