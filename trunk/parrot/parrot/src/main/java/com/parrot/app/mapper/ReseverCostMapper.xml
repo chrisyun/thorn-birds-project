@@ -190,7 +190,9 @@
 		from T_RESEVER_COST R,T_WORKFLOW W 
 		WHERE W.ACTIVITY = '审批完成已归档' 
 		AND R.ID = W.PID AND W.FLOWTYPE = 'resever' 
-		AND R.PROVINCE = #{province,jdbcType=VARCHAR}
+		<if test="province != null and province != ''">
+			AND R.PROVINCE = #{province,jdbcType=VARCHAR}
+      	</if>
 		AND R.YEAR = #{year,jdbcType=DECIMAL}
 	</select>
 </mapper>
