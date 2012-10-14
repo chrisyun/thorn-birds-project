@@ -47,7 +47,11 @@ public class Heritor implements Serializable {
 	private String projectCode;
 	
 	private String province;
-
+	
+	private String birthDate;
+	
+	private String minority;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -142,6 +146,22 @@ public class Heritor implements Serializable {
 
 	public void setProvince(String province) {
 		this.province = province;
+	}
+
+	public String getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(String birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public String getMinority() {
+		return minority;
+	}
+
+	public void setMinority(String minority) {
+		this.minority = minority;
 	}
 }
 

@@ -10,10 +10,12 @@
 		<result column="USERID" property="userId" jdbcType="VARCHAR" />
 		<result column="USERNAME" property="userName" jdbcType="VARCHAR" />
 		<result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+		<result column="REPLYTIME" property="replyTime" jdbcType="VARCHAR" />
+		<result column="SERNO" property="serNo" jdbcType="DECIMAL" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		R.ID,R.NAME,R.BULIDTIME,R.AREA,R.USERID,U.USERNAME,R.PROVINCE
+		R.ID,R.NAME,R.BULIDTIME,R.AREA,R.USERID,U.USERNAME,R.PROVINCE,R.REPLYTIME,R.SERNO
   	</sql>
 
 	<sql id="Where_Clause">
@@ -44,6 +46,8 @@
 			<if test="area != null and area != ''">AREA,</if>
 			<if test="userId != null and userId != ''">USERID,</if>
 			<if test="province != null and province != ''">PROVINCE,</if>
+			<if test="replyTime != null and replyTime != ''">REPLYTIME,</if>
+			<if test="serNo != null">SERNO,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="name != null and name != ''">#{name,jdbcType=VARCHAR},</if>
@@ -51,6 +55,8 @@
 			<if test="area != null and area != ''">#{area,jdbcType=VARCHAR},</if>
 			<if test="userId != null and userId != ''">#{userId,jdbcType=VARCHAR},</if>
 			<if test="province != null and province != ''">#{province,jdbcType=VARCHAR},</if>
+			<if test="replyTime != null and replyTime != ''">#{replyTime,jdbcType=VARCHAR},</if>
+			<if test="serNo != null">#{serNo,jdbcType=DECIMAL},</if>
 		</trim>
 	</insert>
 	
@@ -62,6 +68,8 @@
 			<if test="area != null and area != ''">AREA = #{area,jdbcType=VARCHAR},</if>
 			<if test="userId != null and userId != ''">USERID = #{userId,jdbcType=VARCHAR},</if>
 			<if test="province != null and province != ''">PROVINCE = #{province,jdbcType=VARCHAR},</if>
+			<if test="replyTime != null and replyTime != ''">REPLYTIME = #{replyTime,jdbcType=VARCHAR},</if>
+			<if test="serNo != null">SERNO = #{serNo,jdbcType=DECIMAL},</if>
 		</set>
 		where ID = #{id,jdbcType=DECIMAL}
 	</update>

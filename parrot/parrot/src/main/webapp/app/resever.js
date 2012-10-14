@@ -31,10 +31,12 @@ Ext.onReady(function() {
 	var recordArray = [
 			getRecord(null, "id", "string"),
 			getRecord(null, "userId", "string"),
+			getRecord(null, "replyTime", "string"),
+			getRecord(null, "serNo", "string"),
 			getRecord("省份", "province", "string", 80, true, areaRender),
 			getRecord("文化生态保护区", "name", "string", 200, false),
-			getRecord("批复时间", "buildTime", "string", 100, true),
-			getRecord("申报地区或单位", "area", "string", 250, true),
+			getRecord("设立批复时间", "buildTime", "string", 100, true),
+			getRecord("保护区范围", "area", "string", 250, true),
 			getRecord("建设单位", "userName", "string", 100, true)];
 	var resever_grid = new GridUtil(reseverPageUrl, recordArray, pageSize);
 	
@@ -68,6 +70,7 @@ Ext.onReady(function() {
 		border : false
 	});
 	
+	resever_form.addComp(getText("serNo", "序号", 180), 0.5, false);
 	var userStore = new Ext.data.Store({
 		url : getUsersByProvince,
 		listeners : {
@@ -106,9 +109,9 @@ Ext.onReady(function() {
 	resever_form.addComp(userCb, 0.5, false);
 	
 	resever_form.addComp(getText("name", "保护区名称", 480), 1.0, false);
-	resever_form.addComp(getText("area", "申报地区或单位", 480), 1.0, false);
-	resever_form.addComp(getText("buildTime", "批复时间", 180), 0.5, false);
-	
+	resever_form.addComp(getText("area", "保护区范围", 480), 1.0, false);
+	resever_form.addComp(getText("buildTime", "设立批复时间", 180), 0.5, false);
+	resever_form.addComp(getText("replyTime", "总体规划批复时间", 180), 0.5, false);
 
 	resever_form.addComp(getHidden("opType"), 0, true);
 	resever_form.addComp(getHidden("id"), 0, true);
@@ -148,6 +151,8 @@ Ext.onReady(function() {
 			area : selectedRecord.get("area"),
 			userId : selectedRecord.get("userId"),
 			province : selectedRecord.get("province"),
+			replyTime : selectedRecord.get("replyTime"),
+			serNo : selectedRecord.get("serNo"),
 			opType : Configuration.opType.MODIFY
 		};
 		resever_form.getForm().setValues(values);

@@ -15,11 +15,14 @@
 		<result column="PROJECTNAME" property="projectName" jdbcType="VARCHAR" />
 		<result column="PROJECTCODE" property="projectCode" jdbcType="VARCHAR" />
 		<result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+		<result column="BIRTHDATE" property="birthDate" jdbcType="VARCHAR" />
+		<result column="MINORITY" property="minority" jdbcType="VARCHAR" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
 		H.ID,H.NAME,H.IDCARD,H.GENDER,H.BATCHNUM,H.REMARK,H.PROVINCE,
-		H.ISDIE,H.DIEDATE,H.PROJECTID,P.NAME AS PROJECTNAME,P.CODE AS PROJECTCODE
+		H.ISDIE,H.DIEDATE,H.PROJECTID,P.NAME AS PROJECTNAME,P.CODE AS PROJECTCODE,
+		H.BIRTHDATE,H.MINORITY
   	</sql>
 
 	<sql id="Where_Clause">
@@ -42,6 +45,9 @@
       		<if test="gender != null and gender != ''">
 				AND H.GENDER = #{gender,jdbcType=VARCHAR}
       		</if>
+      		<if test="minority != null and minority != ''">
+				AND H.MINORITY = #{minority,jdbcType=VARCHAR}
+      		</if>
       		<if test="province != null and province != ''">
 				AND H.PROVINCE = #{province,jdbcType=VARCHAR}
       		</if>
@@ -60,6 +66,8 @@
 			<if test="dieDate != null and dieDate != ''">DIEDATE,</if>
 			<if test="projectId != null and projectId != ''">PROJECTID,</if>
 			<if test="province != null and province != ''">PROVINCE,</if>
+			<if test="birthDate != null and birthDate != ''">BIRTHDATE,</if>
+			<if test="minority != null and minority != ''">MINORITY,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="name != null and name != ''">#{name,jdbcType=VARCHAR},</if>
@@ -71,6 +79,8 @@
 			<if test="dieDate != null and dieDate != ''">#{dieDate,jdbcType=VARCHAR},</if>
 			<if test="projectId != null and projectId != ''">#{projectId,jdbcType=DECIMAL},</if>
 			<if test="province != null and province != ''">#{province,jdbcType=VARCHAR},</if>
+			<if test="birthDate != null and birthDate != ''">#{birthDate,jdbcType=VARCHAR},</if>
+			<if test="minority != null and minority != ''">#{minority,jdbcType=VARCHAR},</if>
 		</trim>
 	</insert>
 	
@@ -86,6 +96,8 @@
 			<if test="dieDate != null and dieDate != ''">DIEDATE = #{dieDate,jdbcType=VARCHAR},</if>
 			<if test="projectId != null and projectId != ''">PROJECTID = #{projectId,jdbcType=DECIMAL},</if>
 			<if test="province != null and province != ''">PROVINCE = #{province,jdbcType=VARCHAR},</if>
+			<if test="birthDate != null and birthDate != ''">BIRTHDATE = #{birthDate,jdbcType=VARCHAR},</if>
+			<if test="minority != null and minority != ''">MINORITY = #{minority,jdbcType=VARCHAR},</if>
 		</set>
 		where ID = #{id,jdbcType=DECIMAL}
 	</update>
