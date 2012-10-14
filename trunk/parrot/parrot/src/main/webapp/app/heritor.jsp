@@ -36,7 +36,13 @@
 	var genderRender = function(str) {
 		return Render.dictRender(gender, str);
 	};
-
+	
+	var minority = <thorn:dd  typeId="MINORITY" />;
+	minority.unshift(["","全部"]);
+	var minorityRender = function(str) {
+		return Render.dictRender(minority, str);
+	};
+	
 	var userPermission = {
 		SAVE : '<sec:authorize url="/heritor/saveOrModify*.jmt">true</sec:authorize>',
 		MODIFY : '<sec:authorize url="/heritor/saveOrModify*.jmt">true</sec:authorize>',

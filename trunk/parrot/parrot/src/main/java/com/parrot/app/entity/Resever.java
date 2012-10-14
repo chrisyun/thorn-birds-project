@@ -37,6 +37,10 @@ public class Resever implements Serializable {
 	private String province;
 	
 	private String userName;
+	
+	private String replyTime;
+	
+	private Integer serNo;
 
 	public Integer getId() {
 		return id;
@@ -92,6 +96,22 @@ public class Resever implements Serializable {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public String getReplyTime() {
+		return replyTime;
+	}
+
+	public void setReplyTime(String replyTime) {
+		this.replyTime = replyTime;
+	}
+
+	public Integer getSerNo() {
+		return serNo;
+	}
+
+	public void setSerNo(Integer serNo) {
+		this.serNo = serNo;
 	}
 }
 

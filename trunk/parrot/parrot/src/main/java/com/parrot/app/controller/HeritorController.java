@@ -106,7 +106,7 @@ public class HeritorController extends BaseController {
 	@RequestMapping("/getHeritorPage")
 	@ResponseBody
 	public Page<Heritor> getHeritorPage(long start, long limit, String sort,
-			String dir, String name, String gender, String projectName,
+			String dir, String name, String gender, String minority, String projectName,
 			String isDie, String province) {
 		Page<Heritor> page = new Page<Heritor>();
 
@@ -120,7 +120,7 @@ public class HeritorController extends BaseController {
 				province = user.getArea();
 			}
 
-			page = heritorService.queryPage(name, gender, projectName, isDie,
+			page = heritorService.queryPage(name, gender, minority, projectName, isDie,
 					province, start, limit, sort, dir);
 		} catch (DBAccessException e) {
 			log.error("getHeritorPage[Heritor] - " + e.getMessage(), e);

@@ -54,7 +54,7 @@ public class HeritorServiceImpl implements IHeritorService {
 		myBatisDaoSupport.deleteForBatch(list, Heritor.class);
 	}
 
-	public Page<Heritor> queryPage(String name, String gender,
+	public Page<Heritor> queryPage(String name, String gender, String minority,
 			String projectName, String isDie, String province, long start,
 			long limit, String sort, String dir) throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
@@ -63,6 +63,7 @@ public class HeritorServiceImpl implements IHeritorService {
 		filter.put("projectName", projectName);
 		filter.put("isDie", isDie);
 		filter.put("province", province);
+		filter.put("minority", minority);
 		filter.put(Configuration.PAGE_LIMIT, limit);
 		filter.put(Configuration.PAGE_START, start);
 		filter.put(Configuration.SROT_NAME, sort);

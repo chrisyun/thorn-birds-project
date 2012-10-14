@@ -20,7 +20,7 @@ public interface IHeritorService {
 
 	public void delete(String ids) throws DBAccessException;
 
-	public Page<Heritor> queryPage(String name, String gender,
+	public Page<Heritor> queryPage(String name, String gender, String minority,
 			String projectName, String isDie, String province, long start,
 			long limit, String sort, String dir) throws DBAccessException;
 

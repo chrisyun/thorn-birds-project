@@ -19,10 +19,12 @@ Ext.onReady(function() {
 
 	var query_form = new FormUtil(query_attr);
 
-	query_form.addComp(getText("query_name", "传承人姓名",160), 0.3, true);
-	query_form.addComp(getComboBox("query_area", "所属省份", 160, area, false), 0.3, true);
-	query_form.addComp(getText("query_pName", "项目名称",160), 0.3, true);
-	query_form.addComp(getComboBox("query_isDie", "是否去世", 160, yesOrNo,false), 0.3, true);
+	query_form.addComp(getText("query_name", "传承人姓名",160), 0.23, true);
+	query_form.addComp(getComboBox("query_area", "所属省份", 160, area, false), 0.23, true);
+	query_form.addComp(getText("query_pName", "项目名称",160), 0.23, true);
+	query_form.addComp(getComboBox("query_isDie", "是否去世", 160, yesOrNo,false), 0.23, true);
+	query_form.addComp(getComboBox("query_gender", "性别", 160, gender,false), 0.23, true);
+	query_form.addComp(getComboBox("query_minority", "民族", 160, minority,false), 0.3, true);
 	query_form.addComp(getQueryBtn(onSubmitQueryHandler), 0.3, true);
 	/** ****************query panel end*************** */
 
@@ -32,6 +34,8 @@ Ext.onReady(function() {
 			getRecord(null, "id", "string"),
 			getRecord(null, "projectId", "string"),
 			getRecord(null, "remark", "string"),
+			getRecord(null, "birthDate", "string"),
+			getRecord(null, "minority", "string"),
 			getRecord("省份", "province", "string", 80, true, areaRender),
 			getRecord("项目编码", "projectCode", "string", 80, true),
 			getRecord("项目名称", "projectName", "string", 200, true),
@@ -95,6 +99,7 @@ Ext.onReady(function() {
 	heritor_form.addComp(getText("name", "传承人", 180), 0.5, false);
 	heritor_form.addComp(getComboBox("gender", "性别", 180, gender),0.5, true);
 	heritor_form.addComp(getText("idCard", "身份证号码", 180), 0.5, false);
+	heritor_form.addComp(getComboBox("minority", "民族", 180, minority), 0.5, false);
 	
 	var provinceCb = getComboBox("province", "所属省份", 180, area);
 	provinceCb.listeners = {
@@ -133,7 +138,7 @@ Ext.onReady(function() {
 		}
 	}), 0.3, true);
 	
-	
+	heritor_form.addComp(getDateText("birthDate", "出生日期", 180, null), 0.5, true);
 	heritor_form.addComp(getComboBox("isDie", "是否去世", 180, yesOrNo), 0.5, false);
 	heritor_form.addComp(getDateText("dieDate", "去世时间", 180, null), 0.5, true);
 	
@@ -181,6 +186,8 @@ Ext.onReady(function() {
 			dieDate : selectedRecord.get("dieDate"),
 			projectId : selectedRecord.get("projectId"),
 			province : selectedRecord.get("province"),
+			birthDate : selectedRecord.get("birthDate"),
+			minority : selectedRecord.get("minority"),
 			opType : Configuration.opType.MODIFY
 		};
 		heritor_form.getForm().setValues(values);
@@ -251,12 +258,17 @@ Ext.onReady(function() {
 		var name = Ext.getCmp("query_name").getValue();
 		var area = Ext.getCmp("show_query_area").getValue();
 		var pName = Ext.getCmp("query_pName").getValue();
-
+		
+		var gender = Ext.getCmp("show_query_gender").getValue();
+		var minority = Ext.getCmp("show_query_minority").getValue();
+		
 		store.baseParams.name = name;
 		store.baseParams.projectName = pName;
 		store.baseParams.isDie = isDie;
 		store.baseParams.province = area;
-
+		store.baseParams.gender = gender;
+		store.baseParams.minority = minority;
+		
 		store.load({
 					params : {
 						start : 0,
