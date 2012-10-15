@@ -106,9 +106,8 @@
 		<set>
 			<if test="dvalue != null and dvalue != ''">DVALUE = #{dvalue,jdbcType=VARCHAR},</if>
 			<if test="sortNum != null">SORTNUM = #{sortNum,jdbcType=DECIMAL},</if>
-			<if test="typeId != null and typeId != ''">TYPEID = #{typeId,jdbcType=VARCHAR},</if>
 		</set>
-		where DNAME = #{dname,jdbcType=VARCHAR}
+		where DNAME = #{dname,jdbcType=VARCHAR} AND TYPEID = #{typeId,jdbcType=VARCHAR}
 	</update>
 	<update id="updateDictType" parameterType="org.thorn.dd.entity.DictType">
 		update T_SYS_DICT_TYPE
