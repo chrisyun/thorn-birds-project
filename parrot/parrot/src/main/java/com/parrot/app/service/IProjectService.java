@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.parrot.app.entity.Project;
 import com.parrot.app.entity.ProjectCost;
+import com.parrot.app.entity.ProjectFund;
 import com.parrot.app.entity.UserExtend;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.web.entity.Page;
@@ -40,6 +41,9 @@ public interface IProjectService {
 			String provinceArea, String isJhxm, String isWhxm, long start,
 			long limit, String sort, String dir) throws DBAccessException;
 
+	public Project queryProject(String name, String userName)
+			throws DBAccessException;
+
 	public List<Project> queryProjectList(String province, String userId)
 			throws DBAccessException;
 
@@ -56,5 +60,7 @@ public interface IProjectService {
 			throws DBAccessException;
 
 	public Project queryProject(Integer projectId) throws DBAccessException;
+
+	public void save(ProjectFund pFund) throws DBAccessException;
 
 }

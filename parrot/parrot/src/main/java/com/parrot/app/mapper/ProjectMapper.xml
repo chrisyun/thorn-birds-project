@@ -31,6 +31,9 @@
 			<if test="name != null and name != ''">
 				and P.NAME like CONCAT('%',#{name,jdbcType=VARCHAR},'%')
       		</if>
+      		<if test="area != null and area != ''">
+				and P.AREA = #{area,jdbcType=VARCHAR}
+      		</if>
       		<if test="userName != null and userName != ''">
 				and U.USERNAME like CONCAT('%',#{userName,jdbcType=VARCHAR},'%')
       		</if>
