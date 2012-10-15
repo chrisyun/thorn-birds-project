@@ -84,7 +84,7 @@ public class InitHeritor {
 					String province = "";
 					if(context.length == 6 && StringUtils.isNotBlank(context[5])) {
 						try {
-							Project project = pService.queryProject(context[5]);
+							Project project = pService.queryProject(context[5], null);
 							if(project != null && project.getId() != null) {
 								projectId = project.getId();
 								province = project.getProvince();
