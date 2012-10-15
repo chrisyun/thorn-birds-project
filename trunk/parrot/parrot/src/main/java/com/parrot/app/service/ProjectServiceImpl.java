@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import com.parrot.app.entity.Project;
 import com.parrot.app.entity.ProjectCost;
+import com.parrot.app.entity.ProjectFund;
 import com.parrot.app.entity.UserExtend;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
@@ -73,6 +74,15 @@ public class ProjectServiceImpl implements IProjectService {
 		}
 
 		return page;
+	}
+
+	public Project queryProject(String name, String area)
+			throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+		filter.put("name", name);
+		filter.put("area", area);
+
+		return (Project) myBatisDaoSupport.queryOne(filter, Project.class);
 
 	}
 
@@ -217,6 +227,10 @@ public class ProjectServiceImpl implements IProjectService {
 		filter.put("id", projectId);
 
 		return (Project) myBatisDaoSupport.queryOne(filter, Project.class);
+	}
+
+	public void save(ProjectFund pFund) throws DBAccessException {
+		myBatisDaoSupport.save(pFund);
 	}
 
 }
