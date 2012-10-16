@@ -34,6 +34,12 @@
       		<if test="area != null and area != ''">
 				and P.AREA = #{area,jdbcType=VARCHAR}
       		</if>
+      		<if test="minority != null and minority != ''">
+				and P.MINORITY = #{minority,jdbcType=VARCHAR}
+      		</if>
+      		<if test="batchNum != null and batchNum != ''">
+				and P.BATCHNUM like CONCAT('%',#{batchNum,jdbcType=VARCHAR},'%')
+      		</if>
       		<if test="userName != null and userName != ''">
 				and U.USERNAME like CONCAT('%',#{userName,jdbcType=VARCHAR},'%')
       		</if>

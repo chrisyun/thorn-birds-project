@@ -11,6 +11,7 @@ import org.thorn.dao.mybatis.annotation.MethodType;
 		@MapperNode(id="update",type=MethodType.UPDATE),
 		@MapperNode(id="delete",type=MethodType.DELETE_BATCH),
 		@MapperNode(id="selectList",type=MethodType.QUERY),
+		@MapperNode(id="selectList",type=MethodType.QUERY_LIST)
 })
 public class ProjectFund implements Serializable {
 	

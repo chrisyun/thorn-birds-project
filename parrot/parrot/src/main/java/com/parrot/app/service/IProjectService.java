@@ -38,8 +38,9 @@ public interface IProjectService {
 
 	public Page<Project> queryPage(String name, String code, String userName,
 			String userId, String type, String isUnProject, String province,
-			String provinceArea, String isJhxm, String isWhxm, long start,
-			long limit, String sort, String dir) throws DBAccessException;
+			String provinceArea, String isJhxm, String isWhxm, String minority,
+			String batchNum, long start, long limit, String sort, String dir)
+			throws DBAccessException;
 
 	public Project queryProject(String name, String userName)
 			throws DBAccessException;
@@ -63,4 +64,6 @@ public interface IProjectService {
 
 	public void save(ProjectFund pFund) throws DBAccessException;
 
+	public List<ProjectFund> queryProjectFund(Integer pid)
+			throws DBAccessException;
 }

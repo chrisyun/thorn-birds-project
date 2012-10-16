@@ -306,9 +306,15 @@ public class HeritorController extends BaseController {
 			List<Object[]> dataSource = ReflectUtils.object2Array(list);
 
 			ExcelStyle style = new ExcelStyle();
-
+			
+			List<Object[]> titles = new ArrayList<Object[]>();
+			titles.add(new Object[]{title.toString()});
+			
+			List<Integer[]> merCells = new ArrayList<Integer[]>();
+			merCells.add(new Integer[]{0,0,0,2});
+			
 			ArrayAdapter adapter = new ArrayAdapter(header, orderArray,
-					dataSource);
+					dataSource, titles, merCells);
 
 			ExcelUtils.write2Excel(adapter, "汇总表", columnWidth, style,
 					response.getOutputStream());
@@ -392,9 +398,15 @@ public class HeritorController extends BaseController {
 			List<Object[]> dataSource = ReflectUtils.object2Array(listLive);
 
 			ExcelStyle style = new ExcelStyle();
-
+			
+			List<Object[]> titles = new ArrayList<Object[]>();
+			titles.add(new Object[]{title.toString()});
+			
+			List<Integer[]> merCells = new ArrayList<Integer[]>();
+			merCells.add(new Integer[]{0,0,0,5});
+			
 			ArrayAdapter adapter = new ArrayAdapter(header, orderArray,
-					dataSource);
+					dataSource, titles, merCells);
 
 			ExcelUtils.write2Excel(adapter, "汇总表", columnWidth, style,
 					response.getOutputStream());

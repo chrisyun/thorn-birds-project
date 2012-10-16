@@ -8,6 +8,8 @@ var getUsersByProvince = sys.path + "/user/getUserList.jmt";
 var getHeritorByProvince = sys.path + "/heritor/getHeritorList.jmt";
 var bingingProject = sys.path + "/heritor/bingingProject.jmt";
 
+var getProjectFundUrl = sys.path + "/project/getProjectFundById.jmt";
+
 var pageSize = 20;
 
 var chooseProvince;
@@ -20,7 +22,7 @@ Ext.onReady(function() {
 	var query_attr = {
 		title : "查询列表",
 		region : "north",
-		height : 100,
+		height : 120,
 		labelWidth : 120
 	};
 
@@ -39,6 +41,13 @@ Ext.onReady(function() {
 			0.23, true);
 	query_form.addComp(getComboBox("query_isWhxm", "文化生态保护区项目", 100, yesOrNo, false),
 			0.2, true);
+	
+	query_form.addComp(getComboBox("query_isUnProject", "联合国非遗项目", 130, yesOrNo, false),
+			0.23, true);
+	query_form.addComp(getComboBox("query_minority", "民族", 130, minority, false),
+			0.23, true);
+	query_form.addComp(getText("query_batchNum", "批次号",130), 0.23, true);
+	
 	query_form.addComp(getQueryBtn(onSubmitQueryHandler), 0.1, true);
 	/** ****************query panel end*************** */
 
@@ -194,13 +203,27 @@ Ext.onReady(function() {
 		border : false
 	});
 	
+	var _pFund_recordArray = [
+	    getRecord("年度", "year", "string", 100),
+		getRecord("金额", "fund", "string", 100, false),
+		getRecord("说明", "content", "string", 300, false)];
+	var _pFund_grid = new GridUtil(getProjectFundUrl, _pFund_recordArray);
+	_pFund_grid.setGridPanel({
+		title : "项目资金使用情况",
+		collapsible : false,
+		autoScroll : true,
+		border : false
+	});
+	
+	
 	var tab = new Ext.TabPanel( {
 		activeTab : 0,
 		resizeTabs : true,
 		border : false,
 		minTabWidth : 140,
-		items : [ project_form.getPanel() , 
-		          _heritor_grid.getGrid()]
+		items : [ project_form.getPanel(), 
+		          _heritor_grid.getGrid(),
+		          _pFund_grid.getGrid()]
 	});
 	
 	var project_win = new WindowUtil({
@@ -326,6 +349,7 @@ Ext.onReady(function() {
 		project_form.findById("show_province").setValue(user.org);
 		
 		_heritor_grid.getStore().removeAll();
+		_pFund_grid.getStore().removeAll();
 	}
 	
 	function showHandler(projectId) {
@@ -345,6 +369,12 @@ Ext.onReady(function() {
 		_heritor_grid.getStore().load({
 			params : {
 				projectId : projectId
+			}
+		});
+		
+		_pFund_grid.getStore().load({
+			params : {
+				pid : projectId
 			}
 		});
 		
@@ -368,6 +398,7 @@ Ext.onReady(function() {
 			type : selectedRecord.get("type"),
 			isUnProject : selectedRecord.get("isUnProject"),
 			bigNo : selectedRecord.get("bigNo"),
+			minority : selectedRecord.get("minority"),
 			smallNo : selectedRecord.get("smallNo"),
 			batchNum : selectedRecord.get("batchNum"),
 			isJhxm : selectedRecord.get("isJhxm"),
@@ -384,6 +415,12 @@ Ext.onReady(function() {
 		_heritor_grid.getStore().load({
 			params : {
 				projectId : values.id
+			}
+		});
+		
+		_pFund_grid.getStore().load({
+			params : {
+				pid : values.id
 			}
 		});
 	}
@@ -456,6 +493,10 @@ Ext.onReady(function() {
 		var isJhxm = Ext.getCmp("show_query_isJhxm").getValue();
 		var isWhxm = Ext.getCmp("show_query_isWhxm").getValue();
 		
+		var isUnProject = Ext.getCmp("show_query_isUnProject").getValue();
+		var minority = Ext.getCmp("show_query_minority").getValue();
+		var batchNum = Ext.getCmp("query_batchNum").getValue();
+		
 		store.baseParams.name = name;
 		store.baseParams.isJhxm = isJhxm;
 		store.baseParams.isWhxm = isWhxm;
@@ -464,7 +505,10 @@ Ext.onReady(function() {
 		store.baseParams.type = type;
 		store.baseParams.province = area;
 		store.baseParams.provinceArea = pArea;
-
+		store.baseParams.isUnProject = isUnProject;
+		store.baseParams.minority = minority;
+		store.baseParams.batchNum = batchNum;
+		
 		store.load({
 					params : {
 						start : 0,

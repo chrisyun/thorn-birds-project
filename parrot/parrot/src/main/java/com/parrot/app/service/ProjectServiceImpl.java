@@ -47,8 +47,9 @@ public class ProjectServiceImpl implements IProjectService {
 
 	public Page<Project> queryPage(String name, String code, String userName,
 			String userId, String type, String isUnProject, String province,
-			String provinceArea, String isJhxm, String isWhxm, long start,
-			long limit, String sort, String dir) throws DBAccessException {
+			String provinceArea, String isJhxm, String isWhxm, String minority,
+			String batchNum, long start, long limit, String sort, String dir)
+			throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
 		filter.put("name", name);
 		filter.put("code", code);
@@ -60,6 +61,8 @@ public class ProjectServiceImpl implements IProjectService {
 		filter.put("provinceArea", provinceArea);
 		filter.put("isJhxm", isJhxm);
 		filter.put("isWhxm", isWhxm);
+		filter.put("minority", minority);
+		filter.put("batchNum", batchNum);
 		filter.put(Configuration.PAGE_LIMIT, limit);
 		filter.put(Configuration.PAGE_START, start);
 		filter.put(Configuration.SROT_NAME, sort);
@@ -231,6 +234,14 @@ public class ProjectServiceImpl implements IProjectService {
 
 	public void save(ProjectFund pFund) throws DBAccessException {
 		myBatisDaoSupport.save(pFund);
+	}
+
+	public List<ProjectFund> queryProjectFund(Integer pid)
+			throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+		filter.put("pid", pid);
+
+		return myBatisDaoSupport.queryList(filter, ProjectFund.class);
 	}
 
 }
