@@ -80,13 +80,13 @@ public class ExcelUtils {
 				style, adapter.getHeader().length);
 
 		// 冻结标题栏
-		sheet.createFreezePane(0 + titleRows, 1 + titleRows);
+		sheet.createFreezePane(0, 1 + titleRows);
 
 		// 获取行数
 		int excelRow = adapter.getDataSourceOfSize();
 		for (int i = 0; i < excelRow; i++) {
 			// 0 is txt header
-			HSSFRow row = sheet.createRow(i + titleRows);
+			HSSFRow row = sheet.createRow(i + titleRows + 1);
 			row.setHeight((short) 320);
 			addColumn2Row(row, adapter.getRow(i), -1, style,
 					adapter.getHeader().length);
@@ -94,10 +94,13 @@ public class ExcelUtils {
 
 		// 对列进行合并
 		List<Integer[]> mergeCells = adapter.getMergeCell();
-		for (Integer[] mergeCell : mergeCells) {
-			sheet.addMergedRegion(new CellRangeAddress(mergeCell[0],
-					mergeCell[1], mergeCell[2], mergeCell[3]));
+		if(mergeCells != null) {
+			for (Integer[] mergeCell : mergeCells) {
+				sheet.addMergedRegion(new CellRangeAddress(mergeCell[0],
+						mergeCell[1], mergeCell[2], mergeCell[3]));
+			}
 		}
+		
 
 		workBook.write(os);
 	}
