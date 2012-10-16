@@ -208,11 +208,38 @@ Ext.onReady(function() {
 		getRecord("金额", "fund", "string", 100, false),
 		getRecord("说明", "content", "string", 300, false)];
 	var _pFund_grid = new GridUtil(getProjectFundUrl, _pFund_recordArray);
+	
+	var bBar = new Array();
+	bBar.push({
+		text : "合计（万元）:",
+		xtype : "tbtext"
+	});
+	bBar.push({
+		xtype : "textfield",
+		id : "summaryTotal",
+		width : 100,
+		readOnly : true
+	});
+	
+	_pFund_grid.setBottomBar(bBar);
+	
 	_pFund_grid.setGridPanel({
 		title : "项目资金使用情况",
 		collapsible : false,
 		autoScroll : true,
 		border : false
+	});
+	
+	summarystore = _pFund_grid.getStore();
+	
+	summarystore.addListener("load", function(store, records) {
+		var totalMoney = 0;
+		for(var i=0; i<records.length; i++) {
+			var money = parseFloat(records[i].get("fund"));
+			
+			totalMoney = parseFloat(totalMoney) + money;
+		}
+		Ext.getCmp("summaryTotal").setValue(totalMoney);
 	});
 	
 	
@@ -350,6 +377,8 @@ Ext.onReady(function() {
 		
 		_heritor_grid.getStore().removeAll();
 		_pFund_grid.getStore().removeAll();
+		
+		tab.activate(0);
 	}
 	
 	function showHandler(projectId) {
@@ -377,7 +406,7 @@ Ext.onReady(function() {
 				pid : projectId
 			}
 		});
-		
+		tab.activate(0);
 	}
 	
 	function modifyHandler() {
@@ -423,6 +452,7 @@ Ext.onReady(function() {
 				pid : values.id
 			}
 		});
+		tab.activate(0);
 	}
 	
 	function saveOrModify() {
