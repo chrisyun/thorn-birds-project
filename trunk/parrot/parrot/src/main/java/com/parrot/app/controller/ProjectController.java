@@ -475,16 +475,16 @@ public class ProjectController extends BaseController {
 	
 	@RequestMapping("/getProjectFundById")
 	@ResponseBody
-	public List<ProjectFund> getProjectFundById(Integer pid) {
-		List<ProjectFund> list = new ArrayList<ProjectFund>();
+	public Page<ProjectFund> getProjectFundById(Integer pid) {
+		Page<ProjectFund> page = new Page<ProjectFund>();
 
 		try {
-			list = projectService.queryProjectFund(pid);
+			page.setReslutSet(projectService.queryProjectFund(pid));
 		} catch (DBAccessException e) {
 			log.error("getProjectFundById[ProjectFund] - " + e.getMessage(), e);
 		}
 
-		return list;
+		return page;
 	}
 
 }
