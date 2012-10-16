@@ -11,7 +11,7 @@
 	var now = new Date(); 
 	var curYear = now.getFullYear();
 	var nextYear = parseInt(curYear) + 1;
-	year.push([curYear,curYear]);
+	//year.push([curYear,curYear]);
 	year.push([nextYear,nextYear]);
 	
 	var budgetDD = <thorn:dd  typeId="BUDGET_PROJECT_DETAIL" />;
