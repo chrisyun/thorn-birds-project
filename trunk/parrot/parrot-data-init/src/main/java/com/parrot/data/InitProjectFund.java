@@ -50,13 +50,13 @@ public class InitProjectFund {
 					continue;
 				}
 				
-				projectName = projectName.replaceAll("★", "");
+				projectName = projectName.replaceAll("★", "").replaceAll(" ", "");
 				
 				String area = context[1].replaceAll(" ", "");
 				
 				try {
 					
-					Project project = pService.queryProject(1);
+					Project project = pService.queryProject(projectName, area);
 					
 					if(project == null) {
 						log.error("project["+projectName+"] area[" +area+ "] is not found!");
