@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,23 +58,45 @@ public class ExcelUtils {
 			sheet.setColumnWidth(i, (int) (widthArray[i] * 35.7));
 		}
 
+		// creat excel title header
+		List<Object[]> titles = adapter.getTitle();
+		int titleRows = 0;
+		if (titles != null && titles.size() > 0) {
+			titleRows = titles.size();
+
+			for (int i = 0; i < titleRows; i++) {
+				HSSFRow header = sheet.createRow(i);
+				header.setHeight((short) 450);
+
+				addColumn2Row(header, titles.get(i), HSSFCell.CELL_TYPE_STRING,
+						style, titles.get(i).length);
+			}
+		}
+
 		// creat excel txt header
-		HSSFRow header = sheet.createRow(0);
+		HSSFRow header = sheet.createRow(titleRows);
 		header.setHeight((short) 340);
 		addColumn2Row(header, adapter.getHeader(), HSSFCell.CELL_TYPE_STRING,
 				style, adapter.getHeader().length);
 
 		// 冻结标题栏
-		sheet.createFreezePane(0, 1);
+		sheet.createFreezePane(0 + titleRows, 1 + titleRows);
 
 		// 获取行数
 		int excelRow = adapter.getDataSourceOfSize();
 		for (int i = 0; i < excelRow; i++) {
 			// 0 is txt header
-			HSSFRow row = sheet.createRow(i + 1);
+			HSSFRow row = sheet.createRow(i + titleRows);
 			row.setHeight((short) 320);
 			addColumn2Row(row, adapter.getRow(i), -1, style,
 					adapter.getHeader().length);
+		}
+
+		// 对列进行合并
+		List<Integer[]> mergeCells = adapter.getMergeCell();
+		for (Integer[] mergeCell : mergeCells) {
+			sheet.addMergedRegion(new CellRangeAddress(mergeCell[0],
+					mergeCell[1], mergeCell[2], mergeCell[3]));
 		}
 
 		workBook.write(os);
