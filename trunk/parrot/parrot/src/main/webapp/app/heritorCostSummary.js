@@ -99,7 +99,7 @@ Ext.onReady(function() {
 
 		var province = Ext.getCmp("show_query_area").getValue();
 		summarystore.baseParams.province = province;
-		summarystore_die.baseParams.isDie = "NO";
+		summarystore.baseParams.isDie = "NO";
 		summarystore.load();
 		
 		summarystore_die.baseParams.province = province;

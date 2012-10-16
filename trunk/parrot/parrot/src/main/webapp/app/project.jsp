@@ -43,6 +43,7 @@
 	};
 	
 	var minority = <thorn:dd  typeId="MINORITY" />;
+	minority.unshift(["","全部"]);
 	var minorityRender = function(str) {
 		return Render.dictRender(minority, str);
 	};

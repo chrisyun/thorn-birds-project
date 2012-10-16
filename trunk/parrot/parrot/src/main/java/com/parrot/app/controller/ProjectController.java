@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.parrot.app.AppConfiguration;
 import com.parrot.app.entity.Project;
 import com.parrot.app.entity.ProjectCost;
+import com.parrot.app.entity.ProjectFund;
 import com.parrot.app.entity.UserExtend;
 import com.parrot.app.service.IProjectService;
 import com.parrot.process.ProcessConfiguration;
@@ -219,16 +220,16 @@ public class ProjectController extends BaseController {
 
 		return list;
 	}
-	
+
 	@RequestMapping("/getProjectById")
 	@ResponseBody
 	public JsonResponse<Project> getProjectById(Integer projectId) {
 		JsonResponse<Project> json = new JsonResponse<Project>();
-		
-		if(projectId == null) {
+
+		if (projectId == null) {
 			return json;
 		}
-		
+
 		try {
 			json.setObj(projectService.queryProject(projectId));
 		} catch (DBAccessException e) {
@@ -236,7 +237,7 @@ public class ProjectController extends BaseController {
 			json.setMessage("查询项目信息失败");
 			log.error("getProjectById[Project] - " + e.getMessage(), e);
 		}
-		
+
 		return json;
 	}
 
@@ -274,7 +275,7 @@ public class ProjectController extends BaseController {
 	public Page<Project> getProjectPage(long start, long limit, String sort,
 			String dir, String name, String code, String userName, String type,
 			String isUnProject, String province, String provinceArea,
-			String isJhxm, String isWhxm) {
+			String isJhxm, String isWhxm, String minority, String batchNum) {
 		Page<Project> page = new Page<Project>();
 		String userId = null;
 
@@ -294,8 +295,8 @@ public class ProjectController extends BaseController {
 			}
 
 			page = projectService.queryPage(name, code, userName, userId, type,
-					isUnProject, province, provinceArea, isJhxm, isWhxm, start,
-					limit, sort, dir);
+					isUnProject, province, provinceArea, isJhxm, isWhxm,
+					minority, batchNum, start, limit, sort, dir);
 		} catch (DBAccessException e) {
 			log.error("getProjectPage[Project] - " + e.getMessage(), e);
 		}
@@ -449,8 +450,14 @@ public class ProjectController extends BaseController {
 
 			ExcelStyle style = new ExcelStyle();
 
+			List<Object[]> titles = new ArrayList<Object[]>();
+			titles.add(new Object[] { title.toString() });
+
+			List<Integer[]> merCells = new ArrayList<Integer[]>();
+			merCells.add(new Integer[] { 0, 0, 0, 6 });
+
 			ArrayAdapter adapter = new ArrayAdapter(header, orderArray,
-					dataSource);
+					dataSource, titles, merCells);
 
 			ExcelUtils.write2Excel(adapter, "汇总表", columnWidth, style,
 					response.getOutputStream());
@@ -464,6 +471,20 @@ public class ProjectController extends BaseController {
 					"exportProjectCostExcel[ProjectCost] - " + e.getMessage(),
 					e);
 		}
+	}
+	
+	@RequestMapping("/getProjectFundById")
+	@ResponseBody
+	public List<ProjectFund> getProjectFundById(Integer pid) {
+		List<ProjectFund> list = new ArrayList<ProjectFund>();
+
+		try {
+			list = projectService.queryProjectFund(pid);
+		} catch (DBAccessException e) {
+			log.error("getProjectFundById[ProjectFund] - " + e.getMessage(), e);
+		}
+
+		return list;
 	}
 
 }
