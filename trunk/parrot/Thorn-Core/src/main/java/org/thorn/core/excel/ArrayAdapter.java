@@ -11,18 +11,32 @@ import org.thorn.core.util.LocalStringUtils;
  * @date 2012-5-2 下午03:22:03
  */
 public class ArrayAdapter {
-	
-	/**中文头 */
+
+	/** 文件表头 */
+	private List<Object[]> title;
+
+	/** 合并项数组 */
+	private List<Integer[]> mergeCell;
+
+	/** 中文头 */
 	private String[] header;
-	
-	/**与中文头对应的英文属性*/
+
+	/** 与中文头对应的英文属性 */
 	private String[] orderArray;
-	
-	/**将对象转换为的对象数组 */
+
+	/** 将对象转换为的对象数组 */
 	private List<Object[]> dataSource;
 
 	private int[] orderMapping;
-
+	
+	public ArrayAdapter(String[] header, String[] orderArray,
+			List<Object[]> dataSource, List<Object[]> title,
+			List<Integer[]> mergeCell) {
+		this(header, orderArray, dataSource);
+		this.title = title;
+		this.mergeCell = mergeCell;
+	}
+	
 	public ArrayAdapter(String[] header, String[] orderArray,
 			List<Object[]> dataSource) {
 
@@ -67,6 +81,15 @@ public class ArrayAdapter {
 
 	public String[] getHeader() {
 		return this.header;
+	}
+	
+	
+	public List<Object[]> getTitle() {
+		return title;
+	}
+
+	public List<Integer[]> getMergeCell() {
+		return mergeCell;
 	}
 
 	public int getDataSourceOfSize() {
