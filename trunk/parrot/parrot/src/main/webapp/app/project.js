@@ -9,11 +9,14 @@ var getHeritorByProvince = sys.path + "/heritor/getHeritorList.jmt";
 var bingingProject = sys.path + "/heritor/bingingProject.jmt";
 
 var getProjectFundUrl = sys.path + "/project/getProjectFundById.jmt";
+var projectFundSubmitUrl = sys.path + "/project/saveOrModifyFund.jmt";
 
 var pageSize = 20;
 
 var chooseProvince;
 var chooseId;
+
+var projectId;
 
 Ext.onReady(function() {
 	Ext.QuickTips.init();
@@ -78,6 +81,14 @@ Ext.onReady(function() {
 			text : "设置项目传承人",
 			iconCls : "tree-auth",
 			handler : bingingHandler
+		});
+	}
+	if(userPermission.SETTINGFUND == "true") {
+		grid_Bar.push("-");
+		grid_Bar.push({
+			text : "更新项目资金使用情况",
+			iconCls : "tree-auth",
+			handler : settingProjectFund
 		});
 	}
 	project_grid.setBottomBar(grid_Bar);
@@ -206,7 +217,7 @@ Ext.onReady(function() {
 	var _pFund_recordArray = [
 	    getRecord("年度", "year", "string", 100),
 		getRecord("金额", "fund", "string", 100, false),
-		getRecord("说明", "content", "string", 300, false)];
+		getRecord("用途及说明", "content", "string", 300, false)];
 	var _pFund_grid = new GridUtil(getProjectFundUrl, _pFund_recordArray);
 	
 	var bBar = new Array();
@@ -229,6 +240,164 @@ Ext.onReady(function() {
 		autoScroll : true,
 		border : false
 	});
+	
+	var cm = new Ext.grid.ColumnModel({
+		defaults : {
+			sortable : true
+		},
+		columns : [ {
+			id : "year",
+			header : "年份",
+			dataIndex : "year",
+			width : 100,
+			editor: new Ext.form.NumberField({
+                allowBlank: false,
+                allowNegative: false,
+                maxValue: 2200,
+                minValue: 1900
+            })
+		}, {
+			id : "fund",
+			header : "金额（万元）",
+			dataIndex : "fund",
+			width : 100,
+			editor : new Ext.form.TextField({
+				vtype : "money",
+				vtypeText : Validate.money
+			})
+		}, {
+			id : "content",
+			header : "用途及说明",
+			dataIndex : "content",
+			width : 400,
+			editor : new Ext.form.TextField({
+				maxLength : 100
+			})
+		} ]
+	});
+	
+	var proFundStore = new Ext.data.Store({
+		autoLoad : false,
+		url : getProjectFundUrl,
+		listeners : {
+			"load" : function(store, records) {
+				var totalMoney = 0;
+				
+				for(var i=0; i<records.length; i++) {
+					var money = parseFloat(records[i].get("fund"));
+					
+					totalMoney = parseFloat(totalMoney) + money;
+				}
+				
+				Ext.getCmp("fundTotal").setValue(totalMoney);
+			}
+		},
+		reader : new Ext.data.JsonReader({
+			totalProperty : "total",
+			root : "reslutSet"
+		}, Ext.data.Record.create([ {
+			name : "id",
+			type : "string"
+		}, {
+			name : "pid",
+			type : "string"
+		}, {
+			name : "year",
+			type : "string"
+		}, {
+			name : "content",
+			type : "string"
+		}, {
+			name : "fund",
+			type : "string"
+		} ]))
+	});
+	
+	var proFundGrid = new Ext.grid.EditorGridPanel({
+		border : false,
+		store : proFundStore,
+		cm : cm,
+		loadMask : {
+			msg : "数据获取中,请稍候..."
+		},
+		clicksToEdit : 1,
+		listeners : {
+			"validateedit" : function(e) {
+				if(e.field == "fund") {
+					var total = Ext.getCmp("fundTotal").getValue();
+					
+					total = parseFloat(total)  + parseFloat(e.value) - parseFloat(e.originalValue);
+					Ext.getCmp("fundTotal").setValue(total);
+				}
+			}
+		},
+		tbar: [{
+            text: "添加记录（单击表格修改）",
+            iconCls : "silk-add",
+            handler : function(){
+                var Plant = proFundGrid.getStore().recordType;
+                var p = new Plant({
+                	pid : projectId,
+                    year : "",
+                    fund : 0,
+                    content : ""
+                });
+                proFundGrid.stopEditing();
+                proFundStore.insert(0, p);
+                proFundGrid.startEditing(0, 0);
+            }
+        }],
+		bbar : [ {
+			text : "合计（万元）:",
+			xtype : "tbtext"
+		}, {
+			xtype : "textfield",
+			id : "fundTotal",
+			width : 70,
+			readOnly : true
+		} ]
+	});
+	
+	var proFund_win = new WindowUtil({
+		width : 650,
+		height : 340
+	}, proFundGrid, saveOrModifyFund);
+	
+	function settingProjectFund() {
+		if (grid.getSelectionModel().getCount() != 1) {
+			Ext.Msg.alert("提示信息", "请选择一条记录!");
+			return;
+		}
+		
+		proFund_win.show("修改项目资金使用情况");
+		var selectedRecord = grid.getSelectionModel().getSelected();
+		projectId = selectedRecord.get("id");
+		
+		proFundStore.load({
+			params : {
+				pid : projectId
+			}
+		});
+	}
+	
+	function saveOrModifyFund() {
+		var fundJson = new Array();
+		
+		proFundStore.each(function(record) {
+			fundJson.push(record.data); 
+		});
+		
+		if(fundJson.length > 0) {
+			fundJson = Ext.encode(fundJson);
+			
+			var ajaxClass = new AjaxUtil(projectFundSubmitUrl);
+			ajaxClass.request({
+				fundJson : fundJson
+			}, true, null, function(obj) {
+				proFund_win.hide();
+			});
+		}
+	}
 	
 	summarystore = _pFund_grid.getStore();
 	
