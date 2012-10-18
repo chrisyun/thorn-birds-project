@@ -235,6 +235,16 @@ public class ProjectServiceImpl implements IProjectService {
 	public void save(ProjectFund pFund) throws DBAccessException {
 		myBatisDaoSupport.save(pFund);
 	}
+	
+	public void saveOrModify(List<ProjectFund> list) throws DBAccessException {
+		for (ProjectFund pFund : list) {
+			if(pFund.getId() == null) {
+				myBatisDaoSupport.save(pFund);
+			} else {
+				myBatisDaoSupport.modify(pFund);
+			}
+		}
+	}
 
 	public List<ProjectFund> queryProjectFund(Integer pid)
 			throws DBAccessException {

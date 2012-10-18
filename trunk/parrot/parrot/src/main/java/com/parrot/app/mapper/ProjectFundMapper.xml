@@ -29,7 +29,7 @@
 		insert into T_PROJECT_FUND
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="pid != null">PID,</if>
-			<if test="year != null">year,</if>
+			<if test="year != null">YEAR,</if>
 			<if test="content != null and content != ''">CONTENT,</if>
 			<if test="fund != null">FUND,</if>
 		</trim>
@@ -40,6 +40,16 @@
 			<if test="fund != null">#{fund,jdbcType=DOUBLE},</if>
 		</trim>
 	</insert>
+	
+	<update id="update" parameterType="com.parrot.app.entity.ProjectFund">
+		update T_PROJECT_FUND
+		<set>
+			<if test="year != null">YEAR = #{year,jdbcType=DECIMAL},</if>
+			<if test="content != null and content != ''">CONTENT = #{content,jdbcType=VARCHAR},</if>
+			<if test="fund != null">FUND = #{fund,jdbcType=DOUBLE},</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
 	
 	<select id="selectList" parameterType="hashmap"
 		resultMap="BaseResultMap">
