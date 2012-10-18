@@ -63,6 +63,8 @@ public interface IProjectService {
 	public Project queryProject(Integer projectId) throws DBAccessException;
 
 	public void save(ProjectFund pFund) throws DBAccessException;
+	
+	public void saveOrModify(List<ProjectFund> list) throws DBAccessException;
 
 	public List<ProjectFund> queryProjectFund(Integer pid)
 			throws DBAccessException;

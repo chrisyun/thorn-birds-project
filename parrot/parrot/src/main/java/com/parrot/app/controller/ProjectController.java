@@ -2,11 +2,13 @@ package com.parrot.app.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +55,31 @@ public class ProjectController extends BaseController {
 	@Autowired
 	@Qualifier("projectService")
 	private IProjectService projectService;
+
+	@RequestMapping("/saveOrModifyFund")
+	@ResponseBody
+	public Status saveOrModifyFund(String fundJson) {
+		Status status = new Status();
+
+		try {
+			if (StringUtils.isNotBlank(fundJson)) {
+				ObjectMapper mapper = new ObjectMapper();
+
+				ProjectFund[] array = mapper.readValue(fundJson,
+						ProjectFund[].class);
+				List<ProjectFund> list = Arrays.asList(array);
+				projectService.saveOrModify(list);
+			}
+			status.setMessage("数据更新成功！");
+		} catch (Exception e) {
+			status.setSuccess(false);
+			status.setMessage("数据保存失败：" + e.getMessage());
+			log.error("saveOrModifyFund[ProjectFund] - " + e.getMessage(),
+					e);
+		}
+
+		return status;
+	}
 
 	@RequestMapping("/getProjectDW")
 	@ResponseBody
@@ -472,7 +499,7 @@ public class ProjectController extends BaseController {
 					e);
 		}
 	}
-	
+
 	@RequestMapping("/getProjectFundById")
 	@ResponseBody
 	public Page<ProjectFund> getProjectFundById(Integer pid) {
