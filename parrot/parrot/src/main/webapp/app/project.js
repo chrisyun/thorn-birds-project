@@ -95,9 +95,7 @@ Ext.onReady(function() {
 
 	var listeners = {
 		celldblclick : function(thisGrid, rowIndex, columnIndex, ev) {
-			if(userPermission.MODIFY == "true") {
-				modifyHandler();
-			}
+			modifyHandler();
 		}
 	};
 	project_grid.setListeners(listeners);
@@ -584,8 +582,14 @@ Ext.onReady(function() {
 			return;
 		}
 
-		project_win.show("修改非遗项目");
-		project_win.showSaveBtn();
+		if(userPermission.MODIFY == "true") {
+			project_win.show("修改非遗项目");
+			project_win.showSaveBtn();
+		} else {
+			project_win.show("非遗项目信息");
+			project_win.hideSaveBtn();
+		}
+		
 		project_form.getForm().reset();
 
 		var selectedRecord = grid.getSelectionModel().getSelected();
