@@ -56,7 +56,7 @@ Ext.onReady(function() {
 	});
 	
 	
-	var provinceCb = getComboBox("query_area", "申报省份", 150, area, false);
+	var provinceCb = getComboBox("query_area", "申报省份", 130, area, false);
 	provinceCb.listeners = {
 		"change" : function(field, newValue, oldValue) {
 			query_form.findById("show_query_creater").setValue();
@@ -67,34 +67,34 @@ Ext.onReady(function() {
 	};
 	query_form.addComp(provinceCb, 0.23, true);
 	
-	var projectCb = getComboBox("query_projectId", "非遗项目", 290, null);
+	var projectCb = getComboBox("query_projectId", "非遗项目", 250, null);
 	projectCb.valueField = "id";
 	projectCb.displayField = "name";
 	projectCb.lazyInit = true;
 	projectCb.mode = "remote";
 	projectCb.store = projectStore;
 	query_form.addComp(projectCb, 0.35, true);
-	query_form.addComp(getText("query_name", "非遗项目名称",150), 0.23, true);
-	query_form.addComp(getDateText("query_startTime", "开始日期", 100), 0.19, true);
+	query_form.addComp(getText("query_name", "非遗项目名称",130), 0.23, true);
+	query_form.addComp(getDateText("query_startTime", "开始日期", 75), 0.19, true);
 	
-	query_form.addComp(getComboBox("query_Type", "项目类别", 150, projectTypeDD, false),
+	query_form.addComp(getComboBox("query_Type", "项目类别", 130, projectTypeDD, false),
 			0.23, true);
-	var userCb = getComboBox("query_creater", "申报单位", 290, null);
+	var userCb = getComboBox("query_creater", "申报单位", 250, null);
 	userCb.valueField = "userId";
 	userCb.displayField = "userName";
 	userCb.lazyInit = true;
 	userCb.mode = "remote";
 	userCb.store = userStore;
 	query_form.addComp(userCb, 0.35, true);
-	query_form.addComp(getText("query_createrName", "申报单位名称",150), 0.23, true);
-	query_form.addComp(getDateText("query_endTime", "结束日期", 100), 0.19, true);
+	query_form.addComp(getText("query_createrName", "申报单位名称",130), 0.23, true);
+	query_form.addComp(getDateText("query_endTime", "结束日期", 75), 0.19, true);
 	
 	
-	query_form.addComp(getComboBox("query_year", "申报年份", 150, year, false),
+	query_form.addComp(getComboBox("query_year", "申报年份", 130, year, false),
 			0.23, true);
-	query_form.addComp(getComboBox("query_isUn", "联合国非遗项目", 290, yesOrNo, false),
+	query_form.addComp(getComboBox("query_isUn", "联合国非遗项目", 250, yesOrNo, false),
 			0.35, true);
-	query_form.addComp(getComboBox("query_activity", "当前环节", 150, 
+	query_form.addComp(getComboBox("query_activity", "当前环节", 130, 
 			[["","全部"],["申报环节","申报环节"],["起草暂存环节","起草暂存环节"],["省厅审批环节","省厅审批环节"],
 			 ["非遗司审批环节","非遗司审批环节"],["审批完成已归档","审批完成已归档"]], false),
 			0.25, true);

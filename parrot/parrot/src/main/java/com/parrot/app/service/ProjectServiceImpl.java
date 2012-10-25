@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import com.parrot.app.entity.Project;
@@ -65,9 +66,15 @@ public class ProjectServiceImpl implements IProjectService {
 		filter.put("batchNum", batchNum);
 		filter.put(Configuration.PAGE_LIMIT, limit);
 		filter.put(Configuration.PAGE_START, start);
-		filter.put(Configuration.SROT_NAME, sort);
-		filter.put(Configuration.ORDER_NAME, dir);
-
+		
+		if(StringUtils.isEmpty(sort)) {
+			filter.put(Configuration.SROT_NAME, "P.PROVINCE");
+			filter.put(Configuration.ORDER_NAME, "asc");
+		} else {
+			filter.put(Configuration.SROT_NAME, sort);
+			filter.put(Configuration.ORDER_NAME, dir);
+		}
+		
 		Page<Project> page = new Page<Project>();
 
 		page.setTotal(myBatisDaoSupport.queryCount(filter, Project.class));
