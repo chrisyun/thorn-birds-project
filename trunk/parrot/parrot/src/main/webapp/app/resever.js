@@ -31,11 +31,11 @@ Ext.onReady(function() {
 	var recordArray = [
 			getRecord(null, "id", "string"),
 			getRecord(null, "userId", "string"),
-			getRecord(null, "replyTime", "string"),
-			getRecord(null, "serNo", "string"),
 			getRecord("省份", "province", "string", 80, true, areaRender),
+			getRecord("生态区序号", "serNo", "string", 80, true),
 			getRecord("文化生态保护区", "name", "string", 200, false),
 			getRecord("设立批复时间", "buildTime", "string", 100, true),
+			getRecord("规划批复时间", "replyTime", "string", 100, true),
 			getRecord("保护区范围", "area", "string", 250, true),
 			getRecord("建设单位", "userName", "string", 100, true)];
 	var resever_grid = new GridUtil(reseverPageUrl, recordArray, pageSize);
