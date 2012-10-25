@@ -25,31 +25,31 @@ Ext.onReady(function() {
 	var query_attr = {
 		title : "查询列表",
 		region : "north",
-		height : 120,
+		height : 125,
 		labelWidth : 120
 	};
 
 	var query_form = new FormUtil(query_attr);
 
-	query_form.addComp(getComboBox("query_type", "项目类别", 130, projectType,
+	query_form.addComp(getComboBox("query_type", "项目类别", 110, projectType,
 			false), 0.23, true);
-	query_form.addComp(getText("query_name", "项目名称",130), 0.23, true);
-	query_form.addComp(getComboBox("query_pArea", "省份地区", 130, provinceAreaDD, false),
+	query_form.addComp(getText("query_name", "项目名称",110), 0.23, true);
+	query_form.addComp(getComboBox("query_pArea", "省份地区", 110, provinceAreaDD, false),
 			0.23, true);
-	query_form.addComp(getComboBox("query_area", "所属省份", 130, area, false),
+	query_form.addComp(getComboBox("query_area", "所属省份", 110, area, false),
 			0.23, true);
-	query_form.addComp(getText("query_code", "项目编码",130), 0.23, true);
-	query_form.addComp(getText("query_userName", "项目保护单位",130), 0.23, true);
-	query_form.addComp(getComboBox("query_isJhxm", "计划单列市项目", 130, yesOrNo, false),
+	query_form.addComp(getText("query_code", "项目编码",110), 0.23, true);
+	query_form.addComp(getText("query_userName", "项目保护单位",110), 0.23, true);
+	query_form.addComp(getComboBox("query_isJhxm", "计划单列市项目", 110, yesOrNo, false),
 			0.23, true);
-	query_form.addComp(getComboBox("query_isWhxm", "文化生态保护区项目", 100, yesOrNo, false),
+	query_form.addComp(getComboBox("query_isWhxm", "文化生态保护区项目", 80, yesOrNo, false),
 			0.2, true);
 	
-	query_form.addComp(getComboBox("query_isUnProject", "联合国非遗项目", 130, yesOrNo, false),
+	query_form.addComp(getComboBox("query_isUnProject", "联合国非遗项目", 110, yesOrNo, false),
 			0.23, true);
-	query_form.addComp(getComboBox("query_minority", "民族", 130, minority, false),
+	query_form.addComp(getComboBox("query_minority", "民族", 110, minority, false),
 			0.23, true);
-	query_form.addComp(getText("query_batchNum", "批次号",130), 0.23, true);
+	query_form.addComp(getText("query_batchNum", "批次号",110), 0.23, true);
 	
 	query_form.addComp(getQueryBtn(onSubmitQueryHandler), 0.1, true);
 	/** ****************query panel end*************** */
@@ -59,8 +59,6 @@ Ext.onReady(function() {
 	var recordArray = [
 			getRecord(null, "id", "string"),
 			getRecord(null, "userId", "string"),
-			getRecord(null, "bigNo", "string"),
-			getRecord(null, "smallNo", "string"),
 			getRecord(null, "minority", "string"),
 			getRecord(null, "isJhxm", "string"),
 			getRecord(null, "isWhxm", "string"),
@@ -70,6 +68,8 @@ Ext.onReady(function() {
 			getRecord("项目名称", "name", "string", 200, true),
 			getRecord("申报地区或单位", "area", "string", 200, false),
 			getRecord("批次", "batchNum", "string", 50, true),
+			getRecord("大项序号", "bigNo", "string", 100),
+			getRecord("子项序号", "smallNo", "string", 100),
 			getRecord("项目保护单位", "userName", "string", 200, true),
 			getRecord("联合国非遗项目", "isUnProject", "string", 120, true, yesOrNoRender)];
 	var project_grid = new GridUtil(projectPageUrl, recordArray, pageSize);
