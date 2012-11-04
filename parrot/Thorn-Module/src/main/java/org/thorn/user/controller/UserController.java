@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.thorn.auth.service.IAuthService;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
+import org.thorn.web.entity.JsonResponse;
 import org.thorn.web.entity.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.security.SecurityUserUtils;
@@ -83,7 +84,28 @@ public class UserController extends BaseController {
 
 		return status;
 	}
-
+	
+	@RequestMapping("/getUserById")
+	@ResponseBody
+	public JsonResponse<User> getUserById(String id) {
+		
+		JsonResponse<User> json = new JsonResponse<User>();
+		
+		try {
+			User user = service.queryUserByLogin(id);
+			user.setUserPwd(null);
+			json.setObj(user);
+			json.setMessage("用户信息查询成功");
+			
+		} catch (DBAccessException e) {
+			json.setSuccess(false);
+			json.setMessage("数据处理失败：" + e.getMessage());
+			log.error("getUserById[User] - " + e.getMessage(), e);
+		}
+		
+		return json;
+	}
+ 
 	@RequestMapping("/disabledUser")
 	@ResponseBody
 	public Status disabledUser(String ids, String isDisabled) {
