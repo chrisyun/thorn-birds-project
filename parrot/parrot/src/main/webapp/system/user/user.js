@@ -3,6 +3,7 @@ var userSubmitUrl = sys.path + "/user/saveOrModifyUser.jmt";
 var userDeleteUrl = sys.path + "/user/deleteUser.jmt";
 var userDisabledUrl = sys.path + "/user/disabledUser.jmt";
 var userSaveRoleUrl = sys.path + "/user/saveRoleByUser.jmt";
+var userGetUrl = sys.path + "/user/getUserById.jmt";
 
 var getUserRoleUrl = sys.path + "/role/getUserRole.jmt";
 var pageSize = 20;
@@ -469,4 +470,31 @@ Ext.onReady(function() {
 	if(thisUrl.indexOf("createUser") > 0) {
 		saveHandler();
 	}
+	
+	var args = getRequestArguments();
+	var userSid = args['userSid'];
+	if(userSid != null && !Ext.isEmpty(userSid)) {
+		openModifyHandler(userSid);
+	}
+	
+	function openModifyHandler(userSid) {
+		user_win.show("修改用户信息");
+		user_form.getForm().reset();
+		
+		var ajax = new AjaxUtil(userGetUrl);
+		ajax.getData({
+			id : userSid
+		},null,function(scope, data){
+			user_form.getForm().setValues(data);
+					
+			var orgNode = {
+				text : data.orgName,
+				attributes : {
+					pid : data.orgCode
+				}
+			};
+			Ext.getCmp("show_orgCode").setValue(orgNode);
+		});
+	}
+	
 });
