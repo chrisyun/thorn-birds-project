@@ -86,8 +86,31 @@ Ext.onReady(function() {
 		border : false,
 		labelWidth : 120
 	});
-	userExtend_form.addComp(getText("userId", "单位编码", 180), 0.5, true);
-	userExtend_form.addComp(getText("userName", "项目承担单位", 180), 0.5, true);
+	userExtend_form.addComp(getText("userId", "单位编码", 520), 1.0, true);
+	userExtend_form.addComp(getText("userName", "项目承担单位", 400), 0.7, true);
+	userExtend_form.addComp(getButton({
+		text : "修改项目承担单位信息",
+		handler : function() {
+			
+			var pid = userExtend_form.findById("userId").getValue();
+			
+			if(Ext.isEmpty(pid)) {
+				return ;
+			}
+			
+			var url = sys.path + "/system/user/user.jsp?userSid="+pid; 
+			
+			parent.window.setActivate(url, {
+				id : "USER",
+				text : "修改项目承担单位信息",
+				attributes : {
+					iconCls : "tree-user"
+				}
+			});
+		}
+	}), 0.3, true);
+	
+	
 	
 	userExtend_form.addComp(getText("address", "联系地址", 180), 0.5, false);
 	userExtend_form.addComp(getText("postalCode", "邮政编码", 180), 0.5, true);
@@ -124,7 +147,7 @@ Ext.onReady(function() {
 	
 	var userExtend_win = new WindowUtil( {
 		width : 700,
-		height : 370
+		height : 400
 	}, {
 		xtype : "panel",
 		layout : "fit",
