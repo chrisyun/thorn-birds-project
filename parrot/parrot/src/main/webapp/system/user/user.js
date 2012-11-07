@@ -485,6 +485,8 @@ Ext.onReady(function() {
 		ajax.getData({
 			id : userSid
 		},null,function(scope, data){
+			data.opType = Configuration.opType.MODIFY;
+			
 			user_form.getForm().setValues(data);
 					
 			var orgNode = {
