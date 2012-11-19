@@ -128,6 +128,10 @@
 			border : false,
 			minTabWidth : 200,
 			items : [ {
+				title : "公&nbsp;&nbsp;&nbsp;&nbsp;告",
+				iconCls : "",
+				html : "<iframe src='"+ sys.path +"/AlertNotice.html' width='100%' height='100%' frameborder='0'></iframe>"
+			}, {
 				title : "我的待办",
 				iconCls : "silk-home",
 				html : "<iframe src='"+ sys.path +"/process/processTodo.jsp' width='100%' height='100%' frameborder='0'></iframe>"

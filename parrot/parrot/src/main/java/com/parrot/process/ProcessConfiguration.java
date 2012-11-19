@@ -33,7 +33,7 @@ public interface ProcessConfiguration {
 	
 	public static final String ACTIVITY_FINISH = "审批完成已归档";
 	
-	public static final String CENTRE_ORG_CODE = "000";
+	public static final String CENTRE_ORG_CODE = "00";
 	
 }
 
