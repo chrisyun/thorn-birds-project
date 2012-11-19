@@ -188,7 +188,9 @@ Ext.onReady(function() {
 			btn.push(getNextActivityBtn(nextStep[i], submitProcessInfo));
 		}
 	}
-	if(processInfo.openType == "create") {
+	
+	if(processInfo.openType == "create" 
+		|| (user.userId == processInfo.creater && processInfo.openType == "todo")) {
 		btn.push({
 			text : "保存草稿",
 			iconCls : "silk-tick",
@@ -196,7 +198,9 @@ Ext.onReady(function() {
 				handlerProcess("保存草稿");
 			}
 		});
-	} else if(processInfo.openType == "done") {
+	}
+	if(processInfo.openType == "done" 
+		|| (processInfo.openType == "todo" && user.userId != processInfo.creater)) {
 		btn.push({
 			text : "导出WORD",
 			handler : function() {
@@ -263,7 +267,13 @@ Ext.onReady(function() {
 		}
 		fieldArray = contentPanel.findByType("textarea");
 		for(var i=0; i < fieldArray.length; i++) {
-			fieldArray[i].disable();
+			fieldArray[i].enable();
+			fieldArray[i].on("change", function(textArea, newValue, oldValue){
+				textArea.setValue(oldValue);
+				Ext.Msg.alert("提示信息", "该输入项不允许修改!");
+			});
+			
+			
 		}
 	}
 	
