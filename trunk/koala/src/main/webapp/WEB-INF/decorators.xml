@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemesh>
+	 <!--excludes 用于不使用装饰器 -->
+	 <excludes>          
+        <pattern>/index/*</pattern>  
+    </excludes>
+    
+	<decorators>
+		<decorator name="main" page="/WEB-INF/jsps/decorators/decoratorMainPage.jsp">
+          <pattern>*.jsp</pattern> 
+      	</decorator>
+	</decorators>
+</sitemesh>
