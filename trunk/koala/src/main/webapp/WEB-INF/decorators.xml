@@ -6,7 +6,7 @@
     </excludes>
     
 	<decorators>
-		<decorator name="main" page="/WEB-INF/jsps/decorators/decoratorMainPage.jsp">
+		<decorator name="main" page="/core/main.jsp">
           <pattern>*.jsp</pattern> 
       	</decorator>
 	</decorators>
