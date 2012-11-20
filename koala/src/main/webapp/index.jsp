@@ -134,7 +134,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	/*--------------------*/
 	#inputs input {
 		background: #f1f1f1
-			url(http://www.red-team-design.com/wp-content/uploads/2011/09/login-sprite.png)
+			url(./images/login-sprite.png)
 			no-repeat;
 		padding: 15px 15px 15px 30px;
 		margin: 0 0 10px 0;
