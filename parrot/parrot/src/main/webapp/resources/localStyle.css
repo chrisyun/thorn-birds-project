@@ -1,3 +1,10 @@
+/**让disabled的控件字体颜色不变*/
+.x-item-disabled {
+	cursor: default;
+	opacity: 0.8;
+	color: black;
+}
+
 /** 修正IE9下datefield控件问题*/
 .x-date-menu {
     width: 175px !important;
