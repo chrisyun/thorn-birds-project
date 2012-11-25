@@ -57,7 +57,9 @@ Ext.onReady(function() {
 	
 	query_form.addComp(getComboBox("query_flowStatus", "审批状态", 160, flowStatusDD, false),
 			0.3, true);
-	query_form.addComp(getText("query_createrName", "申报单位名称",160), 0.6, true);
+	query_form.addComp(getText("query_createrName", "申报单位名称",160), 0.3, true);
+	query_form.addComp(getText("query_pName", "项目名称",160), 0.3, true);
+	
 	
 	query_form.addComp(getDateText("query_startTime", "开始日期", 160), 0.3, true);
 	query_form.addComp(getDateText("query_endTime", "结束日期", 160), 0.3, true);
@@ -76,6 +78,7 @@ Ext.onReady(function() {
 	var recordArray = [
 			getRecord(null, "id", "string"),
 			getRecord("流程类型", "flowType", "string", 150, true, flowTypeRender),
+			getRecord("项目名称", "pName", "string", 200),
 			getRecord("当前环节", "activity", "string", 100, true),
 			getRecord("申报地区或单位", "createrName", "string", 200, true, openRender),
 			getRecord("上一环节审批情况", "flowStatus", "string", 150, true, flowStatusRender),
@@ -121,6 +124,7 @@ Ext.onReady(function() {
 		var province = Ext.getCmp("show_query_area").getValue();
 		var creater = Ext.getCmp("show_query_creater").getValue();
 		var createrName = Ext.getCmp("query_createrName").getValue();
+		var pName = Ext.getCmp("query_pName").getValue();
 		var startTime = Ext.getCmp("query_startTime").getValue();
 		if(! Ext.isEmpty(startTime)) {
 			startTime = startTime.format("Y-m-d");
@@ -135,6 +139,7 @@ Ext.onReady(function() {
 		todostore.baseParams.province = province;
 		todostore.baseParams.creater = creater;
 		todostore.baseParams.createrName = createrName;
+		todostore.baseParams.pName = pName;
 		todostore.baseParams.startTime = startTime;
 		todostore.baseParams.endTime = endTime;
 
