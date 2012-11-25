@@ -161,7 +161,7 @@ public class FlowServiceImpl implements IFlowService {
 	public Page<Process> queryPendingProcess(String flowType, String province,
 			String userId, Collection<String> roleList, String flowStatus,
 			String creater, String createrName, String startTime,
-			String endTime, long start, long limit, String sort, String dir)
+			String endTime, String pName, long start, long limit, String sort, String dir)
 			throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
 		filter.put("flowType", flowType);
@@ -173,6 +173,7 @@ public class FlowServiceImpl implements IFlowService {
 		filter.put("createrName", createrName);
 		filter.put("startTime", startTime);
 		filter.put("endTime", endTime);
+		filter.put("pName", pName);
 
 		filter.put(Configuration.PAGE_LIMIT, limit);
 		filter.put(Configuration.PAGE_START, start);

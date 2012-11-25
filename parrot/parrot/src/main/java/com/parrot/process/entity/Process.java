@@ -48,6 +48,14 @@ public class Process implements Serializable {
 	
 	private String province;
 	
+	private String pName;
+	
+	public String getpName() {
+		return pName;
+	}
+	public void setpName(String pName) {
+		this.pName = pName;
+	}
 	public Integer getId() {
 		return id;
 	}

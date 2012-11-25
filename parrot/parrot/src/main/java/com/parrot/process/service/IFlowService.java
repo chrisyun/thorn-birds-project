@@ -29,7 +29,7 @@ public interface IFlowService {
 	public Page<Process> queryPendingProcess(String flowType, String province,
 			String userId, Collection<String> roleList, String flowStatus,
 			String creater, String createrName, String startTime,
-			String endTime, long start, long limit, String sort, String dir)
+			String endTime, String pName, long start, long limit, String sort, String dir)
 			throws DBAccessException;
 
 	public Process queryProcess(Integer pid, String flowType, Integer id)

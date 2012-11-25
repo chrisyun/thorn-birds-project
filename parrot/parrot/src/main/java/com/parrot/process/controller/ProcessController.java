@@ -159,7 +159,7 @@ public class ProcessController extends BaseController {
 	@ResponseBody
 	public Page<Process> getPendingPage(long start, long limit, String sort,
 			String dir, String flowType, String province, String flowStatus,
-			String creater, String createrName, String startTime, String endTime) {
+			String creater, String createrName, String startTime, String endTime, String pName) {
 		Page<Process> page = new Page<Process>();
 
 		try {
@@ -172,7 +172,7 @@ public class ProcessController extends BaseController {
 
 			page = flowService.queryPendingProcess(flowType, province,
 					user.getUserId(), roles, flowStatus, creater, createrName,
-					startTime, endTime, start, limit, sort, dir);
+					startTime, endTime, pName, start, limit, sort, dir);
 		} catch (DBAccessException e) {
 			log.error("getPendingPage[Process] - " + e.getMessage(), e);
 		}
