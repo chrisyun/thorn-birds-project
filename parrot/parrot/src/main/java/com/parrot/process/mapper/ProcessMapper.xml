@@ -84,25 +84,25 @@
 		resultMap="BaseResultMap">
 		<include refid="MySQLCommonMapper.pagingStart"/>
 		select
-		<include refid="Base_Column_List" />,P.NAME AS PNAME
-		from T_WORKFLOW W LEFT JOIN T_PROJECT P ON W.PID = P.ID
+		<include refid="Base_Column_List" />,P.PROJECTNAME AS PNAME
+		from T_WORKFLOW W LEFT JOIN T_PROJECT_COST P ON W.PID = P.ID
 		where <include refid="Pending_Clause" />
 		<include refid="Where_Clause" />
 		AND W.FLOWTYPE = 'project'
 		<if test="pName != null and pName != ''">
-			AND P.NAME like CONCAT('%',#{pName,jdbcType=VARCHAR},'%')
+			AND P.PROJECTNAME like CONCAT('%',#{pName,jdbcType=VARCHAR},'%')
     	</if>
     	
     	UNION 
     	
     	select
-		<include refid="Base_Column_List" />,R.NAME AS PNAME
-		from T_WORKFLOW W LEFT JOIN T_RESERVE R ON W.PID = R.ID
+		<include refid="Base_Column_List" />,R.RESEVERNAME AS PNAME
+		from T_WORKFLOW W LEFT JOIN T_RESEVER_COST R ON W.PID = R.ID
 		where <include refid="Pending_Clause" />
 		<include refid="Where_Clause" />
 		AND W.FLOWTYPE = 'resever'
 		<if test="pName != null and pName != ''">
-			AND R.NAME like CONCAT('%',#{pName,jdbcType=VARCHAR},'%')
+			AND R.RESEVERNAME like CONCAT('%',#{pName,jdbcType=VARCHAR},'%')
     	</if>
     	
 		<include refid="MySQLCommonMapper.sortInfo"/>
@@ -113,25 +113,25 @@
 		select count(*) from (
 		
 		select
-		<include refid="Base_Column_List" />,P.NAME AS PNAME
-		from T_WORKFLOW W LEFT JOIN T_PROJECT P ON W.PID = P.ID
+		<include refid="Base_Column_List" />,P.PROJECTNAME AS PNAME
+		from T_WORKFLOW W LEFT JOIN T_PROJECT_COST P ON W.PID = P.ID
 		where <include refid="Pending_Clause" />
 		<include refid="Where_Clause" />
 		AND W.FLOWTYPE = 'project'
 		<if test="pName != null and pName != ''">
-			AND P.NAME like CONCAT('%',#{pName,jdbcType=VARCHAR},'%')
+			AND P.PROJECTNAME like CONCAT('%',#{pName,jdbcType=VARCHAR},'%')
     	</if>
     	
     	UNION 
     	
     	select
-		<include refid="Base_Column_List" />,R.NAME AS PNAME
-		from T_WORKFLOW W LEFT JOIN T_RESERVE R ON W.PID = R.ID
+		<include refid="Base_Column_List" />,R.RESEVERNAME AS PNAME
+		from T_WORKFLOW W LEFT JOIN T_RESEVER_COST R ON W.PID = R.ID
 		where <include refid="Pending_Clause" />
 		<include refid="Where_Clause" /> 
 		AND W.FLOWTYPE = 'resever'
 		<if test="pName != null and pName != ''">
-			AND R.NAME like CONCAT('%',#{pName,jdbcType=VARCHAR},'%')
+			AND R.RESEVERNAME like CONCAT('%',#{pName,jdbcType=VARCHAR},'%')
     	</if>
 		
 		
