@@ -280,11 +280,14 @@ Ext.onReady(function() {
 	//提交流程处理
 	function submitProcessInfo(nextActivity) {
 		//表单验证
-		try {
-			if(! VerificationForm()) {
-				return ;
-			}
-		} catch(e) {}
+		if(!(processInfo.openType == "todo" 
+			&& user.userId != processInfo.creater)) {
+			try {
+				if(! VerificationForm()) {
+					return ;
+				}
+			} catch(e) {}
+		}
 		
 		handlerProcess(nextActivity);
 	}
