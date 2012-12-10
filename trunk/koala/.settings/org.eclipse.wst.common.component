@@ -3,7 +3,7 @@
     <wb-module deploy-name="koala">
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/" source-path="/src/main/webapp"/>
-        <property name="context-root" value="/koala"/>
         <property name="java-output-path" value="/koala/src/main/webapp/WEB-INF/classes"/>
+        <property name="context-root" value="koala"/>
     </wb-module>
 </project-modules>
