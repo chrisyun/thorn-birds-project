@@ -61,9 +61,9 @@ function startProcessHandler() {
 		labelWidth : 250
 	});
 	
-	twoForm.addComp(getTextArea("appReason", "补助申请理由", 800, 60, 1000), 1.0, false);
-	twoForm.addComp(getTextArea("content", "补助资金使用内容", 800, 60, 1000), 1.0, false);
-	twoForm.addComp(getTextArea("target", "年度目标及预期效益", 800, 60, 1000), 1.0, false);
+	twoForm.addComp(getTextArea("appReason", "补助申请理由", 800, 60, 2000), 1.0, false);
+	twoForm.addComp(getTextArea("content", "补助资金使用内容", 800, 60, 2000), 1.0, false);
+	twoForm.addComp(getTextArea("target", "年度目标及预期效益", 800, 60, 2000), 1.0, false);
 	
 
 	var cm = new Ext.grid.ColumnModel({
@@ -203,7 +203,7 @@ function startProcessHandler() {
 	});
 	threeForm.addComp(getHidden("usedYear"),1.0,true);
 	threeForm.addComp(getMoneyText("money", "申请金额（万元）", 380), 1.0, true);
-	threeForm.addComp(getTextArea("budget", "预算测算依据及说明", 380, 120, 1000), 1.0, true);
+	threeForm.addComp(getTextArea("budget", "预算测算依据及说明", 380, 120, 2000), 1.0, true);
 	threeForm.findById("money").disable();
 	
 	var budgetForm = new Ext.Panel({
