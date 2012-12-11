@@ -50,7 +50,17 @@
    
    
 	<!-- DataDict Service -->
+	
+	<!-- 数据字典类型Dao -->
+	<bean id="dictTypeDAO" class="com.talkweb.ncframework.modules.datadict.dao.impl.DictTypeDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
 
+	<!-- 数据字典项Dao -->
+	<bean id="dictEntryDAO" class="com.talkweb.ncframework.modules.datadict.dao.impl.DictEntryDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
 	<!-- 数据字典Service -->
 	<bean id="dictService" class="com.talkweb.ncframework.modules.datadict.service.impl.DictServiceImpl">
 		<property name="dictTypeDAO">
@@ -65,16 +75,32 @@
 	</bean>
 	
 	<!-- Log Service -->
-
+	
+	<!-- 系统操作日志Dao -->
+	<bean id="sysOperateLogDAO" class="com.talkweb.ncframework.modules.log.dao.impl.SysOperateLogDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
 	<!-- 日志Service -->
 	<bean id="logService" class="com.talkweb.ncframework.modules.log.service.impl.LogServiceImpl">
 		<property name="sysOperateLogDAO">
 			<ref bean="sysOperateLogDAO" />
 		</property>
 	</bean>
+	
+	<!-- 角色DAO -->
+	<bean id="roleDAO" class="com.talkweb.ncframework.modules.rights.role.rolemanage.dao.impl.RoleDAOImpl" scope="prototype">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
 	<!-- 角色Service -->
 	<bean id="roleService" class="com.talkweb.ncframework.modules.rights.role.rolemanage.service.impl.RoleServiceImpl" scope="prototype">
 		<property name="roleDAO" ref="roleDAO"></property>
+	</bean>
+	
+	<!-- 系统菜单DAO -->
+	<bean id="systemMenuDAO" class="com.talkweb.ncframework.modules.rights.menu.dao.impl.SystemMenuDAOImpl" scope="prototype">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
 	</bean>
 	
 	<!-- 系统菜单Service -->
@@ -82,10 +108,17 @@
 		<property name="systemMenuDAO" ref="systemMenuDAO"></property>
 	</bean>
 	
-	<!-- 附件上传service -->
+	<!-- 公共DAO -->
+	<bean id="genericDAO" class="com.talkweb.ncframework.pub.dao.GenericDAOMyBatisImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
 	<!-- NCFramework组件服务结束-->
+	
+	<!-- 附件上传service -->
 	<bean id="fileService" class="com.talkweb.ncfw.file.FileServiceImpl">
 		<property name="genericDAO" ref="genericDAO" />
+		<property name="diskPath" value="${file.diskPath}"/>
 	</bean>
 	
     <!--JCaptcha验证码服务 -->  
