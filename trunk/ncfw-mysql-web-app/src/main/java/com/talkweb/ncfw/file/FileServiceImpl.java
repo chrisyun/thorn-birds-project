@@ -13,39 +13,30 @@ import org.apache.log4j.Logger;
 
 import com.talkweb.ncframework.pub.dao.IGenericDAO;
 import com.talkweb.ncframework.pub.exceptions.DAOException;
-import com.talkweb.ncframework.pub.utils.PropertiesUtils;
 import com.talkweb.ncframework.pub.utils.SequenceUtils;
-import com.talkweb.ncframework.pub.utils.StringUtils;
 import com.talkweb.ncfw.entity.CommonFile;
 import com.talkweb.security.SecurityHelper;
 
-/**
- * <p>文件名称: FileServiceImpl.java</p>
- * <p>文件描述: 本类描述</p>
- * <p>版权所有: 版权所有(C)2010</p>
- * <p>内容摘要: 简要描述本文件的内容，包括主要模块、函数及能的说明</p>
- * <p>其他说明: 其它内容的说明</p>
- * <p>完成日期: 2011-10-23</p>
- * <p>修改记录1:</p>
- * <pre>
- *    修改日期:
- *    修 改 人:
- *    修改内容:
- * </pre>
- * <p>修改记录2：…</p>
- * @author  chenyun
- */
 public class FileServiceImpl implements IFileService {
 	
 	private static Logger logger = Logger.getLogger(FileServiceImpl.class);
+	
 	private IGenericDAO genericDAO;
+	
+	private String diskPath;
+	
+	public String getDiskPath() {
+		return diskPath;
+	}
+	public void setDiskPath(String diskPath) {
+		this.diskPath = diskPath;
+	}
 	public IGenericDAO getGenericDAO() {
 		return genericDAO;
 	}
 	public void setGenericDAO(IGenericDAO genericDAO) {
 		this.genericDAO = genericDAO;
 	}
-
 
 	public CommonFile saveFile(File uploadFile, String uploadFileName,
 			String pid, String tableid, String busatttype) throws IOException, DAOException {
@@ -61,52 +52,43 @@ public class FileServiceImpl implements IFileService {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		cf.setUploadtime(df.format(new Date()));
 		
-//		String saveMode = PropertiesUtils.getProperty("commonfile.file.saveMode");
-		String saveMode = "0";
-		cf.setUploadType(saveMode);
+		cf.setUploadType("0");
 		
 		cf.setUploader(SecurityHelper.getCurrentUser().getUser().getUserid());
 		
-		//本地
-		if(StringUtils.equals("0", saveMode)) {
-//			String diskPath = PropertiesUtils.getProperty("commonfile.saveDiskPath");
-			String diskPath = "d:\\culture";
-			String folderName = diskPath + "\\"+ cf.getUploadtime();
-			
-			File folder = new File(folderName);
-			if (! folder.exists()) {
-				folder.mkdirs();
-			}
-			
-			cf.setAttpath("\\"+ cf.getUploadtime() + "\\" + cf.getAttid() + cf.getAtttype());
-			File attach = new File(diskPath + cf.getAttpath());
-			
-			FileInputStream instream = null;
-			FileOutputStream outstream = null;
-			try {
-				attach.createNewFile();
-				instream = new FileInputStream(uploadFile);
-				
-				outstream = new FileOutputStream(attach);
-				int bytesRead;
-				byte[] buf = new byte[4 * 1024]; //4K buffer
-				while((bytesRead = instream.read(buf)) != -1){
-					outstream.write(buf, 0, bytesRead);
-				}
-				outstream.flush();
-			} catch (IOException e) {
-				throw e;
-			} finally {
-				outstream.close();
-				instream.close();
-			}
+		//将附件上传文件服务器
+		String folderName = diskPath + File.separator + cf.getUploadtime();
+		
+		File folder = new File(folderName);
+		if (! folder.exists()) {
+			folder.mkdirs();
 		}
 		
+		cf.setAttpath(File.separator + cf.getUploadtime() + File.separator + cf.getAttid() + cf.getAtttype());
+		File attach = new File(diskPath + cf.getAttpath());
+		
+		FileInputStream instream = null;
+		FileOutputStream outstream = null;
+		try {
+			attach.createNewFile();
+			instream = new FileInputStream(uploadFile);
+			
+			outstream = new FileOutputStream(attach);
+			int bytesRead;
+			byte[] buf = new byte[40 * 1024]; //4K buffer
+			while((bytesRead = instream.read(buf)) != -1){
+				outstream.write(buf, 0, bytesRead);
+			}
+			outstream.flush();
+		} catch (IOException e) {
+			throw e;
+		} finally {
+			outstream.close();
+			instream.close();
+		}
 		
 		//写数据库
 		genericDAO.insert("FileMapper.insert", cf);
-		
-		
 		return cf;
 	}
 	
@@ -117,14 +99,8 @@ public class FileServiceImpl implements IFileService {
 		}
 		CommonFile cf = list.get(0);
 		
-//		String saveMode = PropertiesUtils.getProperty("commonfile.file.saveMode");
-		String saveMode = "0";
-		if(StringUtils.equals("0", saveMode)) {
-//			String diskPath = PropertiesUtils.getProperty("commonfile.saveDiskPath");
-			String diskPath = "d:\\culture";
-			File attach = new File(diskPath + cf.getAttpath());
-			cf.setAttach(attach);
-		}
+		File attach = new File(diskPath + cf.getAttpath());
+		cf.setAttach(attach);
 		
 		return cf;
 		

@@ -61,8 +61,20 @@
         </tx:attributes>
     </tx:advice>
    	
+   	<!-- 配置jmail -->
+   	<bean id="mailHelper" class="org.thorn.core.jmail.MailHelper">
+		<property name="userName" value="${mail.user}" />
+		<property name="password" value="${mail.password}" />
+		<property name="smtpHost" value="${mail.smtp}" />
+		<property name="sender">
+			<bean class="org.thorn.core.jmail.MailCard">
+				<property name="eMail" value="${mail.email}" />
+				<property name="name" value="${mail.name}" />
+			</bean>
+		</property>
+	</bean>
    	
-   	<!-- SPRING MAIL -->
+   	<!-- SPRING MAIL
    	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> 
 		<property name="host" value ="${mail.host}"></property> 
 		<property name="javaMailProperties"> 
@@ -74,4 +86,5 @@
 		<property name="username" value="${mail.username}"></property > 
 		<property name="password" value="${mail.password}"></property> 
 	</bean>
+	 -->
 </beans>
