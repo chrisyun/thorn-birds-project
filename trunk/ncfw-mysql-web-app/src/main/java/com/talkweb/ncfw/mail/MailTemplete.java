@@ -22,7 +22,7 @@ public class MailTemplete {
 		MailCard card = new MailCard(email, userName);
 		mail.getReceiver().add(card);
 
-		mail.setSubject("");
+		mail.setSubject("文化部科研项目申报平台 - 密码修改");
 
 		StringBuilder content = new StringBuilder(MAIL_HEADER);
 
@@ -43,7 +43,7 @@ public class MailTemplete {
 		MailCard card = new MailCard(email, userName);
 		mail.getReceiver().add(card);
 
-		mail.setSubject("");
+		mail.setSubject("文化部科研项目申报平台 - 用户审核");
 
 		StringBuilder content = new StringBuilder(MAIL_HEADER);
 
