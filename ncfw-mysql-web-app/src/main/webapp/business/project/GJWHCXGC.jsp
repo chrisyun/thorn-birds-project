@@ -205,16 +205,8 @@
 												
 												<ext:container lazyInit="true">
 													<ext:items>
-														<ext:comboBox id="pname" hiddenName="project.pname"
-															fieldLabel="项目名称<span class='red'>(必填)</span>"
-															displayField="text" mode="local" triggerAction="all"
-															selectOnFocus="true" forceSelection="true" width="650"
-															valueField="value" value="" editable="false" allowBlank="false"
-															store="new Ext.data.SimpleStore({
-																fields : ['value', 'text'],
-																data : Common.config.nullArray.concat(DataDict.projectNameArray)
-															})">
-														</ext:comboBox>
+														<ext:textField id="pname" name="project.pname" fieldLabel="项目名称<span class='red'>(必填)</span>" allowBlank="false" otherProperties="anchor: Project.fieldAnchor">
+														</ext:textField>
 													</ext:items>
 												</ext:container>
 														
