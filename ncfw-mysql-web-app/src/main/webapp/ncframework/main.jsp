@@ -22,9 +22,9 @@
 		<div id="header">
 			 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 			  <tr>
-			    <td width="664"><img src="<%=basePath %>/foundation/ext/images/t-1.jpg" width="664" height="67" /></td>
-			    <td background="<%=basePath %>/foundation/ext/images/t-2.jpg">&nbsp;</td>
-			    <td width="372"><img src="<%=basePath %>/foundation/ext/images/t-3.jpg" width="372" height="67" /></td>
+			    <td width="664"><img src="<%=basePath %>foundation/ext/images/t-1.jpg" width="664" height="67" /></td>
+			    <td background="<%=basePath %>foundation/ext/images/t-2.jpg">&nbsp;</td>
+			    <td width="372"><img src="<%=basePath %>foundation/ext/images/t-3.jpg" width="372" height="67" /></td>
 			  </tr>
 			</table>
 		</div>

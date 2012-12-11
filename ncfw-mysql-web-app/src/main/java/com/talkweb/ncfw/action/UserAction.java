@@ -265,7 +265,7 @@ public class UserAction extends BaseAction {
 		} else if (StringUtils.equals("update", optype) && count <= 1) {// 修改
 			return new ProccessResultBean(true, "检测通过.");
 		}
-		return new ProccessResultBean(false, "登录用户名或邮箱被占用, 请更换.");
+		return new ProccessResultBean(false, "登录用户名或邮箱被占用, 请更换。若密码忘记，请点击首页找回密码按钮。");
 	}
 
 	/**

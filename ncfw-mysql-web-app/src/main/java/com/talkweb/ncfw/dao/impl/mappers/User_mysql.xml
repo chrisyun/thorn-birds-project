@@ -165,6 +165,9 @@
 				<if test=" username != null and username != '' ">
 					username = #{username}
 				</if>
+				<if test=" userid != null and userid != '' ">
+					userid = #{userid}
+				</if>
 				<if test=" displayname != null and displayname != '' ">
 					or displayname = #{displayname}
 				</if>
