@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
@@ -44,7 +44,7 @@
 	<!-- <bean id="attService" class="org.thorn.attachment.service.AttachmentDBServiceImpl" /> -->
 	<bean id="attService" class="org.thorn.attachment.service.AttachmentLocalServiceImpl">
 		<property name="savePath" value="C:\Program Files\Tomcat 6.0\webapps\download\" />
-		<property name="httpPath" value="http://59.252.212.3:8082/download" />
+		<property name="httpPath" value="http://114.255.59.52:8080/download" />
 	</bean>
 	
 	
