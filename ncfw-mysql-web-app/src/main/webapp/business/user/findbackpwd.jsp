@@ -51,7 +51,8 @@
 	               	}]
 	            },{
 	            	columnWidth: 1.0,
-	            	html : '<br><strong style="color: red;padding-left:100px;">请填写您注册的用户名或邮箱，我们会将您的密码发送至您的邮箱，请注意查收。</strong>'
+	            	html : '<br><strong style="color: red;padding-left:90px;">2012年度申报工作中已注册用户请填写您注册的用户名或邮箱，我们会将密码发送至您的邮箱，请注意查收。<br><div style="color: red;padding-left:90px;">未参加2012年度申报，本单位用户名已被注册，请与文化部信息中心联系，电话：01059881182，联系人：邢波。</div></strong>'
+				
 			    }]
                 }]
         	}]

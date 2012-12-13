@@ -121,6 +121,30 @@ public class ProjectAction extends BaseAction {
 		return null;
 	}
 	
+	public String modifyProjectStatus() {
+		ProccessResultBean resultBean 	= null;
+		String pids		= this.getParameter("pids");
+		String status = this.getParameter("pro_status");
+		if (StringUtils.isEmpty(pids)) {
+			resultBean = new ProccessResultBean(false, "项目编号不能为空.");
+			HttpServletUtils.outJson(this.getResponse(), resultBean);
+			return null;
+		}
+		
+		String[] pidArray= pids.split(",");
+		Map para = new HashMap();
+		para.put("pidArray", pidArray);
+		para.put("pstatus", status);
+		try {
+			this.getGenericDAO().update("ProjectMapper.updateStatus", para);
+			resultBean = new ProccessResultBean(true, "项目状态修改成功.");
+		} catch (DAOException e) {
+			resultBean = new ProccessResultBean(false, "更新项目状态失败.");
+		}
+		HttpServletUtils.outJson(this.getResponse(), resultBean);
+		return null;
+	}
+	
 	public String updatePWType() {
 		ProccessResultBean resultBean 	= null;
 		String pids		= this.getParameter("pids");

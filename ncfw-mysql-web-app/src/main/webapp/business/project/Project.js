@@ -527,7 +527,110 @@ var PWProject = {
 		}
 }
 
+var ProjectStatus = {
+		statusForm		: 	null,
+		statusWindow	:	null,
+		showWindow	:	function() {
+			if (this.statusWindow == null) {
+				var windowWidth = document.body.clientWidth > 400 ? 400 : document.body.clientWidth - 10;
+				var windowHeight = document.body.clientHeight > 150 ? 150 : document.body.clientHeight - 10;
+				
+				this.statusForm = new Ext.FormPanel({
+					id: 'statusForm',
+					region: 'center',
+					autoScroll: true,
+			        frame: true,
+			        labelAlign: 'right',
+			        labelWidth: 80,	        
+			     	items: [{
+			        	items: [{
+			            	layout: 'column',border: false, labelSeparator: ':',
+			                defaults:{layout: 'form', border: false, columnWidth: 1.0},
+			                items: [{
+			                	items:[{
+			                		xtype: 'hidden', id: 'pids', name: 'pids'
+			                	}]
+			                },{
+			                	items:[{
+			                		xtype: 'combo', id: 'pro_status1', hiddenName: 'pro_status', anchor: "95%",
+			                		fieldLabel: '项目状态', readOnly: false, allowBlank: true,editable: false,
+					                mode: 'local', triggerAction: 'all', valueField: 'value', displayField: 'text',
+					                readOnly: false, resizable: true,
+					                store: new Ext.data.SimpleStore({
+										fields: ['value', 'text'], data: DataDict.projectStatusArray
+									})
+			                	}]
+			                }]
+			        	}]
+			     	}]
+				});
+				
+				this.statusWindow = new Ext.Window({ //定义对话框
+					title: '项目状态',
+					closeAction : 'hide',
+					modal : true,
+					shadow : true,
+					closable : true,
+					layout : 'fit',
+					width : windowWidth,
+					height : windowHeight,
+					items:[this.statusForm],
+					buttons : [{
+						text :'保存',
+						iconCls: 'icon_save',
+						scope: this,
+						handler: this.updateStatus
+					},{
+						text :'关闭',
+						iconCls: 'icon_close',
+						scope: this,
+						handler: function(){this.statusWindow.hide();}
+					}]
+				});
 
+			}
+			
+			this.statusWindow.show();
+		},
+		
+		chooseStatus :	function() {
+			var selectedRecordArray = dataGrid.getSelectionModel().getSelections();
+			if(selectedRecordArray.length < 1){
+		 		Ext.Msg.alert("提示信息", "请选择需要更改状态的项目!");
+		 		return;
+		  	}
+			
+			var pids = "";
+		  	for(var i = 0;i < selectedRecordArray.length;i++){
+		  		pids += selectedRecordArray[i].get("pid") + ",";
+		    }
+		  	if(pids.length > 0){
+		  		pids = pids.substring(0, pids.length - 1);
+		    }
+		  	
+		  	params = {pids: pids};
+		  	
+		  	ProjectStatus.showWindow();
+		  	ProjectStatus.statusForm.getForm().setValues(params);
+		},
+		
+		updateStatus		:	function() {
+			var thisForm = ProjectStatus.statusForm.getForm();
+			if (!thisForm.isValid()) {
+				return;
+			}
+			
+			Common.showProcessMsgBox("信息保存中，请稍后...");
+			thisForm.submit({
+				url		: 	sys.basePath + 'projectAction!modifyProjectStatus.do',
+	            success	: 	function(form, action){
+	            	Common.hideProcessMsgBox();
+	                Ext.topShow.msg('成功提示', '项目修改状态成功.');
+	                dataGrid.getStore().reload();
+	            }
+	        });
+		}
+}
 
 function setOrgSel(field, record, index) {
 	var deptEmp = Ext.getCmp("query.dept");
