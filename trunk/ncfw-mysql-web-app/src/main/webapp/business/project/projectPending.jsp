@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@page import="com.talkweb.security.SecurityHelper"%>
 <%@page import="com.talkweb.ncfw.entity.Org"%>
@@ -138,7 +138,7 @@
 															allowBlank="true" cls="float_left" itemCls="float_left"
 															clearCls="allow_float" emptyText="请选择开始日期"
 															otherProperties="shadow : true,editable: false ,maxValue: new Date(), 
-															value: new Date().add(Date.MONTH,-1)">
+															value: new Date().add(Date.MONTH,-12)">
 														</ext:dateField>
 														,{xtype: 'label', text: '至', cls: 'float_left',itemCls: 'float_left', style: 'font-size: 12px; margin: 3 3 0 4px;display:inline;'}
 														<ext:dateField hideLabel="true"

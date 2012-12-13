@@ -74,7 +74,14 @@
 								</tr>	
 								<tr>
 									<td style="padding: 3px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.申报单位在注册完成后须确保帐号信息的安全性，若发现任何非法使用帐号信息或存在安全隐患的情况，请立即通知管理单位。</td>
-								</tr>			
+								</tr>	
+                                <tr>
+									<td style="padding: 3px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.<strong style="color: red;">2012年度申报中已注册用户可直接登录，无需重新注册。若忘记密码，请点击"找回密码"</strong>。
+</td>
+								</tr>
+                                <tr>
+									<td style="padding: 3px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7.<strong style="color: red;">若未参加2012年度申报，本单位用户名已被注册，请与文化部信息中心联系，联系电话：01059881182，联系人：邢波。</strong></td>
+								</tr>		
 							</table>
 						</div>
 						<div class="reg-form" id="reg-form" style="padding-left:80px;"></div>
