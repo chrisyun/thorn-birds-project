@@ -12,14 +12,14 @@ http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 	</beans:bean>
 	
 	<http entry-point-ref="authenticationProcessingFilterEntryPoint">
-		<intercept-url pattern="/reference/**" filters="none" />
+		<intercept-url pattern="/css/**" filters="none" />
 		<intercept-url pattern="/resources/**" filters="none" />
 		<intercept-url pattern="/plugins/**" filters="none" />
+		<intercept-url pattern="/images/**" filters="none" />
+		
 		<intercept-url pattern="/user/findBackMyPwd.jmt" filters="none" />
 		<intercept-url pattern="/Alert**" filters="none" />
 		<intercept-url pattern="/login.jhtml*" filters="none" />
-		<intercept-url pattern="/js/**" filters="none" />
-		
 		<!-- 检测失效的sessionId,超时时定位到另外一个URL -->
 		<session-management invalid-session-url="/AlertTimeOut.jsp">
 			<!-- 第二次登录将被阻止error-if-maximum-exceeded="true" -->

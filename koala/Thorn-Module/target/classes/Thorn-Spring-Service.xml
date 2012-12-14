@@ -51,7 +51,7 @@
 	</bean>
 
 
-
+	<!-- 邮件服务 -->
 	<bean id="mailHelper" class="org.thorn.core.jmail.MailHelper">
 		<property name="userName" value="${mail.user}" />
 		<property name="password" value="${mail.password}" />
@@ -75,7 +75,8 @@
 			</props>
 		</property>
 	</bean>
-
+	
+	<!-- 配置文件监听者 -->
 	<bean id="mailConfigListener"
 		class="org.thorn.configurator.listeners.MailConfiguratorListener">
 		<property name="configName" value="mail-config.xml" />
