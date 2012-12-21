@@ -17,9 +17,8 @@ http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 		<intercept-url pattern="/plugins/**" filters="none" />
 		<intercept-url pattern="/images/**" filters="none" />
 		
-		<intercept-url pattern="/user/findBackMyPwd.jmt" filters="none" />
-		<intercept-url pattern="/Alert**" filters="none" />
-		<intercept-url pattern="/login.jhtml*" filters="none" />
+		<intercept-url pattern="/html/**" filters="none" />
+		<intercept-url pattern="/index*" filters="none" />
 		<!-- 检测失效的sessionId,超时时定位到另外一个URL -->
 		<session-management invalid-session-url="/AlertTimeOut.jsp">
 			<!-- 第二次登录将被阻止error-if-maximum-exceeded="true" -->
@@ -121,7 +120,7 @@ http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 		<beans:property name="key" value="thorn" />
 	</beans:bean>
 
-
+	<!-- 自定义权限拦截处理器 -->
 	<beans:bean id="accessDeniedHandler"
 		class="org.thorn.security.AccessDeniedWithJsonAndJspHandler" >
 		<beans:property name="errorPage" value="/AlertAccessDenied.jsp"/>
