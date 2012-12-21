@@ -30,12 +30,6 @@ public interface SecurityConfiguration {
 	 */
 	public static final int AUTHCODE_NUM_LENGTH = 4;
 	/**
-	 * 是否
-	 */
-	public static final String YES = "YES";
-	
-	public static final String NO = "NO";
-	/**
 	 * 系统管理员角色ID
 	 */
 	public static final String SYS_ADMIN_ROLE = "SYSADMIN";

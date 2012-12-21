@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.thorn.core.util.LocalStringUtils;
+import org.thorn.dao.core.Configuration;
 import org.thorn.role.entity.Role;
-import org.thorn.security.SecurityConfiguration;
 import org.thorn.user.entity.User;
 /**
  * 
@@ -76,7 +76,7 @@ public class UserSecurity implements UserDetails {
 	 * 判断账号是否过期
 	 */
 	public boolean isAccountNonExpired() {
-		if(LocalStringUtils.equals(user.getIsDisabled(), SecurityConfiguration.NO)) {
+		if(StringUtils.equals(user.getIsDisabled(), Configuration.DB_NO)) {
 			return true;
 		} 
 		
