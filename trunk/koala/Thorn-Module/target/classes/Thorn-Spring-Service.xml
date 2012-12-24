@@ -25,7 +25,11 @@
 
 	<bean id="resourceDao" class="org.thorn.resource.dao.ResourceDaoImpl" />
 	<bean id="resourceService" class="org.thorn.resource.service.ResourceServiceImpl" />
-
+	<bean id="resourceCache" class="org.thorn.resource.service.ResourceCacheImpl">
+		<constructor-arg index="0" ref="resourceService" />
+	</bean>
+	
+	
 	<bean id="userDao" class="org.thorn.user.dao.UserDaoImpl" />
 	<bean id="userService" class="org.thorn.user.service.UserServiceImpl" />
 
