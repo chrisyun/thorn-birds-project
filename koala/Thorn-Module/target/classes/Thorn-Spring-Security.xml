@@ -17,11 +17,10 @@ http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 		<intercept-url pattern="/plugins/**" filters="none" />
 		<intercept-url pattern="/images/**" filters="none" />
 		
-		<intercept-url pattern="/user/findBackMyPwd.jmt" filters="none" />
-		<intercept-url pattern="/Alert**" filters="none" />
-		<intercept-url pattern="/login.jhtml*" filters="none" />
+		<intercept-url pattern="/html/**" filters="none" />
+		<intercept-url pattern="/index*" filters="none" />
 		<!-- 检测失效的sessionId,超时时定位到另外一个URL -->
-		<session-management invalid-session-url="/AlertTimeOut.jsp">
+		<session-management invalid-session-url="/html/TimeOut.jsp">
 			<!-- 第二次登录将被阻止error-if-maximum-exceeded="true" -->
 			<!-- 第二次登录会让第一次登录失效 -->
 			<concurrency-control max-sessions="1" />
@@ -56,7 +55,7 @@ http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 	</beans:bean>
 	<beans:bean id="securityMetadataSource"
 		class="org.thorn.security.InvocationSecurityMetadataSource">
-		<beans:constructor-arg index="0" ref="resourceService" />
+		<beans:constructor-arg index="0" ref="resourceCache" />
 		<beans:constructor-arg index="1" ref="authService" />
 	</beans:bean>
 	<beans:bean id="accessDecisionManager"
@@ -95,7 +94,7 @@ http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 	</beans:bean>
 	<beans:bean id="loginFailureHandler"
 		class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
-		<beans:property name="defaultFailureUrl" value="/login.jhtml?error=true"></beans:property>
+		<beans:property name="defaultFailureUrl" value="/index.jsp?error=true"></beans:property>
 	</beans:bean>
 	<!-- ************************************************* -->
 	<!-- REMEMBER-ME filter -->
@@ -121,15 +120,15 @@ http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 		<beans:property name="key" value="thorn" />
 	</beans:bean>
 
-
+	<!-- 自定义权限拦截处理器 -->
 	<beans:bean id="accessDeniedHandler"
 		class="org.thorn.security.AccessDeniedWithJsonAndJspHandler" >
-		<beans:property name="errorPage" value="/AlertAccessDenied.jsp"/>
+		<beans:property name="errorPage" value="/html/AccessDenied.jsp"/>
 	</beans:bean>
 
 	<beans:bean id="authenticationProcessingFilterEntryPoint"
 		class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
-		<beans:property name="loginFormUrl" value="/login.jhtml"></beans:property>
+		<beans:property name="loginFormUrl" value="/index.jsp"></beans:property>
 	</beans:bean>
 
 	<!-- ************************************************* -->
