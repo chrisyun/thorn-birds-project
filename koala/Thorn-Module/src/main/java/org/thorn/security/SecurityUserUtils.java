@@ -11,7 +11,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.thorn.auth.service.IAuthService;
 import org.thorn.core.context.SpringContext;
-import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.org.entity.Org;
 import org.thorn.org.service.IOrgService;
@@ -105,16 +104,8 @@ public class SecurityUserUtils {
 	 */
 	public static boolean isSysAdmin() {
 		List<String> list = getRoleList();
-
-		boolean isAdmin = false;
-		for (String role : list) {
-			if (LocalStringUtils.equals(SecurityConfiguration.SYS_ADMIN_ROLE, role)) {
-				isAdmin = true;
-				break;
-			}
-		}
-
-		return isAdmin;
+		
+		return list.contains(SecurityConfiguration.SYS_ADMIN_ROLE);
 	}
 	
 	public static Org getUserParentOrg() {

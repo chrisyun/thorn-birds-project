@@ -70,7 +70,8 @@ public class ResourceCacheImpl implements IResourceCache {
 
 	public void refreshSourceCache() throws DBAccessException {
 
-		Map<String, String> tempMap = this.resourceMap;
+		Map<String, String> tempMap = (Map<String, String>) ((Hashtable) this.resourceMap)
+				.clone();
 
 		try {
 			resourceMap.clear();
