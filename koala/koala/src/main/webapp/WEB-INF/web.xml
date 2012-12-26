@@ -82,6 +82,10 @@
 		<filter-name>sitemesh</filter-name>
 		<url-pattern>*.jhtml</url-pattern>
 	</filter-mapping>
+	<filter-mapping>
+		<filter-name>sitemesh</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
 
 	<!-- 验证码 -->
 	<servlet>
