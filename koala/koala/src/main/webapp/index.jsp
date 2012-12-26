@@ -77,7 +77,7 @@ for(Cookie ck : cookies) {
 				<img src="<%=path%>/images/xmas.jpg" style="width: 300px;height: 340px;padding-top: 5px;">
 			</div>
 			<div class="span5">
-			    <form class="form-horizontal" id="login" action="<%=path%>/j_spring_security_check">
+			    <form class="form-horizontal" id="login" method="post" action="<%=path%>/j_spring_security_check">
 			    <fieldset>
 			    	<legend>用户登录</legend>
 			    	<div class="control-group">
@@ -103,7 +103,7 @@ for(Cookie ck : cookies) {
 				    	<label class="control-label" for="input01">验证码</label>
 				    	<div class="controls">
 				    		<input type="text" class="span1" data-validation-engine="validate[required,minSize[4],maxSize[4],custom[integer]]" 
-				    			data-errormessage="请输入四位数字验证码"
+				    			data-errormessage-value-missing="请输入四位数字验证码"
 				    			name="ValidateCode" id="ValidateCode">
 				    		<span class="help-inline">
 				    			<img alt="验证码" id="authImage" src="<%=path %>/resources/ImageValidateCodeServlet" align="middle" width="80" height="24">
