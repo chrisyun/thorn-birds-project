@@ -55,13 +55,15 @@ public class HeritorServiceImpl implements IHeritorService {
 	}
 
 	public Page<Heritor> queryPage(String name, String gender, String minority,
-			String projectName, String isDie, String province, long start,
-			long limit, String sort, String dir) throws DBAccessException {
+			String projectName, String isDie, String province, String batchNum,
+			long start, long limit, String sort, String dir)
+			throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
 		filter.put("name", name);
 		filter.put("gender", gender);
 		filter.put("projectName", projectName);
 		filter.put("isDie", isDie);
+		filter.put("batchNum", batchNum);
 		filter.put("province", province);
 		filter.put("minority", minority);
 		filter.put(Configuration.PAGE_LIMIT, limit);
