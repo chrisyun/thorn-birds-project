@@ -1,5 +1,5 @@
-jQuery.system = {
-	getCookie : function(key) {
+jQuery.cookie = {
+	get : function(key) {
 		var arrStr = document.cookie.split("; ");
 
 		for ( var i = 0; i < arrStr.length; i++) {
@@ -11,7 +11,7 @@ jQuery.system = {
 	
 		return null;
 	},
-	addCookie : function(key, value) {
+	add : function(key, value) {
 		var ck = key + "=" + escape(value);
 	
 		var date = new Date();
@@ -20,14 +20,14 @@ jQuery.system = {
 		
 		document.cookie = ck;
 	},
-	delCookie : function(key) {
+	del : function(key) {
 		var exp = new Date();
 		exp.setTime(exp.getTime() - 1);
 		
-		var ckValue = getCookie(key);
+		var ckValue = $.cookie.get(key);
 		
 		if(ckValue != null) {
-			document.cookie= key + "="+ckValue+";expires="+exp.toGMTString();
+			document.cookie= key + "="+ckValue+"; expires="+exp.toGMTString();
 		}
 	}
 };
@@ -35,7 +35,9 @@ jQuery.system = {
 jQuery.utils = {
 	isEmpty : function(str) {
 		if(str == null || str == "" || str == undefined) {
-			
+			return true;
+		} else {
+			return false;
 		}
 	}
 };
