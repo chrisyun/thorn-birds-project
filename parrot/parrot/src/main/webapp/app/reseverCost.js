@@ -185,6 +185,10 @@ function startProcessHandler() {
 			},
 			"beforeedit" : function(e) {
 				
+				if(e.field == 'detail') {
+					return false;
+				}
+				
 				if(processInfo.openType != "create" 
 					&& !(processInfo.openType == "todo" 
 						&& user.userId == processInfo.creater)
