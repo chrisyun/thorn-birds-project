@@ -21,8 +21,9 @@ public interface IHeritorService {
 	public void delete(String ids) throws DBAccessException;
 
 	public Page<Heritor> queryPage(String name, String gender, String minority,
-			String projectName, String isDie, String province, long start,
-			long limit, String sort, String dir) throws DBAccessException;
+			String projectName, String isDie, String province, String batchNum,
+			long start, long limit, String sort, String dir)
+			throws DBAccessException;
 
 	public List<Heritor> queryList(String name, String province, String isDie,
 			Integer projectId, String sort, String dir)

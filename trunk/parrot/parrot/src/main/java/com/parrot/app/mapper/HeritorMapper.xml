@@ -33,6 +33,9 @@
       		<if test="projectName != null and projectName != ''">
 				and P.NAME like CONCAT('%',#{projectName,jdbcType=VARCHAR},'%')
       		</if>
+      		<if test="batchNum != null and batchNum != ''">
+				and H.BATCHNUM like CONCAT('%',#{batchNum,jdbcType=VARCHAR},'%')
+      		</if>
 			<if test="id != null">
 				AND H.ID = #{id,jdbcType=DECIMAL}
       		</if>

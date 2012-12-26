@@ -107,7 +107,7 @@ public class HeritorController extends BaseController {
 	@ResponseBody
 	public Page<Heritor> getHeritorPage(long start, long limit, String sort,
 			String dir, String name, String gender, String minority, String projectName,
-			String isDie, String province) {
+			String isDie, String province, String batchNum) {
 		Page<Heritor> page = new Page<Heritor>();
 
 		try {
@@ -121,7 +121,7 @@ public class HeritorController extends BaseController {
 			}
 
 			page = heritorService.queryPage(name, gender, minority, projectName, isDie,
-					province, start, limit, sort, dir);
+					province, batchNum, start, limit, sort, dir);
 		} catch (DBAccessException e) {
 			log.error("getHeritorPage[Heritor] - " + e.getMessage(), e);
 		}
