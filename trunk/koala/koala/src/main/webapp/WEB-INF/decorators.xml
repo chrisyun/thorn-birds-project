@@ -7,7 +7,7 @@
     
 	<decorators>
 		<decorator name="main" page="/core/main.jsp">
-          <pattern>*.jhtml</pattern> 
+          <pattern>*.jsp</pattern> 
       	</decorator>
 	</decorators>
 </sitemesh>

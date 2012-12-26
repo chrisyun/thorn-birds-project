@@ -20,14 +20,7 @@ for(Cookie ck : cookies) {
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
-    
     <title>Login</title>
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
 	
 	<script type="text/javascript">
 	$(function(){
@@ -37,69 +30,129 @@ for(Cookie ck : cookies) {
 			$("#username").val(username);
 		}
 		
-		
+	    $("#login").validationEngine({ 
+	    	promptPosition: "bottomLeft",
+	    	autoHideDelay : 4000,
+	    	autoHidePrompt : true,
+	    	failure :  false,
+        	success : function() { 
+        		$.cookie.add("LOGIN_USERNAME", $("#username").val());
+        	} 
+        });
+	    
+	    <c:if test="${param.error eq true}">
+	    	$("#ValidateCode").validationEngine("showPrompt" , "${sessionScope['SPRING_SECURITY_LAST_EXCEPTION'].message}", "error");
+		</c:if>
 	});
 	
-	function login() {
-		if($("#remberUser").attr("checked") == "checked") {
-			$.cookie.add("LOGIN_USERNAME", $("#username").val());
-		}
-		
-		
-		
-		$("#login").submit();
-	}
+	function refresh() {
+		$("#authImage").attr("src","<%=path %>/resources/ImageValidateCodeServlet?radom=" + Math.random());
+	};
 	
 	</script>
 	
-	
+	<style type="text/css">
+	.footer {
+		border-top: 3px solid #C1D1EA;
+		color: #808080;
+		font-size: 12px;
+		font-family: Arial;
+	}
+	</style>
   </head>
   
   <body>
-	<form id="login" action="<%=path%>/j_spring_security_check">
-		<table>
-			<tr>
-				<td colspan="4" id="errorMsg">
-				<c:if test="${param.error eq true}">
-					${sessionScope['SPRING_SECURITY_LAST_EXCEPTION'].message}
-				</c:if>
-				</td>
-			</tr>
-			<tr>
-				<td>账户名：</td>
-				<td colspan="2"><input type="text" maxlength="100" 
-					name="j_username" id="username" value="${sessionScope['SPRING_SECURITY_LAST_USERNAME']}"></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>密码：</td>
-				<td colspan="2"><input type="password" maxlength="100" name="j_password" id="password"></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>验证码：</td>
-				<td><input type="text" maxlength="4" name="ValidateCode" id="ValidateCode"></td>
-				<td><div>
-						<img alt="验证码" id="authImage" src="<%=path %>/resources/ImageValidateCodeServlet" align="middle" width="80" height="24" />&nbsp;
-						<a href="javascript:refresh();">看不清</a>
+  	<div class="container">
+		<div class="row">
+			<div class="span2 offset2"><img alt="logo" style="padding-top: 10px;padding-bottom: 10px;" src="<%=path%>/images/logo.png"></div>
+			<div class="span6"><img alt="广告" style="width: 900px;height: 80px;" src="<%=path%>/images/40a5d2a8jw1e01971ub28j.jpg"></div>
+		</div>
+		<div class="row">
+			<div class="span8 offset2">
+				<hr style="border-color: red;margin-top: 0px;margin-bottom: 0px;">
+			</div>
+		</div>
+		<div class="row">
+			<div class="span3 offset2">
+				<fieldset>
+					<legend></legend>
+				</fieldset>
+			</div>
+			<div class="span5">
+			    <form class="form-horizontal" id="login" action="<%=path%>/j_spring_security_check">
+			    <fieldset>
+			    	<legend>用户登录</legend>
+			    	<div class="control-group">
+				    	<label class="control-label" for="input01">账户名</label>
+				    	<div class="controls">
+				    		<input type="text" class="span2" data-validation-engine="validate[required]"
+				    			data-errormessage-value-missing="请输入账户名"
+				    			id="username" name="j_username" value="${sessionScope['SPRING_SECURITY_LAST_USERNAME']}">
+				   	 	</div>
+				    </div>
+				    <div class="control-group">
+				    	<label class="control-label" for="input01">密码</label>
+				    	<div class="controls">
+				    		<input type="password" class="span2" data-validation-engine="validate[required]" 
+				    			data-errormessage-value-missing="请输入密码"
+				    			name="j_password" id="password">
+				    		<span class="help-inline">
+				    			<a href="">忘记密码</a>
+				    		</span>
+				    	</div>
+				    </div>
+				    <div class="control-group">
+				    	<label class="control-label" for="input01">验证码</label>
+				    	<div class="controls">
+				    		<input type="text" class="span1" data-validation-engine="validate[required,length[4,4],onlyNumber]" 
+				    			data-errormessage-value-missing="请输入验证码"
+				    			name="ValidateCode" id="ValidateCode">
+				    		<span class="help-inline">
+				    			<img alt="验证码" id="authImage" src="<%=path %>/resources/ImageValidateCodeServlet" align="middle" width="80" height="24">
+				    		</span>
+				    		<span class="help-inline">
+				    			<a href="javascript:refresh();" title="点击刷新">看不清</a>
+				    		</span>
+				    	</div>
+				    </div>
+				    <div class="control-group">
+				    	<div class="controls">
+				    		<label class="checkbox inline">
+				    			<input type="checkbox" name="_spring_security_remember_me">
+				    			<abbr title="2周内访问我们的网站不需要登录">两周内自动登录</abbr>	
+				    		</label>
+				    	</div>
+				    </div>
+				    <div class="form-actions">
+				    	<button class="btn btn-primary" type="submit">登录</button>
+				    	<span class="help-inline">
+				    		&nbsp;&nbsp;&nbsp;&nbsp;
+				    		还没有账户？<a href="">立即注册！</a>
+				    	</span>
+				    </div>
+			    </fieldset>
+			    </form>
+			</div>
+		</div>
+	</div>
+	
+	<div class="footer">
+		<div class="container">
+			<div class="row">
+				<div class="span2 offset2">
+					<img alt="logo" style="padding-top: 10px;padding-bottom: 10px;" src="<%=path%>/images/logo.png">
+				</div>
+				<div class="span8">
+					<div class="row">
+						<div class="span8" style="padding-top: 10px;padding-bottom: 5px;">版权所有 © 2012 Mozilla Firefox. 北京谋智火狐信息技术有限公司 京 ICP备11011334号-1</div>
 					</div>
-				</td>
-				<td></td>
-			</tr>
-			<tr>
-				<td colspan="4">
-					<input type="checkbox" id="remberUser" checked="checked"><label>记住账号名</label>
-					<input type="checkbox" name="_spring_security_remember_me"><label>两周内自动登录</label>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="4">
-					<input type="button" value="登录" onclick="login();">
-					<a href="">忘记密码</a>
-					<a href="">注册新用户</a>
-				</td>
-			</tr>
-		</table>
-	</form>
+					<div class="row">
+						<div class="span8" style="padding-top: 5px;padding-bottom: 10px;">联系我们：请发邮件至moc.allizom@uohzc 主页修复 新版意见反馈 申请收录</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 </body>
 </html>
