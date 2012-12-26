@@ -31,7 +31,7 @@ http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 
 		<!-- logout需要清除cookie及数据库信息，必须配置rememberme节点 -->
 		<remember-me data-source-ref="dataSource-jdbc" />
-		<logout logout-success-url="/login.jhtml" invalidate-session="true" />
+		<logout logout-success-url="/index.jsp" invalidate-session="true" />
 
 		<custom-filter ref="loginFilter" position="FORM_LOGIN_FILTER" />
 		<custom-filter ref="permissionFilter" before="FILTER_SECURITY_INTERCEPTOR" />
@@ -89,7 +89,7 @@ http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 	</beans:bean>
 	<beans:bean id="loginSuccessHandler"
 		class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
-		<beans:property name="defaultTargetUrl" value="/main.jhtml" />
+		<beans:property name="defaultTargetUrl" value="/home.jhtml" />
 		<beans:property name="alwaysUseDefaultTargetUrl" value="true" />
 	</beans:bean>
 	<beans:bean id="loginFailureHandler"
