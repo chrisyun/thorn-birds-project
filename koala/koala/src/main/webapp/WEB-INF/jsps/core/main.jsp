@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
 <%
 String path = request.getContextPath();
@@ -20,7 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<link href="<%=path %>/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
 	<link href="<%=path %>/plugins/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-	<link href="<%=path %>/plugins/jquery-ui/css/smoothness/jquery-ui-1.9.1.custom.min.css" rel="stylesheet">
+	<link href="<%=path %><spring:theme code="css" />" rel="stylesheet">
 	
 	<link href="<%=path %>/plugins/validationEngine/css/template.css" rel="stylesheet">
 	<link href="<%=path %>/plugins/validationEngine/css/validationEngine.jquery.css" rel="stylesheet">

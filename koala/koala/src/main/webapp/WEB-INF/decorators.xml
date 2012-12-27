@@ -7,7 +7,8 @@
     
 	<decorators>
 		<decorator name="main" page="/WEB-INF/jsps/core/main.jsp">
-          <pattern>*.jhtml,*.jmt</pattern>
+          <pattern>*.jhtml</pattern>
+          <pattern>*.jmt</pattern>
       	</decorator>
 	</decorators>
 </sitemesh>
