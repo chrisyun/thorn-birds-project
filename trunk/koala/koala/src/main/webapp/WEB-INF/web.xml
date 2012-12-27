@@ -84,7 +84,7 @@
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>sitemesh</filter-name>
-		<url-pattern>*.jsp</url-pattern>
+		<url-pattern>*.jmt</url-pattern>
 	</filter-mapping>
 
 	<!-- 验证码 -->
@@ -115,17 +115,17 @@
 	</jsp-config>
 
 	<welcome-file-list>
-		<welcome-file>login.jhtml</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 
 	<!-- 错误页面 ,错误页面必须指定 isErrorPage="true" -->
 	<error-page>
 		<error-code>404</error-code>
-		<location>/Alert404.jsp</location>
+		<location>/html/404.jsp</location>
 	</error-page>
 	<error-page>
 		<error-code>500</error-code>
-		<location>/Alert500.jsp</location>
+		<location>/html/500.jsp</location>
 	</error-page>
 
 
