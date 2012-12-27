@@ -178,7 +178,7 @@ for(Cookie ck : cookies) {
 				    			data-errormessage-value-missing="请输入四位数字验证码"
 				    			name="ValidateCode" id="ValidateCode">
 				    		<span class="help-inline">
-				    			<img alt="验证码" id="authImage" src="<%=path1 %>/resources/ImageValidateCodeServlet" align="middle" width="80" height="24">
+				    			<img alt="验证码" id="authImage" src="<%=path %>/resources/ImageValidateCodeServlet" align="middle" width="80" height="24">
 				    		</span>
 				    		<span class="help-inline">
 				    			<a href="javascript:refresh();" title="点击刷新">看不清</a>
