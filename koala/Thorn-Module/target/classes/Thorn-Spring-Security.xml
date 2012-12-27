@@ -19,6 +19,7 @@ http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 		
 		<intercept-url pattern="/html/**" filters="none" />
 		<intercept-url pattern="/index*" filters="none" />
+		<intercept-url pattern="/" filters="none" />
 		<!-- 检测失效的sessionId,超时时定位到另外一个URL -->
 		<session-management invalid-session-url="/html/TimeOut.jsp">
 			<!-- 第二次登录将被阻止error-if-maximum-exceeded="true" -->
