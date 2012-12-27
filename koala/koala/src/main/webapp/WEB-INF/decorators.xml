@@ -6,8 +6,8 @@
     </excludes>
     
 	<decorators>
-		<decorator name="main" page="/core/main.jsp">
-          <pattern>*.jsp</pattern> 
+		<decorator name="main" page="/WEB-INF/jsps/core/main.jsp">
+          <pattern>*.jhtml,*.jmt</pattern>
       	</decorator>
 	</decorators>
 </sitemesh>
