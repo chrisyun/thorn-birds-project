@@ -24,8 +24,9 @@ Ext.onReady(function() {
 	query_form.addComp(getText("query_pName", "项目名称",160), 0.23, true);
 	query_form.addComp(getComboBox("query_isDie", "是否去世", 160, yesOrNo,false), 0.23, true);
 	query_form.addComp(getComboBox("query_gender", "性别", 160, gender,false), 0.23, true);
-	query_form.addComp(getComboBox("query_minority", "民族", 160, minority,false), 0.3, true);
-	query_form.addComp(getQueryBtn(onSubmitQueryHandler), 0.3, true);
+	query_form.addComp(getComboBox("query_minority", "民族", 160, minority,false), 0.23, true);
+	query_form.addComp(getText("query_batchNum", "批次号",160), 0.23, true);
+	query_form.addComp(getQueryBtn(onSubmitQueryHandler), 0.23, true);
 	/** ****************query panel end*************** */
 
 	/** ****************heritor Grid panel start************ */
@@ -258,11 +259,13 @@ Ext.onReady(function() {
 		var name = Ext.getCmp("query_name").getValue();
 		var area = Ext.getCmp("show_query_area").getValue();
 		var pName = Ext.getCmp("query_pName").getValue();
+		var batchNum = Ext.getCmp("query_batchNum").getValue();
 		
 		var gender = Ext.getCmp("show_query_gender").getValue();
 		var minority = Ext.getCmp("show_query_minority").getValue();
 		
 		store.baseParams.name = name;
+		store.baseParams.batchNum = batchNum;
 		store.baseParams.projectName = pName;
 		store.baseParams.isDie = isDie;
 		store.baseParams.province = area;
