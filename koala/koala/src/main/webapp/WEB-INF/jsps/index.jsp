@@ -34,12 +34,6 @@ for(Cookie ck : cookies) {
 		margin: 0 auto;
 		padding-top: 20px;
 	}
-	.footer {
-		border-top: 3px solid #C1D1EA;
-		color: #808080;
-		font-size: 12px;
-		font-family: Arial;
-	}
 	</style>
 	
 	<script type="text/javascript">
@@ -132,15 +126,15 @@ for(Cookie ck : cookies) {
   
   <body>
   	<div class="container">
-		<div class="row">
-			<div class="span3 offset1"><img alt="logo" style="padding-top: 10px;padding-bottom: 10px;" src="<%=path%>/images/logo.png"></div>
-			<div class="span7"><img alt="广告" style="width: 900px;height: 80px;" src="<%=path%>/images/40a5d2a8jw1e01971ub28j.jpg"></div>
-		</div>
+		<c:import url="ref/header_1.jsp"></c:import>
 		<div class="row">
 			<div class="span10 offset1">
-				<hr style="border-color: red;margin-top: 0px;margin-bottom: 0px;">
+				<div class="page-header">
+			    	<h2>欢迎来到我们的网站</h2>
+			    </div>
 			</div>
 		</div>
+		
 		<div class="row">
 			<div class="span5 offset1" style="margin-top: 20px;">
 				<div style="position: relative;width: 450px;">
@@ -158,7 +152,6 @@ for(Cookie ck : cookies) {
 			<div class="span5">
 			    <form class="form-horizontal" id="login" method="post" action="<%=path%>/j_spring_security_check">
 			    <fieldset>
-			    	<legend>用户登录</legend>
 			    	<div class="control-group">
 				    	<label class="control-label" for="input01">账户名</label>
 				    	<div class="controls">
@@ -185,7 +178,7 @@ for(Cookie ck : cookies) {
 				    			data-errormessage-value-missing="请输入四位数字验证码"
 				    			name="ValidateCode" id="ValidateCode">
 				    		<span class="help-inline">
-				    			<img alt="验证码" id="authImage" src="<%=path %>/resources/ImageValidateCodeServlet" align="middle" width="80" height="24">
+				    			<img alt="验证码" id="authImage" src="<%=path1 %>/resources/ImageValidateCodeServlet" align="middle" width="80" height="24">
 				    		</span>
 				    		<span class="help-inline">
 				    			<a href="javascript:refresh();" title="点击刷新">看不清</a>
@@ -213,23 +206,6 @@ for(Cookie ck : cookies) {
 		</div>
 	</div>
 	
-	<div class="footer">
-		<div class="container">
-			<div class="row">
-				<div class="span2 offset1">
-					<img alt="logo" style="padding-top: 10px;padding-bottom: 10px;" src="<%=path%>/images/logo.png">
-				</div>
-				<div class="span8">
-					<div class="row">
-						<div class="span8" style="padding-top: 10px;padding-bottom: 5px;">版权所有 © 2012 Mozilla Firefox. 北京谋智火狐信息技术有限公司 京 ICP备11011334号-1</div>
-					</div>
-					<div class="row">
-						<div class="span8" style="padding-top: 5px;padding-bottom: 10px;">联系我们：请发邮件至moc.allizom@uohzc 主页修复 新版意见反馈 申请收录</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	
+	<c:import url="ref/footer_1.jsp"></c:import>	
 </body>
 </html>

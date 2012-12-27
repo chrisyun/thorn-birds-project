@@ -86,7 +86,11 @@
 		<filter-name>sitemesh</filter-name>
 		<url-pattern>*.jmt</url-pattern>
 	</filter-mapping>
-
+	<filter-mapping>
+		<filter-name>sitemesh</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	
 	<!-- 验证码 -->
 	<servlet>
 		<servlet-name>ImageValidateCodeServlet</servlet-name>

@@ -1,5 +1,4 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
 <%
 String path = request.getContextPath();
@@ -21,16 +20,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<link href="<%=path %>/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
 	<link href="<%=path %>/plugins/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-	<link href="<%=path %><spring:theme code="css" />" rel="stylesheet">
-	
-	<link href="<%=path %>/plugins/validationEngine/css/validationEngine.jquery.css" rel="stylesheet">
 	
 	<script type="text/javascript" src="<%=path %>/plugins/jquery/jquery-1.8.2.js"></script>
 	<script type="text/javascript" src="<%=path %>/plugins/bootstrap/js/bootstrap.js"></script>
-	<script type="text/javascript" src="<%=path %>/plugins/jquery-ui/jquery-ui-1.9.1.custom.min.js"></script>
-	
-	<script type="text/javascript" src="<%=path %>/plugins/validationEngine/languages/jquery.validationEngine-zh_CN.js"></script>
-	<script type="text/javascript" src="<%=path %>/plugins/validationEngine/jquery.validationEngine.js"></script>
 	
 	<script type="text/javascript" src="<%=path %>/plugins/func/system.js"></script>
 	
