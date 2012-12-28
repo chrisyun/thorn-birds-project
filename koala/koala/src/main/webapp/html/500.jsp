@@ -20,13 +20,6 @@ response.setStatus(HttpServletResponse.SC_OK);
 	<script type="text/javascript" src="<%=path %>/plugins/bootstrap/js/bootstrap.js"></script>
 	
 	<script type="text/javascript" src="<%=path %>/plugins/func/system.js"></script>
-    <script type="text/javascript">
-    $(function(){
-    	$("#msg").val(Server.HTMLEncode("11111"));
-    });
-    
-    </script>
-    
     
   </head>
   

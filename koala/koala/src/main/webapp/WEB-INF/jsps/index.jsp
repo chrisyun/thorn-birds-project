@@ -1,9 +1,18 @@
+<%@page import="org.thorn.user.entity.User"%>
+<%@page import="org.thorn.security.SecurityUserUtils"%>
 <%@page import="org.apache.commons.lang.StringUtils"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+
+//判断是否处于登录状态
+User user = SecurityUserUtils.getCurrentUser();
+if(user != null && StringUtils.isNotBlank(user.getUserId())) {
+	response.sendRedirect("/home.jhtml");
+}
 
 // 判断是否有cookie
 Cookie[] cookies = request.getCookies();
@@ -119,6 +128,15 @@ for(Cookie ck : cookies) {
 	
 	function refresh() {
 		$("#authImage").attr("src","<%=path %>/resources/ImageValidateCodeServlet?radom=" + Math.random());
+	};
+	
+	var user = {
+		userId 		: "<sec:authentication property="principal.username" />",
+		userName 	: "<sec:authentication property="principal.user.userName" />",
+		org			: "<sec:authentication property="principal.user.orgCode" />",
+		cumail 		: "<sec:authentication property="principal.user.cumail" />",
+		phone 		: "<sec:authentication property="principal.user.phone" />",
+		role		: new Array()
 	};
 	
 	</script>
