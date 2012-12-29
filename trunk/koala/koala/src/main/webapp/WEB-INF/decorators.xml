@@ -10,8 +10,10 @@
           <pattern>*.jhtml</pattern>
           <pattern>*.jmt</pattern>
       	</decorator>
+      	<!-- 
       	<decorator name="reference" page="/WEB-INF/jsps/core/reference.jsp">
           <pattern>*.jsp</pattern>
       	</decorator>
+      	 -->
 	</decorators>
 </sitemesh>
