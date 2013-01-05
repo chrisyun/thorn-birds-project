@@ -21,7 +21,7 @@ http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 		<intercept-url pattern="/index*" filters="none" />
 		<intercept-url pattern="/" filters="none" />
 		<!-- 检测失效的sessionId,超时时定位到另外一个URL -->
-		<session-management invalid-session-url="/html/TimeOut.jsp">
+		<session-management invalid-session-url="/html/TimeOut.jhtml">
 			<!-- 第二次登录将被阻止error-if-maximum-exceeded="true" -->
 			<!-- 第二次登录会让第一次登录失效 -->
 			<concurrency-control max-sessions="1" />
@@ -124,7 +124,7 @@ http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 	<!-- 自定义权限拦截处理器 -->
 	<beans:bean id="accessDeniedHandler"
 		class="org.thorn.security.AccessDeniedWithJsonAndJspHandler" >
-		<beans:property name="errorPage" value="/html/AccessDenied.jsp"/>
+		<beans:property name="errorPage" value="/html/AccessDenied.jhtml"/>
 	</beans:bean>
 
 	<beans:bean id="authenticationProcessingFilterEntryPoint"
