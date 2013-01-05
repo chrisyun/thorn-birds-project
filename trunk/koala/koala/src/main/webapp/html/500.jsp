@@ -42,11 +42,11 @@ response.setStatus(HttpServletResponse.SC_OK);
 		<div class="row">
 			<div class="span12">
 				<div class="hero-unit">
-					<h1>500</h1>
+					<h1>Http 500</h1>
 					<br>
-					<p>网站出现错误，请您重新访问。<a class="btn btn-primary btn-large" href="<%=path %>">点击这里返回主页</a></p>
-					<p><a class="btn btn-warning btn-large" href="javascript:void(0);" onclick="reportError();">报告问题</a></p>
-					<pre id="msg1" style="display: block;">
+					<p>网站出现错误，请您重新访问。<a class="btn btn-primary" href="<%=path %>">点击这里返回主页</a></p>
+					<p><a class="btn btn-warning" href="javascript:void(0);" onclick="reportError();">报告问题</a></p>
+					<pre id="msg1" style="display: none;">
 	   					<%=exception.getMessage().replaceAll("<", "&lt;").replaceAll(">", "&gt;") %>
 	   				</pre>
 					<%
@@ -59,7 +59,7 @@ response.setStatus(HttpServletResponse.SC_OK);
 	   						errorMsg.append(st.getLineNumber()).append(")").append("\n");
 	   					}
 	   				%>
-	   				<pre id="msg1" style="display: block;"><%=errorMsg.toString() %></pre>
+	   				<pre id="msg1" style="display: none;"><%=errorMsg.toString() %></pre>
 	   			</div>
 			</div>
   		</div>

@@ -41,9 +41,9 @@ response.setStatus(HttpServletResponse.SC_OK);
 		<div class="row">
 			<div class="span12">
 				<div class="hero-unit">
-					<h1>404</h1>
+					<h1>Http 404</h1>
 					<br>
-					<p>页面未能找到，<a class="btn btn-primary btn-large" href="<%=path %>">点击这里返回主页</a></p>
+					<p>页面未能找到。<a class="btn btn-primary" href="<%=path %>">点击这里返回主页</a></p>
 				</div>
 			</div>
   		</div>
