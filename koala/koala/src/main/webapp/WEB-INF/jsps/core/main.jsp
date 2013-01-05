@@ -128,7 +128,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									</a>
 									<ul class="dropdown-menu">
 										<li><a href="#"><i class="icon-user"></i>&nbsp;账号设置</a></li>
-										<li><a href="#"><i class="icon-lock"></i>&nbsp;密码修改</a></li>
+										<li><a href="<%=path%>/common/mySetting/changeMyPassword.jhtml"><i class="icon-lock"></i>&nbsp;密码修改</a></li>
 										<li class="divider"></li>
 										<li>
 											<a href="#"><i class="icon-cog"></i>&nbsp;更换皮肤</a>
