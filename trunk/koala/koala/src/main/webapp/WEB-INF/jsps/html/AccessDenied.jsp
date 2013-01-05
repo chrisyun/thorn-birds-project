@@ -14,10 +14,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
   	<div class="container">
-		<div class="row" style="padding-top: 30px;">
+		<div class="row">
   			<div class="span12">
 				<div class="hero-unit">
-					<h3>对不起，您的请求被拒绝！</h3>
+					<h2>对不起，您的请求被拒绝！</h2>
 					<p>${requestScope['SPRING_SECURITY_403_EXCEPTION'].message}</p>
 					<p>您没有权限访问本页面，请联系管理员为您分配相应的访问权限！</p>
 				</div>

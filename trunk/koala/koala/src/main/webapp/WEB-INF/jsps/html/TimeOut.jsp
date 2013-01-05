@@ -14,11 +14,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
   	<div class="container">
-		<div class="row" style="padding-top: 30px;">
+		<div class="row">
   			<div class="span12">
 				<div class="hero-unit">
-					<h3>会话超时，系统自动超时退出！</h3>
-					<a class="btn btn-primary btn-large" href="<%=path %>">点击这里重新登录</a>
+					<h2>会话超时，系统自动超时退出！</h2>
+					<a class="btn btn-primary" href="<%=path %>">点击这里重新登录</a>
 				</div>
 			</div>
 		</div>
