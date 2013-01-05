@@ -24,38 +24,57 @@ response.setStatus(HttpServletResponse.SC_OK);
   </head>
   
   <body>
-  	<!-- http://kaminlee.iteye.com/blog/1144727 -->
-	<div class="container">
-		<c:import url="/WEB-INF/jsps/ref/header_1.jsp"></c:import>
-		<div class="row" style="padding-top: 30px;">
-			<div class="span10 offset1">
-				<div class="hero-unit">
-					<h3>十分抱歉，您请求的页面出现了错误！</h3>
-					<p>可能的错误原因：</p>
-					<p>系统当前正在升级，请您耐心等待，半小时后重新访问。</p>
-					<p>
-						<a class="btn btn-primary btn-large" href="<%=path %>">点击这里返回主页</a>
-					</p>
-					<p>以下是详细的错误信息：</p>
-    				<pre id="msg">
-    					<%=exception.getMessage().replaceAll("<", "&lt;").replaceAll(">", "&gt;") %>
-    				</pre>
-    				<%
-    					StackTraceElement[] stArray = exception.getStackTrace();
-    					StringBuilder errorMsg = new StringBuilder();
-    					for(StackTraceElement st : stArray) {
-    						errorMsg.append("at ").append(st.getClassName()).append(".");
-    						errorMsg.append(st.getMethodName()).append("(");
-    						errorMsg.append(st.getFileName()).append(":");
-    						errorMsg.append(st.getLineNumber()).append(")").append("\n");
-    					}
-    				%>
-    				<pre><%=errorMsg.toString() %></pre>
+  	<!-- logo and ad -->
+  	<div class="container">
+		<div class="row" style="padding-top: 10px;padding-bottom: 10px;">
+			<div class="span3">
+				<a href="<%=path%>"><img alt="logo" src="<%=path%>/images/logo.jpg"></a>
+			</div>
+			<div class="span5 offset2 pull-right"><img alt="广告" src="<%=path%>/images/ad.jpg"></div>
+		</div>
+		<div class="row">
+  			<div class="span12">
+  			  	<div class="navbar">
+					<div class="navbar-inner"></div>
 				</div>
 			</div>
 		</div>
-    </div>
-  	
- 	<c:import url="/WEB-INF/jsps/ref/footer_1.jsp"></c:import>
+		<div class="row">
+			<div class="span12">
+				<div class="hero-unit">
+					<h1>500</h1>
+					<br>
+					<p>网站出现错误，请您重新访问。<a class="btn btn-primary btn-large" href="<%=path %>">点击这里返回主页</a></p>
+					<p><a class="btn btn-warning btn-large" href="javascript:void(0);" onclick="reportError();">报告问题</a></p>
+					<pre id="msg1" style="display: block;">
+	   					<%=exception.getMessage().replaceAll("<", "&lt;").replaceAll(">", "&gt;") %>
+	   				</pre>
+					<%
+	   					StackTraceElement[] stArray = exception.getStackTrace();
+	   					StringBuilder errorMsg = new StringBuilder();
+	   					for(StackTraceElement st : stArray) {
+	   						errorMsg.append("at ").append(st.getClassName()).append(".");
+	   						errorMsg.append(st.getMethodName()).append("(");
+	   						errorMsg.append(st.getFileName()).append(":");
+	   						errorMsg.append(st.getLineNumber()).append(")").append("\n");
+	   					}
+	   				%>
+	   				<pre id="msg1" style="display: block;"><%=errorMsg.toString() %></pre>
+	   			</div>
+			</div>
+  		</div>
+		<div class="row">
+			<div class="span12">
+			<small>北京谋智火狐信息技术有限公司&nbsp;&nbsp;&nbsp;&nbsp;京 ICP备11011334号-1</small>
+			<hr style="margin-top: 5px;margin-bottom: 5px;">
+			<small>关于淘宝&nbsp;&nbsp;&nbsp;&nbsp;合作伙伴&nbsp;&nbsp;&nbsp;&nbsp;
+			营销中心&nbsp;&nbsp;&nbsp;&nbsp;服务中心&nbsp;&nbsp;&nbsp;&nbsp;
+			开放平台&nbsp;&nbsp;&nbsp;&nbsp;诚征英才&nbsp;&nbsp;&nbsp;&nbsp;
+			联系我们&nbsp;&nbsp;&nbsp;&nbsp;网站地图&nbsp;&nbsp;&nbsp;&nbsp;
+			<span class="pull-right">版权所有 © 2012 Mozilla Firefox.</span></small>
+			<hr style="margin-top: 5px;margin-bottom: 5px;">
+			</div>
+		</div>
+  	</div>
   </body>
 </html>

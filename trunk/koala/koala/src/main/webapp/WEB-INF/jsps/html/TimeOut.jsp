@@ -14,9 +14,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
   	<div class="container">
-  		<c:import url="/WEB-INF/jsps/ref/header_1.jsp"></c:import>
 		<div class="row" style="padding-top: 30px;">
-  			<div class="span10 offset1">
+  			<div class="span12">
 				<div class="hero-unit">
 					<h3>会话超时，系统自动超时退出！</h3>
 					<a class="btn btn-primary btn-large" href="<%=path %>">点击这里重新登录</a>
@@ -25,7 +24,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
   	</div>
   
-  	<c:import url="/WEB-INF/jsps/ref/footer_1.jsp"></c:import>
   </body>
   
 <script type="text/javascript">

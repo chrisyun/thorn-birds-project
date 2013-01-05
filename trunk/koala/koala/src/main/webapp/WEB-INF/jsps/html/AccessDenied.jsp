@@ -14,9 +14,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
   	<div class="container">
-  		<c:import url="/WEB-INF/jsps/ref/header_1.jsp"></c:import>
 		<div class="row" style="padding-top: 30px;">
-  			<div class="span10 offset1">
+  			<div class="span12">
 				<div class="hero-unit">
 					<h3>对不起，您的请求被拒绝！</h3>
 					<p>${requestScope['SPRING_SECURITY_403_EXCEPTION'].message}</p>
@@ -25,8 +24,5 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
   	</div>
-  
-  	<c:import url="/WEB-INF/jsps/ref/footer_1.jsp"></c:import>
-   
   </body>
 </html>

@@ -5,7 +5,6 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 response.setStatus(HttpServletResponse.SC_OK);
 %>
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -24,22 +23,42 @@ response.setStatus(HttpServletResponse.SC_OK);
   </head>
   
   <body>
+  	<!-- logo and ad -->
   	<div class="container">
-		<c:import url="/WEB-INF/jsps/ref/header_1.jsp"></c:import>
-		<div class="row" style="padding-top: 30px;">
-			<div class="span10 offset1">
-				<div class="hero-unit">
-					<h3>抱歉，您请求的页面没有找到！</h3>
-					<p>您可以检查页面地址是否有误，或者稍后重新访问。</p>
-					<p>
-						<a class="btn btn-primary btn-large" href="<%=path %>">点击这里返回主页</a>
-					</p>
+		<div class="row" style="padding-top: 10px;padding-bottom: 10px;">
+			<div class="span3">
+				<a href="<%=path%>"><img alt="logo" src="<%=path%>/images/logo.jpg"></a>
+			</div>
+			<div class="span5 offset2 pull-right"><img alt="广告" src="<%=path%>/images/ad.jpg"></div>
+		</div>
+		<div class="row">
+  			<div class="span12">
+  			  	<div class="navbar">
+					<div class="navbar-inner"></div>
 				</div>
 			</div>
 		</div>
-    </div>
-  	
- 	<c:import url="/WEB-INF/jsps/ref/footer_1.jsp"></c:import>
-
-</body>
+		<div class="row">
+			<div class="span12">
+				<div class="hero-unit">
+					<h1>404</h1>
+					<br>
+					<p>页面未能找到，<a class="btn btn-primary btn-large" href="<%=path %>">点击这里返回主页</a></p>
+				</div>
+			</div>
+  		</div>
+		<div class="row">
+			<div class="span12">
+			<small>北京谋智火狐信息技术有限公司&nbsp;&nbsp;&nbsp;&nbsp;京 ICP备11011334号-1</small>
+			<hr style="margin-top: 5px;margin-bottom: 5px;">
+			<small>关于淘宝&nbsp;&nbsp;&nbsp;&nbsp;合作伙伴&nbsp;&nbsp;&nbsp;&nbsp;
+			营销中心&nbsp;&nbsp;&nbsp;&nbsp;服务中心&nbsp;&nbsp;&nbsp;&nbsp;
+			开放平台&nbsp;&nbsp;&nbsp;&nbsp;诚征英才&nbsp;&nbsp;&nbsp;&nbsp;
+			联系我们&nbsp;&nbsp;&nbsp;&nbsp;网站地图&nbsp;&nbsp;&nbsp;&nbsp;
+			<span class="pull-right">版权所有 © 2012 Mozilla Firefox.</span></small>
+			<hr style="margin-top: 5px;margin-bottom: 5px;">
+			</div>
+		</div>
+  	</div>
+  </body>
 </html>

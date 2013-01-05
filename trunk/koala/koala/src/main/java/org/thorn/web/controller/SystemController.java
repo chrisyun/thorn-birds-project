@@ -19,21 +19,19 @@ import org.thorn.web.entity.Status;
 @Controller
 public class SystemController {
 	
-	/**
-	 * 
-	 * @Description：拦截所有的JHTML请求，直接映射到web-inf下面的jsp文件
-	 * @author：chenyun 	        
-	 * @date：2012-12-27 下午3:11:04
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping("/**.jhtml")
-	public String toJsp(HttpServletRequest request) {
+	@RequestMapping("/html/**")
+	public String toStaticJsp(HttpServletRequest request) {
 		String url = request.getServletPath();
 		url = url.replaceAll(".jhtml", "");
 
 		return url;
 	}
+	
+	@RequestMapping("/index*")
+	public String index() {
+		return "index";
+	}
+	
 
 	/**
 	 * 
