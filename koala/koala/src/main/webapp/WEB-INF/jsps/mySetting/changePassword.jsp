@@ -58,6 +58,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</div>
 						<div class="form-actions">
 					    	<button class="btn btn-primary" type="submit">保存</button>
+					    	<button class="btn btn-primary" type="button" onclick="$.message.progessDialog();">测试</button>
 					    </div>
 					</fieldset>
 				</form>
