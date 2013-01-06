@@ -107,24 +107,6 @@ public class UserController extends BaseController {
 		return status;
 	}
 
-	@RequestMapping("/changeMyPwd")
-	@ResponseBody
-	public Status changeMyPwd(String newPwd) {
-		Status status = new Status();
-
-		try {
-			User user = SecurityUserUtils.getCurrentUser();
-
-			service.changePwd(user.getUserId(), newPwd);
-			status.setMessage("密码修改成功！");
-		} catch (DBAccessException e) {
-			status.setSuccess(false);
-			status.setMessage("密码修改失败：" + e.getMessage());
-			log.error("changeMyPwd[User] - " + e.getMessage(), e);
-		}
-
-		return status;
-	}
 
 	@RequestMapping("/changePwd")
 	@ResponseBody

@@ -32,6 +32,17 @@ jQuery.cookie = {
 	}
 };
 
+jQuery.message = {
+	//模态进度条
+	progessDialog : function() {
+		
+	}
+	//弹出框提示（成功、失败、一般提示）
+	//页面提示（成功、失败、一般提示）
+	//模态确认窗口	
+};
+
+
 jQuery.utils = {
 	isEmpty : function(str) {
 		if(str == null || str == "" || str == undefined) {
@@ -41,4 +52,6 @@ jQuery.utils = {
 		}
 	}
 };
+
+
 

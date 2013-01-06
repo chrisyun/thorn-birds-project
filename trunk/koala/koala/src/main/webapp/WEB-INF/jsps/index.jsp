@@ -31,20 +31,12 @@ for(Cookie ck : cookies) {
 			$("#username").val(username);
 		}
 		
-	    $("#login").validationEngine({ 
-	    	promptPosition: "bottomLeft",
-	    	autoHideDelay : 4000,
-	    	autoHidePrompt : true,
-	    	onFailure : false,
-	    	onSuccess : function() { 
+		initValidationEngine("login", {
+			onSuccess : function() { 
         		$.cookie.add("LOGIN_USERNAME", $("#username").val());
-        	} 
-        });
-	    
-	    $("#login").on("submit",function(){
-	    	$("#login").validationEngine("validate");
-	    });
-	    
+        	}
+		});
+		
 	    <c:if test="${param.error eq true}">
 	    	$("#ValidateCode").validationEngine("showPrompt" , "${sessionScope['SPRING_SECURITY_LAST_EXCEPTION'].message}", "error");
 		</c:if>
