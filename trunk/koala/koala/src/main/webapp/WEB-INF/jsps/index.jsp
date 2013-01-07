@@ -51,11 +51,11 @@ for(Cookie ck : cookies) {
   <body>
   	<div class="container">
 		<div class="row">
-			<div class="span6" style="margin-top: 30px;">
+			<div class="span5" style="margin-top: 30px;">
 				<img alt="ad" src="<%=path%>/images/xmas.jpg">
 			</div>
 		
-			<div class="span5">
+			<div class="span6">
 			    <form class="form-horizontal" id="login" method="post" action="<%=path%>/j_spring_security_check">
 			    <fieldset>
 			    	<legend>用户登录</legend>

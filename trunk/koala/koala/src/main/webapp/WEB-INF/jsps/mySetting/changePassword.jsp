@@ -59,6 +59,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="form-actions">
 					    	<button class="btn btn-primary" type="submit">保存</button>
 					    	<button class="btn btn-primary" type="button" onclick="$.message.progessDialog();">测试</button>
+					    	<button class="btn btn-primary" type="button" onclick="$.message.alertInfoDialog('asasasasasas');">信息</button>
+					    	<button class="btn btn-primary" type="button" onclick="$.message.alertErrorDialog('jjjjkk');">错误</button>
+					    	<button class="btn btn-primary" type="button" onclick="$.message.alertSuccessDialog('llll');">成功</button>
 					    </div>
 					</fieldset>
 				</form>
