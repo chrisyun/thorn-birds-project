@@ -9,8 +9,8 @@ function initValidationEngine(formId, args) {
     	autoHideDelay : 4000,
     	autoHidePrompt : true
 	};
-	
-	if(args != null && typeof args == Object) {
+
+	if(args != null) {
 		for ( var arg in args) {
 			attr[arg] = args[arg];
 		}
