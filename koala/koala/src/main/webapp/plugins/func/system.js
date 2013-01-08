@@ -261,8 +261,7 @@ jQuery.message = {
 		var _msg = $('<div class="alert alert-' + options.type
 				+ '"><a class="close" data-dismiss="alert">×</a>'
 				+ ' <h4 class="alert-heading">' + options.title + '</h4>'
-				+ '<p>' + options.text + '</p>'
-				+ '</div>');
+				+ '<p>' + options.text + '</p>' + '</div>');
 
 		_msg.appendTo("#" + options.id);
 	},
@@ -307,6 +306,103 @@ jQuery.message = {
 
 			$("#_confirmDialog").modal("show");
 		}
+	}
+};
+
+jQuery.server = {
+	sendData : function(url, parmams, func, isShowDialog) {
+		jQuery.server.getData(url, parmams, function(msg, data) {
+			func(msg);
+		}, isShowDialog);
+	},
+	sendDataOfHidden : function(url, parmams, func) {
+		jQuery.server.sendData(url, parmams, func, false);
+	},
+	getData : function(url, parmams, func, isShowDialog) {
+		if (jQuery.utils.isEmpty(isShowDialog)) {
+			isShowDialog = true;
+		}
+
+		if (isShowDialog) {
+			jQuery.message.progessDialog();
+		}
+
+		$.ajax({
+			type : "POST",
+			url : url,
+			cache : false,
+			data : params,
+			success : function(result) {
+				if (isShowDialog) {
+					jQuery.message.progessDialog("close");
+				}
+
+				var success = result.success;
+				var msg = result.message;
+				var data = result.obj;
+
+				if (success || success == "true") {
+					func(msg, data);
+				} else {
+					jQuery.message.alertErrorDialog(msg, "数据处理错误");
+				}
+			},
+			error : function() {
+				if (isShowDialog) {
+					jQuery.message.progessDialog("close");
+				}
+				jQuery.message.alertErrorDialog("网络请求超时，请稍后再试！");
+			}
+		});
+	},
+	getDataOfHidden : function(url, parmams, func) {
+		jQuery.server.getData(url, parmams, func, false);
+	},
+	submitForm : function(formId, func, parmams, isShowDialog) {
+		if (jQuery.utils.isEmpty(isShowDialog)) {
+			isShowDialog = true;
+		}
+
+		var option = new Object();
+
+		option.beforeSubmit = function(formData, jqForm, options) {
+
+			var checkStatus = $("#" + formId).validationEngine("validate");
+
+			if (checkStatus && isShowDialog) {
+				jQuery.message.progessDialog();
+			}
+
+			return checkStatus;
+		};
+
+		option.dataType = "json";
+		option.data = parmams;
+
+		option.error = function() {
+			jQuery.message.alertErrorDialog("网络请求超时，请稍后再试！");
+		};
+
+		option.success = function(result) {
+			if (isShowDialog) {
+				jQuery.message.progessDialog("close");
+			}
+
+			var success = result.success;
+			var msg = result.message;
+			var data = result.obj;
+
+			if (success || success == "true") {
+				func(msg, data);
+			} else {
+				jQuery.message.alertErrorDialog(msg, "数据处理错误");
+			}
+		};
+
+		$("#" + formId).ajaxSubmit(option);
+	},
+	submitFormOfHidden : function(formId, func, parmams) {
+		jQuery.server.submitForm(formId, func, parmams, false);
 	}
 };
 
