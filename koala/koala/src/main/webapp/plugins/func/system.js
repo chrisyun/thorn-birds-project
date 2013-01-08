@@ -261,7 +261,8 @@ jQuery.message = {
 		var _msg = $('<div class="alert alert-' + options.type
 				+ '"><a class="close" data-dismiss="alert">×</a>'
 				+ ' <h4 class="alert-heading">' + options.title + '</h4>'
-				+ '<p>' + options.text + '</p>');
+				+ '<p>' + options.text + '</p>'
+				+ '</div>');
 
 		_msg.appendTo("#" + options.id);
 	},
