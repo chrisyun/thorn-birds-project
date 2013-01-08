@@ -201,7 +201,7 @@ jQuery.message = {
 					+ '<h3 id="_alertDialogTitle"></h3>'
 					+ '</div>'
 					+ '<div class="modal-body" id="_alertDialogBody" style="margin-top: 1px;height:80px;"></div>'
-					+ '<div class="modal-footer"><a href="#" class="btn" data-dismiss="modal">关闭</a></div>'
+					+ '<div class="modal-footer"><a href="#" class="btn" data-dismiss="modal">确定</a></div>'
 					+ "</div>");
 
 			_dialog.appendTo("body");
@@ -219,10 +219,94 @@ jQuery.message = {
 			$("#_alertDialogBody").addClass("modal-body alert-" + attr.type);
 			$("#_alertDialog").modal("show");
 		}
-	}
+	},
+	// 页面提示（成功、失败、一般提示）
+	showInfoMsg : function(id, text, title) {
+		var options = new Object();
+		options.id = id;
+		options.text = text;
+		options.title = title;
+		options.type = "info";
+		jQuery.message.showMsg(options);
+	},
+	showErrorMsg : function(id, text, title) {
+		var options = new Object();
+		options.id = id;
+		options.text = text;
+		options.title = title;
+		options.type = "error";
+		jQuery.message.showMsg(options);
+	},
+	showSuccessMsg : function(id, text, title) {
+		var options = new Object();
+		options.id = id;
+		options.text = text;
+		options.title = title;
+		options.type = "success";
+		jQuery.message.showMsg(options);
+	},
+	showMsg : function(options) {
+		$("#" + options.id).empty();
 
-// 页面提示（成功、失败、一般提示）
-// 模态确认窗口
+		if (jQuery.utils.isEmpty(options.title)) {
+			if (options.type == "success") {
+				options.title = "成功提示";
+			} else if (options.type == "error") {
+				options.title = "错误提示";
+			} else {
+				options.title = "信息提示";
+			}
+		}
+
+		var _msg = $('<div class="alert alert-' + options.type
+				+ '"><a class="close" data-dismiss="alert">×</a>'
+				+ ' <h4 class="alert-heading">' + options.title + '</h4>'
+				+ '<p>' + options.text + '</p>');
+
+		_msg.appendTo("#" + options.id);
+	},
+	// 模态确认窗口
+	confirmDialog : function(text, title, func) {
+
+		if (jQuery.utils.isEmpty(func)) {
+			func = title;
+			title = "确认窗口";
+		}
+
+		if ($("#_confirmDialog").length > 0) {
+
+			$("#_confirmDialog .modal-footer .btn-primary").unbind("click");
+			$("#_confirmDialog .modal-footer .btn-primary").on("click", func);
+			$("#_confirmDialogTitle").html(title);
+			$("#_confirmDialogBody").html("<p>" + text + "</p>");
+
+			$("#_confirmDialog").modal("show");
+		} else {
+			var _dialog = $('<div id="_confirmDialog" class="modal fade" style="width: 400px;">'
+					+ '<div class="modal-header"><a class="close" data-dismiss="modal">×</a>'
+					+ '<h3 id="_confirmDialogTitle"></h3>'
+					+ '</div>'
+					+ '<div class="modal-body alert-block" id="_confirmDialogBody" style="margin-top: 1px;height:80px;"></div>'
+					+ '<div class="modal-footer">'
+					+ '<a href="#" class="btn btn-primary" data-dismiss="modal">确定</a>'
+					+ '<a href="#" class="btn" data-dismiss="modal">关闭</a>'
+					+ "</div></div>");
+
+			_dialog.appendTo("body");
+
+			$("#_confirmDialog .modal-footer .btn-primary").on("click", func);
+			$("#_confirmDialogTitle").html(title);
+			$("#_confirmDialogBody").html("<p>" + text + "</p>");
+
+			$("#_confirmDialog").modal({
+				backdrop : true,
+				keyboard : true,
+				show : false
+			});
+
+			$("#_confirmDialog").modal("show");
+		}
+	}
 };
 
 jQuery.utils = {
