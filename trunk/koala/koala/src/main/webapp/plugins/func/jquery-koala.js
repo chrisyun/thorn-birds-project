@@ -327,7 +327,26 @@
 			}
 		}
 	};
-
+	
+	$.fn.page = function(options) {
+		var defaults = {
+			align : "right",
+			pageSize : 20,
+			style : "all",
+			maxPage : 5,
+			total : 0,
+			
+			onSkip : function(pageIndex, pageSize) {
+				
+			}
+		};
+		
+		var options = $.extend(defaults, options);
+		
+		
+		
+	};
+	
 	$.fn.server.submitForm = function(options) {
 		var defaults = {
 			progress : true,
