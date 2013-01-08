@@ -13,6 +13,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		initValidationEngine("myPasswordForm");
 	});
     
+	function kl() {
+		alert(11);
+	}
     
     </script>
   </head>
@@ -62,6 +65,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					    	<button class="btn btn-primary" type="button" onclick="$.message.alertInfoDialog('asasasasasas');">信息</button>
 					    	<button class="btn btn-primary" type="button" onclick="$.message.alertErrorDialog('jjjjkk');">错误</button>
 					    	<button class="btn btn-primary" type="button" onclick="$.message.alertSuccessDialog('llll');">成功</button>
+					    	<button class="btn btn-primary" type="button" onclick="$.message.confirmDialog('llll','2222',kl);">确认</button>
 					    </div>
 					</fieldset>
 				</form>
