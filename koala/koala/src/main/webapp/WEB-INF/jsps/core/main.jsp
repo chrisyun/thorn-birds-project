@@ -34,7 +34,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="<%=path %>/plugins/validationEngine/languages/jquery.validationEngine-zh_CN.js"></script>
 	<script type="text/javascript" src="<%=path %>/plugins/validationEngine/jquery.validationEngine.js"></script>
 	
-	<script type="text/javascript" src="<%=path %>/plugins/func/system.js"></script>
+	<script type="text/javascript" src="<%=path %>/plugins/jquery-form/jquery.form.js"></script>
+	
+	<script type="text/javascript" src="<%=path %>/plugins/func/jquery-koala.js"></script>
 	
 	<script type="text/javascript">
 	var user = {
