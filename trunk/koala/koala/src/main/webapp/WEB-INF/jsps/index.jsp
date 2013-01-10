@@ -40,6 +40,12 @@ for(Cookie ck : cookies) {
 	    <c:if test="${param.error eq true}">
 	    	$("#ValidateCode").validationEngine("showPrompt" , "${sessionScope['SPRING_SECURITY_LAST_EXCEPTION'].message}", "error");
 		</c:if>
+		
+		$("#page").page({
+			totalSize : 46,
+			pageSize : 10,
+			pageIndex : 2
+		});
 	});
 	
 	function refresh() {
@@ -113,6 +119,8 @@ for(Cookie ck : cookies) {
 			
 		</div>
 	</div>
+	
+	<div id="page"></div>
 	
 </body>
 </html>
