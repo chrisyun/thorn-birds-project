@@ -18,9 +18,14 @@ public class Resource implements Serializable {
 	private String sourceUrl;
 
 	private String sourceName;
-
+	
+	/**
+	 * 是否叶子，即叶子节点再无子节点
+	 */
 	private String isleaf;
-
+	/**
+	 * 是否显示
+	 */
 	private String isShow;
 
 	private String parentSource;

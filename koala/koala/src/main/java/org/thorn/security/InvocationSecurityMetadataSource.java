@@ -12,8 +12,8 @@ import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.thorn.auth.service.IAuthService;
 import org.thorn.dao.exception.DBAccessException;
+import org.thorn.resource.cache.ResourceCache;
 import org.thorn.role.entity.Role;
-import org.thorn.security.resource.IResourceCache;
 
 /**
  * 
@@ -32,16 +32,12 @@ public class InvocationSecurityMetadataSource implements
 	
 	private IAuthService authService;
 
-	private IResourceCache resourceCache;
-
 	/**
 	 * 初始化该类时，加载资源列表URL与资源ID
 	 * 
 	 * @throws DBAccessException
 	 */
-	public InvocationSecurityMetadataSource(IResourceCache resourceCache,
-			IAuthService authService) throws DBAccessException {
-		this.resourceCache = resourceCache;
+	public InvocationSecurityMetadataSource(IAuthService authService) throws DBAccessException {
 		this.authService = authService;
 	}
 	
@@ -65,7 +61,7 @@ public class InvocationSecurityMetadataSource implements
 		}
 		
 		Collection<ConfigAttribute> collection = new ArrayList<ConfigAttribute>();
-		List<String> source = resourceCache.getSourceCodeByUrl(url);
+		List<String> source = ResourceCache.getCodeByUrl(url);
 		
 		if (source.size() > 0) {
 			try {

@@ -1,4 +1,4 @@
-package org.thorn.resource.service;
+package org.thorn.resource.cache;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -7,12 +7,14 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.web.util.AntUrlPathMatcher;
 import org.springframework.security.web.util.UrlMatcher;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.resource.entity.Resource;
-import org.thorn.security.resource.IResourceCache;
+import org.thorn.resource.service.IResourceService;
 
 /**
  * @ClassName: ResourceCacheImpl
@@ -20,20 +22,32 @@ import org.thorn.security.resource.IResourceCache;
  * @author chenyun
  * @date 2012-12-21 上午11:38:23
  */
-public class ResourceCacheImpl implements IResourceCache {
+public class ResourceCache {
 
-	static Logger log = LoggerFactory.getLogger(ResourceCacheImpl.class);
+	static Logger log = LoggerFactory.getLogger(ResourceCache.class);
 
 	private UrlMatcher urlMatcher = new AntUrlPathMatcher();
 
 	private IResourceService resourceService;
-
+	
+	@Autowired
+	@Qualifier("resourceCache")
+	private static ResourceCache cache;
+	
+	public static List<String> getCodeByUrl(String url) {
+		return cache.getSourceCodeByUrl(url);
+	}
+	
+	public static void refresh() throws DBAccessException {
+		cache.refreshSourceCache();
+	}
+	
 	/**
 	 * 资源ID与资源URL关系map，key为ID,URL为value
 	 */
 	private static Map<String, String> resourceMap = null;
 
-	public ResourceCacheImpl(IResourceService resourceService)
+	public ResourceCache(IResourceService resourceService)
 			throws DBAccessException {
 
 		resourceMap = new Hashtable<String, String>(200);
@@ -44,7 +58,7 @@ public class ResourceCacheImpl implements IResourceCache {
 
 	private synchronized void load() throws DBAccessException {
 		if (resourceMap.size() == 0) {
-			List<Resource> sources = this.resourceService.queryAllLeaf();
+			List<Resource> sources = this.resourceService.queryAllUrl();
 
 			for (Resource source : sources) {
 				if (LocalStringUtils.isNotEmpty(source.getSourceUrl())) {
@@ -56,7 +70,7 @@ public class ResourceCacheImpl implements IResourceCache {
 
 	}
 
-	public List<String> getSourceCodeByUrl(String url) {
+	protected List<String> getSourceCodeByUrl(String url) {
 
 		List<String> source = new ArrayList<String>();
 		for (String id : resourceMap.keySet()) {
@@ -68,7 +82,7 @@ public class ResourceCacheImpl implements IResourceCache {
 		return source;
 	}
 
-	public void refreshSourceCache() throws DBAccessException {
+	protected void refreshSourceCache() throws DBAccessException {
 
 		Map<String, String> tempMap = (Map<String, String>) ((Hashtable) this.resourceMap)
 				.clone();

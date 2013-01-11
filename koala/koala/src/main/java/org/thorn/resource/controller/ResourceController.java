@@ -61,7 +61,7 @@ public class ResourceController extends BaseController {
 		List<String> userSource = SecurityUserUtils.getSoucrceList();
 		
 		try {
-			List<Resource> source = service.queryLeftTree(pid);
+			List<Resource> source = service.queryLowerNodes(pid);
 			for (Resource res : source) {
 				
 				if(! LocalStringUtils.equals("YES", isSourcePanel)) {

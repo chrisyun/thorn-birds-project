@@ -14,15 +14,28 @@ import org.thorn.resource.entity.Resource;
  */
 public interface IResourceService {
 	
+	public static final String RESOURCE_ROOT = "root";
+	
 	/**
-	 * 
-	 * @Description：查询所有的叶子节点，叶子节点带URL，作请求拦截
+	 * 根据上级资源查找下级资源，过滤不显示的资源
+	 * @Description：
 	 * @author：chenyun 	        
-	 * @date：2012-5-25 上午11:18:27
+	 * @date：2013-1-11 上午11:16:03
+	 * @param pid
 	 * @return
 	 * @throws DBAccessException
 	 */
-	public List<Resource> queryAllLeaf() throws DBAccessException;
+	public List<Resource> queryLowerNodes(String pid) throws DBAccessException;
+	
+	/**
+	 * 
+	 * @Description：查询所有带URl的资源，作请求拦截
+	 * @author：chenyun 	        
+	 * @date：2013-1-11 上午11:19:03
+	 * @return
+	 * @throws DBAccessException
+	 */
+	public List<Resource> queryAllUrl() throws DBAccessException;
 	
 	/**
 	 * 
@@ -33,17 +46,6 @@ public interface IResourceService {
 	 * @throws DBAccessException
 	 */
 	public List<Resource> queryAllSource() throws DBAccessException;
-	
-	/**
-	 * 
-	 * @Description：根据上级资源查找下级资源，过滤不显示的资源
-	 * @author：chenyun 	        
-	 * @date：2012-5-25 上午11:27:00
-	 * @param pid
-	 * @return
-	 * @throws DBAccessException
-	 */
-	public List<Resource> queryLeftTree(String pid) throws DBAccessException;
 	
 	/**
 	 * 
