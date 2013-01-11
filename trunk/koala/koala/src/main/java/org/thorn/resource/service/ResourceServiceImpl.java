@@ -16,7 +16,7 @@ import org.thorn.resource.entity.Resource;
 /**
  * 
  * @ClassName: ResourceService
- * @Description:
+ * @Description:is
  * @author chenyun
  * @date 2012-5-5 下午06:08:54
  * 
@@ -26,31 +26,30 @@ public class ResourceServiceImpl implements IResourceService {
 	@Autowired
 	@Qualifier("resourceDao")
 	private IResourceDao resourceDao;
-
-	public List<Resource> queryAllLeaf() throws DBAccessException {
+	
+	public List<Resource> queryAllUrl() throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
 
-		// 根节点不展示，根节点无URL
-		// 不显示的权限可以挂在叶子页面上，是否显示为NO，是否为叶子为YES
-		filter.put("isleaf", Configuration.DB_YES);
+		// 查找所有带url的资源
+		filter.put("hasUrl", Configuration.DB_YES);
 
 		return resourceDao.queryByList(filter);
 	}
+	
+	public List<Resource> queryLowerNodes(String pid) throws DBAccessException {
 
-	public List<Resource> queryAllSource() throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
-
+		filter.put("parentSource", pid);
+		filter.put("isShow", Configuration.DB_YES);
 		filter.put(Configuration.SROT_NAME, "SORTNUM");
 		filter.put(Configuration.ORDER_NAME, Configuration.ORDER_ASC);
 
 		return resourceDao.queryByList(filter);
 	}
-
-	public List<Resource> queryLeftTree(String pid) throws DBAccessException {
-
+	
+	public List<Resource> queryAllSource() throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
-		filter.put("parentSource", pid);
-		filter.put("isShow", Configuration.DB_YES);
+
 		filter.put(Configuration.SROT_NAME, "SORTNUM");
 		filter.put(Configuration.ORDER_NAME, Configuration.ORDER_ASC);
 

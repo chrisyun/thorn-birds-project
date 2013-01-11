@@ -34,6 +34,9 @@
 			<if test="isShow != null and isShow != ''">
 				AND s.ISSHOW = #{isShow,jdbcType=VARCHAR}
       		</if>
+      		<if test="hasUrl != null and hasUrl != ''">
+				AND !ISNULL(s.SOURCEURL) and LENGTH(trim(s.SOURCEURL)) >= 1
+      		</if>
 			<if test="parentSource != null and parentSource != ''">
 				AND s.PARENTSOURCE = #{parentSource,jdbcType=VARCHAR}
       		</if>
