@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.web.util.AntUrlPathMatcher;
 import org.springframework.security.web.util.UrlMatcher;
+import org.thorn.core.context.SpringContext;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.resource.entity.Resource;
@@ -30,15 +31,15 @@ public class ResourceCache {
 
 	private IResourceService resourceService;
 	
-	@Autowired
-	@Qualifier("resourceCache")
-	private static ResourceCache cache;
-	
 	public static List<String> getCodeByUrl(String url) {
+		ResourceCache cache = SpringContext.getBean("resourceCache");
+		
 		return cache.getSourceCodeByUrl(url);
 	}
 	
 	public static void refresh() throws DBAccessException {
+		ResourceCache cache = SpringContext.getBean("resourceCache");
+		
 		cache.refreshSourceCache();
 	}
 	

@@ -56,8 +56,7 @@ http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 	</beans:bean>
 	<beans:bean id="securityMetadataSource"
 		class="org.thorn.security.InvocationSecurityMetadataSource">
-		<beans:constructor-arg index="0" ref="resourceCache" />
-		<beans:constructor-arg index="1" ref="authService" />
+		<beans:constructor-arg index="0" ref="authService" />
 	</beans:bean>
 	<beans:bean id="accessDecisionManager"
 		class="org.thorn.security.CoreAccessDecisionManager" />

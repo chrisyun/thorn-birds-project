@@ -15,6 +15,7 @@ import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
 import org.thorn.web.entity.Page;
 import org.thorn.dao.exception.DBAccessException;
+import org.thorn.resource.cache.ResourceCache;
 import org.thorn.resource.entity.Resource;
 import org.thorn.resource.service.IResourceService;
 import org.thorn.security.SecurityUserUtils;
@@ -223,7 +224,7 @@ public class ResourceController extends BaseController {
 				service.modify(source);
 				status.setMessage("修改资源成功！");
 			}
-
+			ResourceCache.refresh();
 		} catch (DBAccessException e) {
 			status.setSuccess(false);
 			status.setMessage("数据保存失败：" + e.getMessage());
@@ -248,6 +249,7 @@ public class ResourceController extends BaseController {
 
 		try {
 			service.delete(ids);
+			ResourceCache.refresh();
 			status.setMessage("数据删除成功！");
 		} catch (DBAccessException e) {
 			status.setSuccess(false);
