@@ -13,8 +13,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		initValidationEngine("myPasswordForm");
 	});
     
-	function kl() {
-		alert(11);
+	function changeMyPassword() {
+		$("#myPasswordForm").submitForm();
 	}
     
     </script>
@@ -60,7 +60,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</div>
 						</div>
 						<div class="form-actions">
-					    	<button class="btn btn-primary" type="submit">保存</button>
+					    	<button class="btn btn-primary" type="button" onclick="changeMyPassword();">保存</button>
 					    	<button class="btn btn-primary" type="button" onclick="$.message.progessDialog();">测试</button>
 					    	<button class="btn btn-primary" type="button" onclick="$.message.alertInfoDialog('asasasasasas');">信息</button>
 					    	<button class="btn btn-primary" type="button" onclick="$.message.alertErrorDialog('jjjjkk');">错误</button>

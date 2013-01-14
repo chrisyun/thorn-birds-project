@@ -201,7 +201,7 @@
 				}
 			}
 
-			if ($("#_progessDialog").length > 0) {
+			if ($("#_alertDialog").length > 0) {
 
 				$("#_alertDialogTitle").html(attr.title);
 				$("#_alertDialogBody").html("<p>" + attr.text + "</p>");
@@ -486,68 +486,63 @@
 		});
 	};
 
-	$.fn.server = function() {
-
-		var submitForm = function(options) {
-			var defaults = {
-				progress : true,
-				onSuccess : function(msg) {
-					$.message.alertSuccessDialog(msg, "请求处理成功");
-				},
-				onFailure : function(msg) {
-					$.message.alertErrorDialog(msg, "数据处理出错");
-				},
-				onError : function() {
-					$.message.alertErrorDialog("网络请求超时，请稍后再试！");
-				},
-				data : null,
-				dataType : "json"
-			};
-
-			var options = $.extend(defaults, options);
-
-			var ajaxFormOptions = {
-				beforeSubmit : function(formData, jqForm, options) {
-					var checkStatus = $(this).validationEngine("validate");
-
-					if (checkStatus && options.progress) {
-						$.message.progessDialog();
-					}
-
-					return checkStatus;
-				},
-				error : function() {
-					if (options.progress) {
-						$.message.progessDialog("close");
-					}
-
-					options.onError();
-				},
-				success : function(result) {
-					if (options.progress) {
-						$.message.progessDialog("close");
-					}
-
-					var success = result.success;
-					var msg = result.message;
-					var data = result.obj;
-
-					if (success || success == "true") {
-						options.onSuccess(msg, data);
-					} else {
-						options.onFailure(msg, data);
-					}
-				},
-				dataType : options.dataType,
-				data : options.data
-			};
-
-			this.each(function() {
-				$(this).ajaxSubmit(ajaxFormOptions);
-			});
+	$.fn.submitForm = function(options) {
+		var defaults = {
+			progress : true,
+			onSuccess : function(msg) {
+				$.message.alertSuccessDialog(msg, "请求处理成功");
+			},
+			onFailure : function(msg) {
+				$.message.alertErrorDialog(msg, "数据处理出错");
+			},
+			onError : function() {
+				$.message.alertErrorDialog("网络请求超时，请稍后再试！");
+			},
+			data : null,
+			dataType : "json"
 		};
 
-		return submitForm;
+		var options = $.extend(defaults, options);
+
+		var ajaxFormOptions = {
+			beforeSubmit : function(formData, jqForm, options) {
+				var checkStatus = $(this).validationEngine("validate");
+				alert(checkStatus);
+				if (checkStatus && options.progress) {
+					$.message.progessDialog();
+				}
+
+				return checkStatus;
+			},
+			error : function() {
+				if (options.progress) {
+					$.message.progessDialog("close");
+				}
+
+				options.onError();
+			},
+			success : function(result) {
+				if (options.progress) {
+					$.message.progessDialog("close");
+				}
+
+				var success = result.success;
+				var msg = result.message;
+				var data = result.obj;
+
+				if (success || success == "true") {
+					options.onSuccess(msg, data);
+				} else {
+					options.onFailure(msg, data);
+				}
+			},
+			dataType : options.dataType,
+			data : options.data
+		};
+
+		this.each(function() {
+			$(this).ajaxSubmit(ajaxFormOptions);
+		});
 	};
 
 	$.server = {
