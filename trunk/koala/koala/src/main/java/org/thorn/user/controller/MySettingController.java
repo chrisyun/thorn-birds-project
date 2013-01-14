@@ -50,6 +50,7 @@ public class MySettingController extends BaseController {
 					user.getUserId());
 			if(StringUtils.equals(thisPassword, user.getUserPwd())) {
 				service.changePwd(user.getUserId(), newPassword);
+				user.setUserPwd(thisPassword);
 				status.setMessage("密码修改成功！");
 			} else {
 				status.setSuccess(false);
