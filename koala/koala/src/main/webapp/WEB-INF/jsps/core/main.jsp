@@ -6,6 +6,8 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+
+String thisUrl = request.getServletPath();
 %>
 
 <!DOCTYPE html>
@@ -149,7 +151,50 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		</div>
   	</div>
   	
+  	<%
+  		if(thisUrl.indexOf("/common/mySetting/", 0) >= 0
+  			|| thisUrl.indexOf("/cms/", 0) >= 0
+  			|| thisUrl.indexOf("/system/", 0) >= 0
+  			|| thisUrl.indexOf("/app/", 0) >= 0) {
+  	%>	
+  	<div class="container-fluid container">
+		<div class="row-fluid">
+			
+			<div class="span3">
+				<ul class="nav nav-tabs nav-stacked">
+					<li><a href="javascript:void(0);">+&nbsp;个人设置</a></li>
+					<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;账号设置</a></li>
+					<li class="active"><a href="<%=path%>/common/mySetting/changeMyPassword.jhtml">
+						&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;密码修改</a>
+					</li>
+					<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;更换皮肤</a></li>
+				</ul>
+			</div>
+			<!--  
+			<div class="span3">
+				<div class="well" style="padding: 8px 0;">
+					<ul class="nav nav-list">
+						<li class="nav-header">个人设置</li>
+						<li><a href="#"><i class="icon-user"></i>&nbsp;账号设置</a></li>
+						<li class="active"><a href="<%=path%>/common/mySetting/changeMyPassword.jhtml"><i class="icon-lock"></i>&nbsp;密码修改</a></li>
+						<li class="divider"></li>
+						<li><a href="#"><i class="icon-cog"></i>&nbsp;更换皮肤</a></li>
+					</ul>
+				</div>
+			</div>
+			-->
+			<div class="span9" style="padding-left: 40px;">
+		  		<decorator:body />
+    		</div>
+    	</div>
+    </div>	  	
+  	<%	
+  		} else {
+  	%>
     <decorator:body />
+    <%
+  		}
+    %>
     
     <!-- footer -->
     <div class="container">

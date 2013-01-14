@@ -17,39 +17,40 @@ import org.thorn.user.service.IUserService;
 import org.thorn.web.controller.BaseController;
 import org.thorn.web.entity.Status;
 
-/** 
- * @ClassName: MySettingController 
- * @Description: 
+/**
+ * @ClassName: MySettingController
+ * @Description:
  * @author chenyun
- * @date 2013-1-5 下午9:43:47 
+ * @date 2013-1-5 下午9:43:47
  */
 @Controller
 @RequestMapping("/common/mySetting")
 public class MySettingController extends BaseController {
 
 	static Logger log = LoggerFactory.getLogger(UserController.class);
-	
+
 	@Autowired
 	@Qualifier("userService")
 	private IUserService service;
-	
+
 	@RequestMapping("/changeMyPassword.jhtml")
 	public String changeMyPassword() {
 		return "mySetting/changePassword";
 	}
-	
-	@RequestMapping(value="/changeMyPassword.jmt",method=RequestMethod.POST)
+
+	@RequestMapping(value = "/changeMyPassword.jmt", method = RequestMethod.POST)
 	@ResponseBody
 	public Status changeMyPwd(String curPassword, String newPassword) {
 		Status status = new Status();
 
 		try {
 			User user = SecurityUserUtils.getCurrentUser();
-			
-			String thisPassword = SecurityEncoderUtils.encodeUserPassword(curPassword,
-					user.getUserId());
-			if(StringUtils.equals(thisPassword, user.getUserPwd())) {
+
+			String thisPassword = SecurityEncoderUtils.encodeUserPassword(
+					curPassword, user.getUserId());
+			if (StringUtils.equals(thisPassword, user.getUserPwd())) {
 				service.changePwd(user.getUserId(), newPassword);
+				// 更新session中的用户密码
 				user.setUserPwd(thisPassword);
 				status.setMessage("密码修改成功！");
 			} else {
@@ -64,7 +65,5 @@ public class MySettingController extends BaseController {
 
 		return status;
 	}
-	
-	
-}
 
+}

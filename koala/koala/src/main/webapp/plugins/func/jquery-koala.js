@@ -503,15 +503,11 @@
 		};
 
 		var options = $.extend(defaults, options);
-
+		
+		var checkStatus = $(this).validationEngine("validate");
+		
 		var ajaxFormOptions = {
 			beforeSubmit : function(formData, jqForm, options) {
-				var checkStatus = $(this).validationEngine("validate");
-				alert(checkStatus);
-				if (checkStatus && options.progress) {
-					$.message.progessDialog();
-				}
-
 				return checkStatus;
 			},
 			error : function() {
@@ -539,7 +535,11 @@
 			dataType : options.dataType,
 			data : options.data
 		};
-
+		
+		if (checkStatus && options.progress) {
+			$.message.progessDialog();
+		}
+		
 		this.each(function() {
 			$(this).ajaxSubmit(ajaxFormOptions);
 		});
