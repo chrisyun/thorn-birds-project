@@ -14,8 +14,6 @@ import org.thorn.resource.entity.Resource;
  */
 public interface IResourceService {
 	
-	public static final String RESOURCE_ROOT = "root";
-	
 	/**
 	 * 根据上级资源查找下级资源，过滤不显示的资源
 	 * @Description：

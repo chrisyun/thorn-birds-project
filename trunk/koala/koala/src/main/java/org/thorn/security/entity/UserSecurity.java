@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.thorn.dao.core.Configuration;
 import org.thorn.role.entity.Role;
 import org.thorn.user.entity.User;
+import org.thorn.web.entity.FullTree;
 /**
  * 
  * @ClassName: UserSecurity 
@@ -27,6 +28,8 @@ public class UserSecurity implements UserDetails {
 	private Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 	
 	private User user;
+	
+	private FullTree menuTree;
 	
 	public void initUserAuth(List<Role> roles) {
 		
@@ -102,6 +105,14 @@ public class UserSecurity implements UserDetails {
 	 */
 	public boolean isEnabled() {
 		return isAccountNonExpired();
+	}
+
+	public FullTree getMenuTree() {
+		return menuTree;
+	}
+
+	public void setMenuTree(FullTree menuTree) {
+		this.menuTree = menuTree;
 	}
 	
 }

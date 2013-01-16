@@ -5,7 +5,8 @@
  */
 function initValidationEngine(formId, args) {
 	var attr = {
-		promptPosition: "bottomLeft",
+		promptPosition : "bottomLeft",
+		showOneMessage : true,
     	autoHideDelay : 4000,
     	autoHidePrompt : true
 	};
