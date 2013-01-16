@@ -1,5 +1,6 @@
 package org.thorn.security;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -13,32 +14,40 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.thorn.auth.service.IAuthService;
 import org.thorn.dao.exception.DBAccessException;
+import org.thorn.resource.entity.Resource;
+import org.thorn.resource.service.IResourceService;
 import org.thorn.role.entity.Role;
 import org.thorn.security.entity.UserSecurity;
 import org.thorn.user.entity.User;
 import org.thorn.user.service.IUserService;
+import org.thorn.web.entity.FullTree;
+import org.thorn.web.util.MenuTreeUtils;
 
 /**
  * 
- * @ClassName: UserSecurityDetailsService 
+ * @ClassName: UserSecurityDetailsService
  * @Description: 提供查找用户的service服务
  * @author chenyun
- * @date 2012-5-4 下午03:22:18 
- *
+ * @date 2012-5-4 下午03:22:18
+ * 
  */
 public class UserSecurityDetailsService implements UserDetailsService {
-	
+
 	@Autowired
 	@Qualifier("userSecurityCache")
 	private UserCache userCache;
-	
+
 	@Autowired
 	@Qualifier("userService")
 	private IUserService userService;
-	
+
 	@Autowired
 	@Qualifier("authService")
 	private IAuthService authService;
+
+	@Autowired
+	@Qualifier("resourceService")
+	private IResourceService resourceService;
 
 	public UserDetails loadUserByUsername(String arg0)
 			throws UsernameNotFoundException, DataAccessException {
@@ -56,6 +65,23 @@ public class UserSecurityDetailsService implements UserDetailsService {
 
 					us.initUserAuth(roles);
 
+					// 计算出用户的权限菜单树
+					List<Resource> allSource = resourceService.queryAllSource();
+
+					FullTree tree = MenuTreeUtils.generateMenuTree(allSource);
+
+					List<String> roleCodes = new ArrayList<String>();
+					for (Role r : roles) {
+						roleCodes.add(r.getRoleCode());
+					}
+					List<String> source = authService
+							.queryResourceByRole(roleCodes);
+
+					// 递归遍历资源树，将不在权限列表的资源清除
+					clearResourceTree(source, tree);
+
+					us.setMenuTree(tree);
+
 					// 将UserSecurity放入cache中
 					userCache.putUserInCache(us);
 				}
@@ -72,6 +98,18 @@ public class UserSecurityDetailsService implements UserDetailsService {
 		}
 
 		return us;
+	}
+
+	private void clearResourceTree(List<String> source, FullTree tree) {
+
+		for (FullTree node : tree.getChildren()) {
+
+			if (!source.contains(node.getId())) {
+				tree.getChildren().remove(node);
+			} else {
+				clearResourceTree(source, node);
+			}
+		}
 	}
 
 }
