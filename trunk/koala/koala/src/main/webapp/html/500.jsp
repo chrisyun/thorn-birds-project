@@ -47,7 +47,7 @@ response.setStatus(HttpServletResponse.SC_OK);
 					<p>网站出现错误，请您重新访问。<a class="btn btn-primary" href="<%=path %>">点击这里返回主页</a></p>
 					<p><a class="btn btn-warning" href="javascript:void(0);" onclick="reportError();">报告问题</a></p>
 					<pre id="msg1" style="display: none;">
-	   					<%=exception.getMessage().replaceAll("<", "&lt;").replaceAll(">", "&gt;") %>
+	   					<%=exception.getMessage() != null ? exception.getMessage().replaceAll("<", "&lt;").replaceAll(">", "&gt;") : "" %>
 	   				</pre>
 					<%
 	   					StackTraceElement[] stArray = exception.getStackTrace();

@@ -26,6 +26,8 @@ public class Tree implements Serializable {
 	private String targetUrl;
 	
 	private String iconCls;
+	
+	private Integer sort;
 
 	private Map<String, String> attributes = new HashMap<String, String>();
 
@@ -83,5 +85,13 @@ public class Tree implements Serializable {
 
 	public void setIconCls(String iconCls) {
 		this.iconCls = iconCls;
+	}
+
+	public Integer getSort() {
+		return sort;
+	}
+
+	public void setSort(Integer sort) {
+		this.sort = sort;
 	}
 }

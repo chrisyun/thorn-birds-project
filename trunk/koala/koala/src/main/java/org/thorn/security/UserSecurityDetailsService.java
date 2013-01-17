@@ -1,13 +1,19 @@
 package org.thorn.security;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -71,8 +77,8 @@ public class UserSecurityDetailsService implements UserDetailsService {
 					FullTree tree = MenuTreeUtils.generateMenuTree(allSource);
 
 					List<String> roleCodes = new ArrayList<String>();
-					for (Role r : roles) {
-						roleCodes.add(r.getRoleCode());
+					for (GrantedAuthority g : us.getAuthorities()) {
+						roleCodes.add(g.getAuthority());
 					}
 					List<String> source = authService
 							.queryResourceByRole(roleCodes);
@@ -80,7 +86,13 @@ public class UserSecurityDetailsService implements UserDetailsService {
 					// 递归遍历资源树，将不在权限列表的资源清除
 					clearResourceTree(source, tree);
 
-					us.setMenuTree(tree);
+					ObjectMapper objectMapper = new ObjectMapper();
+					try {
+						String treeJson = objectMapper.writeValueAsString(tree);
+						us.setJsonTree(treeJson);
+					} catch (IOException e) {
+						us.setJsonTree("{'id' : 'error'}");
+					}
 
 					// 将UserSecurity放入cache中
 					userCache.putUserInCache(us);
@@ -101,12 +113,15 @@ public class UserSecurityDetailsService implements UserDetailsService {
 	}
 
 	private void clearResourceTree(List<String> source, FullTree tree) {
-
-		for (FullTree node : tree.getChildren()) {
-
+		
+		Iterator<FullTree> ite = tree.getChildren().iterator();
+		
+		while (ite.hasNext()) {
+			FullTree node = ite.next();
+			
 			if (!source.contains(node.getId())) {
-				tree.getChildren().remove(node);
-			} else {
+				ite.remove();
+			} else if(node.getChildren().size() > 0) {
 				clearResourceTree(source, node);
 			}
 		}

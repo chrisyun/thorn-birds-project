@@ -39,6 +39,12 @@ String thisUrl = request.getServletPath();
 	<script type="text/javascript" src="<%=path %>/plugins/jquery-form/jquery.form.js"></script>
 	
 	<script type="text/javascript" src="<%=path %>/plugins/func/jquery-koala.js"></script>
+	<script type="text/javascript" src="<%=path %>/js/navigation.js"></script>
+	<style type="text/css">
+	.icon-plus,.icon-minus {
+		padding: 0 3px;
+	}
+	</style>
 	
 	<script type="text/javascript">
 	var user = {
@@ -49,6 +55,13 @@ String thisUrl = request.getServletPath();
 		phone 		: "<sec:authentication property="principal.user.phone" />",
 		role		: new Array()
 	};
+	
+	var sys = {
+		path		: "<%=path%>",
+		basePath	: "<%=basePath%>"
+	};
+	
+	var menuTree, thisUrl = "<%=thisUrl%>";
 	
 	<sec:authentication property="authorities" var="authorities" scope="page"/>
 	<c:forEach items="${authorities}" var="authority">
@@ -61,6 +74,10 @@ String thisUrl = request.getServletPath();
   </head>
   
   <body>
+  	<div style="display: none;" id="userJsonTree">
+  		<sec:authentication property="principal.jsonTree" />
+  	</div>
+  
   	<!-- logo and ad -->
   	<div class="container">
 		<div class="row" style="padding-top: 10px;padding-bottom: 10px;">
@@ -81,52 +98,14 @@ String thisUrl = request.getServletPath();
 					<sec:authentication property="principal.username" var="userId" scope="page"/>
 					<c:if test="${!empty userId }">
 						<div class="container">
-							<ul class="nav">
+							<ul class="nav" id="_navigationBar">
 								<li><a href="<%=path%>/home.jhtml"><i class="icon-home"></i>&nbsp;主页</a></li>
-								<li class="divider-vertical"></li>
-								<!-- app -->
-								<li class="dropdown">
-									<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-										应用菜单<b class="caret"></b>
-									</a>
-									<ul class="dropdown-menu">
-										<li><a href="#">修改个人信息</a></li>
-										<li><a href="#">修改登录密码</a></li>
-										<li class="divider"></li>
-										<li><a href="#">被隔离的链接</a></li>
-									</ul>
-								</li>
-								<li class="divider-vertical"></li>
-								<!-- sys -->
-								<li class="dropdown">
-									<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-										系统管理<b class="caret"></b>
-									</a>
-									<ul class="dropdown-menu">
-										<li><a href="#">修改个人信息</a></li>
-										<li><a href="#">修改登录密码</a></li>
-										<li class="divider"></li>
-										<li><a href="#">被隔离的链接</a></li>
-									</ul>
-								</li>
-								<li class="divider-vertical"></li>
-								<!-- cms -->
-								<li class="dropdown">
-									<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-										信息发布<b class="caret"></b>
-									</a>
-									<ul class="dropdown-menu">
-										<li><a href="#">栏目管理</a></li>
-										<li><a href="#">模板管理</a></li>
-										<li class="divider"></li>
-										<li><a href="#">内容管理</a></li>
-									</ul>
-								</li>
 							</ul>
+							
 							<ul class="nav pull-right">
 								<!-- <li><a class="brand" href="<%=path%>">Koala</a></li> -->
 								<li><a style="padding-right: 0px;">欢迎您，</a></li>
-								<li class="dropdown">
+								<li class="dropdown" id="_nav_mySetting">
 									<a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding-left: 3px;">
 										<sec:authentication property="principal.user.userName" />！<b class="caret"></b>
 									</a>
@@ -152,38 +131,27 @@ String thisUrl = request.getServletPath();
   	</div>
   	
   	<%
-  		if(thisUrl.indexOf("/common/mySetting/", 0) >= 0
-  			|| thisUrl.indexOf("/cms/", 0) >= 0
-  			|| thisUrl.indexOf("/system/", 0) >= 0
-  			|| thisUrl.indexOf("/app/", 0) >= 0) {
+  		if(thisUrl.indexOf("/common/mySetting/", 0) == 0
+  			|| thisUrl.indexOf("/CMS/", 0) == 0
+  			|| thisUrl.indexOf("/System/", 0) == 0
+  			|| thisUrl.indexOf("/App/", 0) == 0) {
   	%>	
   	<div class="container-fluid container">
 		<div class="row-fluid">
 			
-			<div class="span3">
+			<div class="span2" id="_menuTree">
+				<!-- 
 				<ul class="nav nav-tabs nav-stacked">
-					<li><a href="javascript:void(0);">+&nbsp;个人设置</a></li>
-					<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;账号设置</a></li>
+					<li><a href="javascript:void(0);"><i class="icon-plus"></i><b>个人设置</b></a></li>
+					<li><a href="#"><i class="icon-minus"></i>账号设置</a></li>
 					<li class="active"><a href="<%=path%>/common/mySetting/changeMyPassword.jhtml">
-						&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;密码修改</a>
+						<i class="icon-minus"></i>密码修改</a>
 					</li>
-					<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;更换皮肤</a></li>
+					<li><a href="#"><i class="icon-minus"></i>更换皮肤</a></li>
 				</ul>
+				 -->
 			</div>
-			<!--  
-			<div class="span3">
-				<div class="well" style="padding: 8px 0;">
-					<ul class="nav nav-list">
-						<li class="nav-header">个人设置</li>
-						<li><a href="#"><i class="icon-user"></i>&nbsp;账号设置</a></li>
-						<li class="active"><a href="<%=path%>/common/mySetting/changeMyPassword.jhtml"><i class="icon-lock"></i>&nbsp;密码修改</a></li>
-						<li class="divider"></li>
-						<li><a href="#"><i class="icon-cog"></i>&nbsp;更换皮肤</a></li>
-					</ul>
-				</div>
-			</div>
-			-->
-			<div class="span9" style="padding-left: 40px;">
+			<div class="span10" style="padding-left: 20px;">
 		  		<decorator:body />
     		</div>
     	</div>

@@ -16,7 +16,7 @@ import org.thorn.web.entity.FullTree;
  */
 public class MenuTreeUtils {
 
-	public static final String RESOURCE_ROOT = "root";
+	public static final String RESOURCE_ROOT = "Root";
 
 	/**
 	 * 
@@ -77,7 +77,8 @@ public class MenuTreeUtils {
 				tree.setPid(res.getParentSource());
 				tree.setIconCls(res.getIconsCls());
 				tree.setLeaf(false);
-
+				tree.setSort(res.getSortNum());
+				
 				tree.setUiProvider("checkBox");
 				tree.setExpanded(true);
 				break;
@@ -119,7 +120,8 @@ public class MenuTreeUtils {
 				node.setPid(res.getParentSource());
 				node.setIconCls(res.getIconsCls());
 				node.setTargetUrl(res.getSourceUrl());
-
+				node.setSort(res.getSortNum());
+				
 				node.setUiProvider("checkBox");
 				node.setExpanded(true);
 
