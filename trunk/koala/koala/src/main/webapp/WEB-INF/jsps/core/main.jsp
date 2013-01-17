@@ -74,10 +74,6 @@ String thisUrl = request.getServletPath();
   </head>
   
   <body>
-  	<div style="display: none;" id="userJsonTree">
-  		<sec:authentication property="principal.jsonTree" />
-  	</div>
-  
   	<!-- logo and ad -->
   	<div class="container">
 		<div class="row" style="padding-top: 10px;padding-bottom: 10px;">
@@ -139,18 +135,7 @@ String thisUrl = request.getServletPath();
   	<div class="container-fluid container">
 		<div class="row-fluid">
 			
-			<div class="span2" id="_menuTree">
-				<!-- 
-				<ul class="nav nav-tabs nav-stacked">
-					<li><a href="javascript:void(0);"><i class="icon-plus"></i><b>个人设置</b></a></li>
-					<li><a href="#"><i class="icon-minus"></i>账号设置</a></li>
-					<li class="active"><a href="<%=path%>/common/mySetting/changeMyPassword.jhtml">
-						<i class="icon-minus"></i>密码修改</a>
-					</li>
-					<li><a href="#"><i class="icon-minus"></i>更换皮肤</a></li>
-				</ul>
-				 -->
-			</div>
+			<div class="span2" id="_menuTree"></div>
 			<div class="span10" style="padding-left: 20px;">
 		  		<decorator:body />
     		</div>
@@ -179,7 +164,9 @@ String thisUrl = request.getServletPath();
 			</div>
 		</div>
   	</div>
-    
+    <div style="display: none;" id="userJsonTree">
+  		<sec:authentication property="principal.jsonTree" />
+  	</div>
     
   </body>
 </html>
