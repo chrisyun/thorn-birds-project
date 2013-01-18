@@ -14,7 +14,9 @@ import org.thorn.user.entity.User;
  * @date 2012-5-4 下午03:02:29
  */
 public interface IUserService {
-
+	
+	public User queryUser(String userId) throws DBAccessException;
+	
 	public boolean myPwdFindBack(String idOrAccount, String email)
 			throws DBAccessException;
 
