@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -37,7 +38,44 @@ public class MySettingController extends BaseController {
 	public String changeMyPassword() {
 		return "mySetting/changePassword";
 	}
-
+	
+	@RequestMapping("/userInfo.jhtml")
+	public String userInfo(ModelMap model) {
+		
+		try {
+			User user = SecurityUserUtils.getCurrentUser();
+			
+			user = service.queryUser(user.getUserId());
+			
+			model.put("user", user);
+		} catch (DBAccessException e) {
+			log.error("userInfo[User] - " + e.getMessage(), e);
+		}
+		
+		return "mySetting/userInfo";
+	}
+	
+	
+	@RequestMapping(value = "/changeMyInfo.jmt", method = RequestMethod.POST)
+	@ResponseBody
+	public Status changeMyInfo(User user) {
+		Status status = new Status();
+		
+		try {
+			User userSession = SecurityUserUtils.getCurrentUser();
+			user.setUserId(userSession.getUserId());
+			
+			service.modify(user);
+			status.setMessage("个人资料修改成功！");
+		} catch (DBAccessException e) {
+			status.setSuccess(false);
+			status.setMessage("个人资料修改失败：" + e.getMessage());
+			log.error("changeMyInfo[User] - " + e.getMessage(), e);
+		}
+		
+		return status;
+	}
+	
 	@RequestMapping(value = "/changeMyPassword.jmt", method = RequestMethod.POST)
 	@ResponseBody
 	public Status changeMyPwd(String curPassword, String newPassword) {
@@ -45,13 +83,13 @@ public class MySettingController extends BaseController {
 
 		try {
 			User user = SecurityUserUtils.getCurrentUser();
-
+			
+			user = service.queryUser(user.getUserId());
+			
 			String thisPassword = SecurityEncoderUtils.encodeUserPassword(
 					curPassword, user.getUserId());
 			if (StringUtils.equals(thisPassword, user.getUserPwd())) {
 				service.changePwd(user.getUserId(), newPassword);
-				// 更新session中的用户密码
-				user.setUserPwd(thisPassword);
 				status.setMessage("密码修改成功！");
 			} else {
 				status.setSuccess(false);

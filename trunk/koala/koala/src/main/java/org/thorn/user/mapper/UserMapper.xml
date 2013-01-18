@@ -140,13 +140,13 @@
 		update T_SYS_USER
 		<set>
 			<if test="sortNum != null">SORTNUM = #{sortNum,jdbcType=DECIMAL},</if>
-			<if test="userName != null and userName != ''">USERNAME = #{userName,jdbcType=VARCHAR},</if>
-			<if test="sn != null and sn != ''">SN = #{sn,jdbcType=VARCHAR},</if>
-			<if test="userAccount != null and userAccount != ''">USERACCOUNT = #{userAccount,jdbcType=VARCHAR},</if>
+			<if test="userName != null">USERNAME = #{userName,jdbcType=VARCHAR},</if>
+			<if test="sn != null">SN = #{sn,jdbcType=VARCHAR},</if>
+			<if test="userAccount != null">USERACCOUNT = #{userAccount,jdbcType=VARCHAR},</if>
 			<if test="userPwd != null and userPwd != ''">USERPWD = #{userPwd,jdbcType=VARCHAR},</if>
-			<if test="gender != null and gender != ''">GENDER = #{gender,jdbcType=VARCHAR},</if>
-			<if test="cumail != null and cumail != ''">CUMAIL = #{cumail,jdbcType=VARCHAR},</if>
-			<if test="phone != null and phone != ''">PHONE = #{phone,jdbcType=VARCHAR},</if>
+			<if test="gender != null">GENDER = #{gender,jdbcType=VARCHAR},</if>
+			<if test="cumail != null">CUMAIL = #{cumail,jdbcType=VARCHAR},</if>
+			<if test="phone != null">PHONE = #{phone,jdbcType=VARCHAR},</if>
 			<if test="orgCode != null and orgCode != ''">ORGCODE = #{orgCode,jdbcType=VARCHAR},</if>
 			<if test="defaultRole != null and defaultRole != ''">DEFAULTROLE = #{defaultRole,jdbcType=VARCHAR},</if>
 			<if test="isDisabled != null and isDisabled != ''">ISDISABLED = #{isDisabled,jdbcType=VARCHAR},</if>

@@ -63,7 +63,7 @@
 							+ '<div class="progress progress-striped active" style="margin-top: 20px;">'
 							+ '<div class="bar" id="_progessDialogBar" style="width: 0%;"></div></div>'
 							+ '</div>'
-							+ '<div class="modal-footer"><a href="#" class="btn" data-dismiss="modal">关闭</a></div>'
+							+ '<div class="modal-footer"><a class="btn" data-dismiss="modal">关闭</a></div>'
 							+ "</div>");
 
 					_dialog.appendTo("body");
@@ -217,7 +217,7 @@
 						+ '<h3 id="_alertDialogTitle"></h3>'
 						+ '</div>'
 						+ '<div class="modal-body" id="_alertDialogBody" style="margin-top: 1px;height:80px;"></div>'
-						+ '<div class="modal-footer"><a href="#" class="btn" data-dismiss="modal">确定</a></div>'
+						+ '<div class="modal-footer"><a class="btn" data-dismiss="modal">确定</a></div>'
 						+ "</div>");
 
 				_dialog.appendTo("body");
@@ -486,6 +486,64 @@
 		});
 	};
 
+	$.fn.initDDBox = function(options) {
+
+		var defaults = {
+			box : "select",
+			array : new Array(),
+			defaultValue : null,
+			hasDefaultSelShow : true,
+			defaultSelShow : "<option value=''>--------请选择--------</option>"
+		};
+
+		var options = $.extend(defaults, options);
+
+		this.each(function() {
+
+			var array = options.array;
+
+			switch (options.box) {
+			case "select":
+
+				if (options.hasDefaultShow) {
+					$(this).append(options.defaultShow);
+				}
+
+				for ( var i = 0; i < array.length; i++) {
+					var text = array[i][1];
+					var value = array[i][0];
+
+					$(this).append(
+							'<option value="' + value + '">' + text
+									+ '</option>');
+				}
+				
+				$(this).val(options.defaultValue);
+				
+				break;
+			case "text":
+				
+				for ( var i = 0; i < array.length; i++) {
+					var text = array[i][1];
+					var value = array[i][0];
+					
+					if(value == options.defaultValue) {
+						
+						if($(this).is("input")) {
+							$(this).val(text);
+						} else {
+							$(this).html(text);
+						}
+					}
+				}
+				
+				break;
+			default:
+				break;
+			}
+		});
+	};
+
 	$.fn.submitForm = function(options) {
 		var defaults = {
 			progress : true,
@@ -503,9 +561,9 @@
 		};
 
 		var options = $.extend(defaults, options);
-		
+
 		var checkStatus = $(this).validationEngine("validate");
-		
+
 		var ajaxFormOptions = {
 			beforeSubmit : function(formData, jqForm, options) {
 				return checkStatus;
@@ -535,11 +593,11 @@
 			dataType : options.dataType,
 			data : options.data
 		};
-		
+
 		if (checkStatus && options.progress) {
 			$.message.progessDialog();
 		}
-		
+
 		this.each(function() {
 			$(this).ajaxSubmit(ajaxFormOptions);
 		});

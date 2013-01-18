@@ -35,15 +35,15 @@ $(function() {
 
 		var mySettingLeaf = new Array();
 		var leaf = new Object();
-		leaf.id = "accountInfo";
-		leaf.text = "账号设置";
-		leaf.targetUrl = "/";
+		leaf.id = "userInfo";
+		leaf.text = "个人资料修改";
+		leaf.targetUrl = "/common/mySetting/userInfo.jhtml";
 		leaf.sort = 0;
 		mySettingLeaf.push(leaf);
 
 		leaf = new Object();
 		leaf.id = "modifyPassword";
-		leaf.text = "修改密码";
+		leaf.text = "密码修改";
 		leaf.sort = 1;
 		leaf.targetUrl = "/common/mySetting/changeMyPassword.jhtml";
 		mySettingLeaf.push(leaf);
@@ -51,7 +51,7 @@ $(function() {
 		leaf = new Object();
 		leaf.id = "skinSetting";
 		leaf.text = "更换皮肤";
-		leaf.targetUrl = "/";
+		leaf.targetUrl = "/common/mySetting/b.jsp";
 		leaf.sort = 2;
 		mySettingLeaf.push(leaf);
 
@@ -65,10 +65,10 @@ $(function() {
 		$("#_nav_" + paths[1]).addClass("active");
 	}
 
-	$("#_nav_mySetting > ul > li").each(function() {
+	$("#_menuTree > ul > li").each(function() {
 		var href = $(this).find("a").attr("href");
-		
-		if (href.indexOf(thisUrl) >= 0) {
+
+		if (href.indexOf(thisUrl) >= 0 && href != undefined) {
 			$(this).addClass("active");
 		}
 
@@ -85,7 +85,7 @@ $(function() {
 		for ( var i = 0; i < children.length; i++) {
 
 			var _node = children[i];
-
+			
 			_menu.append('<li><a href="' + sys.path + _node.targetUrl
 							+ '"><i class="icon-minus"></i>' + _node.text
 							+ '</a></li>');

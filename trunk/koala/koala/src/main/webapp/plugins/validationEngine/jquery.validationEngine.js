@@ -504,7 +504,7 @@
 				field.attr("id", "form-validation-field-" + $.validationEngine.fieldIdCounter);
 				++$.validationEngine.fieldIdCounter;
 			}
-
+			
            if (!options.validateNonVisibleFields && (field.is(":hidden") && !options.prettySelect || field.parent().is(":hidden")))
 				return false;
 
@@ -540,7 +540,7 @@
 					delete rules[i];
 				}
 			}
-
+			
 			for (var i = 0, field_errors = 0; i < rules.length; i++) {
 				
 				// If we are limiting errors, and have hit the max, break

@@ -28,6 +28,7 @@ String thisUrl = request.getServletPath();
 	<link href="<%=path %><spring:theme code="css" />" rel="stylesheet">
 	
 	<link href="<%=path %>/plugins/validationEngine/css/validationEngine.jquery.css" rel="stylesheet">
+	<link href="<%=path %>/css/style.css" rel="stylesheet">
 	
 	<script type="text/javascript" src="<%=path %>/plugins/jquery/jquery-1.8.2.js"></script>
 	<script type="text/javascript" src="<%=path %>/plugins/bootstrap/js/bootstrap.js"></script>
@@ -39,7 +40,6 @@ String thisUrl = request.getServletPath();
 	<script type="text/javascript" src="<%=path %>/plugins/jquery-form/jquery.form.js"></script>
 	
 	<script type="text/javascript" src="<%=path %>/plugins/func/jquery-koala.js"></script>
-	<script type="text/javascript" src="<%=path %>/js/navigation.js"></script>
 	<style type="text/css">
 	.icon-plus,.icon-minus {
 		padding: 0 3px;
@@ -70,6 +70,8 @@ String thisUrl = request.getServletPath();
 	</script>
 	
 	<decorator:head />
+	
+	<script type="text/javascript" src="<%=path %>/js/navigation.js"></script>
 	
   </head>
   
@@ -103,10 +105,11 @@ String thisUrl = request.getServletPath();
 								<li><a style="padding-right: 0px;">欢迎您，</a></li>
 								<li class="dropdown" id="_nav_mySetting">
 									<a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding-left: 3px;">
-										<sec:authentication property="principal.user.userName" />！<b class="caret"></b>
+										<sec:authentication property="principal.user.userName" var="username" scope="page"/>
+										${empty username ? '讨厌昵称' : username }！<b class="caret"></b>
 									</a>
 									<ul class="dropdown-menu">
-										<li><a href="#"><i class="icon-user"></i>&nbsp;账号设置</a></li>
+										<li><a href="<%=path%>/common/mySetting/userInfo.jhtml"><i class="icon-user"></i>&nbsp;个人资料修改</a></li>
 										<li><a href="<%=path%>/common/mySetting/changeMyPassword.jhtml"><i class="icon-lock"></i>&nbsp;密码修改</a></li>
 										<li class="divider"></li>
 										<li>

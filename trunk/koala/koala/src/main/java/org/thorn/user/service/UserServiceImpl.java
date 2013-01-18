@@ -49,12 +49,19 @@ public class UserServiceImpl implements IUserService {
 		return userDao.queryUser(filter);
 	}
 
+	public User queryUser(String userId) throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+		filter.put("userId", userId);
+
+		return userDao.queryUser(filter);
+	}
+
 	public void save(User user) throws DBAccessException {
-		
+
 		String numTemp = "0000";
-		
+
 		String seqNum = incrSequence.nextStringValue();
-		
+
 		seqNum = numTemp.substring(seqNum.length()) + seqNum;
 
 		String userId = "FY" + user.getOrgCode() + seqNum;
@@ -88,15 +95,6 @@ public class UserServiceImpl implements IUserService {
 
 		userDao.modify(user);
 		userCache.removeUserFromCache(user.getUserId());
-
-		if (LocalStringUtils.isNotEmpty(pwd)
-				&& LocalStringUtils.isNotEmpty(user.getCumail())) {
-			MailEntity mailInfo = MailTemplete.changePassWd(user.getUserName(),
-					user.getCumail(), pwd);
-			MailTask task = new MailTask(mailInfo);
-			ExecutorUtils.executeTask(task);
-		}
-
 	}
 
 	public void delete(String ids) throws DBAccessException {

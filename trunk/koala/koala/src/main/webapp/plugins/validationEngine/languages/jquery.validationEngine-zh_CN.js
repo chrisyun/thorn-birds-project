@@ -6,7 +6,8 @@
 function initValidationEngine(formId, args) {
 	var attr = {
 		promptPosition : "bottomLeft",
-		showOneMessage : true,
+		//showOneMessage : true,
+		maxErrorsPerField : 1,
     	autoHideDelay : 4000,
     	autoHidePrompt : true
 	};
@@ -17,7 +18,7 @@ function initValidationEngine(formId, args) {
 		}
 	}
 	
-	$("#" + formId).validationEngine(attr);
+	$("#" + formId).validationEngine("attach", attr);
 	
 	$("#" + formId).on("submit",function(){
     	$("#" + formId).validationEngine("validate");
@@ -60,8 +61,9 @@ function initValidationEngine(formId, args) {
 						}
 
 						// 加上特殊字符判断
-
-						if (strength < 1) {
+						
+						
+						if (strength <= 1) {
 							return false;
 						} else {
 							return true;
