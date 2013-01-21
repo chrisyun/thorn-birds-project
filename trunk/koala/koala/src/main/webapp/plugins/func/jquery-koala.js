@@ -481,7 +481,6 @@
 		});
 
 		this.each(function() {
-			$(this).addClass("container");
 			$(this).append(pageBar);
 		});
 	};
