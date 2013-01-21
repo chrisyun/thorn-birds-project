@@ -13,8 +13,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript">
 	$(function(){
 		$("#pagingBar").page({
-			totalSize : ${page.total},
-			pageIndex : ${page.pageIndex}
+			align : "center",
+			pageSize : parseInt('${page.limit}'),
+			totalSize : parseInt('${page.total}'),
+			pageIndex : parseInt('${page.pageIndex}')
 		});
 	});
 	
@@ -33,7 +35,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<div class="row">
 		<div class="span12">
-			<form class="form-search">
+			<form class="form-search" method="post" action="<%=request.getServletPath() %>" id="queryForm">
 				<label>字典类型编码：</label>
 			  	<input type="text" name="ename" class="input-medium">
 			  	<label style="width: 40px;"></label>
@@ -60,8 +62,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td>${dt.cname }</td>
 						<td>${dt.typeDesc }</td>
 						<td>
-							<input type="button" value="修改" class="btn">
-							<input type="button" value="删除" class="btn">
+							<div class="btn-group">
+							  <button class="btn">修改</button>
+							  <button class="btn">删除</button>
+							</div>
 						</td>
 					</tr>
 				</c:forEach>

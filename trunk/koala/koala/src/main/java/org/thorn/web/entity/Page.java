@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class Page<T> implements Serializable {
 
-	public static final long DEFAULT_LIMIT = 20;
+	public static final long DEFAULT_LIMIT = 5;
 
 	/** */
 	private static final long serialVersionUID = 5951452024298265919L;
@@ -30,7 +30,7 @@ public class Page<T> implements Serializable {
 			limit = DEFAULT_LIMIT;
 		}
 		if (start == null || start < 0) {
-			start = 1L;
+			start = 0L;
 		}
 
 		this.start = start;
@@ -66,7 +66,11 @@ public class Page<T> implements Serializable {
 	}
 
 	public long getPageIndex() {
-
+		
+		if(start == 0) {
+			return 1;
+		}
+		
 		long index = start / limit;
 
 		if ((start % limit) != 0) {
