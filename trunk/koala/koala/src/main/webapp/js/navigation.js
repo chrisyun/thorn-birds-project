@@ -8,7 +8,7 @@ $(function() {
 
 	var firstNodes = menuTree.children;
 	var navArray = formatTree(firstNodes);
-
+	
 	var paths = thisUrl.split("/");
 
 	for ( var i = 0; i < navArray.length; i++) {
@@ -19,8 +19,8 @@ $(function() {
 		$("#_navigationBar").append(
 				'<li><a href="' + sys.path + nav.targetUrl + '" id="_nav_'
 						+ nav.id + '">' + nav.text + '</a></li>');
-
-		if (paths[0] == nav.code) {
+		
+		if (paths[1] == nav.id) {
 			// 生成菜单树
 			createMenu(nav);
 		}
@@ -62,7 +62,7 @@ $(function() {
 		$("#_nav_mySetting").addClass("active");
 	} else if (paths[1] == "CMS" || paths[1] == "System"
 			|| paths[1] == "System") {
-		$("#_nav_" + paths[1]).addClass("active");
+		$("#_nav_" + paths[1]).parent("li").addClass("active");
 	}
 
 	$("#_menuTree > ul > li").each(function() {

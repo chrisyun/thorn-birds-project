@@ -100,7 +100,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 					
 					<div class="form-actions">
-				    	<button class="btn btn-primary" type="button" onclick="changeMyInfo();">保存</button>
+				    	<button class="btn btn-primary btn-large" type="button" onclick="changeMyInfo();">保存</button>
 				    </div>
 				</fieldset>
 			</form>

@@ -21,20 +21,21 @@ public class Page<T> implements Serializable {
 	/** 结果集 */
 	private List<T> reslutSet = new ArrayList<T>();
 
-	private long start;
+	private long pageSize;
+	
+	private long pageIndex;
 
-	private long limit;
-
-	public Page(Long start, Long limit) {
-		if (limit == null || limit <= 0) {
-			limit = DEFAULT_LIMIT;
+	public Page(Long pageIndex, Long pageSize) {
+		if (pageSize == null || pageSize <= 0) {
+			pageSize = DEFAULT_LIMIT;
 		}
-		if (start == null || start < 0) {
-			start = 0L;
+		
+		if(pageIndex == null || pageIndex <= 0) {
+			pageIndex = 1L;
 		}
 
-		this.start = start;
-		this.limit = limit;
+		this.pageIndex = pageIndex;
+		this.pageSize = pageSize;
 	}
 
 	public Page() {
@@ -58,26 +59,15 @@ public class Page<T> implements Serializable {
 	}
 
 	public long getStart() {
-		return start;
+		return (pageIndex - 1) * pageSize;
 	}
-
-	public long getLimit() {
-		return limit;
+	
+	public long getPageSize() {
+		return pageSize;
 	}
 
 	public long getPageIndex() {
-		
-		if(start == 0) {
-			return 1;
-		}
-		
-		long index = start / limit;
-
-		if ((start % limit) != 0) {
-			index++;
-		}
-
-		return index;
+		return pageIndex;
 	}
 
 	public void setPageData(Page<T> page) {
