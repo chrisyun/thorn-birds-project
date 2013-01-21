@@ -1,5 +1,8 @@
 package org.thorn.user.controller;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +13,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.theme.CookieThemeResolver;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.security.SecurityEncoderUtils;
 import org.thorn.security.SecurityUserUtils;
@@ -53,6 +57,12 @@ public class MySettingController extends BaseController {
 		}
 		
 		return "mySetting/userInfo";
+	}
+	
+	@RequestMapping("/theme.jhtml")
+	public String theme() {
+		
+		return "mySetting/changeTheme";
 	}
 	
 	
@@ -103,5 +113,27 @@ public class MySettingController extends BaseController {
 
 		return status;
 	}
+	
+	@RequestMapping(value = "/changeMyTheme.jmt", method = RequestMethod.POST)
+	@ResponseBody
+	public Status changeMyTheme(String theme, HttpServletResponse response) {
+		
+		if(StringUtils.isBlank(theme)) {
+			theme = "default";
+		}
+		
+		Status status = new Status();
+
+		Cookie cookie = new Cookie(CookieThemeResolver.DEFAULT_COOKIE_NAME,
+				theme);
+		cookie.setPath("/");
+		cookie.setMaxAge(600000);
+		response.addCookie(cookie);
+
+		status.setMessage("更换皮肤成功!");
+
+		return status;
+	}
+	
 
 }

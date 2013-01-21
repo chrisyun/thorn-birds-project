@@ -49,9 +49,9 @@ $(function() {
 		mySettingLeaf.push(leaf);
 
 		leaf = new Object();
-		leaf.id = "skinSetting";
-		leaf.text = "更换皮肤";
-		leaf.targetUrl = "/common/mySetting/b.jsp";
+		leaf.id = "themeSetting";
+		leaf.text = "更换主题";
+		leaf.targetUrl = "/common/mySetting/theme.jhtml";
 		leaf.sort = 2;
 		mySettingLeaf.push(leaf);
 
