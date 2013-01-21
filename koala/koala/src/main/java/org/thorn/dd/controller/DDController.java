@@ -74,8 +74,6 @@ public class DDController extends BaseController {
 		return "system/dd";
 	}
 
-	@RequestMapping("/getDtPage")
-	@ResponseBody
 	public Page<DictType> getDtPage(long start, long limit, String sort,
 			String dir, String ename, String cname) {
 
