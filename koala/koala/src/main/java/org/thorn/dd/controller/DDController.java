@@ -37,6 +37,7 @@ public class DDController extends BaseController {
 	@Qualifier("ddService")
 	private IDataDictService ddService;
 	
+	
 	/**
 	 * 
 	 * @Description：分页获取字典类型
@@ -57,14 +58,14 @@ public class DDController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping("/dtPage.jhtml")
-	public String dtPage(Long start, Long limit, String sort, String dir,
+	public String dtPage(Long pageIndex, Long pageSize, String sort, String dir,
 			String ename, String cname, ModelMap model) {
 
-		Page<DictType> page = new Page<DictType>(start, limit);
+		Page<DictType> page = new Page<DictType>(pageIndex, pageSize);
 
 		try {
 			page.setPageData(ddService.queryDtPage(ename, cname, page.getStart(),
-					page.getLimit(), sort, dir));
+					page.getPageSize(), sort, dir));
 
 			model.put("page", page);
 		} catch (DBAccessException e) {

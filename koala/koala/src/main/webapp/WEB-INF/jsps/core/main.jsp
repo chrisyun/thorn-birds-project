@@ -157,13 +157,13 @@ String thisUrl = request.getServletPath();
 		<div class="row">
 			<div class="span12">
 			<small>北京谋智火狐信息技术有限公司&nbsp;&nbsp;&nbsp;&nbsp;京 ICP备11011334号-1</small>
-			<hr style="margin-top: 5px;margin-bottom: 5px;">
+			<hr>
 			<small>关于淘宝&nbsp;&nbsp;&nbsp;&nbsp;合作伙伴&nbsp;&nbsp;&nbsp;&nbsp;
 			营销中心&nbsp;&nbsp;&nbsp;&nbsp;服务中心&nbsp;&nbsp;&nbsp;&nbsp;
 			开放平台&nbsp;&nbsp;&nbsp;&nbsp;诚征英才&nbsp;&nbsp;&nbsp;&nbsp;
 			联系我们&nbsp;&nbsp;&nbsp;&nbsp;网站地图&nbsp;&nbsp;&nbsp;&nbsp;
 			<span class="pull-right">版权所有 © 2012 Mozilla Firefox.</span></small>
-			<hr style="margin-top: 5px;margin-bottom: 5px;">
+			<hr>
 			</div>
 		</div>
   	</div>

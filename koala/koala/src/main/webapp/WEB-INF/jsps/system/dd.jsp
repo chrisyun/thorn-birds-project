@@ -13,8 +13,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript">
 	$(function(){
 		$("#pagingBar").page({
-			align : "center",
-			pageSize : parseInt('${page.limit}'),
+			align : "right",
+			pageSize : parseInt('${page.pageSize}'),
 			totalSize : parseInt('${page.total}'),
 			pageIndex : parseInt('${page.pageIndex}')
 		});
@@ -35,7 +35,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<div class="row">
 		<div class="span12">
-			<form class="form-search" method="post" action="<%=request.getServletPath() %>" id="queryForm">
+			<form class="form-search" method="post" action="<%=path %>/System/dd/dtPage.jhtml" id="queryForm">
 				<label>字典类型编码：</label>
 			  	<input type="text" name="ename" class="input-medium">
 			  	<label style="width: 40px;"></label>
@@ -44,14 +44,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  	<button type="submit" class="btn">搜索</button>
 			</form>
 			
+			<div class="formOutSide">
+				<button class="btn btn-primary btn-large"><i class="icon-plus"></i>新增</button>
+				<button class="btn btn-danger btn-large">删除选中项</button>
+			</div>
+			
+			
 			<table class="table table-striped table-bordered table-condensed">
 				<thead>
 					<tr>
-						<th width="5%"><label class="checkbox"><input type="checkbox" class="checkAll"></label></th>
-						<th width="20%">字典类型编码</th>
+						<th width="5%"><label class="checkbox"><input type="checkbox" class="checkAll" alt="全选"></label></th>
+						<th width="25%">字典类型编码</th>
 						<th width="20%">字典类型名称</th>
 						<th width="35%">描述</th>
-						<th width="20%">操作</th>
+						<th width="15%" style="text-align: center;">操作</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -61,10 +67,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td>${dt.ename }</td>
 						<td>${dt.cname }</td>
 						<td>${dt.typeDesc }</td>
-						<td>
+						<td style="text-align: center;">
 							<div class="btn-group">
-							  <button class="btn">修改</button>
-							  <button class="btn">删除</button>
+							  <button class="btn btn-info">修改</button>
+							  <button class="btn btn-danger">删除</button>
 							</div>
 						</td>
 					</tr>

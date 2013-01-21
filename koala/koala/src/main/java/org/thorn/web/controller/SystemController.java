@@ -31,5 +31,11 @@ public class SystemController {
 	public String home() {
 		return "home";
 	}
+	
+	@RequestMapping("/System/index.jhtml")
+	public String systemIndex() {
+		
+		return "redict:/System/dd/dtPage.jhtml";
+	}
 
 }

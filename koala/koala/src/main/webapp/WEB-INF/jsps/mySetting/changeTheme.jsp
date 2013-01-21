@@ -84,7 +84,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</li>
 			</ul>
 			<div class="form-actions">
-				<input class="btn btn-primary" type="button" value="保存" onclick="saveMyTheme();">
+				<input class="btn btn-primary btn-large" type="button" value="保存" onclick="saveMyTheme();">
 			</div>
 			</form>
 		</div>
