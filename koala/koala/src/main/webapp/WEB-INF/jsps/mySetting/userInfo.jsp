@@ -13,10 +13,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     <script type="text/javascript">
 	$(function(){
-		$("#area").initDDBox({
-			array : <thorn:dd  typeId="AREA" />,
-			defaultValue : "${user.area }",
-			box : "text"
+		$("#area").renderer({
+			renderArray : <thorn:dd  typeId="AREA" />,
+			value : "${user.area }",
+			renderer : "text"
 		});
 		
 		initValidationEngine("userForm");

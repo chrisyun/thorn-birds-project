@@ -40,6 +40,7 @@ String thisUrl = request.getServletPath();
 	<script type="text/javascript" src="<%=path %>/plugins/jquery-form/jquery.form.js"></script>
 	
 	<script type="text/javascript" src="<%=path %>/plugins/func/jquery-koala.js"></script>
+	<script type="text/javascript" src="<%=path %>/js/utils.js"></script>
 	<style type="text/css">
 	.icon-plus,.icon-minus {
 		padding: 0 3px;

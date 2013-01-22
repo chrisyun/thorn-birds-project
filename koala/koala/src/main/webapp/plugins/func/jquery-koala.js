@@ -224,7 +224,7 @@
 
 				$("#_alertDialog").modal({
 					backdrop : true,
-					keyboard : true,
+					keyboard : false,
 					show : false
 				});
 
@@ -306,8 +306,8 @@
 						+ '</div>'
 						+ '<div class="modal-body alert-block" id="_confirmDialogBody" style="margin-top: 1px;height:80px;"></div>'
 						+ '<div class="modal-footer">'
-						+ '<a href="#" class="btn btn-primary" data-dismiss="modal">确定</a>'
-						+ '<a href="#" class="btn" data-dismiss="modal">关闭</a>'
+						+ '<a class="btn btn-primary" data-dismiss="modal">确定</a>'
+						+ '<a class="btn" data-dismiss="modal">关闭</a>'
 						+ "</div></div>");
 
 				_dialog.appendTo("body");
@@ -482,64 +482,6 @@
 
 		this.each(function() {
 			$(this).append(pageBar);
-		});
-	};
-
-	$.fn.initDDBox = function(options) {
-
-		var defaults = {
-			box : "select",
-			array : new Array(),
-			defaultValue : null,
-			hasDefaultSelShow : true,
-			defaultSelShow : "<option value=''>--------请选择--------</option>"
-		};
-
-		var options = $.extend(defaults, options);
-
-		this.each(function() {
-
-			var array = options.array;
-
-			switch (options.box) {
-			case "select":
-
-				if (options.hasDefaultShow) {
-					$(this).append(options.defaultShow);
-				}
-
-				for ( var i = 0; i < array.length; i++) {
-					var text = array[i][1];
-					var value = array[i][0];
-
-					$(this).append(
-							'<option value="' + value + '">' + text
-									+ '</option>');
-				}
-				
-				$(this).val(options.defaultValue);
-				
-				break;
-			case "text":
-				
-				for ( var i = 0; i < array.length; i++) {
-					var text = array[i][1];
-					var value = array[i][0];
-					
-					if(value == options.defaultValue) {
-						
-						if($(this).is("input")) {
-							$(this).val(text);
-						} else {
-							$(this).html(text);
-						}
-					}
-				}
-				
-				break;
-			default:
-				break;
-			}
 		});
 	};
 

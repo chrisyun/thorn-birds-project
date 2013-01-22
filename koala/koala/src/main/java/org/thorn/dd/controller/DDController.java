@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
@@ -74,7 +75,35 @@ public class DDController extends BaseController {
 
 		return "system/dd";
 	}
+	
+	/**
+	 * 
+	 * @Description：根据主键批量删除字典类型项
+	 * @author：chenyun
+	 * @date：2012-5-25 上午10:09:06
+	 * @param ids
+	 *            主键字符串，格式id1,id2,
+	 * @return
+	 */
+	@RequestMapping(value = "/deleteDt.jmt", method = RequestMethod.POST)
+	@ResponseBody
+	public Status deleteDt(String ids) {
+		Status status = new Status();
 
+		try {
+			ddService.deleteDt(ids);
+			status.setMessage("数据删除成功！");
+		} catch (DBAccessException e) {
+			status.setSuccess(false);
+			status.setMessage("数据删除失败：" + e.getMessage());
+			log.error("deleteDt[DD] - " + e.getMessage(), e);
+		}
+
+		return status;
+	}
+	
+	
+	
 	public Page<DictType> getDtPage(long start, long limit, String sort,
 			String dir, String ename, String cname) {
 
@@ -211,30 +240,6 @@ public class DDController extends BaseController {
 		return status;
 	}
 
-	/**
-	 * 
-	 * @Description：根据主键批量删除字典类型项
-	 * @author：chenyun
-	 * @date：2012-5-25 上午10:09:06
-	 * @param ids
-	 *            主键字符串，格式id1,id2,
-	 * @return
-	 */
-	@RequestMapping("/deleteDt")
-	@ResponseBody
-	public Status deleteDt(String ids) {
-		Status status = new Status();
 
-		try {
-			ddService.deleteDt(ids);
-			status.setMessage("数据删除成功！");
-		} catch (DBAccessException e) {
-			status.setSuccess(false);
-			status.setMessage("数据删除失败：" + e.getMessage());
-			log.error("deleteDt[DD] - " + e.getMessage(), e);
-		}
-
-		return status;
-	}
 
 }
