@@ -23,8 +23,15 @@
 			$("#" + id + " > .modal-header > h3").html(options.title);
 			$("#" + id + " > .modal-body").html(options.body);
 			$("#" + id + " > .modal-footer").html(options.foot);
-
 		}
+	};
+
+	CWnd.prototype.show = function() {
+		
+	};
+	
+	CWnd.prototype.hide = function() {
+		
 	};
 
 });
