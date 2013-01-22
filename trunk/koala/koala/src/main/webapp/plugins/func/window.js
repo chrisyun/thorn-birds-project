@@ -27,11 +27,17 @@
 	};
 
 	CWnd.prototype.show = function() {
+		$("#" + this.options.id).modal({
+			backdrop : true,
+			keyboard : false,
+			show : false
+		});
 		
+		$("#" + this.options.id).modal("show");
 	};
 	
 	CWnd.prototype.hide = function() {
-		
+		$("#" + this.options.id).modal("hide");
 	};
 
 });
