@@ -19,6 +19,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			pageIndex : parseInt('${page.pageIndex}')
 		});
 		
+		$(".renderer-desc").renderer({
+			renderer : "detail"
+		});
+		
 		$("#editDtForm").formDialog({
 			title : "编辑字典类型",
 			width : 480,
@@ -88,9 +92,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</form>
 			
 			<div class="formOutSide">
-				<button class="btn btn-primary btn-large" 
+				<button class="btn btn-primary" 
 					onclick='$("#editDtForm").formDialog("show");'><i class="icon-plus"></i>新增</button>
-				<button class="btn btn-danger btn-large" onclick="deleteDts();">删除选中项</button>
+				<button class="btn btn-danger" onclick="deleteDts();">删除选中项</button>
 			</div>
 			
 			<table class="table table-striped table-bordered table-condensed">
@@ -111,7 +115,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td><label class="checkbox"><input type="checkbox" id="${dt.ename }" class="checkOne"></label></td>
 						<td>${dt.ename }</td>
 						<td>${dt.cname }</td>
-						<td>${dt.typeDesc }</td>
+						<td class="renderer-desc">${dt.typeDesc }</td>
 						<td style="text-align: center;">
 							<div class="btn-group">
 							  <button class="btn btn-info">修改</button>
@@ -155,6 +159,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</fieldset>
 	</form>
 		
-	<c:import url="../ref/conditionWriteBack.jsp"></c:import>
+	<c:import url="../ref/conditionWriteBack.jsp">
+		<c:param name="conditionWriteBackFormId">queryForm</c:param>
+	</c:import>
   </body>
 </html>
