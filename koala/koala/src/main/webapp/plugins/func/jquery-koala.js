@@ -118,7 +118,12 @@
 		var options = $.extend(defaults, options);
 		
 		this.each(function(){
-			$(this).find("th .sort[]")
+			$(this).find("th[class*='sort']").each(function(){
+				
+				
+				
+				
+			});
 		});
 
 	};
