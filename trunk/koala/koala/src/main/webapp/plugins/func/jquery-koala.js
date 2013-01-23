@@ -93,6 +93,36 @@
 		});
 	};
 
+	$.fn.sort = function(options) {
+
+		var defaults = {
+			formId : null,
+			sort : null,
+			dir : null,
+			onSort : function(sort, dir) {
+				var _form = $("#" + options.formId);
+
+				if ($.utils.isEmpty(options.formId)) {
+					_form = $("form:first");
+				}
+
+				_form = _form.append("<input type='hidden' name='sort' value='"
+						+ sort + "'>");
+				_form = _form.append("<input type='hidden' name='dir' value='"
+						+ dir + "'>");
+
+				_form.submit();
+			}
+		};
+
+		var options = $.extend(defaults, options);
+		
+		this.each(function(){
+			$(this).find("th .sort[]")
+		});
+
+	};
+
 	$.fn.page = function(options) {
 		var defaults = {
 			formId : null,
