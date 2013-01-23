@@ -103,7 +103,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<th width="5%"><label class="checkbox">
 							<input type="checkbox" class="checkAll" onclick="$.utils.checkAll();">
 						</label></th>
-						<th width="25%">字典类型编码</th>
+						<th width="25%">字典类型编码<i class="icon-resize-vertical"></i></th>
 						<th width="20%">字典类型名称</th>
 						<th width="35%">描述</th>
 						<th width="15%" style="text-align: center;">操作</th>
