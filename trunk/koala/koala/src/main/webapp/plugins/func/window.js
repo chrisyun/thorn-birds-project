@@ -179,7 +179,7 @@
 				title : title,
 				width : 400,
 				height : 60,
-				cls : "alert-block",
+				cls : "alert-info",
 				body : "<p>" + text + "</p>",
 				foot : '<a class="btn btn-primary" data-dismiss="modal">确定</a>'
 						+ '<a class="btn" data-dismiss="modal">关闭</a>'

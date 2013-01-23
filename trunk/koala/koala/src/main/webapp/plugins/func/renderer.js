@@ -56,7 +56,7 @@
 			case "detail":
 
 				var width = $(this).width();
-				var letterNum = parseInt(width / 12 + 3);
+				var letterNum = parseInt(width / 16.5 + 3);
 				var content = $(this).html();
 				
 				if (content.length > letterNum) {

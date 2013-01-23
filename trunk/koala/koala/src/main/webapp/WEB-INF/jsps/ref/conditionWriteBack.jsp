@@ -7,12 +7,22 @@ $(function(){
 	<%
 		Enumeration<String> e = request.getParameterNames();
 		
+		String formId = request.getParameter("conditionWriteBackFormId");
+		
+		if(StringUtils.isEmpty(formId)) {
+			formId = "";
+		}
+		
 		while(e.hasMoreElements()) {
 			String name = e.nextElement();
 			String value = StringUtils.defaultString(request.getParameter(name));
 	%>
-	
-	var comp = $("[name='<%=name%>']");
+	var comp;
+	if("<%=formId%>" == "") {
+		comp = $("[name='<%=name%>']");
+	} else {
+		comp = $("#<%=formId%> [name='<%=name%>']");
+	}
 	
 	if(comp.length > 1) {
 		
