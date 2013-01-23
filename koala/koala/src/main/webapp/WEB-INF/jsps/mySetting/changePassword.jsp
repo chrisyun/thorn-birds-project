@@ -16,7 +16,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	function changeMyPassword() {
 		$("#myPasswordForm").submitForm();
 	}
-    
+	
     </script>
   </head>
   

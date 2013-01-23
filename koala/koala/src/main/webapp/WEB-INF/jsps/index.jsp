@@ -10,7 +10,7 @@ Cookie[] cookies = request.getCookies();
 for(Cookie ck : cookies) {
 	if(StringUtils.equals(ck.getName(), "SPRING_SECURITY_REMEMBER_ME_COOKIE")) {
 		if(StringUtils.isNotBlank(ck.getValue())) {
-			response.sendRedirect("/home.jhtml");
+			response.sendRedirect("home.jhtml");
 		}
 	}
 }
