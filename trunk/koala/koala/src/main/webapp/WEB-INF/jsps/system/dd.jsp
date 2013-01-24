@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -150,8 +151,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</form>
 			
 			<div class="formOutSide">
+				<sec:authorize url="/System/dd/saveOrModify*.jmt">
 				<button class="btn btn-primary" onclick="openAddDtWnd();"><i class="icon-plus"></i>新增</button>
+				</sec:authorize>
+				<sec:authorize url="/System/dd/delete*.jmt">
 				<button class="btn btn-danger" onclick="deleteDts();">删除选中项</button>
+				</sec:authorize>
 			</div>
 			
 			<table class="table table-striped table-bordered table-condensed">
@@ -175,9 +180,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td class="renderer-desc">${dt.typeDesc }</td>
 						<td style="text-align: center;">
 							<div class="btn-group">
+							  <sec:authorize url="/System/dd/saveOrModify*.jmt">
 							  <button class="btn btn-info" 
 							  		onclick="openModifyDtWnd('${dt.ename }','${dt.cname }','${dt.typeDesc }');">修改</button>
+							  </sec:authorize>
+							  <sec:authorize url="/System/dd/delete*.jmt">
 							  <button class="btn btn-danger" onclick="deleteDt('${dt.ename }')">删除</button>
+							  </sec:authorize>
 							</div>
 						</td>
 					</tr>
