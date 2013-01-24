@@ -112,6 +112,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			typeDesc : typeDesc,
 			opType : "modify"
 		});
+		$("#editDtForm [name=ename]").attr("readonly", true);
 		$("#editDtForm").formDialog("show");
 	}
 	
@@ -120,6 +121,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$("#editDtForm").resetForm();
 		$("#editDtForm").formDialog("show");
 		
+		$("#editDtForm [name=ename]").attr("readonly", false);
 		$("#editDtForm [name='opType']").val("save");
 	}
 	

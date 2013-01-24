@@ -1,13 +1,14 @@
 (function($) {
 	$.fn.renderer = function(options) {
 
-		// renderer[select,text,detail]
+		// renderer[select,text,detail,custom]
 
 		var defaults = {
 			renderer : "select",
 			renderArray : new Array(),
 			value : null,
 			hasSelectBlank : true,
+			rendererFunc : null,
 			selectBlank : "<option value=''>--------请选择--------</option>"
 		};
 
@@ -79,6 +80,9 @@
 					$(this).tooltip();
 				}
 
+				break;
+			case "custom":
+				options.rendererFunc($(this));
 				break;
 			default:
 				break;
