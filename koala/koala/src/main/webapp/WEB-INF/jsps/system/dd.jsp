@@ -23,6 +23,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			renderer : "detail"
 		});
 		
+		$("#listHeader").sorter({
+			sort : "${param.sort}",
+			dir : "${param.dir}",
+			def : {"ename" : "asc"}
+		});
+		
 		$("#editDtForm").formDialog({
 			title : "编辑字典类型",
 			width : 480,
@@ -98,13 +104,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 			
 			<table class="table table-striped table-bordered table-condensed">
-				<thead>
+				<thead id="listHeader">
 					<tr>
 						<th width="5%"><label class="checkbox">
-							<input type="checkbox" class="checkAll" onclick="$.utils.checkAll();">
+							<input type="checkbox" title="全选" class="checkAll" onclick="$.utils.checkAll();">
 						</label></th>
-						<th width="25%">字典类型编码<i class="icon-resize-vertical"></i></th>
-						<th width="20%">字典类型名称</th>
+						<th width="25%" class="sort[ename]">字典类型编码</th>
+						<th width="20%" class="sort[cname]">字典类型名称</th>
 						<th width="35%">描述</th>
 						<th width="15%" style="text-align: center;">操作</th>
 					</tr>
