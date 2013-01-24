@@ -102,6 +102,41 @@ public class DDController extends BaseController {
 		return status;
 	}
 	
+	/**
+	 * 
+	 * @Description：新增或修改字典类型
+	 * @author：chenyun
+	 * @date：2012-5-25 上午10:07:28
+	 * @param dt
+	 *            新增或修改的对象
+	 * @param opType
+	 *            操作类型
+	 * @return
+	 */
+	@RequestMapping(value = "/saveOrModifyDt.jmt", method = RequestMethod.POST)
+	@ResponseBody
+	public Status saveOrModifyDt(DictType dt, String opType) {
+		Status status = new Status();
+
+		try {
+
+			if (LocalStringUtils.equals(opType, Configuration.OP_SAVE)) {
+				ddService.saveDt(dt);
+				status.setMessage("新增字典类型成功！");
+			} else if (LocalStringUtils.equals(opType, Configuration.OP_MODIFY)) {
+				ddService.modifyDt(dt);
+				status.setMessage("修改字典类型成功！");
+			}
+
+		} catch (DBAccessException e) {
+			status.setSuccess(false);
+			status.setMessage("数据保存失败：" + e.getMessage());
+			log.error("saveOrModifyDt[DD] - " + e.getMessage(), e);
+		}
+
+		return status;
+	}
+	
 	
 	
 	public Page<DictType> getDtPage(long start, long limit, String sort,
@@ -178,40 +213,6 @@ public class DDController extends BaseController {
 		return status;
 	}
 
-	/**
-	 * 
-	 * @Description：新增或修改字典类型
-	 * @author：chenyun
-	 * @date：2012-5-25 上午10:07:28
-	 * @param dt
-	 *            新增或修改的对象
-	 * @param opType
-	 *            操作类型
-	 * @return
-	 */
-	@RequestMapping("/saveOrModifyDt")
-	@ResponseBody
-	public Status saveOrModifyDt(DictType dt, String opType) {
-		Status status = new Status();
-
-		try {
-
-			if (LocalStringUtils.equals(opType, Configuration.OP_SAVE)) {
-				ddService.saveDt(dt);
-				status.setMessage("新增字典类型成功！");
-			} else if (LocalStringUtils.equals(opType, Configuration.OP_MODIFY)) {
-				ddService.modifyDt(dt);
-				status.setMessage("修改字典类型成功！");
-			}
-
-		} catch (DBAccessException e) {
-			status.setSuccess(false);
-			status.setMessage("数据保存失败：" + e.getMessage());
-			log.error("saveOrModifyDt[DD] - " + e.getMessage(), e);
-		}
-
-		return status;
-	}
 
 	/**
 	 * 

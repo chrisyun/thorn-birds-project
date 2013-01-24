@@ -25,26 +25,36 @@
 				return checkStatus;
 			},
 			error : function() {
+				var sec = 0;
 				if (options.progress) {
-					$.dialog.progress("close");
+					setTimeout(function() {
+						$.dialog.progress("close");
+					}, 500);
+					sec = 800;
 				}
 
-				options.onError();
+				setTimeout(options.onError, sec);
 			},
 			success : function(result) {
+				var sec = 0;
 				if (options.progress) {
-					$.dialog.progress("close");
+					setTimeout(function() {
+						$.dialog.progress("close");
+					}, 500);
+					sec = 800;
 				}
 
 				var success = result.success;
 				var msg = result.message;
 				var data = result.obj;
 
-				if (success || success == "true") {
-					options.onSuccess(msg, data);
-				} else {
-					options.onFailure(msg, data);
-				}
+				setTimeout(function() {
+					if (success || success == "true") {
+						options.onSuccess(msg, data);
+					} else {
+						options.onFailure(msg, data);
+					}
+				}, sec);
 			},
 			dataType : options.dataType,
 			data : options.data
@@ -92,25 +102,35 @@
 				dataType : options.dataType,
 				async : options.async,
 				success : function(result) {
+					var sec = 0;
 					if (options.progress) {
-						$.dialog.progress("close");
+						setTimeout(function() {
+							$.dialog.progress("close");
+						}, 500);
+						sec = 800;
 					}
 
 					var success = result.success;
 					var msg = result.message;
 					var data = result.obj;
 
-					if (success || success == "true") {
-						options.onSuccess(msg, data);
-					} else {
-						options.onFailure(msg, data);
-					}
+					setTimeout(function() {
+						if (success || success == "true") {
+							options.onSuccess(msg, data);
+						} else {
+							options.onFailure(msg, data);
+						}
+					}, sec);
 				},
 				error : function() {
+					var sec = 0;
 					if (options.progress) {
-						$.dialog.progress("close");
+						setTimeout(function() {
+							$.dialog.progress("close");
+						}, 500);
+						sec = 800;
 					}
-					options.onError();
+					setTimeout(options.onError, sec);
 				}
 			});
 		}

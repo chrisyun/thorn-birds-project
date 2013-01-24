@@ -44,7 +44,7 @@
 		},
 		checkAll : function() {
 			var _checkAll = $(":checkbox[class=checkAll]");
-			
+
 			if (_checkAll.attr("checked") == undefined
 					|| _checkAll.attr("checked") == ""
 					|| _checkAll.attr("checked") == false) {
@@ -63,7 +63,10 @@
 			return ids;
 		},
 		refreshPage : function() {
-			window.location.reload();
+			window.location.reload(true);
+		},
+		reloadPage : function() {
+			window.location.replace(window.location.href);
 		},
 		getJqueryOuterHtml : function(domer) {
 			return $($('<div></div>').html(domer.clone())).html();
@@ -99,21 +102,23 @@
 			formId : null,
 			sort : null,
 			dir : null,
-			def : {"" : ""},
+			def : {
+				"" : ""
+			},
 			onSort : function(sort, dir) {
 				_form.submit();
 			}
 		};
 		var options = $.extend(defaults, options);
-		
-		if($.utils.isEmpty(options.sort)) {
-			
-			for (var key in options.def) {
+
+		if ($.utils.isEmpty(options.sort)) {
+
+			for ( var key in options.def) {
 				options.sort = key;
 				options.dir = options.def[key];
 			}
 		}
-		
+
 		var _form = $("#" + options.formId);
 		if ($.utils.isEmpty(options.formId)) {
 			_form = $("form:first");

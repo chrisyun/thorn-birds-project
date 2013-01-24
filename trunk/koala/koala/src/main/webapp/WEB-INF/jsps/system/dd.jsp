@@ -12,6 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <title>数据字典管理</title>
 	<script type="text/javascript">
 	$(function(){
+		
 		$("#pagingBar").page({
 			align : "right",
 			pageSize : parseInt('${page.pageSize}'),
@@ -25,8 +26,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		$("#listHeader").sorter({
 			sort : "${param.sort}",
-			dir : "${param.dir}",
-			def : {"ename" : "asc"}
+			dir : "${param.dir}"
 		});
 		
 		$("#editDtForm").formDialog({
@@ -37,7 +37,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				text : "保存",
 				cls : "btn-primary",
 				click : function() {
-					$("#editDtForm").resetForm();
+					$("#editDtForm").submitForm({
+						progress : false,
+						onSuccess : function(msg) {
+							$("#dtMsgTips").message({
+								type : "success",
+								text : msg,
+								title : "请求处理成功"
+							});
+							setTimeout(function(){
+								$.utils.reloadPage();
+							}, 2000);
+						},
+						onFailure : function(msg) {
+							$("#dtMsgTips").message({
+								type : "error",
+								text : msg,
+								title : "数据处理出错"
+							});
+						},
+						onError : function() {
+							$("#dtMsgTips").message({
+								type : "error",
+								text : "网络请求超时，请稍后再试！",
+								title : "数据处理出错"
+							});
+						}
+					});
 				}
 			}, {
 				text : "关闭",
@@ -45,6 +71,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}]
 		});
 		
+		// do last
+		initValidationEngine("editDtForm");
 	});
 	
 	function deleteDt(ename) {
@@ -55,8 +83,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					ids : ename
 				},
 				onSuccess : function(msg, data) {
-					$.message.alertSuccessDialog(msg, "请求处理成功");
-					setTimeout(refreshPage(), 2000);
+					$.dialog.alertSuccess(msg, "请求处理成功", function(){
+						$.utils.refreshPage();
+					});
 				}
 			});
 		});
@@ -71,6 +100,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		} else {
 			deleteDt(ids);
 		}
+	}
+	
+	function openModifyDtWnd(ename, cname, typeDesc) {
+		$("#dtMsgTips").html("");
+		$("#editDtForm").resetForm();
+		
+		$("#editDtForm").setFormValues({
+			ename : ename,
+			cname : cname,
+			typeDesc : typeDesc,
+			opType : "modify"
+		});
+		$("#editDtForm").formDialog("show");
+	}
+	
+	function openAddDtWnd() {
+		$("#dtMsgTips").html("");
+		$("#editDtForm").resetForm();
+		$("#editDtForm").formDialog("show");
+		
+		$("#editDtForm [name='opType']").val("save");
 	}
 	
 	</script>
@@ -98,8 +148,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</form>
 			
 			<div class="formOutSide">
-				<button class="btn btn-primary" 
-					onclick='$("#editDtForm").formDialog("show");'><i class="icon-plus"></i>新增</button>
+				<button class="btn btn-primary" onclick="openAddDtWnd();"><i class="icon-plus"></i>新增</button>
 				<button class="btn btn-danger" onclick="deleteDts();">删除选中项</button>
 			</div>
 			
@@ -124,7 +173,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td class="renderer-desc">${dt.typeDesc }</td>
 						<td style="text-align: center;">
 							<div class="btn-group">
-							  <button class="btn btn-info">修改</button>
+							  <button class="btn btn-info" 
+							  		onclick="openModifyDtWnd('${dt.ename }','${dt.cname }','${dt.typeDesc }');">修改</button>
 							  <button class="btn btn-danger" onclick="deleteDt('${dt.ename }')">删除</button>
 							</div>
 						</td>
@@ -138,14 +188,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 	
 	
-	<form class="form-horizontal" method="post" action="<%=path%>/" id="editDtForm">
+	<form class="form-horizontal" method="post" action="<%=path%>/System/dd/saveOrModifyDt.jmt" id="editDtForm">
 		<fieldset>
+			<div id="dtMsgTips"></div>
 			<div class="control-group">
 				<label class="control-label" for="ename">字典类型编码：</label>
 				<div class="controls">
 					<input type="text" class="input-medium" name="ename"
 						data-validation-engine="validate[required]">
 					<p class="help-inline"><i class="redStar">*</i>必填</p>
+					<input type="hidden" name="opType">
 				</div>
 			</div>
 			<div class="control-group">
