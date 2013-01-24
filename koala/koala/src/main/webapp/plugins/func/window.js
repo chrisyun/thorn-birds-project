@@ -137,11 +137,12 @@
 			attr.text = text;
 			$.dialog.alert(attr);
 		},
-		alertSuccess : function(text, title) {
+		alertSuccess : function(text, title, closeFunc) {
 			var attr = new Object();
 			attr.type = "success";
 			attr.title = title;
 			attr.text = text;
+			attr.closeFunc = closeFunc;
 			$.dialog.alert(attr);
 		},
 		alert : function(options) {
@@ -163,8 +164,14 @@
 				height : 60,
 				cls : "alert-" + options.type,
 				body : "<p>" + options.text + "</p>",
-				foot : '<a class="btn" data-dismiss="modal">关闭</a>'
+				foot : '<a class="btn" data-dismiss="modal">确定</a>'
 			});
+
+			if ($.utils.isEmpty(options.closeFunc)) {
+				$("#_alertDialog").unbind("hidden");
+			} else {
+				$("#_alertDialog").on("hidden", options.closeFunc);
+			}
 
 			cwnd.show();
 		},
