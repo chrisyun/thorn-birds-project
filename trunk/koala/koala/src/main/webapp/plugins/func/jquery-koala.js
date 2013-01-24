@@ -44,7 +44,7 @@
 		},
 		checkAll : function() {
 			var _checkAll = $(":checkbox[class=checkAll]");
-
+			
 			if (_checkAll.attr("checked") == undefined
 					|| _checkAll.attr("checked") == ""
 					|| _checkAll.attr("checked") == false) {
@@ -93,38 +93,132 @@
 		});
 	};
 
-	$.fn.sort = function(options) {
+	$.fn.sorter = function(options) {
 
 		var defaults = {
 			formId : null,
 			sort : null,
 			dir : null,
+			def : {"" : ""},
 			onSort : function(sort, dir) {
-				var _form = $("#" + options.formId);
-
-				if ($.utils.isEmpty(options.formId)) {
-					_form = $("form:first");
-				}
-
-				_form = _form.append("<input type='hidden' name='sort' value='"
-						+ sort + "'>");
-				_form = _form.append("<input type='hidden' name='dir' value='"
-						+ dir + "'>");
-
 				_form.submit();
 			}
 		};
-
 		var options = $.extend(defaults, options);
 		
-		this.each(function(){
-			$(this).find("th[class*='sort']").each(function(){
-				
-				
-				
-				
+		if($.utils.isEmpty(options.sort)) {
+			
+			for (var key in options.def) {
+				options.sort = key;
+				options.dir = options.def[key];
+			}
+		}
+		
+		var _form = $("#" + options.formId);
+		if ($.utils.isEmpty(options.formId)) {
+			_form = $("form:first");
+		}
+		setSortValue(options.sort, options.dir);
+
+		this.each(function() {
+			$(this).find("th[class*='sort']").each(function() {
+
+				var thisCls = $(this).attr("class");
+				var getRules = /sort\[(.*)\]/.exec(thisCls);
+
+				if (!getRules) {
+					return false;
+				}
+
+				var sortName = getRules[1];
+
+				if (options.sort == sortName && options.dir == "asc") {
+					sortAsc($(this), $(this).html(), sortName);
+				} else if (options.sort == sortName && options.dir == "desc") {
+					sortDesc($(this), $(this).html(), sortName);
+				} else {
+					sortNormal($(this), $(this).html(), sortName);
+				}
 			});
 		});
+
+		function setSortValue(sort, dir) {
+			var _sort = _form.find(":input[name='sort']");
+			var _dir = _form.find(":input[name='dir']");
+
+			if (_sort.length > 0) {
+				_sort.val(sort);
+			} else {
+				_form.append("<input type='hidden' name='sort' value='" + sort
+						+ "'>");
+			}
+
+			if (_dir.length > 0) {
+				_dir.val(dir);
+			} else {
+				_form.append("<input type='hidden' name='dir' value='" + dir
+						+ "'>");
+			}
+
+		}
+
+		function sortNormal(th, text, sortName) {
+			var _href = $('<a href="javascript:void(0);"></a>');
+			_href.html(text);
+			_href.attr("title", '点击按照<span class="red">' + text
+					+ '</span><span class="blue">升序</span>排列');
+
+			_href.click(function() {
+				setSortValue(sortName, "asc");
+				options.onSort(sortName, "asc");
+			});
+
+			th.html("");
+			th.append(_href);
+			_href.tooltip();
+
+			var _iconNormal = $('<i class="icon-resize-vertical" title="点击进行排序"></i>');
+			th.append(_iconNormal);
+		}
+
+		// 升序
+		function sortAsc(th, text, sortName) {
+			var _href = $('<a href="javascript:void(0);"></a>');
+			_href.html(text);
+			_href.attr("title", '点击按照<span class="red">' + text
+					+ '</span><span class="blue">降序</span>排列');
+
+			_href.click(function() {
+				setSortValue(sortName, "desc");
+				options.onSort(sortName, "desc");
+			});
+
+			th.html("");
+			th.append(_href);
+			_href.tooltip();
+
+			var _iconUp = $('<i class="icon-arrow-up" title="按照升序排列"></i>');
+			th.append(_iconUp);
+		}
+
+		// 降序
+		function sortDesc(th, text, sortName) {
+			var _href = $('<a href="javascript:void(0);"></a>');
+			_href.html(text);
+			_href.attr("title", '点击取消排序');
+
+			_href.click(function() {
+				setSortValue(sortName, "");
+				options.onSort(sortName, "");
+			});
+
+			th.html("");
+			th.append(_href);
+			_href.tooltip();
+
+			var _iconDown = $('<i class="icon-arrow-down" title="按照降序排列"></i>');
+			th.append(_iconDown);
+		}
 
 	};
 
