@@ -12,7 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript">
 	$(function(){
 		
-		var theme = $.cookie.get("org.springframework.web.servlet.theme.CookieThemeResolver.THEME");
+		var theme = $.cookie("org.springframework.web.servlet.theme.CookieThemeResolver.THEME");
 		if(theme == null) {
 			theme = "default";
 		}

@@ -26,14 +26,14 @@ for(Cookie ck : cookies) {
 	$(function(){
 		
 		// 记住账户名
-		var username = $.cookie.get("LOGIN_USERNAME");
+		var username = $.cookie("LOGIN_USERNAME");
 		if(!$.utils.isEmpty(username) && $.utils.isEmpty($("#username").val())) {
 			$("#username").val(username);
 		}
 		
 		initValidationEngine("login", {
 			onSuccess : function() { 
-        		$.cookie.add("LOGIN_USERNAME", $("#username").val());
+        		$.cookie("LOGIN_USERNAME", $("#username").val());
         	}
 		});
 		

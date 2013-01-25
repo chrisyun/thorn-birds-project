@@ -40,6 +40,7 @@ String thisUrl = request.getServletPath();
 	<script type="text/javascript" src="<%=path %>/plugins/jquery-form/jquery.form.js"></script>
 	
 	<script type="text/javascript" src="<%=path %>/plugins/func/jquery-koala.js"></script>
+	<script type="text/javascript" src="<%=path %>/plugins/func/jquery.cookie.js"></script>
 	<script type="text/javascript" src="<%=path %>/plugins/func/renderer.js"></script>
 	<script type="text/javascript" src="<%=path %>/plugins/func/window.js"></script>
 	<script type="text/javascript" src="<%=path %>/plugins/func/ajax.js"></script>

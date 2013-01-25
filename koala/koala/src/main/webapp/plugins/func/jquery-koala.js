@@ -1,4 +1,5 @@
 (function($) {
+	/*
 	$.cookie = {
 		get : function(key) {
 			var arrStr = document.cookie.split("; ");
@@ -32,7 +33,7 @@
 						+ exp.toGMTString();
 			}
 		}
-	};
+	};*/
 
 	String.prototype.replaceAll = function(target, replacement) {
 		return this.replace(new RegExp(target, "gm"), replacement);
