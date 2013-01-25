@@ -156,8 +156,24 @@ String thisUrl = request.getServletPath();
   		}
     %>
     
-    <!-- footer -->
-    <div class="container">
+	<footer>
+		<div class="container">
+			<div class="span12">
+				<ul>
+					<li>关于我们</li>
+					<li>网站地图</li>
+					<li>联系方式</li>
+				</ul>
+				<div>
+					北京谋智火狐信息技术有限公司&nbsp;&nbsp;&nbsp;&nbsp;京 ICP备11011334号-1<br>
+					版权所有 © 2012 Mozilla Firefox.
+				</div>
+			</div>
+		</div>
+	</footer>
+	
+	<!-- other
+	<div class="container">
 		<div class="row">
 			<div class="span12">
 			<small>北京谋智火狐信息技术有限公司&nbsp;&nbsp;&nbsp;&nbsp;京 ICP备11011334号-1</small>
@@ -171,6 +187,8 @@ String thisUrl = request.getServletPath();
 			</div>
 		</div>
   	</div>
+	 -->
+	
     <div style="display: none;" id="userJsonTree">
   		<sec:authentication property="principal.jsonTree" />
   	</div>

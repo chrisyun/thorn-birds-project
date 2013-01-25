@@ -149,13 +149,13 @@ function initValidationEngine(formId, args) {
 				},
 				"integer" : {
 					"regex" : /^[\-\+]?\d+$/,
-					"alertText" : "* 不是有效的整数"
+					"alertText" : "* 该输入项为整数"
 				},
 				"number" : {
 					// Number, including positive, negative, and floating
 					// decimal. credit: orefalo
 					"regex" : /^[\-\+]?((([0-9]{1,3})([,][0-9]{3})*)|([0-9]+))?([\.]([0-9]+))?$/,
-					"alertText" : "* 无效的数字"
+					"alertText" : "* 该输入项为数字"
 				},
 				"date" : {
 					"regex" : /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/,

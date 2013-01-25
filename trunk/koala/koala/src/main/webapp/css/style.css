@@ -29,3 +29,21 @@ hr {
 	margin-bottom: 3px;
 	border-top: 1px solid #DDDDDD;
 }
+
+footer {
+	background: none repeat scroll 0 0 #F0F0F0;
+	border-top: 1px solid #CCCCCC;
+	min-height: 8em;
+	overflow: hidden;
+	font-size: 85%;
+}
+
+footer ul {
+	box-shadow : none;
+	margin: 20px 0px;
+}
+
+footer li {
+	display : inline-block;
+	margin-right: 5px;
+}

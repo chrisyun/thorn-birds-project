@@ -34,6 +34,10 @@
 		}
 	};
 
+	String.prototype.replaceAll = function(target, replacement) {
+		return this.replace(new RegExp(target, "gm"), replacement);
+	};
+
 	$.utils = {
 		isEmpty : function(str) {
 			if (str == null || str == "" || str == undefined) {
@@ -42,24 +46,41 @@
 				return false;
 			}
 		},
-		checkAll : function() {
-			var _checkAll = $(":checkbox[class=checkAll]");
+		replaceAll : function(str, target, replacement) {
+			return str.replace(new RegExp(target, "gm"), replacement);
+		},
+		escapeHtml : function(str) {
+			str = str.replaceAll("'", "\"");
+			str = str.replaceAll("<", "&lt;");
+			str = str.replaceAll(">", "&gt;");
+			str = str.replaceAll("\"", "&quot;");
+			
+			return str;
+		},
+		checkAll : function(ck) {
+			// var _checkAll = $(":checkbox[class=checkAll]");
+			var _checkAll = $(ck);
+			var _ckTable = $(ck).parents("table");
 
 			if (_checkAll.attr("checked") == undefined
 					|| _checkAll.attr("checked") == ""
 					|| _checkAll.attr("checked") == false) {
-				$(":checkbox[class=checkOne]").attr("checked", false);
+				_ckTable.find(":checkbox[class=checkOne]").attr("checked",
+						false);
 			} else {
-				$(":checkbox[class=checkOne]").attr("checked", true);
+				_ckTable.find(":checkbox[class=checkOne]")
+						.attr("checked", true);
 			}
 		},
-		getChecked : function() {
+		getChecked : function(_table) {
 			var ids = "";
 
-			$(":checkbox:checked[class=checkOne]").each(function() {
-				ids += $(this).val() + ",";
+			_table.find(":checkbox:checked[class=checkOne]").each(function() {
+				ids += $(this).attr("id") + ",";
 			});
-
+			
+			alert(ids);
+			
 			return ids;
 		},
 		refreshPage : function() {
@@ -70,6 +91,30 @@
 		},
 		getJqueryOuterHtml : function(domer) {
 			return $($('<div></div>').html(domer.clone())).html();
+		},
+		object2Json : function(_obj) {
+			var array = [];
+			var json = "";
+			if (Object.prototype.toString.apply(_obj) === '[object Array]') {
+				for ( var i = 0; i < _obj.length; i++)
+					array.push($.utils.object2Json(_obj[i]));
+				json = '[' + array.join(',') + ']';
+			} else if (Object.prototype.toString.apply(_obj) === '[object Date]') {
+				json = "new Date(" + _obj.getTime() + ")";
+			} else if (Object.prototype.toString.apply(_obj) === '[object RegExp]'
+					|| Object.prototype.toString.apply(_obj) === '[object Function]') {
+				json = _obj.toString();
+			} else if (Object.prototype.toString.apply(_obj) === '[object Object]') {
+				for ( var i in _obj) {
+					var attr = typeof (_obj[i]) == 'string' ? '"' + _obj[i]
+							+ '"' : (typeof (_obj[i]) === 'object' ? $.utils
+							.object2jsonson(_obj[i]) : _obj[i]);
+					array.push(i + ':' + attr);
+				}
+				json = '{' + array.join(',') + '}';
+			}
+
+			return json;
 		}
 	};
 

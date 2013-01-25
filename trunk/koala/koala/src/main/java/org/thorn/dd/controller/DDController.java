@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
+import org.thorn.web.entity.JsonResponse;
 import org.thorn.web.entity.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.dd.entity.Dict;
@@ -58,7 +59,7 @@ public class DDController extends BaseController {
 	 *            类型中文名
 	 * @return
 	 */
-	@RequestMapping("/dtPage.jhtml")
+	@RequestMapping("/queryDtPage.jhtml")
 	public String dtPage(Long pageIndex, Long pageSize, String sort, String dir,
 			String ename, String cname, ModelMap model) {
 
@@ -70,7 +71,7 @@ public class DDController extends BaseController {
 
 			model.put("page", page);
 		} catch (DBAccessException e) {
-			log.error("dtPage[DD] - " + e.getMessage(), e);
+			log.error("queryDtPage[DD] - " + e.getMessage(), e);
 		}
 
 		return "system/dd";
@@ -122,10 +123,10 @@ public class DDController extends BaseController {
 
 			if (LocalStringUtils.equals(opType, Configuration.OP_SAVE)) {
 				ddService.saveDt(dt);
-				status.setMessage("新增字典类型成功！");
+				status.setMessage("新增字典成功！");
 			} else if (LocalStringUtils.equals(opType, Configuration.OP_MODIFY)) {
 				ddService.modifyDt(dt);
-				status.setMessage("修改字典类型成功！");
+				status.setMessage("修改字典成功！");
 			}
 
 		} catch (DBAccessException e) {
@@ -137,47 +138,6 @@ public class DDController extends BaseController {
 		return status;
 	}
 	
-	
-	
-	public Page<DictType> getDtPage(long start, long limit, String sort,
-			String dir, String ename, String cname) {
-
-		Page<DictType> page = new Page<DictType>();
-		try {
-			page = ddService.queryDtPage(ename, cname, start, limit, sort, dir);
-		} catch (DBAccessException e) {
-			log.error("getDtPage[DD] - " + e.getMessage(), e);
-		}
-
-		return page;
-	}
-
-	/**
-	 * 
-	 * @Description：根据类型ID获取所有的字典数据项
-	 * @author：chenyun
-	 * @date：2012-5-25 上午10:05:53
-	 * @param typeId
-	 *            类型ID
-	 * @return
-	 */
-	@RequestMapping("/getDdList")
-	@ResponseBody
-	public Page<Dict> getDdList(String typeId) {
-		List<Dict> list = new ArrayList<Dict>();
-		try {
-			list = ddService.queryDdList(typeId);
-		} catch (DBAccessException e) {
-			log.error("getDdList[DD] - " + e.getMessage(), e);
-		}
-
-		Page<Dict> page = new Page<Dict>();
-		page.setReslutSet(list);
-		page.setTotal(list.size());
-
-		return page;
-	}
-
 	/**
 	 * 
 	 * @Description：新增或修改字典数据项
@@ -189,7 +149,7 @@ public class DDController extends BaseController {
 	 *            操作类型
 	 * @return
 	 */
-	@RequestMapping("/saveOrModifyDd")
+	@RequestMapping(value = "/saveOrModifyDd.jmt", method = RequestMethod.POST)
 	@ResponseBody
 	public Status saveOrModifyDd(Dict dd, String opType) {
 		Status status = new Status();
@@ -198,10 +158,10 @@ public class DDController extends BaseController {
 
 			if (LocalStringUtils.equals(opType, Configuration.OP_SAVE)) {
 				ddService.saveDd(dd);
-				status.setMessage("新增字典项成功！");
+				status.setMessage("新增数据成功！");
 			} else if (LocalStringUtils.equals(opType, Configuration.OP_MODIFY)) {
 				ddService.modifyDd(dd);
-				status.setMessage("修改字典项成功！");
+				status.setMessage("修改数据成功！");
 			}
 
 		} catch (DBAccessException e) {
@@ -212,7 +172,28 @@ public class DDController extends BaseController {
 
 		return status;
 	}
+	
+	/**
+	 * 
+	 * @Description：根据类型ID获取所有的字典数据项
+	 * @author：chenyun
+	 * @date：2012-5-25 上午10:05:53
+	 * @param typeId
+	 *            类型ID
+	 * @return
+	 */
+	@RequestMapping("/queryDdList.jmt")
+	@ResponseBody
+	public JsonResponse<List<Dict>> getDdList(String typeId) {
+		JsonResponse<List<Dict>> json = new JsonResponse<List<Dict>>();
+		try {
+			json.setObj(ddService.queryDdList(typeId));
+		} catch (DBAccessException e) {
+			log.error("queryDdList[DD] - " + e.getMessage(), e);
+		}
 
+		return json;
+	}
 
 	/**
 	 * 
@@ -224,7 +205,7 @@ public class DDController extends BaseController {
 	 * @param typeId
 	 * @return
 	 */
-	@RequestMapping("/deleteDd")
+	@RequestMapping(value = "/deleteDd.jmt", method = RequestMethod.POST)
 	@ResponseBody
 	public Status deleteDd(String ids, String typeId) {
 		Status status = new Status();
