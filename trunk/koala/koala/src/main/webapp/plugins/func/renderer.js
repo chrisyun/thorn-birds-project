@@ -39,10 +39,16 @@
 				break;
 			case "text":
 
+				if ($(this).is("input")) {
+					options.value = $(this).val();
+				} else {
+					options.value = $(this).html();
+				}
+				
 				for ( var i = 0; i < array.length; i++) {
 					var text = array[i][1];
 					var value = array[i][0];
-
+					
 					if (value == options.value) {
 
 						if ($(this).is("input")) {

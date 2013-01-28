@@ -3,14 +3,16 @@ package org.thorn.org.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
 import org.thorn.security.SecurityUserUtils;
 import org.thorn.user.entity.User;
@@ -30,7 +32,7 @@ import org.thorn.web.entity.Tree;
  * @date 2012-5-10 下午02:50:02
  */
 @Controller
-@RequestMapping("/org")
+@RequestMapping("/System/org")
 public class OrgController extends BaseController {
 
 	static Logger log = LoggerFactory.getLogger(OrgController.class);
@@ -38,6 +40,34 @@ public class OrgController extends BaseController {
 	@Autowired
 	@Qualifier("orgService")
 	private IOrgService orgService;
+	
+	@RequestMapping("/queryOrgPage.jhtml")
+	public String orgPage(Long pageIndex, Long pageSize, String sort,
+			String dir, String pid, String orgCode, String orgName,
+			String orgType, ModelMap model) {
+
+		Page<Org> page = new Page<Org>(pageIndex, pageSize);
+
+		String area = null;
+
+		try {
+			User user = SecurityUserUtils.getCurrentUser();
+
+			if (!SecurityUserUtils.isSysAdmin()) {
+				area = user.getArea();
+			}
+
+			page.setPageData(orgService.queryPage(pid, orgCode, orgName,
+					orgType, area, page.getStart(), page.getPageSize(), sort,
+					dir));
+			
+			model.put("page", page);
+		} catch (DBAccessException e) {
+			log.error("orgPage[org] - " + e.getMessage(), e);
+		}
+
+		return "system/org";
+	}
 
 	/**
 	 * 
@@ -48,7 +78,7 @@ public class OrgController extends BaseController {
 	 *            上级组织code
 	 * @return
 	 */
-	@RequestMapping("/getOrgTree")
+	@RequestMapping(value = "/queryOrgTree.jmt", method = RequestMethod.POST)
 	@ResponseBody
 	public List<Tree> getOrgTree(String pid) {
 		List<Tree> tree = new ArrayList<Tree>();
@@ -61,7 +91,7 @@ public class OrgController extends BaseController {
 			for (Org org : list) {
 
 				if (SecurityUserUtils.isSysAdmin()
-						|| LocalStringUtils.equals(user.getArea(),
+						|| StringUtils.equals(user.getArea(),
 								org.getArea())) {
 					Tree node = new Tree();
 					node.setId(String.valueOf(org.getOrgId()));
@@ -98,10 +128,10 @@ public class OrgController extends BaseController {
 
 		try {
 
-			if (LocalStringUtils.equals(opType, Configuration.OP_SAVE)) {
+			if (StringUtils.equals(opType, Configuration.OP_SAVE)) {
 				orgService.save(org);
 				status.setMessage("新增组织成功！");
-			} else if (LocalStringUtils.equals(opType, Configuration.OP_MODIFY)) {
+			} else if (StringUtils.equals(opType, Configuration.OP_MODIFY)) {
 				orgService.modify(org);
 				status.setMessage("修改组织成功！");
 			}
@@ -141,27 +171,6 @@ public class OrgController extends BaseController {
 		return status;
 	}
 
-	/**
-	 * 
-	 * @Description：分页获取组织数据
-	 * @author：chenyun
-	 * @date：2012-5-25 上午10:54:41
-	 * @param start
-	 * @param limit
-	 * @param sort
-	 * @param dir
-	 * @param pid
-	 *            上级组织编码
-	 * @param orgCode
-	 *            组织编码
-	 * @param orgName
-	 *            组织名称
-	 * @param orgType
-	 *            组织类型
-	 * @return
-	 */
-	@RequestMapping("/getOrgPage")
-	@ResponseBody
 	public Page<Org> getOrgPage(long start, long limit, String sort,
 			String dir, String pid, String orgCode, String orgName,
 			String orgType) {

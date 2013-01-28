@@ -1,8 +1,8 @@
 package org.thorn.dd.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
 import org.thorn.web.entity.JsonResponse;
 import org.thorn.web.entity.Page;
@@ -121,10 +120,10 @@ public class DDController extends BaseController {
 
 		try {
 
-			if (LocalStringUtils.equals(opType, Configuration.OP_SAVE)) {
+			if (StringUtils.equals(opType, Configuration.OP_SAVE)) {
 				ddService.saveDt(dt);
 				status.setMessage("新增字典成功！");
-			} else if (LocalStringUtils.equals(opType, Configuration.OP_MODIFY)) {
+			} else if (StringUtils.equals(opType, Configuration.OP_MODIFY)) {
 				ddService.modifyDt(dt);
 				status.setMessage("修改字典成功！");
 			}
@@ -156,10 +155,10 @@ public class DDController extends BaseController {
 
 		try {
 
-			if (LocalStringUtils.equals(opType, Configuration.OP_SAVE)) {
+			if (StringUtils.equals(opType, Configuration.OP_SAVE)) {
 				ddService.saveDd(dd);
 				status.setMessage("新增数据成功！");
-			} else if (LocalStringUtils.equals(opType, Configuration.OP_MODIFY)) {
+			} else if (StringUtils.equals(opType, Configuration.OP_MODIFY)) {
 				ddService.modifyDd(dd);
 				status.setMessage("修改数据成功！");
 			}
