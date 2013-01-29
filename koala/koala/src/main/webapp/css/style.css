@@ -30,6 +30,12 @@ hr {
 	border-top: 1px solid #DDDDDD;
 }
 
+.rectangle-header {
+	background-color: #F5F5F5;
+	border-bottom: 1px solid #DDDDDD;
+	padding: 5px 10px;
+}
+
 footer {
 	background: none repeat scroll 0 0 #F0F0F0;
 	border-top: 1px solid #CCCCCC;
