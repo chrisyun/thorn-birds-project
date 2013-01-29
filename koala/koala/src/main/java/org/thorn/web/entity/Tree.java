@@ -20,7 +20,9 @@ public class Tree implements Serializable {
 	private String text;
 
 	private String pid;
-
+	
+	private String isParent;
+	
 	private boolean leaf;
 	
 	private String targetUrl;
@@ -60,6 +62,13 @@ public class Tree implements Serializable {
 	}
 
 	public void setLeaf(boolean leaf) {
+		
+		if(leaf) {
+			this.isParent = "false";
+		} else {
+			this.isParent = "true";
+		}
+		
 		this.leaf = leaf;
 	}
 
@@ -94,4 +103,9 @@ public class Tree implements Serializable {
 	public void setSort(Integer sort) {
 		this.sort = sort;
 	}
+
+	public String getIsParent() {
+		return isParent;
+	}
+	
 }

@@ -121,7 +121,7 @@ public class OrgController extends BaseController {
 	 *            操作类型
 	 * @return
 	 */
-	@RequestMapping("/saveOrModifyOrg")
+	@RequestMapping(value = "/saveOrModifyOrg.jmt", method = RequestMethod.POST)
 	@ResponseBody
 	public Status saveOrModifyOrg(Org org, String opType) {
 		Status status = new Status();
@@ -154,7 +154,7 @@ public class OrgController extends BaseController {
 	 *            主键字符串，格式id1,id2,
 	 * @return
 	 */
-	@RequestMapping("/deleteOrg")
+	@RequestMapping(value = "/deleteOrg.jmt", method = RequestMethod.POST)
 	@ResponseBody
 	public Status deleteOrg(String ids) {
 		Status status = new Status();
@@ -170,7 +170,35 @@ public class OrgController extends BaseController {
 
 		return status;
 	}
+	
+	/**
+	 * 
+	 * @Description：根据orgCode或者orgId查询组织
+	 * @author：chenyun
+	 * @date：2012-5-25 上午10:55:35
+	 * @param orgCode
+	 *            组织编码
+	 * @param orgId
+	 *            组织ID
+	 * @return
+	 */
+	@RequestMapping(value = "/queryOrg.jmt", method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResponse<Org> getOrg(String orgCode, String orgId) {
+		JsonResponse<Org> json = new JsonResponse<Org>();
 
+		try {
+			Org org = orgService.queryOrg(orgCode, orgId);
+			json.setObj(org);
+		} catch (DBAccessException e) {
+			json.setSuccess(false);
+			json.setMessage("组织数据查询失败：" + e.getMessage());
+		}
+
+		return json;
+	}
+	
+	
 	public Page<Org> getOrgPage(long start, long limit, String sort,
 			String dir, String pid, String orgCode, String orgName,
 			String orgType) {
@@ -191,33 +219,6 @@ public class OrgController extends BaseController {
 		}
 
 		return page;
-	}
-
-	/**
-	 * 
-	 * @Description：根据orgCode或者orgId查询组织
-	 * @author：chenyun
-	 * @date：2012-5-25 上午10:55:35
-	 * @param orgCode
-	 *            组织编码
-	 * @param orgId
-	 *            组织ID
-	 * @return
-	 */
-	@RequestMapping("/getOrg")
-	@ResponseBody
-	public JsonResponse<Org> getOrg(String orgCode, String orgId) {
-		JsonResponse<Org> json = new JsonResponse<Org>();
-
-		try {
-			Org org = orgService.queryOrg(orgCode, orgId);
-			json.setObj(org);
-		} catch (DBAccessException e) {
-			json.setSuccess(false);
-			json.setMessage("组织数据查询失败：" + e.getMessage());
-		}
-
-		return json;
 	}
 
 }
