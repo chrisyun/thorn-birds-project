@@ -13,6 +13,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     <title>组织机构管理</title>
     
+    <link href="<%=path %>/plugins/zTree/zTreeStyle.css" rel="stylesheet">
+    <script type="text/javascript" src="<%=path %>/plugins/zTree/jquery.ztree.all-3.5.js"></script>
+    
 	<script type="text/javascript">
 	$(function(){
 		
@@ -46,7 +49,60 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			sort : "${param.sort}",
 			dir : "${param.dir}"
 		});
+		
+		var setting = {
+			async: {
+				enable: true,
+				url:"<%=path%>/System/org/queryOrgTree.jmt",
+				autoParam:["id=pid"]
+			},
+			data : {
+				key : {
+					name : "text"
+				}
+			},
+			callback : {
+				onDblClick : function(event, treeId, node) {
+					$("#pid").val(node.id);
+					$("#queryForm").submit();
+				}
+			}
+		};
+		
+		var orgTree = $.fn.zTree.init($("#orgTree"), setting, [{
+			id : "ROOT",
+			pid : "-1",
+			text : "文化部",
+			isParent : "true"
+		}]);
 	});
+	
+	function deleteOrg(ids) {
+		$.dialog.confirm("您确认删除吗？", function(){
+			$.server.ajaxRequest({
+				url : "<%=path%>/System/org/deleteOrg.jmt",
+				data : {
+					ids : ids
+				},
+				onSuccess : function(msg, data) {
+					$.dialog.alertSuccess(msg, "请求处理成功", function(){
+						$.utils.refreshPage();
+					});
+				}
+			});
+		});
+	}
+	
+	function deleteOrgs() {
+		
+		var ids = $.utils.getChecked($("#orgTable"));
+		
+		if(ids == "") {
+			$.dialog.alertInfo("请选择需要删除的项！");
+		} else {
+			deleteDt(ids);
+		}
+	}
 	
 	
 	</script>
@@ -62,7 +118,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   	<div class="row">
   		<div class="span3">
-  			<div id="orgTree" style="height: 300px;"></div>
+  			<ul id="orgTree" class="ztree" style="height: 280px;overflow: auto;border: 1px solid #DDDDDD;"></ul>
   		</div>
   		
   		<div class="span9">
@@ -75,8 +131,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  	<label style="width: 10px;"></label>
 			  	<label>组织类型：</label>
 			  	<select name="orgType" id="queryOrgType" class="input-medium"></select>
+			  	<input type="hidden" name="pid" id="pid">
 			  	<button type="submit" class="btn">搜索</button>
 			</form>
+			
+			<div class="formOutSide">
+				<sec:authorize url="/System/org/saveOrModify*.jmt">
+				<button class="btn btn-primary" onclick="openAddWnd();"><i class="icon-plus"></i>新增</button>
+				</sec:authorize>
+				<sec:authorize url="/System/org/delete*.jmt">
+				<button class="btn btn-danger" onclick="deleteOrgs();">删除选中项</button>
+				</sec:authorize>
+			</div>
+			
 			
 			<table class="table table-striped table-bordered table-condensed" id="orgTable">
 				<thead id="listHeader">
@@ -103,7 +170,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td class="renderer-area">${org.area }</td>
 						<td class="renderer-yn">${org.isShow }</td>
 						<td class="renderer-yn">${org.isDisabled }</td>
-						<td></td>
+						<td style="text-align: center;">
+							<div class="btn-group">
+							  <sec:authorize url="/System/org/saveOrModify*.jmt">
+							  <button class="btn btn-info">修改</button>
+							  </sec:authorize>
+							  <sec:authorize url="/System/org/delete*.jmt">
+							  <button class="btn btn-danger" onclick="deleteOrg('${org.orgId }')">删除</button>
+							  </sec:authorize>
+							</div>
+						</td>
 					</tr>
 				</c:forEach>
 				</tbody>
