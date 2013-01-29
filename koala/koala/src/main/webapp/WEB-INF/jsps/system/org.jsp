@@ -13,7 +13,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     <title>组织机构管理</title>
     
-    <link href="<%=path %>/plugins/zTree/zTreeStyle.css" rel="stylesheet">
+    <link href="<%=path %>/plugins/zTree/zTreeBookStyle.css" rel="stylesheet">
+    <style type="text/css">
+	#treeMenu {
+		position: absolute;visibility: hidden;top: 0;
+	}
+	</style>
+    
     <script type="text/javascript" src="<%=path %>/plugins/zTree/jquery.ztree.all-3.5.js"></script>
     
 	<script type="text/javascript">
@@ -65,6 +71,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				onDblClick : function(event, treeId, node) {
 					$("#pid").val(node.id);
 					$("#queryForm").submit();
+				},
+				onRightClick : function(event, treeId, node) {
+					orgTree.selectNode(node);
+					$("#treeMenu ul").show();
+					$("#treeMenu").css({
+						"top" : event.clientY + "px",
+						"left" : event.clientX + "px",
+						"visibility" : "visible"
+					});
+					$("body").bind("mousedown", function(event){
+						if (!(event.target.id == "treeMenu" 
+								|| $(event.target).parents("#treeMenu").length > 0)) {
+							$("#treeMenu").css({"visibility" : "hidden"});
+						}
+					});
 				}
 			}
 		};
@@ -103,8 +124,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			deleteDt(ids);
 		}
 	}
-	
-	
 	</script>
   </head>
   
@@ -193,5 +212,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<c:param name="conditionWriteBackFormId">queryForm</c:param>
 	</c:import>
   	
+  	<div id="treeMenu" style="position: absolute;visibility: hidden;top: 0;">
+  		<ul class="dropdown-menu">
+  			<li><a>新增组织机构</a></li>
+  			<li><a>修改组织机构</a></li>
+  		</ul>
+  	</div>
   </body>
 </html>
