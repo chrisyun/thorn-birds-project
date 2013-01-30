@@ -195,21 +195,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			hideTreeMenu();
 			var node = orgTree.getSelectedNodes()[0];
 			
-			$("#orgMsgTips").html("");
-			$("#editOrgForm").resetForm();
-			
-			$("#editOrgForm [name=orgName]").attr("readonly", true);
-			$.server.ajaxRequest({
-				url : "<%=path%>/System/org/queryOrg.jmt",
-				data : {orgId : node.id},
-				progress : false,
-				onSuccess : function(msg, data) {
-					$("#editOrgForm").setFormValues(data);
-					
-					$("#editOrgForm [name='opType']").val("modify");
-					$("#editOrgForm").formDialog("show");
-				}
-			});
+			editOrg(node.id);
 		});
 			
 		$("#editOrgForm").formDialog({
@@ -281,6 +267,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			deleteDt(ids);
 		}
 	}
+	
+	function editOrg(orgId) {
+		$("#orgMsgTips").html("");
+		$("#editOrgForm").resetForm();
+		
+		$("#editOrgForm [name=orgName]").attr("readonly", true);
+		$.server.ajaxRequest({
+			url : "<%=path%>/System/org/queryOrg.jmt",
+			data : {orgId : orgId},
+			progress : false,
+			onSuccess : function(msg, data) {
+				$("#editOrgForm").setFormValues(data);
+				
+				$("#editOrgForm [name='opType']").val("modify");
+				$("#editOrgForm").formDialog("show");
+			}
+		});
+	}
+	
 	</script>
   </head>
   
@@ -348,9 +353,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td class="renderer-yn">${org.isDisabled }</td>
 						<td style="text-align: center;">
 							<div class="btn-group">
-							  <sec:authorize url="/System/org/delete*.jmt">
-							  <button class="btn btn-danger" onclick="deleteOrg('${org.orgId }')">删除</button>
-							  </sec:authorize>
+								<sec:authorize url="/System/org/saveOrModify*.jmt">
+								<button class="btn btn-danger" onclick="editOrg('${org.orgId }')">编辑</button>
+								</sec:authorize>
+								<sec:authorize url="/System/org/delete*.jmt">
+								<button class="btn btn-danger" onclick="deleteOrg('${org.orgId }')">删除</button>
+								</sec:authorize>
 							</div>
 						</td>
 					</tr>
