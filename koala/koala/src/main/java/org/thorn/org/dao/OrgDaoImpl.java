@@ -76,4 +76,13 @@ public class OrgDaoImpl implements IOrgDao {
 		}
 	}
 
+	public int modifyOrgByBatch(Map<String, Object> filter)
+			throws DBAccessException {
+		try {
+			return sqlSessionTemplate.update(nameSpace + "updateBatch", filter);
+		} catch (Exception e) {
+			throw new DBAccessException("OrgDaoImpl", "modifyOrgByBatch", e);
+		}
+	}
+
 }

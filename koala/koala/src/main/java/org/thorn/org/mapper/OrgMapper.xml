@@ -10,6 +10,7 @@
 		<id column="ORGID" property="orgId" jdbcType="DECIMAL" />
 		<result column="ORGCODE" property="orgCode" jdbcType="VARCHAR" />
 		<result column="PARENTORG" property="parentOrg" jdbcType="VARCHAR" />
+		<result column="PARENTORGNAME" property="parentOrgName" jdbcType="VARCHAR" />
 		<result column="ORGNAME" property="orgName" jdbcType="VARCHAR" />
 		<result column="SHOWNAME" property="showName" jdbcType="VARCHAR" />
 		<result column="ORGTYPE" property="orgType" jdbcType="VARCHAR" />
@@ -95,17 +96,30 @@
 		<set>
 			<if test="parentOrg != null and parentOrg != ''">PARENTORG = #{parentOrg,jdbcType=VARCHAR},</if>
 			<if test="sortNum != null">SORTNUM = #{sortNum,jdbcType=DECIMAL},</if>
-			<if test="orgName != null and orgName != ''">ORGNAME = #{orgName,jdbcType=VARCHAR},</if>
-			<if test="showName != null and showName != ''">SHOWNAME = #{showName,jdbcType=VARCHAR},</if>
+			<if test="orgName != null">ORGNAME = #{orgName,jdbcType=VARCHAR},</if>
+			<if test="showName != null">SHOWNAME = #{showName,jdbcType=VARCHAR},</if>
 			<if test="orgType != null and orgType != ''">ORGTYPE = #{orgType,jdbcType=VARCHAR},</if>
-			<if test="orgMail != null and orgMail != ''">ORGMAIL = #{orgMail,jdbcType=VARCHAR},</if>
+			<if test="orgMail != null">ORGMAIL = #{orgMail,jdbcType=VARCHAR},</if>
 			<if test="isShow != null and isShow != ''">ISSHOW = #{isShow,jdbcType=VARCHAR},</if>
 			<if test="isDisabled != null and isDisabled != ''">ISDISABLED = #{isDisabled,jdbcType=VARCHAR},</if>
-			<if test="area != null and area != ''">AREA = #{area,jdbcType=VARCHAR},</if>
+			<if test="area != null">AREA = #{area,jdbcType=VARCHAR},</if>
 		</set>
 		where ORGID = #{orgId,jdbcType=DECIMAL}
 	</update>
-
+	
+	<update id="updateBatch" parameterType="hashmap">
+		update T_SYS_ORG
+		<set>
+			<if test="sortNum != null">SORTNUM = #{sortNum,jdbcType=DECIMAL},</if>
+			<if test="parentOrg != null and parentOrg != ''">PARENTORG = #{parentOrg,jdbcType=VARCHAR},</if>
+		</set>
+		where  ORGID in
+		<foreach collection="list" item="item" open="(" close=")"
+			separator=",">
+			#{item,jdbcType=DECIMAL}
+		</foreach>
+	</update>
+	
 	<delete id="delete">
 		delete from T_SYS_ORG where ORGID in
 		<foreach collection="list" item="item" open="(" close=")"
@@ -117,8 +131,8 @@
 	<select id="selectPage" resultMap="BaseResultMap" parameterType="hashmap">
 		<include refid="MySQLCommonMapper.pagingStart"/>
 		select
-		<include refid="Base_Column_List" />
-		from T_SYS_ORG O
+		<include refid="Base_Column_List" />,P.ORGNAME AS PARENTORGNAME
+		from T_SYS_ORG O LEFT JOIN T_SYS_ORG P ON P.ORGCODE = O.PARENTORG
 		<include refid="Where_Clause" />
 		<include refid="MySQLCommonMapper.sortInfo"/>
 		<include refid="MySQLCommonMapper.pagingEnd"/>
