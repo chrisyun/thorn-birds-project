@@ -45,12 +45,6 @@ String thisUrl = request.getServletPath();
 	<script type="text/javascript" src="<%=path %>/plugins/func/window.js"></script>
 	<script type="text/javascript" src="<%=path %>/plugins/func/ajax.js"></script>
 	<script type="text/javascript" src="<%=path %>/plugins/func/message.js"></script>
-	<style type="text/css">
-	.icon-plus,.icon-minus {
-		padding: 0 3px;
-	}
-	</style>
-	
 	<script type="text/javascript">
 	var user = {
 		userId 		: "<sec:authentication property="principal.username" />",

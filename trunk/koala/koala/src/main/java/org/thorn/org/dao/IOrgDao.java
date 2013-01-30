@@ -81,4 +81,15 @@ public interface IOrgDao {
 	 * @throws DBAccessException
 	 */
 	public Org queryParent(Map<String, Object> filter) throws DBAccessException;
+	
+	/**
+	 * 
+	 * @Description：
+	 * @author：chenyun 	        
+	 * @date：2013-1-30 下午3:43:37
+	 * @param filter
+	 * @return
+	 * @throws DBAccessException
+	 */
+	public int modifyOrgByBatch(Map<String, Object> filter) throws DBAccessException;
 }

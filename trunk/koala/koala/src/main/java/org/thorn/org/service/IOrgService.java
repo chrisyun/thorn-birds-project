@@ -93,4 +93,17 @@ public interface IOrgService {
 
 	public List<Org> queryList(String pid, Collection<String> pids)
 			throws DBAccessException;
+	
+	/**
+	 * 
+	 * @Description：
+	 * @author：chenyun 	        
+	 * @date：2013-1-30 下午3:46:06
+	 * @param dragType
+	 * @param target
+	 * @param ids
+	 * @throws DBAccessException
+	 */
+	public void modifyOrgByDrag(String dragType, Org target, String ids)
+			throws DBAccessException;
 }

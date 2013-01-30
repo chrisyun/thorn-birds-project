@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.thorn.core.util.LocalStringUtils;
@@ -116,6 +117,24 @@ public class OrgServiceImpl implements IOrgService {
 		filter.put("orgCode", childOrgCode);
 
 		return orgDao.queryParent(filter);
+	}
+
+	public void modifyOrgByDrag(String dragType, Org target, String ids)
+			throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+		
+		List<String> list = LocalStringUtils.splitStr2Array(ids);
+		filter.put("list", list);
+		
+		if(StringUtils.equals(dragType, "inner")) {
+			filter.put("parentOrg", target.getOrgCode());
+		} else if(StringUtils.equals(dragType, "prev")) {
+			filter.put("sortNum", target.getSortNum()-1);
+		} else if(StringUtils.equals(dragType, "next")) {
+			filter.put("sortNum", target.getSortNum()+1);
+		}
+		
+		orgDao.modifyOrgByBatch(filter);
 	}
 
 }

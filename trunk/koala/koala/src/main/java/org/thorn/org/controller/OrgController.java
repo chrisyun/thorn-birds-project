@@ -198,6 +198,23 @@ public class OrgController extends BaseController {
 		return json;
 	}
 	
+	@RequestMapping(value = "/saveOrModifyOrgDrag.jmt", method = RequestMethod.POST)
+	@ResponseBody
+	public Status saveOrModifyOrgDrag(String ids, Integer target, String moveType) {
+		Status status = new Status();
+		
+		try {
+			Org org = orgService.queryOrg(null, String.valueOf(target));
+			orgService.modifyOrgByDrag(moveType, org, ids);
+			status.setMessage("移动组织机构成功！");
+		} catch (DBAccessException e) {
+			status.setSuccess(false);
+			status.setMessage("移动组织机构失败：" + e.getMessage());
+		}
+		
+		return status;
+	}
+	
 	
 	public Page<Org> getOrgPage(long start, long limit, String sort,
 			String dir, String pid, String orgCode, String orgName,

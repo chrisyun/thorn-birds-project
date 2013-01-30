@@ -21,6 +21,8 @@ public class Org implements Serializable {
 	
 	private String parentOrg;
 	
+	private String parentOrgName;
+	
 	private String showName;
 	
 	private String orgType;
@@ -122,7 +124,13 @@ public class Org implements Serializable {
 	public void setSortNum(int sortNum) {
 		this.sortNum = sortNum;
 	}
-	
-	
+
+	public String getParentOrgName() {
+		return parentOrgName;
+	}
+
+	public void setParentOrgName(String parentOrgName) {
+		this.parentOrgName = parentOrgName;
+	}
 }
 
