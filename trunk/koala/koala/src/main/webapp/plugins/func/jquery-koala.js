@@ -66,8 +66,6 @@
 				ids += $(this).attr("id") + ",";
 			});
 
-			alert(ids);
-
 			return ids;
 		},
 		refreshPage : function() {

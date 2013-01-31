@@ -94,10 +94,10 @@ public class OrgController extends BaseController {
 						|| StringUtils.equals(user.getArea(),
 								org.getArea())) {
 					Tree node = new Tree();
-					node.setId(String.valueOf(org.getOrgId()));
+					node.setId(org.getOrgCode());
 					node.setText(org.getOrgName());
 					node.setLeaf(false);
-					node.setPid(org.getOrgCode());
+					node.setPid(org.getParentOrg());
 					node.getAttributes().put("orgType", org.getOrgType());
 					node.getAttributes().put("area", org.getArea());
 					tree.add(node);

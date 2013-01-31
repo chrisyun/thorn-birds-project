@@ -5,16 +5,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.thorn.auth.service.IAuthService;
-import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
+import org.thorn.web.entity.JsonResponse;
 import org.thorn.web.entity.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.security.SecurityUserUtils;
@@ -30,7 +33,7 @@ import org.thorn.web.entity.Status;
  * @date 2012-5-15 下午05:16:07
  */
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/System/user")
 public class UserController extends BaseController {
 
 	static Logger log = LoggerFactory.getLogger(UserController.class);
@@ -43,31 +46,32 @@ public class UserController extends BaseController {
 	@Qualifier("authService")
 	private IAuthService authService;
 
-	@RequestMapping("/saveOrModifyUser")
-	@ResponseBody
-	public Status saveOrModifyUser(User user, String opType) {
-		Status status = new Status();
-
+	@RequestMapping("/queryUserPage.jhtml")
+	public String userPage(Long pageIndex, Long pageSize, String sort,
+			String dir, String orgCode, String userName, String cumail,
+			String userAccount, ModelMap model) {
+		Page<User> page = new Page<User>(pageIndex, pageSize);
+		String area = null;
+		
 		try {
-
-			if (LocalStringUtils.equals(opType, Configuration.OP_SAVE)) {
-				service.save(user);
-				status.setMessage("新增用户成功！");
-			} else if (LocalStringUtils.equals(opType, Configuration.OP_MODIFY)) {
-				service.modify(user);
-				status.setMessage("修改用户成功！");
+			User user = SecurityUserUtils.getCurrentUser();
+			
+			if(! SecurityUserUtils.isSysAdmin()) {
+				area = user.getArea();
 			}
-
+			
+			page.setPageData(service.queryPage(orgCode, userName, cumail, area, userAccount,
+					page.getStart(), page.getPageSize(), sort, dir));
+			
+			model.put("page", page);
 		} catch (DBAccessException e) {
-			status.setSuccess(false);
-			status.setMessage("数据保存失败：" + e.getMessage());
-			log.error("saveOrModifyUser[User] - " + e.getMessage(), e);
+			log.error("userPage[User] - " + e.getMessage(), e);
 		}
 
-		return status;
+		return "system/user";
 	}
-
-	@RequestMapping("/deleteUser")
+	
+	@RequestMapping(value = "/deleteUser.jmt", method = RequestMethod.POST)
 	@ResponseBody
 	public Status deleteUser(String ids) {
 		Status status = new Status();
@@ -83,8 +87,8 @@ public class UserController extends BaseController {
 
 		return status;
 	}
-
-	@RequestMapping("/disabledUser")
+	
+	@RequestMapping(value = "/disabledUser.jmt", method = RequestMethod.POST)
 	@ResponseBody
 	public Status disabledUser(String ids, String isDisabled) {
 		Status status = new Status();
@@ -92,7 +96,7 @@ public class UserController extends BaseController {
 		try {
 			service.disabledUser(ids, isDisabled);
 
-			if (LocalStringUtils.equals(isDisabled, Configuration.DB_YES)) {
+			if (StringUtils.equals(isDisabled, Configuration.DB_YES)) {
 				status.setMessage("用户禁用成功！");
 			} else {
 				status.setMessage("用户启用成功！");
@@ -101,12 +105,51 @@ public class UserController extends BaseController {
 		} catch (DBAccessException e) {
 			status.setSuccess(false);
 			status.setMessage("数据处理失败：" + e.getMessage());
-			log.error("deleteUser[User] - " + e.getMessage(), e);
+			log.error("disabledUser[User] - " + e.getMessage(), e);
 		}
 
 		return status;
 	}
+	
+	@RequestMapping(value = "/queryUser.jmt", method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResponse<User> queryUser(String userId) {
+		JsonResponse<User> json = new JsonResponse<User>();
+		
+		try {
+			json.setObj(service.queryUser(userId));
+		} catch (DBAccessException e) {
+			json.setSuccess(false);
+			json.setMessage("数据获取失败：" + e.getMessage());
+			log.error("queryUser[User] - " + e.getMessage(), e);
+		}
+		
+		return json;
+	}
+	
+	@RequestMapping("/saveOrModifyUser")
+	@ResponseBody
+	public Status saveOrModifyUser(User user, String opType) {
+		Status status = new Status();
 
+		try {
+
+			if (StringUtils.equals(opType, Configuration.OP_SAVE)) {
+				service.save(user);
+				status.setMessage("新增用户成功！");
+			} else if (StringUtils.equals(opType, Configuration.OP_MODIFY)) {
+				service.modify(user);
+				status.setMessage("修改用户成功！");
+			}
+
+		} catch (DBAccessException e) {
+			status.setSuccess(false);
+			status.setMessage("数据保存失败：" + e.getMessage());
+			log.error("saveOrModifyUser[User] - " + e.getMessage(), e);
+		}
+
+		return status;
+	}
 
 	@RequestMapping("/changePwd")
 	@ResponseBody
@@ -125,30 +168,6 @@ public class UserController extends BaseController {
 		return status;
 	}
 
-	@RequestMapping("/getUserPage")
-	@ResponseBody
-	public Page<User> getUserPage(long start, long limit, String sort,
-			String dir, String orgCode, String userName, String cumail,
-			String userAccount) {
-		Page<User> page = new Page<User>();
-		String area = null;
-		
-		try {
-			User user = SecurityUserUtils.getCurrentUser();
-			
-			if(! SecurityUserUtils.isSysAdmin()) {
-				area = user.getArea();
-			}
-			
-			page = service.queryPage(orgCode, userName, cumail, area, userAccount,
-					start, limit, sort, dir);
-		} catch (DBAccessException e) {
-			log.error("getUserPage[User] - " + e.getMessage(), e);
-		}
-
-		return page;
-	}
-	
 	@RequestMapping("/getUserList")
 	@ResponseBody
 	public List<User> getUserList(String area) {
