@@ -354,7 +354,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td style="text-align: center;">
 							<div class="btn-group">
 								<sec:authorize url="/System/org/saveOrModify*.jmt">
-								<button class="btn btn-danger" onclick="editOrg('${org.orgId }')">编辑</button>
+								<button class="btn btn-info" onclick="editOrg('${org.orgId }')">编辑</button>
 								</sec:authorize>
 								<sec:authorize url="/System/org/delete*.jmt">
 								<button class="btn btn-danger" onclick="deleteOrg('${org.orgId }')">删除</button>
