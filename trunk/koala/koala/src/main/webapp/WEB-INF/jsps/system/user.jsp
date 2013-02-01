@@ -19,29 +19,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script type="text/javascript">
     $(function(){
 		$(".renderer-yn").renderer({
-			renderer : "text",
-			renderArray : <thorn:dd  typeId="YESORNO" />
-		});
-		
-		$(".renderer-ynSel").renderer({
 			renderArray : <thorn:dd  typeId="YESORNO" />
 		});
 		
 		$(".renderer-gender").renderer({
-			renderer : "text",
-			renderArray : <thorn:dd  typeId="GENDER" />
-		});
-		
-		$(".renderer-genderSel").renderer({
 			renderArray : <thorn:dd  typeId="GENDER" />
 		});
 		
 		$(".renderer-defRole").renderer({
-			renderer : "text",
-			renderArray : <thorn:dd  typeId="DEFAULTROLE" />
-		});
-		
-		$(".renderer-defRoleSel").renderer({
 			renderArray : <thorn:dd  typeId="DEFAULTROLE" />
 		});
 		
@@ -94,6 +79,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		$("#editUserForm").formDialog({
 			title : "编辑用户信息",
+			width : 700,
 			buttons : [{
 				text : "保存",
 				cls : "btn-primary",
@@ -132,6 +118,79 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}]
 		});
 		
+		$("#restPwdForm").formDialog({
+			title : "修改用户密码",
+			buttons : [{
+				text : "保存",
+				cls : "btn-primary",
+				click : function() {
+					$("#restPwdForm").submitForm({
+						progress : false,
+						onSuccess : function(msg) {
+							$("#restPwdTips").message({
+								type : "success",
+								text : msg,
+								title : "请求处理成功"
+							});
+						},
+						onFailure : function(msg) {
+							$("#restPwdTips").message({
+								type : "error",
+								text : msg,
+								title : "数据处理出错"
+							});
+						},
+						onError : function() {
+							$("#restPwdTips").message({
+								type : "error",
+								text : "网络请求超时，请稍后再试！",
+								title : "数据处理出错"
+							});
+						}
+					});
+				}
+			}, {
+				text : "关闭",
+				closed : true
+			}]
+		});
+		$("#roleForm").formDialog({
+			title : "设置用户角色",
+			buttons : [{
+				text : "保存",
+				cls : "btn-primary",
+				click : function() {
+					$("#roleForm").submitForm({
+						progress : false,
+						onSuccess : function(msg) {
+							$("#roleMsgTips").message({
+								type : "success",
+								text : msg,
+								title : "请求处理成功"
+							});
+						},
+						onFailure : function(msg) {
+							$("#roleMsgTips").message({
+								type : "error",
+								text : msg,
+								title : "数据处理出错"
+							});
+						},
+						onError : function() {
+							$("#roleMsgTips").message({
+								type : "error",
+								text : "网络请求超时，请稍后再试！",
+								title : "数据处理出错"
+							});
+						}
+					});
+				}
+			}, {
+				text : "关闭",
+				closed : true
+			}]
+		});
+		
 		var editOrgTree = $.fn.zTree.init($("#editOrgTree"), setting, [root]);
 		var queryOrgTree = $.fn.zTree.init($("#queryOrgTree"), setting, [root]);
 		
@@ -142,8 +201,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$("#editOrgTree").toggle();
 		});
 		
-		initValidationEngine("editOrgForm");
-		$("#editUserForm").formDialog("show");
+		initValidationEngine("editUserForm");
+		initValidationEngine("restPwdForm");
+		initValidationEngine("roleForm");
     });
     
 	function deleteUser(ids) {
@@ -205,6 +265,93 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		});
 	}
     
+	function openAddWnd() {
+		
+		$("#userMsgTips").html("");
+		$("#editUserForm").resetForm();
+		$("#editUserForm").formDialog("show");
+		
+		$("#editUserForm [name='opType']").val("save");
+	}
+	
+	function openRestWnd() {
+		
+		var cked = $("#userTable").find(":checkbox:checked[class=checkOne]");
+		
+		if(cked.length == 0) {
+			$.dialog.alertInfo("请选择需要修改的数据项！");
+		} else if(cked.length > 1) {
+			$.dialog.alertInfo("请选择一条数据项！");
+		} else {
+			$("#userMsgTips").html("");
+			$("#restPwdForm").resetForm();
+			$("#restPwdForm").formDialog("show");
+			
+			$("#restPwdForm [name='userId']").val(cked.attr("id"));
+		}
+	}
+	
+	function openRoleWnd() {
+		
+		var cked = $("#userTable").find(":checkbox:checked[class=checkOne]");
+		
+		if(cked.length == 0) {
+			$.dialog.alertInfo("请选择需要修改的数据项！");
+		} else if(cked.length > 1) {
+			$.dialog.alertInfo("请选择一条数据项！");
+		} else {
+			$("#roleMsgTips").html("");
+			$("#roleForm").resetForm();
+			
+			$.server.ajaxRequest({
+				url : "<%=path%>/System/user/queryUserRole.jmt",
+				data : {userId : cked.attr("id")},
+				progress : false,
+				onSuccess : function(msg, data) {
+					
+					$("#roleForm .control-group").empty();
+					
+					$.each(data, function(i, n) {
+						var roleCode = n.object.roleCode;
+						var roleName = n.object.roleName;
+						var isCheck = n.relevance;
+						
+						var _laber = $('<label class="checkbox inline" style="margin-left: 10px;"></label>');
+						_laber.append('<input type="checkbox" name="roleCodes" value="' + roleCode + '">' + roleName);
+						
+						if(isCheck) {
+							_laber.find(":checkbox").attr("checked", true);
+						}
+						
+						$("#roleForm .control-group").append(_laber);
+					});
+					
+					$("#roleForm").formDialog("show");
+				}
+			});
+			
+			$("#roleForm [name='userId']").val(cked.attr("id"));
+		}
+	}
+	
+	function openEditWnd(userId) {
+		
+		$("#userMsgTips").html("");
+		$("#editUserForm").resetForm();
+		
+		$.server.ajaxRequest({
+			url : "<%=path%>/System/user/queryUser.jmt",
+			data : {userId : userId},
+			progress : false,
+			onSuccess : function(msg, data) {
+				$("#editUserForm").setFormValues(data);
+				
+				$("#editUserForm [name='opType']").val("modify");
+				$("#editUserForm [name='userPwd']").val("");
+				$("#editUserForm").formDialog("show");
+			}
+		});
+	}
     </script>
     
   </head>
@@ -244,12 +391,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</form>
 			
 			<div class="formOutSide btn-group">
+				<sec:authorize url="/System/user/saveOrModify*.jmt">
+				<button class="btn btn-primary" onclick="openAddWnd();"><i class="icon-plus"></i>新增</button>
+				</sec:authorize>
 				<sec:authorize url="/System/user/delete*.jmt">
 				<button class="btn btn-danger" onclick="deleteUsers();">删除选中项</button>
 				</sec:authorize>
 				<sec:authorize url="/System/user/disabled*.jmt">
 				<button class="btn" onclick="disabledUsers(1);">启用</button>
 				<button class="btn" onclick="disabledUsers(0);">禁用</button>
+				</sec:authorize>
+				<sec:authorize url="/System/user/restPwd.jmt">
+				<button class="btn" onclick="openRestWnd();">修改密码</button>
+				</sec:authorize>
+				<sec:authorize url="/System/user/saveRoleByUser.jmt">
+				<button class="btn" onclick="openRoleWnd();">设置用户角色</button>
 				</sec:authorize>
 			</div>
     		
@@ -263,8 +419,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<th width="20%" class="sort[userName]">姓名</th>
 						<th width="5%">性别</th>
 						<th width="15%">邮箱</th>
-						<th width="11%">电话</th>
-						<th width="8%">默认角色</th>
+						<th width="10%">电话</th>
+						<th width="10%">默认角色</th>
 						<th width="8%">是否显示</th>
 						<th width="8%">是否禁用</th>
 						<th width="10%" style="text-align: center;">操作</th>
@@ -285,7 +441,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td style="text-align: center;">
 							<div class="btn-group">
 								<sec:authorize url="/System/user/saveOrModify*.jmt">
-								<button class="btn btn-info" onclick="editUser('${user.userId }')">编辑</button>
+								<button class="btn btn-info" onclick="openEditWnd('${user.userId }')">编辑</button>
 								</sec:authorize>
 								<sec:authorize url="/System/user/delete*.jmt">
 								<button class="btn btn-danger" onclick="deleteUser'${user.userId }')">删除</button>
@@ -308,87 +464,80 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<input type="hidden" name="orgCode">
 			<div class="control-group">
 				<label class="control-label" for="userId">账号：</label>
-				<div class="controls">
+				<div class="controls-column input-medium">
 					<input type="text" class="input-medium" name="userId" readonly>
-					<p class="help-inline">系统自动生成</p>
+					<p class="help-block">系统自动生成</p>
 				</div>
-			</div>
-			<div class="control-group">	
-				<label class="control-label" for="userName">姓名：</label>
-				<div class="controls">
-					<input type="text" class="input-medium" name="userName"
-						data-validation-engine="validate[required]">
-					<p class="help-inline"><i class="redStar">*</i>必填</p>
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="gender">性别：</label>
-				<div class="controls">
-					<select name="gender" class="input-medium renderer-genderSel"></select>
-				</div>
-			</div>
-			<div class="control-group">	
-				<label class="control-label" for="orgName">所属组织：</label>
-				<div class="controls">
-					<div class="input-append btn-group">
-				  		<input type="text" name="orgName" class="input-medium" readonly>
-				  		<a class="btn dropdown-toggle" id="editOrgBtn">
-				  			选择<span class="caret"></span>
-				  		</a>
-				  		<ul id="editOrgTree" class="dropdown-menu ztree" style="height: 280px;overflow: auto;width: 220px;">
-				  		</ul>
-				  	</div>
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="cumail">邮箱：</label>
-				<div class="controls">
-					<input type="text" class="input-medium" name="cumail" 
-						data-validation-engine="validate[required,maxSize[50],custom[email]]">
-					<p class="help-inline"><i class="redStar">*</i>必填</p>
-				</div>
-			</div>
-			<div class="control-group">		
-				<label class="control-label" for="phone">电话号码：</label>
-				<div class="controls">
-					<input type="text" class="input-medium" name="phone" 
-						data-validation-engine="validate[maxSize[50],custom[phone]]">
-				</div>
-			</div>
-			<div class="control-group">	
-				<label class="control-label" for="defaultRole">默认角色：</label>
-				<div class="controls">
-					<select name="defaultRole" class="input-medium renderer-defRoleSel" 
-						data-validation-engine="validate[required]"></select>
-					<p class="help-inline"><i class="redStar">*</i>必填</p>
-				</div>
-			</div>
-			<div class="control-group">		
 				<label class="control-label" for="userPwd">修改密码：</label>
-				<div class="controls">
+				<div class="controls-column input-medium">
 					<input type="password" class="input-medium" name="userPwd" 
 						data-validation-engine="validate[minSize[6],maxSize[15],custom[pwdStrength]]">
 				</div>
 			</div>
+			<div class="control-group">	
+				<label class="control-label" for="orgName">所属组织：</label>
+				<div class="controls-column input-large">
+					<div class="input-append btn-group">
+				  		<input type="text" name="orgName" class="input-large" 
+				  			data-validation-engine="validate[required]" readonly>
+				  		<a class="btn dropdown-toggle" id="editOrgBtn">
+				  			选择<span class="caret"></span>
+				  		</a>
+				  		<ul id="editOrgTree" class="dropdown-menu ztree" 
+				  			style="height: 250px;overflow: auto;width: 275px;">
+				  		</ul>
+				  	</div>
+				  	<p class="help-block"><i class="redStar">*</i>必填</p>
+				</div>
+			</div>
+			<div class="control-group">	
+				<label class="control-label" for="userName">姓名：</label>
+				<div class="controls-column input-medium">
+					<input type="text" class="input-medium" name="userName"
+						data-validation-engine="validate[required]">
+					<p class="help-block"><i class="redStar">*</i>必填</p>
+				</div>
+				<label class="control-label" for="gender">性别：</label>
+				<div class="controls-column input-medium">
+					<select name="gender" class="input-medium renderer-gender"></select>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="cumail">邮箱：</label>
+				<div class="controls-column input-medium">
+					<input type="text" class="input-medium" name="cumail" 
+						data-validation-engine="validate[required,maxSize[50],custom[email]]">
+					<p class="help-block"><i class="redStar">*</i>必填</p>
+				</div>
+				<label class="control-label" for="phone">电话号码：</label>
+				<div class="controls-column input-medium">
+					<input type="text" class="input-medium" name="phone" 
+						data-validation-engine="validate[maxSize[50],custom[phone]]">
+				</div>
+			</div>
 			<div class="control-group">
 				<label class="control-label" for="isShow">是否显示：</label>
-				<div class="controls">
-					<select name="isShow" class="input-medium renderer-ynSel" 
+				<div class="controls-column input-medium">
+					<select name="isShow" class="input-medium renderer-yn" 
 						data-validation-engine="validate[required]"></select>
-					<p class="help-inline"><i class="redStar">*</i>必填</p>
+					<p class="help-block"><i class="redStar">*</i>必填</p>
+				</div>
+				<label class="control-label" for="defaultRole">默认角色：</label>
+				<div class="controls-column input-medium">
+					<select name="defaultRole" class="input-medium renderer-defRole" 
+						data-validation-engine="validate[required]"></select>
+					<p class="help-block"><i class="redStar">*</i>必填</p>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="isDisabled">是否禁用：</label>
-				<div class="controls">
-					<select name="isDisabled" class="input-medium renderer-ynSel"
+				<div class="controls-column input-medium">
+					<select name="isDisabled" class="input-medium renderer-yn"
 						 data-validation-engine="validate[required]"></select>
-					<p class="help-inline"><i class="redStar">*</i>必填</p>
+					<p class="help-block"><i class="redStar">*</i>必填</p>
 				</div>
-			</div>
-			<div class="control-group">	
 				<label class="control-label" for="sortNum">排序号：</label>
-				<div class="controls">
+				<div class="controls-column input-medium">
 					<input type="text" class="input-medium" name="sortNum"
 						data-validation-engine="validate[custom[number]]">
 				</div>
@@ -396,8 +545,38 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</fieldset>
 	</form>
     
+    <form class="form-horizontal" method="post" action="<%=path%>/System/user/restPwd.jmt" id="restPwdForm">
+    	<fieldset>
+			<div id="restPwdTips"></div>
+			<div class="control-group">
+				<label class="control-label" for="newPwd">新密码：</label>
+				<div class="controls">
+					<input type="hidden" name="userId">
+					<input type="password" class="input-xlarge" id="newPwd" name="newPwd"
+						data-validation-engine="validate[required,minSize[6],maxSize[15],custom[pwdStrength]]">
+					<p class="help-block"><i class="redStar">*</i>必填，长度为6-15位</p>
+					<p class="help-block"><i class="redStar">*</i>至少包含数字、特殊符号和大、小写字母中的两种</p>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="cfPassword">确认密码：</label>
+				<div class="controls">
+					<input type="password" class="input-xlarge" id="cfPassword" name="cfPassword"
+						data-validation-engine="validate[required,equals[newPwd]]">
+					<p class="help-block"><i class="redStar">*</i>必填，再次输入新密码</p>
+				</div>
+			</div>
+		</fieldset>
+    </form>
     
-    
+    <form class="form-horizontal" method="post" action="<%=path%>/System/user/saveRoleByUser.jmt" id="roleForm">
+    	<fieldset>
+			<div id="roleMsgTips"></div>
+			<input type="hidden" name="userId">
+			<div class="control-group"></div>
+    	</fieldset>
+    </form>	
+    	
     <c:import url="../ref/conditionWriteBack.jsp">
 		<c:param name="conditionWriteBackFormId">queryForm</c:param>
 	</c:import>

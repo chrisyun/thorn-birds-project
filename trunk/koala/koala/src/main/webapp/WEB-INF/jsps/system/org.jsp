@@ -25,30 +25,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript">
 	$(function(){
 		
-		$("#queryOrgType,.renderer-typeSel").renderer({
-			renderArray : <thorn:dd  typeId="ORGTYPE" />
-		});
-		
 		$(".renderer-type").renderer({
-			renderer : "text",
 			renderArray : <thorn:dd  typeId="ORGTYPE" />
 		});
 		
 		$(".renderer-yn").renderer({
-			renderer : "text",
-			renderArray : <thorn:dd  typeId="YESORNO" />
-		});
-		
-		$(".renderer-ynSel").renderer({
 			renderArray : <thorn:dd  typeId="YESORNO" />
 		});
 		
 		$(".renderer-area").renderer({
-			renderer : "text",
-			renderArray : <thorn:dd  typeId="AREA" />
-		});
-		
-		$(".renderer-areaSel").renderer({
 			renderArray : <thorn:dd  typeId="AREA" />
 		});
 		
@@ -200,6 +185,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 		$("#editOrgForm").formDialog({
 			title : "编辑组织机构",
+			width : 700,
 			buttons : [{
 				text : "保存",
 				cls : "btn-primary",
@@ -314,7 +300,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  	<input type="text" name="orgName" class="input-mini">
 			  	<label style="width: 10px;"></label>
 			  	<label>组织类型：</label>
-			  	<select name="orgType" id="queryOrgType" class="input-medium"></select>
+			  	<select name="orgType" id="queryOrgType" class="input-medium renderer-type"></select>
 			  	<input type="hidden" name="pid" id="pid">
 			  	<button type="submit" class="btn">搜索</button>
 			</form>
@@ -378,74 +364,64 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<input type="hidden" name="orgId">
 			<div class="control-group">
 				<label class="control-label" for="orgCode">组织机构编码：</label>
-				<div class="controls">
+				<div class="controls-column input-medium">
 					<input type="text" class="input-medium" name="orgCode"
 						data-validation-engine="validate[required,custom[onlyLetterNumber]]">
-					<p class="help-inline"><i class="redStar">*</i>必填</p>
+					<p class="help-block"><i class="redStar">*</i>必填</p>
 				</div>
-			</div>
-			<div class="control-group">	
-				<label class="control-label" for="orgName">组织机构名称：</label>
-				<div class="controls">
-					<input type="text" class="input-medium" name="orgName"
-						data-validation-engine="validate[required]">
-					<p class="help-inline"><i class="redStar">*</i>必填</p>
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="showName">机构显示名称：</label>
-				<div class="controls">
-					<input type="text" class="input-medium" name="showName"
-						data-validation-engine="validate[required]">
-					<p class="help-inline"><i class="redStar">*</i>必填</p>
-				</div>
-			</div>
-			<div class="control-group">	
 				<label class="control-label" for="parentOrgName">上级组织机构：</label>
-				<div class="controls">
+				<div class="controls-column input-medium">
 					<input type="text" class="input-medium" name="parentOrgName" readonly>
 				</div>
 			</div>
 			<div class="control-group">
+				<label class="control-label" for="orgName">组织机构名称：</label>
+				<div class="controls-column input-medium">
+					<input type="text" class="input-medium" name="orgName"
+						data-validation-engine="validate[required]">
+					<p class="help-block"><i class="redStar">*</i>必填</p>
+				</div>
+				<label class="control-label" for="showName">机构显示名称：</label>
+				<div class="controls-column input-medium">
+					<input type="text" class="input-medium" name="showName"
+						data-validation-engine="validate[required]">
+					<p class="help-block"><i class="redStar">*</i>必填</p>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="orgType">组织机构类型：</label>
+				<div class="controls-column input-medium">
+					<select name="orgType" class="input-medium renderer-type" 
+						data-validation-engine="validate[required]"></select>
+					<p class="help-block"><i class="redStar">*</i>必填</p>
+				</div>
 				<label class="control-label" for="orgMail">组织邮箱：</label>
-				<div class="controls">
+				<div class="controls-column input-medium">
 					<input type="text" class="input-medium" name="orgMail" 
 						data-validation-engine="validate[maxSize[50],custom[email]]">
 				</div>
 			</div>
-			<div class="control-group">	
-				<label class="control-label" for="orgType">组织机构类型：</label>
-				<div class="controls">
-					<select name="orgType" class="input-medium renderer-typeSel" 
-						data-validation-engine="validate[required]"></select>
-					<p class="help-inline"><i class="redStar">*</i>必填</p>
-				</div>
-			</div>
 			<div class="control-group">
 				<label class="control-label" for="isShow">是否显示：</label>
-				<div class="controls">
-					<select name="isShow" class="input-medium renderer-ynSel" 
+				<div class="controls-column input-medium">
+					<select name="isShow" class="input-medium renderer-yn" 
 						data-validation-engine="validate[required]"></select>
-					<p class="help-inline"><i class="redStar">*</i>必填</p>
+					<p class="help-block"><i class="redStar">*</i>必填</p>
 				</div>
-			</div>
-			<div class="control-group">		
 				<label class="control-label" for="area">所属区域：</label>
-				<div class="controls">
-					<select name="area" class="input-medium renderer-areaSel"></select>
+				<div class="controls-column input-medium">
+					<select name="area" class="input-medium renderer-area"></select>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="isDisabled">是否禁用：</label>
-				<div class="controls">
-					<select name="isDisabled" class="input-medium renderer-ynSel"
+				<div class="controls-column input-medium">
+					<select name="isDisabled" class="input-medium renderer-yn"
 						 data-validation-engine="validate[required]"></select>
-					<p class="help-inline"><i class="redStar">*</i>必填</p>
+					<p class="help-block"><i class="redStar">*</i>必填</p>
 				</div>
-			</div>
-			<div class="control-group">	
 				<label class="control-label" for="sortNum">排序号：</label>
-				<div class="controls">
+				<div class="controls-column input-medium">
 					<input type="text" class="input-medium" name="sortNum"
 						data-validation-engine="validate[custom[number]]">
 				</div>

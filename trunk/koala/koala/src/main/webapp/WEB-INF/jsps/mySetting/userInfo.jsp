@@ -15,8 +15,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	$(function(){
 		$("#area").renderer({
 			renderArray : <thorn:dd  typeId="AREA" />,
-			value : "${user.area }",
-			renderer : "text"
+			value : "${user.area }"
 		});
 		
 		initValidationEngine("userForm");
