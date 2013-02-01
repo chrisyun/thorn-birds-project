@@ -122,64 +122,6 @@ public class RoleController extends BaseController {
 
 	/**
 	 * 
-	 * @Description：获取用户与所有角色的关系
-	 * @author：chenyun
-	 * @date：2012-5-25 上午11:54:53
-	 * @param userId
-	 * @return
-	 */
-	@RequestMapping("/getUserRole")
-	@ResponseBody
-	public JsonResponse<List<Relation>> getUserRoles(String userId) {
-		JsonResponse<List<Relation>> json = new JsonResponse<List<Relation>>();
-
-		List<Relation> list = new ArrayList<Relation>();
-
-		try {
-			// 只有rolecode
-			List<Role> userRole = authService.queryRoleByUser(userId);
-
-			List<Role> role = service.queryAllRoles();
-			for (Role r : role) {
-				//不显示默认角色
-				if (LocalStringUtils.equals(r.getRoleCode(),
-						SecurityConfiguration.COMMON_USER_ROLE)
-						|| LocalStringUtils.equals(r.getRoleCode(),
-								SecurityConfiguration.SYS_ADMIN_ROLE)) {
-					continue;
-				}
-
-				Relation relation = new Relation();
-				relation.setSubject(userId);
-				relation.setObject(r);
-				relation.setRelevance(false);
-				list.add(relation);
-			}
-
-			for (Role ur : userRole) {
-
-				for (Relation r : list) {
-
-					if (LocalStringUtils.equals(ur.getRoleCode(),
-							((Role) r.getObject()).getRoleCode())) {
-						r.setRelevance(true);
-						break;
-					}
-				}
-			}
-
-			json.setObj(list);
-		} catch (DBAccessException e) {
-			json.setSuccess(false);
-			json.setMessage("数据加载失败：" + e.getMessage());
-			log.error("getUserRoles[Relation] - " + e.getMessage(), e);
-		}
-
-		return json;
-	}
-
-	/**
-	 * 
 	 * @Description：授权资源给角色
 	 * @author：chenyun
 	 * @date：2012-5-25 上午11:55:19

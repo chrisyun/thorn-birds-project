@@ -30,6 +30,11 @@ hr {
 	border-top: 1px solid #DDDDDD;
 }
 
+.controls-column {
+	float: left;
+	margin-left: 5px;
+}
+
 .rectangle-header {
 	background-color: #F5F5F5;
 	border-bottom: 1px solid #DDDDDD;
@@ -45,12 +50,12 @@ footer {
 }
 
 footer ul {
-	box-shadow : none;
+	box-shadow: none;
 	margin: 20px 0px;
 }
 
 footer li {
-	display : inline-block;
+	display: inline-block;
 	margin-right: 5px;
 }
 

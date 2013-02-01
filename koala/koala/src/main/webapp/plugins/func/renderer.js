@@ -1,10 +1,10 @@
 (function($) {
 	$.fn.renderer = function(options) {
 
-		// renderer[select,text,detail,custom]
+		// renderer[text,detail,custom]
 
 		var defaults = {
-			renderer : "select",
+			renderer : "text",
 			renderArray : new Array(),
 			value : null,
 			hasSelectBlank : true,
@@ -19,46 +19,45 @@
 			var array = options.renderArray;
 
 			switch (options.renderer) {
-			case "select":
-
-				if (options.hasSelectBlank) {
-					$(this).append(options.selectBlank);
-				}
-
-				for ( var i = 0; i < array.length; i++) {
-					var text = array[i][1];
-					var value = array[i][0];
-
-					$(this).append(
-							'<option value="' + value + '">' + text
-									+ '</option>');
-				}
-
-				$(this).val(options.value);
-
-				break;
 			case "text":
-
-				if ($(this).is("input")) {
-					options.value = $(this).val();
-				} else {
-					options.value = $(this).html();
-				}
 				
-				for ( var i = 0; i < array.length; i++) {
-					var text = array[i][1];
-					var value = array[i][0];
-					
-					if (value == options.value) {
+				if($(this).is("select")) {
+					if (options.hasSelectBlank) {
+						$(this).append(options.selectBlank);
+					}
 
-						if ($(this).is("input")) {
-							$(this).val(text);
-						} else {
-							$(this).html(text);
+					for ( var i = 0; i < array.length; i++) {
+						var text = array[i][1];
+						var value = array[i][0];
+
+						$(this).append(
+								'<option value="' + value + '">' + text
+										+ '</option>');
+					}
+
+					$(this).val(options.value);
+				} else {
+					if ($(this).is("input")) {
+						options.value = $(this).val();
+					} else {
+						options.value = $(this).html();
+					}
+					
+					for ( var i = 0; i < array.length; i++) {
+						var text = array[i][1];
+						var value = array[i][0];
+						
+						if (value == options.value) {
+
+							if ($(this).is("input")) {
+								$(this).val(text);
+							} else {
+								$(this).html(text);
+							}
 						}
 					}
+					
 				}
-
 				break;
 			case "detail":
 

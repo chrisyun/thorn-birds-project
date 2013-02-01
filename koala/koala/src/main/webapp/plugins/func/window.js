@@ -76,6 +76,14 @@
 		$("#" + this.options.id).modal("hide");
 	};
 
+	CWnd.prototype.setTitle = function(title) {
+
+		if (!$.utils.isEmpty(title)) {
+			title = this.options.title;
+		}
+		$("#" + this.options.id + " > .modal-header > h3").html(title);
+	};
+
 	$.dialog = {
 		progress : function(action) {
 
@@ -204,7 +212,10 @@
 		var _form = $(this);
 
 		var _method = {
-			show : function() {
+			show : function(title) {
+				if (!$.utils.isEmpty(title)) {
+					$("#" + _dialogId + " > .modal-header > h3").html(title);
+				}
 				$("#" + _dialogId).modal("show");
 			},
 			close : function() {
@@ -266,9 +277,9 @@
 		if ($.utils.isEmpty(options)) {
 			options = "show";
 		}
-
+		
 		if (typeof options == "string") {
-			_method[options]();
+			_method[options](arguments[arguments.length - 1]);
 			return;
 		} else {
 			_method["init"](options);
