@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class Page<T> implements Serializable {
 
-	public static final long DEFAULT_LIMIT = 5;
+	public static final long DEFAULT_LIMIT = 20;
 
 	/** */
 	private static final long serialVersionUID = 5951452024298265919L;

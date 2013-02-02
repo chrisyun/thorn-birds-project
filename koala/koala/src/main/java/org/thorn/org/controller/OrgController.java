@@ -200,11 +200,11 @@ public class OrgController extends BaseController {
 	
 	@RequestMapping(value = "/saveOrModifyOrgDrag.jmt", method = RequestMethod.POST)
 	@ResponseBody
-	public Status saveOrModifyOrgDrag(String ids, Integer target, String moveType) {
+	public Status saveOrModifyOrgDrag(String ids, String target, String moveType) {
 		Status status = new Status();
 		
 		try {
-			Org org = orgService.queryOrg(null, String.valueOf(target));
+			Org org = orgService.queryOrg(target, null);
 			orgService.modifyOrgByDrag(moveType, org, ids);
 			status.setMessage("移动组织机构成功！");
 		} catch (DBAccessException e) {

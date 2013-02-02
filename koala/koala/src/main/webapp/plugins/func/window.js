@@ -279,7 +279,14 @@
 		}
 		
 		if (typeof options == "string") {
-			_method[options](arguments[arguments.length - 1]);
+			
+			if(arguments.length > 1) {
+				_method[options](arguments[arguments.length - 1]);
+			} else {
+				_method[options]();
+			}
+			
+			
 			return;
 		} else {
 			_method["init"](options);
