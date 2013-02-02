@@ -113,7 +113,7 @@
 			<if test="sortNum != null">SORTNUM = #{sortNum,jdbcType=DECIMAL},</if>
 			<if test="parentOrg != null and parentOrg != ''">PARENTORG = #{parentOrg,jdbcType=VARCHAR},</if>
 		</set>
-		where  ORGID in
+		where  orgCode in
 		<foreach collection="list" item="item" open="(" close=")"
 			separator=",">
 			#{item,jdbcType=DECIMAL}
