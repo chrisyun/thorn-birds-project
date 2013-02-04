@@ -229,7 +229,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		if(ids == "") {
 			$.dialog.alertInfo("请选择需要删除的项！");
 		} else {
-			deleteDt(ids);
+			deleteUser(ids);
 		}
 	}
     

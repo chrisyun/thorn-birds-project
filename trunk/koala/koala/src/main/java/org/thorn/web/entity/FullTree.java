@@ -17,10 +17,10 @@ public class FullTree extends Tree implements Serializable {
 	
 	private String uiProvider;
 	
-	private List<FullTree> children = new ArrayList<FullTree>(); 
+	private List<FullTree> children = new ArrayList<FullTree>();
 	
 	private boolean expanded;
-
+	
 	public String getUiProvider() {
 		return uiProvider;
 	}
@@ -43,6 +43,10 @@ public class FullTree extends Tree implements Serializable {
 
 	public void setExpanded(boolean expanded) {
 		this.expanded = expanded;
+	}
+
+	public String getOpen() {
+		return String.valueOf(expanded);
 	}
 }
 

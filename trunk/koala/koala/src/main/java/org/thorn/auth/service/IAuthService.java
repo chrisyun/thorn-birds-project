@@ -51,7 +51,7 @@ public interface IAuthService {
 	 *            资源的主键集合
 	 * @throws DBAccessException
 	 */
-	public void saveRoleAuth(String roleCode, String sourceIds)
+	public void saveRoleAuth(String roleCode, String[] sourceIds)
 			throws DBAccessException;
 
 	/**

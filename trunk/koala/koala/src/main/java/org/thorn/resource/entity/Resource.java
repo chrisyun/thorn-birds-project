@@ -29,6 +29,8 @@ public class Resource implements Serializable {
 	private String isShow;
 
 	private String parentSource;
+	
+	private String parentSourceName;
 
 	private int sortNum;
 
@@ -98,4 +100,12 @@ public class Resource implements Serializable {
 		this.sourceName = sourceName;
 	}
 
+	public String getParentSourceName() {
+		return parentSourceName;
+	}
+
+	public void setParentSourceName(String parentSourceName) {
+		this.parentSourceName = parentSourceName;
+	}
+	
 }

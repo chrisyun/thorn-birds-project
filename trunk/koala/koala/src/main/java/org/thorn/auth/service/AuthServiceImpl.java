@@ -47,15 +47,13 @@ public class AuthServiceImpl implements IAuthService {
 		return authDao.queryListByRole(filter);
 	}
 
-	public void saveRoleAuth(String roleCode, String sourceIds)
+	public void saveRoleAuth(String roleCode, String[] sourceIds)
 			throws DBAccessException {
-		List<String> list = LocalStringUtils.splitStr2Array(sourceIds);
-
 		authDao.deleteRoleSource(roleCode);
 
-		if (list != null && list.size() > 0) {
+		if (sourceIds != null && sourceIds.length > 0) {
 			Map<String, String> rs = new HashMap<String, String>();
-			for (String sourceCode : list) {
+			for (String sourceCode : sourceIds) {
 				rs.put("roleCode", roleCode);
 				rs.put("sourceCode", sourceCode);
 

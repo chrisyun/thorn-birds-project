@@ -29,13 +29,17 @@
 					for ( var i = 0; i < array.length; i++) {
 						var text = array[i][1];
 						var value = array[i][0];
-
+						
+						var selected = "";
+						
+						if(options.value == value) {
+							selected = " selected";
+						}
+						
 						$(this).append(
-								'<option value="' + value + '">' + text
+								'<option value="' + value + '"' + selected + '>' + text
 										+ '</option>');
 					}
-
-					$(this).val(options.value);
 				} else {
 					if ($(this).is("input")) {
 						options.value = $(this).val();
