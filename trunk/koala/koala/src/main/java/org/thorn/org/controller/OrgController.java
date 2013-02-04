@@ -214,28 +214,5 @@ public class OrgController extends BaseController {
 		
 		return status;
 	}
-	
-	
-	public Page<Org> getOrgPage(long start, long limit, String sort,
-			String dir, String pid, String orgCode, String orgName,
-			String orgType) {
-		Page<Org> page = new Page<Org>();
-		String area = null;
-
-		try {
-			User user = SecurityUserUtils.getCurrentUser();
-
-			if (!SecurityUserUtils.isSysAdmin()) {
-				area = user.getArea();
-			}
-
-			page = orgService.queryPage(pid, orgCode, orgName, orgType, area,
-					start, limit, sort, dir);
-		} catch (DBAccessException e) {
-			log.error("getOrgPage[org] - " + e.getMessage(), e);
-		}
-
-		return page;
-	}
 
 }
