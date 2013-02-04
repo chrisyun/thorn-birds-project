@@ -172,11 +172,11 @@ public class RoleController extends BaseController {
 	 */
 	@RequestMapping(value = "/authorizedRole.jmt", method = RequestMethod.POST)
 	@ResponseBody
-	public Status authorizedRole(String roleCode, String ids) {
+	public Status authorizedRole(String roleCode, String[] ids) {
 		Status status = new Status();
 
 		try {
-			authService.saveRoleAuth(roleCode, null);
+			authService.saveRoleAuth(roleCode, ids);
 			status.setMessage("角色授权成功！");
 		} catch (DBAccessException e) {
 			status.setSuccess(false);
