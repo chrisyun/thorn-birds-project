@@ -12,7 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     
     <title>角色管理</title>
-	<link href="<%=path %>/plugins/zTree/zTreeBookStyle.css" rel="stylesheet">
+	<link href="<%=path %>/plugins/zTree/zTreeStyle.css" rel="stylesheet">
     <script type="text/javascript" src="<%=path %>/plugins/zTree/jquery.ztree.all-3.5.js"></script>
     <script type="text/javascript">
     $(function(){
@@ -148,22 +148,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					appTree.checkAllNodes(false);
 					cmsTree.checkAllNodes(false);
 					
-					$.each(data, function(i, sourceCode) {
-						var node = sysTree.getNodeByTId(sourceCode);
-						if(node != null) {
+					var sysNodes = sysTree.transformToArray(sysTree.getNodes());
+					var appNodes = appTree.transformToArray(appTree.getNodes());
+					var cmsNodes = cmsTree.transformToArray(cmsTree.getNodes());
+					
+					$.each(sysNodes, function(i, node) {
+						
+						var id = node.id;
+						if($.inArray(id, data) > -1) {
 							sysTree.checkNode(node, true, false);
 						}
+					});
+					
+					$.each(appNodes, function(i, node) {
 						
-						if(node == null) {
-							node = appTree.getNodeByTId(sourceCode);
+						var id = node.id;
+						if($.inArray(id, data) > -1) {
 							appTree.checkNode(node, true, false);
 						}
+					});
+					
+					$.each(cmsNodes, function(i, node) {
 						
-						if(node == null) {
-							node = cmsTree.getNodeByTId(sourceCode);
+						var id = node.id;
+						if($.inArray(id, data) > -1) {
 							cmsTree.checkNode(node, true, false);
 						}
 					});
+					
 				}
 			});
 		}

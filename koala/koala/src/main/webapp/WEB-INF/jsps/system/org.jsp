@@ -287,7 +287,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		<div class="span3">
   			<div style="border: 1px solid #DDDDDD;margin-bottom: 20px;">
   				<div class="rectangle-header">组织机构树</div>
-  				<ul id="orgTree" class="ztree" style="height: 280px;overflow: auto;"></ul>
+  				<ul id="orgTree" class="ztree" style="height: 400px;overflow: auto;"></ul>
   			</div>
   		</div>
   		
