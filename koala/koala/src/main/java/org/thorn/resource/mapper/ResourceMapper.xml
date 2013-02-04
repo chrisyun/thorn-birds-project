@@ -11,13 +11,15 @@
 		<result column="ISLEAF" property="isleaf" jdbcType="VARCHAR" />
 		<result column="ISSHOW" property="isShow" jdbcType="VARCHAR" />
 		<result column="PARENTSOURCE" property="parentSource" jdbcType="VARCHAR" />
+		<result column="PARENTSOURCENAME" property="parentSourceName" jdbcType="VARCHAR" />
 		<result column="SORTNUM" property="sortNum" jdbcType="DECIMAL" />
 		<result column="ICONSCLS" property="iconsCls" jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<sql id="Base_Column_List">
 		s.SOURCECODE, s.SOURCENAME, s.SOURCEURL, s.ISLEAF,
-		s.ISSHOW, s.PARENTSOURCE,s.SORTNUM, s.ICONSCLS
+		s.ISSHOW, s.PARENTSOURCE,s.SORTNUM, s.ICONSCLS, 
+		P.SOURCENAME as PARENTSOURCENAME
   	</sql>
 
 	<sql id="Where_Clause">
@@ -76,7 +78,7 @@
 			<if test="isleaf != null and isleaf != ''">ISLEAF = #{isleaf,jdbcType=VARCHAR},</if>
 			<if test="isShow != null and isShow != ''">ISSHOW = #{isShow,jdbcType=VARCHAR},</if>
 			<if test="parentSource != null and parentSource != ''">PARENTSOURCE = #{parentSource,jdbcType=VARCHAR},</if>
-			<if test="iconsCls != null and iconsCls != ''">ICONSCLS = #{iconsCls,jdbcType=VARCHAR},</if>
+			<if test="iconsCls != null">ICONSCLS = #{iconsCls,jdbcType=VARCHAR},</if>
 		</set>
 		where SOURCECODE = #{sourceCode,jdbcType=VARCHAR}
 	</update>
@@ -93,7 +95,7 @@
 		<include refid="MySQLCommonMapper.pagingStart"/>
 		select
 		<include refid="Base_Column_List" />
-		from T_SYS_RESOURCE s
+		from T_SYS_RESOURCE s LEFT JOIN T_SYS_RESOURCE P ON P.SOURCECODE = s.parentSource
 		<include refid="Where_Clause" />
 		<include refid="MySQLCommonMapper.sortInfo"/>
 		<include refid="MySQLCommonMapper.pagingEnd"/>
