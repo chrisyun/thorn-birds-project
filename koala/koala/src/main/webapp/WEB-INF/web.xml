@@ -101,16 +101,6 @@
 		<url-pattern>/resources/ImageValidateCodeServlet</url-pattern>
 	</servlet-mapping>
 
-	<!-- http查看日志 -->
-	<servlet>
-		<servlet-name>ViewLastLog</servlet-name>
-		<servlet-class>org.thorn.log.controller.SysLogViewController</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>ViewLastLog</servlet-name>
-		<url-pattern>/system/log/sysLogView.jsp</url-pattern>
-	</servlet-mapping>
-
 	<jsp-config>
 		<taglib>
 			<taglib-uri>/thorn</taglib-uri>

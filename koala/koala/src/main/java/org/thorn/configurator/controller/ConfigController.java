@@ -9,16 +9,18 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.dom4j.DocumentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.thorn.configurator.service.ConfiguratorService;
-import org.thorn.core.util.LocalStringUtils;
 import org.thorn.web.controller.BaseController;
 import org.thorn.web.entity.JsonResponse;
 import org.thorn.web.entity.Status;
@@ -30,7 +32,7 @@ import org.thorn.web.entity.Status;
  * @date 2012-6-4 下午09:11:49 
  */
 @Controller
-@RequestMapping("/cf")
+@RequestMapping("/System/cf")
 public class ConfigController extends BaseController {
 	
 	static Logger log = LoggerFactory.getLogger(ConfigController.class);
@@ -39,44 +41,25 @@ public class ConfigController extends BaseController {
 	@Qualifier("configuratorService")
 	private ConfiguratorService service;
 	
-	@RequestMapping("/getConfigName")
-	@ResponseBody
-	public List<Map<String,String>> getAvailableConfig() {
+	@RequestMapping("/queryConfig.jhtml")
+	public String queryConfig(String name, ModelMap model) {
+		
 		Set<String> names = service.getConfigName();
-		List<Map<String,String>> json = new ArrayList<Map<String,String>>();
+		model.put("cfNames", names);
 		
-		for(String name : names) {
-			Map<String, String> map = new HashMap<String, String>();
-			map.put("name", name);
-			json.add(map);
-		}
-		
-		return json;
-	}
-
-	@RequestMapping("/getConfig")
-	@ResponseBody
-	public JsonResponse<Map<String,String>> getConfig(String name) {
-		JsonResponse<Map<String,String>> json = new JsonResponse<Map<String,String>>();
-		
-		if(LocalStringUtils.isEmpty(name)) {
-			json.setMessage("配置文件名称为空！");
-			json.setSuccess(false);
-		} else {
+		if(StringUtils.isNotBlank(name)) {
 			try {
 				Map<String, String> cf = service.getConfigProperty(name);
-				json.setObj(cf);
+				model.put("cf", cf);
 			} catch (DocumentException e) {
-				json.setMessage("获取配置文件内容发生错误："+ e.getMessage());
-				json.setSuccess(false);
-				log.error("getConfig[Map] - " + e.getMessage(), e);
+				log.error("queryConfig[Map] - " + e.getMessage(), e);
 			}
 		}
 		
-		return json;
+		return "system/configurator";
 	}
 	
-	@RequestMapping("/modifyConfig")
+	@RequestMapping(value = "/modifyConfig.jmt", method = RequestMethod.POST)
 	@ResponseBody
 	public Status modifyConfig(String name, HttpServletRequest request) {
 		Enumeration<String> parames = request.getParameterNames();
@@ -101,6 +84,40 @@ public class ConfigController extends BaseController {
 		return status;
 	}
 	
+	
+	
+	public List<Map<String,String>> getAvailableConfig() {
+		Set<String> names = service.getConfigName();
+		List<Map<String,String>> json = new ArrayList<Map<String,String>>();
+		
+		for(String name : names) {
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("name", name);
+			json.add(map);
+		}
+		
+		return json;
+	}
+
+	public JsonResponse<Map<String,String>> getConfig(String name) {
+		JsonResponse<Map<String,String>> json = new JsonResponse<Map<String,String>>();
+		
+		if(StringUtils.isEmpty(name)) {
+			json.setMessage("配置文件名称为空！");
+			json.setSuccess(false);
+		} else {
+			try {
+				Map<String, String> cf = service.getConfigProperty(name);
+				json.setObj(cf);
+			} catch (DocumentException e) {
+				json.setMessage("获取配置文件内容发生错误："+ e.getMessage());
+				json.setSuccess(false);
+				log.error("getConfig[Map] - " + e.getMessage(), e);
+			}
+		}
+		
+		return json;
+	}
 	
 }
 
