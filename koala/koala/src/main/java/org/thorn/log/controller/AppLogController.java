@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.thorn.core.excel.ArrayAdapter;
@@ -31,7 +32,7 @@ import org.thorn.web.util.ResponseHeaderUtils;
  * @date 2012-5-26 下午10:00:25
  */
 @Controller
-@RequestMapping("/log")
+@RequestMapping("/System/log")
 public class AppLogController extends BaseController {
 
 	static Logger log = LoggerFactory.getLogger(AppLogController.class);
@@ -40,21 +41,22 @@ public class AppLogController extends BaseController {
 	@Qualifier("logService")
 	private IAppLogService logService;
 
-	@RequestMapping("/getLogPage")
-	@ResponseBody
-	public Page<AppLog> getLogPage(long start, long limit, String sort,
+	@RequestMapping("/queryLogPage.jhtml")
+	public String queryLogPage(Long pageIndex, Long pageSize, String sort,
 			String dir, String moduleName, String handleResult,
-			String startTime, String endTime) {
-		Page<AppLog> page = new Page<AppLog>();
+			String startTime, String endTime, ModelMap model) {
+		Page<AppLog> page = new Page<AppLog>(pageIndex, pageSize);
 
 		try {
-			page = logService.queryPage(moduleName, handleResult, startTime,
-					endTime, start, limit, sort, dir);
+			page.setPageData(logService.queryPage(moduleName, handleResult, startTime,
+					endTime, page.getStart(), page.getPageSize(), sort, dir));
+			
+			model.put("page", page);
 		} catch (DBAccessException e) {
-			log.error("getLogPage[AppLog] - " + e.getMessage(), e);
+			log.error("queryLogPage[AppLog] - " + e.getMessage(), e);
 		}
 
-		return page;
+		return "system/applog";
 	}
 
 	@RequestMapping("/exportLogExcel")
