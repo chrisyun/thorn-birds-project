@@ -10,13 +10,26 @@
 	int i = 0;
 	while(e.hasMoreElements()) {
 		String name = e.nextElement();
-		String value = StringUtils.defaultString(request.getParameter(name));
+		String[] values = request.getParameterValues(name);
 		
 		if(i != 0) {
 			json.append(",");
 		}
 		
-		json.append("{'key':'").append(name).append("','value':'").append(value).append("'}");
+		if(values == null || values.length == 0) {
+			continue;
+		}
+		
+		json.append("{'key':'").append(name).append("','value':[");
+		for(int j = 0; j < values.length; j++) {
+			if(j != 0) {
+				json.append(",");
+			}
+			
+			json.append("'").append(values[j]).append("'");
+		}
+		
+		json.append("]}");
 		i++;
 	}
 	json.append("]");
@@ -38,7 +51,7 @@ $(function() {
 		var comp = _from.filter("[name='" + key + "']");
 		
 		if (comp.length == 1) {
-			comp.val(value);
+			comp.val(value[0]);
 		} else if (comp.length > 1) {
 
 			var type = comp.attr("type").toLowerCase();
@@ -47,7 +60,7 @@ $(function() {
 
 				comp.each(function() {
 					var v = $(this).val();
-					if (v == value) {
+					if ($.inArray(v,value) > -1) {
 						$(this).attr("checked", true);
 					}
 				});

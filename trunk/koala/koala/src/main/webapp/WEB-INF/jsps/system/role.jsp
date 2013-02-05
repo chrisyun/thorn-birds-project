@@ -294,7 +294,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  	<button type="submit" class="btn">搜索</button>
 			</form>
 			
-			<div class="formOutSide">
+			<div class="well formOutSide">
 				<sec:authorize url="/System/role/saveOrModify*.jmt">
 				<button class="btn btn-primary" onclick="openAddWnd();"><i class="icon-plus"></i>新增</button>
 				</sec:authorize>

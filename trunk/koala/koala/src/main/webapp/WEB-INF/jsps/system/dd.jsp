@@ -302,7 +302,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  	<button type="submit" class="btn">搜索</button>
 			</form>
 			
-			<div class="formOutSide">
+			<div class="well formOutSide">
 				<sec:authorize url="/System/dd/saveOrModify*.jmt">
 				<button class="btn btn-primary" onclick="openAddDtWnd();"><i class="icon-plus"></i>新增</button>
 				</sec:authorize>
@@ -413,7 +413,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<fieldset>
 			<div id="ddMsgTips"></div>
 			<div class="control-group">
-				<label class="control-label" for="ename">数据编码：</label>
+				<label class="control-label" for="dname">数据编码：</label>
 				<div class="controls">
 					<input type="text" class="input-medium" name="dname"
 						data-validation-engine="validate[required]">
@@ -423,7 +423,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label" for="cname">数据名称：</label>
+				<label class="control-label" for="dvalue">数据名称：</label>
 				<div class="controls">
 					<input type="text" class="input-medium" name="dvalue"
 						data-validation-engine="validate[required]">
@@ -431,7 +431,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label" for="typeDesc">排序号：</label>
+				<label class="control-label" for="sortNum">排序号：</label>
 				<div class="controls">
 					<input type="text" class="input-medium" name="sortNum"
 						data-validation-engine="validate[custom[number]]">

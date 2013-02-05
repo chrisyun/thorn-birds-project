@@ -305,7 +305,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  	<button type="submit" class="btn">搜索</button>
 			</form>
 			
-			<div class="formOutSide">
+			<div class="well formOutSide">
 				<sec:authorize url="/System/org/delete*.jmt">
 				<button class="btn btn-danger" onclick="deleteOrgs();">删除选中项</button>
 				</sec:authorize>
