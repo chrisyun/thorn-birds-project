@@ -11,28 +11,61 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
 
     <title>系统日志</title>
-    <script type="text/javascript" src="<%=path %>/plugins/scrollfollow/jquery.scrollfollow.js"></script>
+    <script type="text/javascript" src="<%=path %>/plugins/scrollfollow/jquery.scroll-follow.js"></script>
+    <style type="text/css">
+    #refresh {
+    	position: relative;
+    	float: right;
+    	margin-right: 50px;
+    }
+    
+    #refresh i {
+    	padding : 0 0;
+    }
+    </style>
     
 	<script type="text/javascript">
 	$(function(){
 		initValidationEngine("levelForm");
 		
-		$.server.ajaxRequest({
-			url : "<%=path%>/System/log/querylogRows.jmt",
-			onSuccess : function(msg, data) {
-				$("#logbody").html(data);
-			}
+		var _tipScroll = $("<div id='refresh' class='btn-group'></div>");
+		var refreshBtn = $('<button type="button" class="btn btn-mini btn-success"></button>');
+		refreshBtn.append('<i class="icon-refresh"></i>');
+		
+		refreshBtn.click(function(){
+			loadLogs();
 		});
 		
-		$("#refresh").scrollFollow({
-			container : "tableContainer"
+		var toTopBtn = $('<button type="button" class="btn btn-mini btn-primary"></button>');
+		toTopBtn.append('<i class="icon-chevron-up"></i>');
+		
+		toTopBtn.click(function(){
+			$("html,body").animate({ scrollTop:0 },1000);
 		});
+		
+		_tipScroll.append(refreshBtn);
+		_tipScroll.append(toTopBtn);
+		$("body").prepend(_tipScroll);
+		
+		_tipScroll.scrollFollow({
+			offset : 500
+		});
+		
+		function loadLogs() {
+			$.server.ajaxRequest({
+				url : "<%=path%>/System/log/querylogRows.jmt",
+				onSuccess : function(msg, data) {
+					$("#logbody").html(data);
+				}
+			});
+		}
+		
+		loadLogs();
 	});
 	
 	function saveLevel() {
 		$("#levelForm").submitForm();
 	}
-	
 	</script>
 	
 	
@@ -65,7 +98,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</sec:authorize>
 	
 	<div class="row">
-		<div class="span12" id="tableContainer">
+		<div class="span12">
 			<table class="table table-bordered table-condensed">
 				<thead>
 					<tr>
@@ -78,11 +111,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</thead>
 				<tbody id="logbody" style="font-size: 12px;"></tbody>
 			</table>
-			
-			<div id="refresh">
-				<p>回到顶部</p>
-				<p>刷新</p>
-			</div>
 		</div>
 	</div>
 	
