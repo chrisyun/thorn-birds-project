@@ -48,21 +48,21 @@
 			// var _checkAll = $(":checkbox[class=checkAll]");
 			var _checkAll = $(ck);
 			var _ckTable = $(ck).parents("table");
-
+			
 			if (_checkAll.attr("checked") == undefined
 					|| _checkAll.attr("checked") == ""
 					|| _checkAll.attr("checked") == false) {
-				_ckTable.find(":checkbox[class=checkOne]").attr("checked",
+				_ckTable.find(":checkbox[class*='checkOne']").attr("checked",
 						false);
 			} else {
-				_ckTable.find(":checkbox[class=checkOne]")
+				_ckTable.find(":checkbox[class*='checkOne']")
 						.attr("checked", true);
 			}
 		},
 		getChecked : function(_table) {
 			var ids = "";
 
-			_table.find(":checkbox:checked[class=checkOne]").each(function() {
+			_table.find(":checkbox:checked[class*='checkOne']").each(function() {
 				ids += $(this).attr("id") + ",";
 			});
 

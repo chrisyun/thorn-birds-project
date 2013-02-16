@@ -1,6 +1,5 @@
 package org.thorn.auth.service;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserCache;
 import org.thorn.auth.dao.IAuthDao;
+import org.thorn.auth.entity.AuthUser;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
 import org.thorn.web.entity.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.role.entity.Role;
-import org.thorn.user.entity.User;
 
 /**
  * @ClassName: AuthServiceImpl
@@ -37,16 +36,6 @@ public class AuthServiceImpl implements IAuthService {
 		return authDao.queryResourceByRole(roleId);
 	}
 	
-	public List<User> queryListByRole(Collection<String> roleCodes, Collection<String> orgIds)
-		throws DBAccessException {
-		Map<String, Object> filter = new HashMap<String, Object>();
-		filter.put("roleCodes", roleCodes);
-		filter.put("orgs", orgIds);
-		filter.put("isDisabled", Configuration.DB_NO);
-		
-		return authDao.queryListByRole(filter);
-	}
-
 	public void saveRoleAuth(String roleCode, String[] sourceIds)
 			throws DBAccessException {
 		authDao.deleteRoleSource(roleCode);
@@ -71,7 +60,7 @@ public class AuthServiceImpl implements IAuthService {
 		return authDao.queryRoleByUser(userId);
 	}
 	
-	public Page<User> queryPageByRole(String userName, String orgCode,
+	public Page<AuthUser> queryPageByRole(String userName, String orgCode,
 			String roleCode, String userAccount, long start, long limit,
 			String sort, String dir) throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
@@ -85,81 +74,18 @@ public class AuthServiceImpl implements IAuthService {
 		filter.put(Configuration.PAGE_START, start);
 
 		if (LocalStringUtils.isEmpty(sort)) {
-			filter.put(Configuration.SROT_NAME, "SORTNUM");
+			filter.put(Configuration.SROT_NAME, "U.SORTNUM");
 			filter.put(Configuration.ORDER_NAME, Configuration.ORDER_ASC);
 		} else {
 			filter.put(Configuration.SROT_NAME, sort);
 			filter.put(Configuration.ORDER_NAME, dir);
 		}
 		
-		Page<User> page = new Page<User>();
+		Page<AuthUser> page = new Page<AuthUser>();
 		
 		page.setTotal(authDao.queryPageCountInRole(filter));
 		if(page.getTotal() > 0) {
 			page.setReslutSet(authDao.queryListByRole(filter));
-		}
-		
-		return page;
-	}
-
-	public void saveUserRole(String roleCode, String userIds)
-			throws DBAccessException {
-		Map<String, String> filter = new HashMap<String, String>();
-		filter.put("roleCode", roleCode);
-		
-		List<String> list = LocalStringUtils.splitStr2Array(userIds);
-		
-		if(list != null && list.size() > 0) {
-			for (String id : list) {
-				filter.put("userId", id);
-				authDao.saveUserRole(filter);
-				
-				// 角色发生改变从缓存中清除该用户对象
-				userCache.removeUserFromCache(id);
-			}
-		}
-	}
-
-	public void deleteUserRole(String roleCode, String userIds)
-			throws DBAccessException {
-		List<String> list = LocalStringUtils.splitStr2Array(userIds);
-		Map<String, Object> filter = new HashMap<String, Object>();
-		filter.put("roleCode", roleCode);
-		filter.put("list", list);
-		
-		authDao.deleteUserInRole(filter);
-		
-		for(String id : list) {
-			// 角色发生改变从缓存中清除该用户对象
-			userCache.removeUserFromCache(id);
-		}
-		
-	}
-
-	public Page<User> queryPageNotInRole(String orgCode, String roleCode,
-			long start, long limit, String sort, String dir)
-			throws DBAccessException {
-		Map<String, Object> filter = new HashMap<String, Object>();
-
-		filter.put("roleCode", roleCode);
-		filter.put("orgCode", orgCode);
-
-		filter.put(Configuration.PAGE_LIMIT, limit);
-		filter.put(Configuration.PAGE_START, start);
-
-		if (LocalStringUtils.isEmpty(sort)) {
-			filter.put(Configuration.SROT_NAME, "SORTNUM");
-			filter.put(Configuration.ORDER_NAME, Configuration.ORDER_ASC);
-		} else {
-			filter.put(Configuration.SROT_NAME, sort);
-			filter.put(Configuration.ORDER_NAME, dir);
-		}
-
-		Page<User> page = new Page<User>();
-		
-		page.setTotal(authDao.queryPageCountNotInRole(filter));
-		if(page.getTotal() > 0) {
-			page.setReslutSet(authDao.queryListNotInRole(filter));
 		}
 		
 		return page;
@@ -188,6 +114,35 @@ public class AuthServiceImpl implements IAuthService {
 	public List<String> queryResourceByRole(List<String> roleIds)
 			throws DBAccessException {
 		return authDao.queryResourceByRole(roleIds);
+	}
+
+	public void saveUserRole(String roleCode, List<String> addUserIds,
+			List<String> delUserIds) throws DBAccessException {
+		
+		if(delUserIds != null && delUserIds.size() > 0) {
+			Map<String, Object> delFilter = new HashMap<String, Object>();
+			delFilter.put("roleCode", roleCode);
+			delFilter.put("list", delUserIds);
+			
+			authDao.deleteUserInRole(delFilter);
+			for(String id : delUserIds) {
+				// 角色发生改变从缓存中清除该用户对象
+				userCache.removeUserFromCache(id);
+			}
+		}
+		
+		if(addUserIds != null && addUserIds.size() > 0) {
+			Map<String, String> addFilter = new HashMap<String, String>();
+			addFilter.put("roleCode", roleCode);
+			
+			for (String id : addUserIds) {
+				addFilter.put("userId", id);
+				authDao.saveUserRole(addFilter);
+				
+				// 角色发生改变从缓存中清除该用户对象
+				userCache.removeUserFromCache(id);
+			}
+		}
 	}
 
 }

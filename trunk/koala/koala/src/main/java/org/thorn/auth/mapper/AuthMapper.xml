@@ -46,22 +46,17 @@
 	</insert>
 
 	<!-- ****************************User******************************** -->
-	<resultMap id="UserResultMap" type="org.thorn.user.entity.User">
+	<resultMap id="UserResultMap" type="org.thorn.auth.entity.AuthUser">
 		<id column="USERID" property="userId" jdbcType="VARCHAR" />
 		<result column="USERNAME" property="userName" jdbcType="VARCHAR" />
-		<result column="SN" property="sn" jdbcType="VARCHAR" />
 		<result column="USERACCOUNT" property="userAccount" jdbcType="VARCHAR" />
-		<result column="USERPWD" property="userPwd" jdbcType="VARCHAR" />
-		<result column="GENDER" property="gender" jdbcType="VARCHAR" />
 		<result column="CUMAIL" property="cumail" jdbcType="VARCHAR" />
 		<result column="PHONE" property="phone" jdbcType="VARCHAR" />
 		<result column="ORGCODE" property="orgCode" jdbcType="VARCHAR" />
 		<result column="ORGNAME" property="orgName" jdbcType="VARCHAR" />
 		<result column="DEFAULTROLE" property="defaultRole" jdbcType="VARCHAR" />
-		<result column="ISDISABLED" property="isDisabled" jdbcType="VARCHAR" />
 		<result column="ISSHOW" property="isShow" jdbcType="VARCHAR" />
-		<result column="AREA" property="area" jdbcType="VARCHAR" />
-		<result column="SORTNUM" property="sortNum" jdbcType="DECIMAL" />
+		<result column="ROLECODE" property="roleCode" jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<!-- 过滤掉禁用的角色 -->
@@ -93,78 +88,50 @@
 
 	<sql id="User_Role_Column_List">
 		U.USERID,U.USERACCOUNT,U.USERNAME,U.CUMAIL,
-		U.ISSHOW,U.ISDISABLED,U.DEFAULTROLE 
+		U.ISSHOW,U.DEFAULTROLE, U.PHONE, U.ORGCODE, 
+		O.ORGNAME, R.ROLECODE
 	</sql>
 	
-	<sql id="User_Page_In_Role">
-		from T_SYS_USER U,T_SYS_USER_ROLE R 
-		where R.USERID = U.USERID 
-		<if test="roleCode != null and roleCode != ''">
-			and R.ROLECODE = #{roleCode,jdbcType=VARCHAR} 
-      	</if>
-		<if test="userName != null and userName != ''">
-			and U.USERNAME like CONCAT('%',#{userName,jdbcType=VARCHAR},'%')
-      	</if>
-     	<if test="idOrAccount != null and idOrAccount != ''">
-			and (U.USERID = #{idOrAccount,jdbcType=VARCHAR} 
-				 or U.USERACCOUNT = #{idOrAccount,jdbcType=VARCHAR})
-     	</if>
-     	<if test="orgCode != null and orgCode != ''">
-			and U.ORGCODE = #{orgCode,jdbcType=VARCHAR}
-      	</if>
-      	<if test="orgs != null">
-			and U.ORGCODE in
-			<foreach collection="orgs" item="item" open="(" close=")"
-				separator=",">
-				#{item,jdbcType=VARCHAR}
-			</foreach>
-	    </if>
-      	<if test="isDisabled != null and isDisabled != ''">
-			and U.ISDISABLED = #{isDisabled,jdbcType=VARCHAR} 
-      	</if>
-      	<if test="roleCodes != null">
-			and R.ROLECODE in
-			<foreach collection="roleCodes" item="item" open="(" close=")"
-				separator=",">
-				#{item,jdbcType=VARCHAR}
-			</foreach>
-	    </if>
+	<sql id="User_Page_Role_Where">
+		<where>
+			<if test="userName != null and userName != ''">
+				and U.USERNAME like CONCAT('%',#{userName,jdbcType=VARCHAR},'%')
+	      	</if>
+	     	<if test="idOrAccount != null and idOrAccount != ''">
+				and (U.USERID = #{idOrAccount,jdbcType=VARCHAR} 
+					 or U.USERACCOUNT = #{idOrAccount,jdbcType=VARCHAR})
+	     	</if>
+	     	<if test="orgCode != null and orgCode != ''">
+				and U.ORGCODE = #{orgCode,jdbcType=VARCHAR}
+	      	</if>
+	      	<if test="orgs != null">
+				and U.ORGCODE in
+				<foreach collection="orgs" item="item" open="(" close=")"
+					separator=",">
+					#{item,jdbcType=VARCHAR}
+				</foreach>
+		    </if>
+	      	<if test="isDisabled != null and isDisabled != ''">
+				and U.ISDISABLED = #{isDisabled,jdbcType=VARCHAR} 
+	      	</if>
+		</where>
 	</sql>
 	
 	<select id="selectUserPageByRole" parameterType="hashmap" resultMap="UserResultMap">
 		<include refid="MySQLCommonMapper.pagingStart"/>
-		select
-		<include refid="User_Role_Column_List" />
-		<include refid="User_Page_In_Role" />
+		select <include refid="User_Role_Column_List" />
+		from T_SYS_USER U LEFT JOIN T_SYS_ORG O ON U.ORGCODE = O.ORGCODE 
+		LEFT JOIN T_SYS_USER_ROLE R ON U.USERID = R.USERID AND R.ROLECODE = #{roleCode,jdbcType=VARCHAR} 
+		<include refid="User_Page_Role_Where" />
      	<include refid="MySQLCommonMapper.sortInfo"/>
 		<include refid="MySQLCommonMapper.pagingEnd"/>
 	</select>
 
 	<select id="selectUserPageByRoleCount" parameterType="hashmap" resultType="long">
-		select count(*) <include refid="User_Page_In_Role" />
-	</select>
-	
-	
-	<sql id="User_Page_NotIn_Role">
-		from T_SYS_USER U
-		where not exists 
-		(select * from T_SYS_USER_ROLE R 
-		where R.ROLECODE = #{roleCode,jdbcType=VARCHAR}
-		and U.USERID = R.USERID)
-		and U.ORGCODE = #{orgCode,jdbcType=VARCHAR}
-	</sql>	
-	
-	<select id="selectUserPageNotInRole" parameterType="hashmap" resultMap="UserResultMap">
-		<include refid="MySQLCommonMapper.pagingStart"/>
-		select
-		<include refid="User_Role_Column_List" />
-		<include refid="User_Page_NotIn_Role" />
-     	<include refid="MySQLCommonMapper.sortInfo"/>
-		<include refid="MySQLCommonMapper.pagingEnd"/>
-	</select>
-	
-	<select id="selectUserPageNotInRoleCount" parameterType="hashmap" resultType="long">
-		select count(*) <include refid="User_Page_NotIn_Role" />
+		select count(*) from T_SYS_USER U 
+		LEFT JOIN T_SYS_ORG O ON U.ORGCODE = O.ORGCODE 
+		LEFT JOIN T_SYS_USER_ROLE R ON U.USERID = R.USERID AND R.ROLECODE = #{roleCode,jdbcType=VARCHAR} 
+		<include refid="User_Page_Role_Where" />
 	</select>
 	
 	<!-- 角色根据区域过滤暂时屏蔽

@@ -3,7 +3,7 @@ package org.thorn.auth.dao;
 import java.util.List;
 import java.util.Map;
 
-import org.thorn.web.entity.Page;
+import org.thorn.auth.entity.AuthUser;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.role.entity.Role;
 import org.thorn.user.entity.User;
@@ -124,36 +124,12 @@ public interface IAuthDao {
 	 * 
 	 * @Description：
 	 * @author：chenyun
-	 * @date：2012-5-25 下午01:55:58
-	 * @param filter
-	 * @return
-	 * @throws DBAccessException
-	 */
-	public List<User> queryListNotInRole(Map<String, Object> filter)
-			throws DBAccessException;
-	
-	/**
-	 * 
-	 * @Description：
-	 * @author：chenyun 	        
-	 * @date：2012-7-2 下午03:43:07
-	 * @param filter
-	 * @return
-	 * @throws DBAccessException
-	 */
-	public long queryPageCountNotInRole(Map<String, Object> filter)
-			throws DBAccessException;
-
-	/**
-	 * 
-	 * @Description：
-	 * @author：chenyun
 	 * @date：2012-6-19 下午08:44:18
 	 * @param filter
 	 * @return
 	 * @throws DBAccessException
 	 */
-	public List<User> queryListByRole(Map<String, Object> filter)
+	public List<AuthUser> queryListByRole(Map<String, Object> filter)
 			throws DBAccessException;
 	
 	/**

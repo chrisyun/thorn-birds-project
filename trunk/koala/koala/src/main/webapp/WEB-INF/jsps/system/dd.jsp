@@ -318,9 +318,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<input type="checkbox" title="全选" class="checkAll" onclick="$.utils.checkAll(this);">
 						</label></th>
 						<th width="25%" class="sort[ename]">字典编码</th>
-						<th width="20%" class="sort[cname]">字典名称</th>
+						<th width="25%" class="sort[cname]">字典名称</th>
 						<th width="35%">描述</th>
-						<th width="15%" style="text-align: center;">操作</th>
+						<th width="10%" style="text-align: center;">操作</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -335,11 +335,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td style="text-align: center;">
 							<div class="btn-group">
 							  <sec:authorize url="/System/dd/saveOrModify*.jmt">
-							  <button class="btn btn-info" 
-							  		onclick="openModifyDtWnd('${dt.ename }','${dt.cname }','${dt.typeDesc }');">修改</button>
+							  <button class="btn btn-info btn-mini" 
+							  		onclick="openModifyDtWnd('${dt.ename }','${dt.cname }','${dt.typeDesc }');">
+							  		<i class="nopadding icon-edit"></i>
+							  </button>
 							  </sec:authorize>
 							  <sec:authorize url="/System/dd/delete*.jmt">
-							  <button class="btn btn-danger" onclick="deleteDt('${dt.ename }')">删除</button>
+							  <button class="btn btn-danger btn-mini" onclick="deleteDt('${dt.ename }')">
+							  		<i class="nopadding icon-trash"></i>
+							  </button>
 							  </sec:authorize>
 							</div>
 						</td>
