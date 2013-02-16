@@ -17,9 +17,6 @@ public interface IUserService {
 	
 	public User queryUser(String userId, String mail) throws DBAccessException;
 	
-	public boolean myPwdFindBack(String idOrAccount, String email)
-			throws DBAccessException;
-
 	public User queryUserByLogin(String idOrAccount) throws DBAccessException;
 
 	public void save(User user) throws DBAccessException;

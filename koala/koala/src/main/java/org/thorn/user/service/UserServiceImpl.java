@@ -176,26 +176,4 @@ public class UserServiceImpl implements IUserService {
 		userCache.removeUserFromCache(user.getUserId());
 	}
 
-	@NoLogging
-	public boolean myPwdFindBack(String idOrAccount, String email)
-			throws DBAccessException {
-		Map<String, Object> filter = new HashMap<String, Object>();
-		filter.put("idOrAccount", idOrAccount);
-		filter.put("cumail", email);
-
-		User user = userDao.queryUser(filter);
-
-		if (user != null) {
-
-			String newPwd = LocalStringUtils.randomString(10);
-			user.setUserPwd(SecurityEncoderUtils.encodeUserPassword(newPwd,
-					user.getUserId()));
-			userDao.modify(user);
-			userCache.removeUserFromCache(user.getUserId());
-			return true;
-		} else {
-			return false;
-		}
-
-	}
 }
