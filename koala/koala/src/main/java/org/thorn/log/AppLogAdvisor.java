@@ -18,6 +18,7 @@ import org.thorn.dao.core.Configuration;
 import org.thorn.log.entity.AppLog;
 import org.thorn.log.task.LogTask;
 import org.thorn.security.SecurityUserUtils;
+import org.thorn.user.entity.User;
 
 /** 
  * @ClassName: AppLogAdvisor 
@@ -87,7 +88,12 @@ public class AppLogAdvisor {
 		String methodName = jp.getSignature().getName();
 
 		String className = jp.getTarget().getClass().getName();
-		String userId = SecurityUserUtils.getCurrentUser().getUserId();
+		User user = SecurityUserUtils.getCurrentUser();
+		
+		String userId = "nologging";
+		if(user != null) {
+			userId = user.getUserId();
+		}
 
 		Class[] argsCls = new Class[args.length];
 		for (int i = 0; i < argsCls.length; i++) {

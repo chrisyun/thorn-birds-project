@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer;
@@ -49,9 +50,10 @@ public class UserServiceImpl implements IUserService {
 		return userDao.queryUser(filter);
 	}
 
-	public User queryUser(String userId) throws DBAccessException {
+	public User queryUser(String userId, String mail) throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
 		filter.put("userId", userId);
+		filter.put("cumail", mail);
 
 		return userDao.queryUser(filter);
 	}
@@ -66,29 +68,21 @@ public class UserServiceImpl implements IUserService {
 
 		String userId = "FY" + user.getOrgCode() + seqNum;
 		user.setUserId(userId);
-
+		user.setUserAccount(userId);
 		String pwd = user.getUserPwd();
 
-		if (LocalStringUtils.isNotEmpty(pwd)) {
+		if (StringUtils.isNotEmpty(pwd)) {
 			user.setUserPwd(SecurityEncoderUtils.encodeUserPassword(pwd,
 					user.getUserId()));
 		}
-
+		
 		userDao.save(user);
-
-		if (LocalStringUtils.isNotEmpty(pwd)
-				&& LocalStringUtils.isNotEmpty(user.getCumail())) {
-			MailEntity mailInfo = MailTemplete.registerUser(user.getUserName(),
-					user.getCumail(), pwd, user.getUserId());
-			MailTask task = new MailTask(mailInfo);
-			ExecutorUtils.executeTask(task);
-		}
 	}
 
 	public void modify(User user) throws DBAccessException {
 		String pwd = user.getUserPwd();
 
-		if (LocalStringUtils.isNotEmpty(pwd)) {
+		if (StringUtils.isNotEmpty(pwd)) {
 			user.setUserPwd(SecurityEncoderUtils.encodeUserPassword(pwd,
 					user.getUserId()));
 		}
@@ -138,7 +132,7 @@ public class UserServiceImpl implements IUserService {
 		filter.put(Configuration.PAGE_LIMIT, limit);
 		filter.put(Configuration.PAGE_START, start);
 
-		if (LocalStringUtils.isEmpty(sort)) {
+		if (StringUtils.isEmpty(sort)) {
 			filter.put(Configuration.SROT_NAME, "SORTNUM");
 			filter.put(Configuration.ORDER_NAME, Configuration.ORDER_ASC);
 		} else {

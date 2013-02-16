@@ -2,7 +2,7 @@ package org.thorn.core.excel;
 
 import java.util.List;
 
-import org.thorn.core.util.LocalStringUtils;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * @ClassName: ArrayAdapter
@@ -57,7 +57,7 @@ public class ArrayAdapter {
 
 			for (int j = 0; j < sourceOrder.length; j++) {
 
-				if (LocalStringUtils.equals(orderArray[i], sourceOrder[j])) {
+				if (StringUtils.equals(orderArray[i], sourceOrder[j])) {
 					orderMapping[i] = j;
 					break;
 				}

@@ -146,7 +146,9 @@ String thisUrl = request.getServletPath();
   	<%	
   		} else {
   	%>
-    <decorator:body />
+  	<div class="container">
+    	<decorator:body />
+    </div>
     <%
   		}
     %>

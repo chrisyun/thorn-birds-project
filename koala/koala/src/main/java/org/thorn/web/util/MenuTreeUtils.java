@@ -71,7 +71,7 @@ public class MenuTreeUtils {
 
 		// 第一次遍历，找到当前节点的根
 		for (Resource res : allSource) {
-			if (LocalStringUtils.equals(res.getSourceCode(), pid)) {
+			if (StringUtils.equals(res.getSourceCode(), pid)) {
 				tree.setId(res.getSourceCode());
 				tree.setText(res.getSourceName());
 				tree.setPid(res.getParentSource());

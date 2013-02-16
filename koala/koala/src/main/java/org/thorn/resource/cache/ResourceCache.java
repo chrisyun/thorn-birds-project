@@ -5,12 +5,12 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.web.util.AntUrlPathMatcher;
 import org.springframework.security.web.util.UrlMatcher;
 import org.thorn.core.context.SpringContext;
-import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.resource.entity.Resource;
 import org.thorn.resource.service.IResourceService;
@@ -60,7 +60,7 @@ public class ResourceCache {
 			List<Resource> sources = this.resourceService.queryAllUrl();
 
 			for (Resource source : sources) {
-				if (LocalStringUtils.isNotEmpty(source.getSourceUrl())) {
+				if (StringUtils.isNotEmpty(source.getSourceUrl())) {
 					resourceMap.put(source.getSourceCode(),
 							source.getSourceUrl());
 				}

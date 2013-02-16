@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.thorn.attachment.entity.Attachment;
 import org.thorn.attachment.service.IAttachmentService;
-import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.security.SecurityUserUtils;
 import org.thorn.user.entity.User;
@@ -140,7 +140,7 @@ public class AttachmentCotroller extends BaseController {
 				ResponseHeaderUtils.setHtmlResponse(response);
 				// 跳到一个不存在的页面去
 				response.sendRedirect("../Alert_Page_Not_Found.jsp");
-			} else if (LocalStringUtils.equals("DB", att.getSaveType())) {
+			} else if (StringUtils.equals("DB", att.getSaveType())) {
 				ResponseHeaderUtils
 						.setFileResponse(response, att.getFileName());
 

@@ -1,6 +1,6 @@
 package org.thorn.dao.exception;
 
-import org.thorn.core.util.LocalStringUtils;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * 
@@ -58,7 +58,7 @@ public class DBAccessException extends Exception {
 	}
 	
 	public String getMessage() {
-		if(LocalStringUtils.isEmpty(dbExceptionMsg)) {
+		if(StringUtils.isEmpty(dbExceptionMsg)) {
 			return super.getMessage();
 		}
 		

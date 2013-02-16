@@ -6,6 +6,7 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.ParameterMapping;
@@ -17,7 +18,6 @@ import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.type.JdbcType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.thorn.core.util.LocalStringUtils;
 
 @Intercepts({ @Signature(type = StatementHandler.class, method = "update", args = { Statement.class }) })
 public class SqlLoggingInterceptor implements Interceptor {
@@ -39,7 +39,7 @@ public class SqlLoggingInterceptor implements Interceptor {
 		log.debug("the boundSql:{}", preparedSql);
 
 		// 根据过滤器判定是否需要执行handler
-		if (LocalStringUtils.isNotEmpty(filter)) {
+		if (StringUtils.isNotEmpty(filter)) {
 
 			Pattern pattern = Pattern.compile(filter, Pattern.CASE_INSENSITIVE);
 			Matcher m = pattern.matcher(preparedSql);

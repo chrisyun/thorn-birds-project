@@ -6,7 +6,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.thorn.core.util.LocalStringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.thorn.dd.entity.Dict;
 import org.thorn.web.util.DDUtils;
 
@@ -36,7 +36,7 @@ public class DDTag extends TagSupport {
 		try {
 			JspWriter out = this.pageContext.getOut();
 
-			if (LocalStringUtils.isEmpty(typeId)) {
+			if (StringUtils.isEmpty(typeId)) {
 				out.print("the typeId is empty");
 			} else {
 				StringBuffer dictJson = new StringBuffer("[");

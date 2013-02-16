@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,7 +34,7 @@ public class AttachmentDBServiceImpl implements IAttachmentService {
 	@NoLogging
 	public void uploadAtt(Attachment att, MultipartFile file)
 			throws DBAccessException {
-		if(LocalStringUtils.isEmpty(att.getSaveType())) {
+		if(StringUtils.isEmpty(att.getSaveType())) {
 			att.setSaveType(saveType);
 		}
 
@@ -43,7 +44,7 @@ public class AttachmentDBServiceImpl implements IAttachmentService {
 			att.setFileType(name.substring(index).toLowerCase());
 		}
 
-		if (LocalStringUtils.equals(att.getSaveType(), saveType)) {
+		if (StringUtils.equals(att.getSaveType(), saveType)) {
 			try {
 				att.setFile(file.getBytes());
 			} catch (IOException e) {
@@ -87,7 +88,7 @@ public class AttachmentDBServiceImpl implements IAttachmentService {
 		filter.put(Configuration.PAGE_LIMIT, limit);
 		filter.put(Configuration.PAGE_START, start);
 		
-		if(LocalStringUtils.isEmpty(sort)) {
+		if(StringUtils.isEmpty(sort)) {
 			filter.put(Configuration.SROT_NAME, "UPLOADTIME");
 			filter.put(Configuration.ORDER_NAME, Configuration.ORDER_DESC);
 		} else {

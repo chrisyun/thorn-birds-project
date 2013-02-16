@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.thorn.core.util.LocalStringUtils;
@@ -49,7 +50,7 @@ public class DataDictServiceImpl implements IDataDictService {
 
 	public List<Dict> queryDdList(String typeId) throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
-		if (LocalStringUtils.isNotEmpty(typeId)) {
+		if (StringUtils.isNotEmpty(typeId)) {
 			filter.put("typeId", typeId);
 		}
 		

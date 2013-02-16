@@ -127,7 +127,7 @@ public class UserController extends BaseController {
 		JsonResponse<User> json = new JsonResponse<User>();
 		
 		try {
-			json.setObj(service.queryUser(userId));
+			json.setObj(service.queryUser(userId, null));
 		} catch (DBAccessException e) {
 			json.setSuccess(false);
 			json.setMessage("数据获取失败：" + e.getMessage());
@@ -200,9 +200,9 @@ public class UserController extends BaseController {
 			List<Role> role = roleService.queryAllRoles();
 			for (Role r : role) {
 				//不显示默认角色
-				if (LocalStringUtils.equals(r.getRoleCode(),
+				if (StringUtils.equals(r.getRoleCode(),
 						SecurityConfiguration.COMMON_USER_ROLE)
-						|| LocalStringUtils.equals(r.getRoleCode(),
+						|| StringUtils.equals(r.getRoleCode(),
 								SecurityConfiguration.SYS_ADMIN_ROLE)) {
 					continue;
 				}
@@ -218,7 +218,7 @@ public class UserController extends BaseController {
 
 				for (Relation r : list) {
 
-					if (LocalStringUtils.equals(ur.getRoleCode(),
+					if (StringUtils.equals(ur.getRoleCode(),
 							((Role) r.getObject()).getRoleCode())) {
 						r.setRelevance(true);
 						break;
@@ -316,12 +316,6 @@ public class UserController extends BaseController {
 		return status;
 	}
 	
-	
-	
-	/*-------------------------------------------------------------------------------*/
-	
-	@RequestMapping("/getUserList")
-	@ResponseBody
 	public List<User> getUserList(String area) {
 		List<User> list = new ArrayList<User>();
 		
@@ -337,8 +331,6 @@ public class UserController extends BaseController {
 		return list;
 	}
 	
-	@RequestMapping("/getUsersInSameOrg")
-	@ResponseBody
 	public List<User> getUsersInSameOrg() {
 		List<User> list = new ArrayList<User>();
 
@@ -352,27 +344,4 @@ public class UserController extends BaseController {
 
 		return list;
 	}
-	
-	@RequestMapping("/findBackMyPwd")
-	@ResponseBody
-	public Status findBackMyPwd(String userId, String userEmail) {
-		Status status = new Status();
-		userId = userId.toUpperCase();
-		
-		try {
-			if(service.myPwdFindBack(userId, userEmail)) {
-				status.setMessage("新密码发送至您的注册邮箱，请注意查收！");
-			} else {
-				status.setMessage("身份核对未通过，登录名或注册邮箱有误！");
-			}
-		} catch (DBAccessException e) {
-			status.setSuccess(false);
-			status.setMessage("数据处理出错：" + e.getMessage());
-			log.error("findBackMyPwd[String] - " + e.getMessage(), e);
-		}
-		
-		return status;
-	}
-	
-
 }

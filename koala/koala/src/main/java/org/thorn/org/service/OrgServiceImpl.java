@@ -77,7 +77,7 @@ public class OrgServiceImpl implements IOrgService {
 		filter.put(Configuration.PAGE_LIMIT, limit);
 		filter.put(Configuration.PAGE_START, start);
 
-		if (LocalStringUtils.isEmpty(sort)) {
+		if (StringUtils.isEmpty(sort)) {
 			filter.put(Configuration.SROT_NAME, "SORTNUM");
 			filter.put(Configuration.ORDER_NAME, Configuration.ORDER_ASC);
 		} else {
