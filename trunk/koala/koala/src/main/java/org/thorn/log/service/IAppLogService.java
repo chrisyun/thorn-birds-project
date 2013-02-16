@@ -58,4 +58,6 @@ public interface IAppLogService {
 	 */
 	public List<AppLog> queryList(String moduleName, String handleResult,
 			String startTime, String endTime) throws DBAccessException;
+	
+	public AppLog queryLog(Integer id) throws DBAccessException;
 }

@@ -368,7 +368,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 	</div>
 	
-	<form class="form-horizontal" method="post" action="<%=path%>/System/role/saveOrModifyDt.jmt" id="editRoleForm">
+	<form class="form-horizontal" method="post" action="<%=path%>/System/role/saveOrModifyRole.jmt" id="editRoleForm">
 		<fieldset>
 			<div id="roleMsgTips"></div>
 			<input type="hidden" name="opType">

@@ -18,6 +18,7 @@ import org.thorn.core.excel.ArrayAdapter;
 import org.thorn.core.excel.ExcelStyle;
 import org.thorn.core.excel.ExcelUtils;
 import org.thorn.core.util.ReflectUtils;
+import org.thorn.web.entity.JsonResponse;
 import org.thorn.web.entity.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.log.entity.AppLog;
@@ -41,7 +42,7 @@ public class AppLogController extends BaseController {
 	@Qualifier("logService")
 	private IAppLogService logService;
 
-	@RequestMapping("/queryLogPage.jhtml")
+	@RequestMapping("/queryAppLog.jhtml")
 	public String queryLogPage(Long pageIndex, Long pageSize, String sort,
 			String dir, String moduleName, String handleResult,
 			String startTime, String endTime, ModelMap model) {
@@ -58,8 +59,24 @@ public class AppLogController extends BaseController {
 
 		return "system/applog";
 	}
+	
+	@RequestMapping("/queryAppLog.jmt")
+	@ResponseBody
+	public JsonResponse<AppLog> queryAppLog(int id) {
+		JsonResponse<AppLog> json = new JsonResponse<AppLog>();
+		
+		try {
+			json.setObj(logService.queryLog(id));
+		} catch (DBAccessException e) {
+			json.setSuccess(false);
+			json.setMessage("操作日志查询失败：" + e.getMessage());
+		}
+		
+		return json;
+	}
+	
 
-	@RequestMapping("/exportLogExcel")
+	@RequestMapping("/exportLogExcel.jmt")
 	public void exportLogExcel(HttpServletResponse response, String moduleName,
 			String handleResult, String startTime, String endTime) {
 		List<AppLog> list = new ArrayList<AppLog>();
