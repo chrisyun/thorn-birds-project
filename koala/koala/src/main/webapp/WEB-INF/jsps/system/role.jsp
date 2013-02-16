@@ -328,11 +328,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td style="text-align: center;">
 							<div class="btn-group">
 							  <sec:authorize url="/System/role/saveOrModify*.jmt">
-							  <button class="btn btn-info" 
-							  		onclick="openEditWnd('${role.roleCode }','${role.roleName }','${role.roleDesc }','${role.isDisabled }');">修改</button>
+							  <button class="btn btn-info btn-mini" 
+							  		onclick="openEditWnd('${role.roleCode }','${role.roleName }','${role.roleDesc }','${role.isDisabled }');">
+							  		<i class="nopadding icon-edit"></i>
+							  </button>
 							  </sec:authorize>
 							  <sec:authorize url="/System/role/delete*.jmt">
-							  <button class="btn btn-danger" onclick="deleteRole('${role.roleCode }')">删除</button>
+							  <button class="btn btn-danger btn-mini" onclick="deleteRole('${role.roleCode }')">
+							  	<i class="nopadding icon-trash"></i>
+							  </button>
 							  </sec:authorize>
 							</div>
 						</td>

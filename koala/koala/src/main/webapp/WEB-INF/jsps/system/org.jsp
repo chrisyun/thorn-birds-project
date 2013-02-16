@@ -321,10 +321,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<th width="13%" class="sort[orgCode]">组织编码</th>
 						<th width="25%" class="sort[orgName]">组织名称</th>
 						<th width="10%">组织类型</th>
-						<th width="10%">所属区域</th>
+						<th width="15%">所属区域</th>
 						<th width="10%">是否显示</th>
 						<th width="10%">是否禁用</th>
-						<th width="15%" style="text-align: center;">操作</th>
+						<th width="10%" style="text-align: center;">操作</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -340,10 +340,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td style="text-align: center;">
 							<div class="btn-group">
 								<sec:authorize url="/System/org/saveOrModify*.jmt">
-								<button class="btn btn-info" onclick="editOrg('${org.orgId }')">编辑</button>
+								<button class="btn btn-info btn-mini" onclick="editOrg('${org.orgId }')">
+									<i class="nopadding icon-edit"></i>
+								</button>
 								</sec:authorize>
 								<sec:authorize url="/System/org/delete*.jmt">
-								<button class="btn btn-danger" onclick="deleteOrg('${org.orgId }')">删除</button>
+								<button class="btn btn-danger btn-mini" onclick="deleteOrg('${org.orgId }')">
+									<i class="nopadding icon-trash"></i>
+								</button>
 								</sec:authorize>
 							</div>
 						</td>

@@ -15,6 +15,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.thorn.auth.entity.AuthUser;
 import org.thorn.auth.service.IAuthService;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
@@ -252,6 +253,71 @@ public class UserController extends BaseController {
 		return status;
 	}
 	
+	@RequestMapping("/queryUserPageByRole.jhtml")
+	public String queryUserPageByRole(Long pageIndex, Long pageSize, String sort,
+			String dir, String orgCode, String userName, String roleCode,
+			String userAccount, ModelMap model) {
+		Page<AuthUser> page = new Page<AuthUser>(pageIndex, pageSize);
+
+		try {
+			model.put("roles", roleService.queryAllRoles());
+			
+			if(StringUtils.isNotBlank(roleCode)) {
+				page.setPageData(authService.queryPageByRole(userName, orgCode, roleCode,
+						userAccount, page.getStart(), page.getPageSize(), sort, dir));
+			}
+			
+			model.put("page", page);
+		} catch (DBAccessException e) {
+			log.error("queryUserPageByRole[AuthUser] - " + e.getMessage(), e);
+		}
+
+		return "system/auth";
+	}
+	
+	@RequestMapping(value = "/saveUserRoleSetting.jmt", method = RequestMethod.POST)
+	@ResponseBody
+	public Status saveUserRoleSetting(String roleCode, String[] oldUserIds, String[] newUserIds) {
+		Status status = new Status();
+
+		try {
+			List<String> add = new ArrayList<String>();
+			List<String> del = new ArrayList<String>();
+			
+			for (int i = 0; i < oldUserIds.length; i++) {
+				for (int j = 0; j < newUserIds.length; j++) {
+					if(StringUtils.equals(oldUserIds[i], newUserIds[j])) {
+						oldUserIds[i] = null;
+						newUserIds[j] = null;
+					}
+				}
+			}
+			
+			for(String uid : oldUserIds) {
+				if(uid != null) {
+					del.add(uid);
+				}
+			}
+			
+			for(String uid : newUserIds) {
+				if(uid != null) {
+					add.add(uid);
+				}
+			}
+			
+			authService.saveUserRole(roleCode, add, del);
+			status.setMessage("用户权限保存成功！");
+		} catch (DBAccessException e) {
+			status.setSuccess(false);
+			status.setMessage("用户权限保存失败：" + e.getMessage());
+			log.error("saveUserRoleSetting[String] - " + e.getMessage(), e);
+		}
+
+		return status;
+	}
+	
+	
+	
 	/*-------------------------------------------------------------------------------*/
 	
 	@RequestMapping("/getUserList")
@@ -271,74 +337,6 @@ public class UserController extends BaseController {
 		return list;
 	}
 	
-
-	@RequestMapping("/getUserPageByRole")
-	@ResponseBody
-	public Page<User> getUserPageByRole(long start, long limit, String sort,
-			String dir, String orgCode, String userName, String roleCode,
-			String userAccount) {
-		Page<User> page = new Page<User>();
-
-		try {
-			page = authService.queryPageByRole(userName, orgCode, roleCode,
-					userAccount, start, limit, sort, dir);
-		} catch (DBAccessException e) {
-			log.error("getUserPageByRole[User] - " + e.getMessage(), e);
-		}
-
-		return page;
-	}
-
-	@RequestMapping("/getUserPageNotInRole")
-	@ResponseBody
-	public Page<User> getUserPageNotInRole(long start, long limit, String sort,
-			String dir, String orgCode, String roleCode) {
-		Page<User> page = new Page<User>();
-
-		try {
-			page = authService.queryPageNotInRole(orgCode, roleCode, start,
-					limit, sort, dir);
-		} catch (DBAccessException e) {
-			log.error("getUserPageNotInRole[User] - " + e.getMessage(), e);
-		}
-
-		return page;
-	}
-
-	@RequestMapping("/saveUserRole")
-	@ResponseBody
-	public Status saveUserRole(String roleCode, String userIds) {
-		Status status = new Status();
-
-		try {
-			authService.saveUserRole(roleCode, userIds);
-			status.setMessage("角色增加用户成功！");
-		} catch (DBAccessException e) {
-			status.setSuccess(false);
-			status.setMessage("角色增加用户失败：" + e.getMessage());
-			log.error("saveUserRole[String] - " + e.getMessage(), e);
-		}
-
-		return status;
-	}
-
-	@RequestMapping("/deleteUserRole")
-	@ResponseBody
-	public Status deleteUserRole(String roleCode, String userIds) {
-		Status status = new Status();
-
-		try {
-			authService.deleteUserRole(roleCode, userIds);
-			status.setMessage("角色删除用户成功！");
-		} catch (DBAccessException e) {
-			status.setSuccess(false);
-			status.setMessage("角色删除用户失败：" + e.getMessage());
-			log.error("deleteUserRole[String] - " + e.getMessage(), e);
-		}
-
-		return status;
-	}
-
 	@RequestMapping("/getUsersInSameOrg")
 	@ResponseBody
 	public List<User> getUsersInSameOrg() {

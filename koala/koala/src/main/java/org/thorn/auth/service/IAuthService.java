@@ -1,12 +1,11 @@
 package org.thorn.auth.service;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.thorn.web.entity.Page;
+import org.thorn.auth.entity.AuthUser;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.role.entity.Role;
-import org.thorn.user.entity.User;
 
 /**
  * @ClassName: IAuthService
@@ -27,11 +26,11 @@ public interface IAuthService {
 	 */
 	public List<String> queryResourceByRole(String roleId)
 			throws DBAccessException;
-	
+
 	/**
 	 * 
 	 * @Description：根据角色集合查找授权的资源集合
-	 * @author：chenyun 	        
+	 * @author：chenyun
 	 * @date：2012-6-1 下午04:24:04
 	 * @param roleIds
 	 * @return
@@ -97,42 +96,9 @@ public interface IAuthService {
 	 * @return
 	 * @throws DBAccessException
 	 */
-	public Page<User> queryPageByRole(String userName, String orgCode,
+	public Page<AuthUser> queryPageByRole(String userName, String orgCode,
 			String roleCode, String userAccount, long start, long limit,
 			String sort, String dir) throws DBAccessException;
-
-	/**
-	 * 
-	 * @Description：分页查询不在角色中的用户
-	 * @author：chenyun
-	 * @date：2012-5-25 下午02:04:37
-	 * @param orgCode
-	 *            组织编码
-	 * @param roleCode
-	 *            角色编码
-	 * @param start
-	 * @param limit
-	 * @param sort
-	 * @param dir
-	 * @return
-	 * @throws DBAccessException
-	 */
-	public Page<User> queryPageNotInRole(String orgCode, String roleCode,
-			long start, long limit, String sort, String dir)
-			throws DBAccessException;
-
-	/**
-	 * 
-	 * @Description：向角色中添加用户
-	 * @author：chenyun
-	 * @date：2012-5-25 下午02:05:05
-	 * @param roleCode
-	 * @param userIds
-	 *            多个用户ID分隔字符串
-	 * @throws DBAccessException
-	 */
-	public void saveUserRole(String roleCode, String userIds)
-			throws DBAccessException;
 
 	/**
 	 * 
@@ -145,30 +111,17 @@ public interface IAuthService {
 	 */
 	public void saveRoleByUser(String userId, String roleCodes)
 			throws DBAccessException;
-
-	/**
-	 * 
-	 * @Description：删除角色中的用户
-	 * @author：chenyun
-	 * @date：2012-5-25 下午02:06:26
-	 * @param roleCode
-	 * @param userIds
-	 *            多个用户ID分隔字符串
-	 * @throws DBAccessException
-	 */
-	public void deleteUserRole(String roleCode, String userIds)
-			throws DBAccessException;
 	
 	/**
 	 * 
 	 * @Description：
 	 * @author：chenyun 	        
-	 * @date：2012-6-19 下午09:06:00
-	 * @param roleCode
-	 * @param orgIds
-	 * @return
+	 * @date：2013-2-16 上午10:43:04
+	 * @param roleCodes
+	 * @param addUserIds
+	 * @param delUserIds
 	 * @throws DBAccessException
 	 */
-	public List<User> queryListByRole(Collection<String> roleCodes, Collection<String> orgIds)
-		throws DBAccessException;
+	public void saveUserRole(String roleCode, List<String> addUserIds,
+			List<String> delUserIds) throws DBAccessException;
 }

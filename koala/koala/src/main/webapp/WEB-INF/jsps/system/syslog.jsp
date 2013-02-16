@@ -18,10 +18,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	float: right;
     	margin-right: 50px;
     }
-    
-    #refresh i {
-    	padding : 0 0;
-    }
     </style>
     
 	<script type="text/javascript">
@@ -30,14 +26,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		var _tipScroll = $("<div id='refresh' class='btn-group'></div>");
 		var refreshBtn = $('<button type="button" class="btn btn-mini btn-success"></button>');
-		refreshBtn.append('<i class="icon-refresh"></i>');
+		refreshBtn.append('<i class="icon-refresh nopadding"></i>');
 		
 		refreshBtn.click(function(){
 			loadLogs();
 		});
 		
 		var toTopBtn = $('<button type="button" class="btn btn-mini btn-primary"></button>');
-		toTopBtn.append('<i class="icon-chevron-up"></i>');
+		toTopBtn.append('<i class="icon-chevron-up nopadding"></i>');
 		
 		toTopBtn.click(function(){
 			$("html,body").animate({ scrollTop:0 },1000);
@@ -102,11 +98,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<table class="table table-bordered table-condensed">
 				<thead>
 					<tr>
-						<th width="20%">时间</th>
+						<th width="24%">时间</th>
 						<th width="8%">线程名</th>
 						<th width="8%">级别</th>
 						<th width="10%">类路径</th>
-						<th width="55%" style="text-align: center;">输出</th>
+						<th width="50%" style="text-align: center;">输出</th>
 					</tr>
 				</thead>
 				<tbody id="logbody" style="font-size: 12px;"></tbody>
