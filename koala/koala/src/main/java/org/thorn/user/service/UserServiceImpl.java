@@ -192,12 +192,6 @@ public class UserServiceImpl implements IUserService {
 					user.getUserId()));
 			userDao.modify(user);
 			userCache.removeUserFromCache(user.getUserId());
-
-			MailEntity mailInfo = MailTemplete.findPassWd(user.getUserName(),
-					email, newPwd);
-			MailTask task = new MailTask(mailInfo);
-			ExecutorUtils.executeTask(task);
-
 			return true;
 		} else {
 			return false;
