@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,11 +19,13 @@ import org.thorn.core.util.ExecutorUtils;
 import org.thorn.dao.core.Configuration;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.security.SecurityConfiguration;
+import org.thorn.user.entity.FindBackEntry;
 import org.thorn.user.entity.User;
 import org.thorn.user.service.IUserService;
 import org.thorn.user.task.MailTask;
 import org.thorn.user.task.MailTemplete;
 import org.thorn.web.controller.BaseController;
+import org.thorn.web.entity.JsonResponse;
 import org.thorn.web.entity.Status;
 
 import freemarker.template.TemplateException;
@@ -105,26 +108,45 @@ public class NewUserController extends BaseController {
 	@RequestMapping("/findBack.jhtml")
 	public String findBack() {
 
-		return "findBack";
+		return "findBack1";
 	}
-
-	public Status findBackMyPwd(String userId, String userEmail) {
+	
+	public Status verifyEmail(String email) {
 		Status status = new Status();
-		userId = userId.toUpperCase();
-
-		try {
-			if (service.myPwdFindBack(userId, userEmail)) {
-				status.setMessage("新密码发送至您的注册邮箱，请注意查收！");
-			} else {
-				status.setMessage("身份核对未通过，登录名或注册邮箱有误！");
-			}
-		} catch (DBAccessException e) {
-			status.setSuccess(false);
-			status.setMessage("数据处理出错：" + e.getMessage());
-			log.error("findBackMyPwd[String] - " + e.getMessage(), e);
-		}
-
+		
+		
 		return status;
 	}
+	
+	public String findBackMyPwd(String captcha, ModelMap model) {
+		
+		Status status = verifyCaptcha(captcha);
+		model.put("status", status);
+		
+		return "findBack2";
+	}
+	
+	public Status modifyMyPwd(String pwd, String captcha) {
+		JsonResponse<FindBackEntry> json = verifyCaptcha(captcha);
+		
+		if(json.isSuccess()) {
+			try {
+				service.changePwd(json.getObj().getUserId(), pwd);
+			} catch (DBAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return json;
+	}
+	
+	private JsonResponse<FindBackEntry> verifyCaptcha(String captcha) {
+		JsonResponse<FindBackEntry> json = new JsonResponse<FindBackEntry>();
+		
+		
+		return json;
+	}
+	
 
 }
