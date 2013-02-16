@@ -75,5 +75,22 @@ public class AppLogServiceImpl implements IAppLogService {
 		return logDao.queryList(filter);
 	}
 
+	public AppLog queryLog(Integer id) throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+		
+		filter.put("id", id);
+		
+		List<AppLog> list = logDao.queryList(filter);
+		
+		if (list == null || list.size() == 0) {
+			return null;
+		} else if (list.size() != 1) {
+			throw new DBAccessException("queryLog find result size:"
+					+ list.size());
+		}
+
+		return list.get(0);
+	}
+
 }
 

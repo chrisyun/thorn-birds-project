@@ -32,6 +32,9 @@
       		<if test="endTime != null and endTime != ''">
 				and l.EXECUTETIME &lt; #{endTime,jdbcType=VARCHAR}
       		</if>
+      		<if test="id != null">
+				and l.ID = #{id,jdbcType=DECIMAL}
+      		</if>
 		</where>
 	</sql>
 
