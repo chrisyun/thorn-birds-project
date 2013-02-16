@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
 import org.thorn.web.entity.Page;
 import org.thorn.dao.exception.DBAccessException;
@@ -42,7 +42,7 @@ public class AppLogServiceImpl implements IAppLogService {
 		filter.put(Configuration.PAGE_LIMIT, limit);
 		filter.put(Configuration.PAGE_START, start);
 		
-		if(LocalStringUtils.isEmpty(sort)) {
+		if(StringUtils.isEmpty(sort)) {
 			filter.put(Configuration.SROT_NAME, "EXECUTETIME");
 			filter.put(Configuration.ORDER_NAME, Configuration.ORDER_DESC);
 		} else {

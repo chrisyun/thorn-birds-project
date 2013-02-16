@@ -2,8 +2,8 @@ package org.thorn.web.util;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.thorn.core.context.SpringContext;
-import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.dd.entity.Dict;
 import org.thorn.dd.service.IDataDictService;
@@ -49,7 +49,7 @@ public class DDUtils {
 		List<Dict> ld = queryDd(typeId);
 
 		for (Dict dd : ld) {
-			if (LocalStringUtils.equals(dName, dd.getDname())) {
+			if (StringUtils.equals(dName, dd.getDname())) {
 				return dd.getDvalue();
 			}
 		}

@@ -74,7 +74,7 @@ for(Cookie ck : cookies) {
 				    			data-errormessage-value-missing="请输入密码"
 				    			name="j_password" id="password">
 				    		<span class="help-inline">
-				    			<a href="">忘记密码</a>
+				    			<a href="<%=path%>/html/findBack.jhtml">忘记密码</a>
 				    		</span>
 				    	</div>
 				    </div>
@@ -104,7 +104,7 @@ for(Cookie ck : cookies) {
 				    	<button class="btn btn-primary" type="submit">登录</button>
 				    	<span class="help-inline">
 				    		&nbsp;&nbsp;&nbsp;&nbsp;
-				    		还没有账户？<a href="">立即注册！</a>
+				    		还没有账户？<a href="<%=path%>/html/register.jhtml">立即注册！</a>
 				    	</span>
 				    </div>
 			    </fieldset>

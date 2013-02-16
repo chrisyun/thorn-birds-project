@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.thorn.core.util.LocalStringUtils;
+import org.apache.commons.lang.StringUtils;
 
 /** 
  * @ClassName: MailConfiguratorListener 
@@ -25,7 +25,7 @@ public class MailConfiguratorListener implements Observer {
 		
 		String name = map.get("name");
 		
-		if(LocalStringUtils.equals(configName, name)) {
+		if(StringUtils.equals(configName, name)) {
 			// do update bean
 			System.out.println(" hello,i'm must update");
 		}

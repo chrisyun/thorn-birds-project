@@ -49,7 +49,7 @@ public class MySettingController extends BaseController {
 		try {
 			User user = SecurityUserUtils.getCurrentUser();
 			
-			user = service.queryUser(user.getUserId());
+			user = service.queryUser(user.getUserId(), null);
 			
 			model.put("user", user);
 		} catch (DBAccessException e) {
@@ -94,7 +94,7 @@ public class MySettingController extends BaseController {
 		try {
 			User user = SecurityUserUtils.getCurrentUser();
 			
-			user = service.queryUser(user.getUserId());
+			user = service.queryUser(user.getUserId(), null);
 			
 			String thisPassword = SecurityEncoderUtils.encodeUserPassword(
 					curPassword, user.getUserId());

@@ -7,9 +7,9 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.thorn.attachment.entity.Attachment;
-import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.log.NoLogging;
 
@@ -32,7 +32,7 @@ public class AttachmentLocalServiceImpl extends AttachmentDBServiceImpl
 	@Override
 	public void uploadAtt(Attachment att, MultipartFile file)
 			throws DBAccessException {
-		if(LocalStringUtils.isEmpty(att.getSaveType())) {
+		if(StringUtils.isEmpty(att.getSaveType())) {
 			att.setSaveType(saveType);
 		}
 		

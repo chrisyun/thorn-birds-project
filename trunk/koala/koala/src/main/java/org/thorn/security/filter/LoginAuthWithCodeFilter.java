@@ -4,12 +4,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.TextEscapeUtils;
-import org.thorn.core.util.LocalStringUtils;
 import org.thorn.security.SecurityConfiguration;
 
 public class LoginAuthWithCodeFilter extends
@@ -53,7 +53,7 @@ public class LoginAuthWithCodeFilter extends
 	private void checkValidateCode(HttpServletRequest request) {
 		String sessionValidateCode = obtainSessionValidateCode(request);
 		String validateCodeParameter = obtainValidateCodeParameter(request);
-		if (LocalStringUtils.isEmpty(validateCodeParameter)
+		if (StringUtils.isEmpty(validateCodeParameter)
 				|| !sessionValidateCode.equalsIgnoreCase(validateCodeParameter)) {
 			throw new AuthenticationServiceException(
 					messages.getMessage("validateCode.notEquals"));
@@ -62,7 +62,7 @@ public class LoginAuthWithCodeFilter extends
 
 	private String obtainValidateCodeParameter(HttpServletRequest request) {
 		String code = request.getParameter(validateCodeParameter);
-		if (LocalStringUtils.isNotEmpty(code)) {
+		if (StringUtils.isNotEmpty(code)) {
 			code = code.toUpperCase();
 		}
 		return code;
