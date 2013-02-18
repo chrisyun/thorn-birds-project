@@ -6,30 +6,29 @@ import org.thorn.dao.mybatis.annotation.Mapper;
 import org.thorn.dao.mybatis.annotation.MapperNode;
 import org.thorn.dao.mybatis.annotation.MethodType;
 
-/** 
- * @ClassName: FindBackEntry 
- * @Description: 
+/**
+ * @ClassName: FindBackEntry
+ * @Description:
  * @author chenyun
- * @date 2013-2-16 下午5:50:48 
+ * @date 2013-2-16 下午5:50:48
  */
-@Mapper(nameSpace="FindBackMapper",node= {
-		@MapperNode(id="insert",type=MethodType.INSERT),
-		@MapperNode(id="update",type=MethodType.UPDATE),
-		@MapperNode(id="select",type=MethodType.QUERY)
-})
+@Mapper(nameSpace = "FindBackMapper", node = {
+		@MapperNode(id = "insert", type = MethodType.INSERT),
+		@MapperNode(id = "update", type = MethodType.UPDATE),
+		@MapperNode(id = "select", type = MethodType.QUERY) })
 public class FindBackEntry implements Serializable {
 
 	/** */
 	private static final long serialVersionUID = 6886333864989485915L;
-	
+
 	private Integer id;
-	
+
 	private String userId;
-	
+
 	private String captcha;
-	
+
 	private String used;
-	
+
 	private String startTime;
 
 	public Integer getId() {
@@ -72,4 +71,3 @@ public class FindBackEntry implements Serializable {
 		this.startTime = startTime;
 	}
 }
-
