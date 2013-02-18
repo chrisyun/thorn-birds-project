@@ -1,5 +1,6 @@
 package org.thorn.user.service;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -10,18 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer;
 import org.springframework.security.core.userdetails.UserCache;
-import org.thorn.core.jmail.MailEntity;
-import org.thorn.core.util.ExecutorUtils;
+import org.thorn.core.util.DateTimeUtils;
+import org.thorn.core.util.EncryptUtils;
 import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
 import org.thorn.web.entity.Page;
 import org.thorn.dao.exception.DBAccessException;
-import org.thorn.log.NoLogging;
+import org.thorn.dao.mybatis.helper.MyBatisDaoSupport;
 import org.thorn.security.SecurityEncoderUtils;
 import org.thorn.user.dao.IUserDao;
+import org.thorn.user.entity.FindBackEntry;
 import org.thorn.user.entity.User;
-import org.thorn.user.task.MailTask;
-import org.thorn.user.task.MailTemplete;
 
 /**
  * @ClassName: UserServiceImpl
@@ -38,6 +38,10 @@ public class UserServiceImpl implements IUserService {
 	@Autowired
 	@Qualifier("userSecurityCache")
 	private UserCache userCache;
+
+	@Autowired
+	@Qualifier("myBatisDaoSupport")
+	private MyBatisDaoSupport myBatisDaoSupport;
 
 	@Autowired
 	@Qualifier("incrSequence")
@@ -75,7 +79,7 @@ public class UserServiceImpl implements IUserService {
 			user.setUserPwd(SecurityEncoderUtils.encodeUserPassword(pwd,
 					user.getUserId()));
 		}
-		
+
 		userDao.save(user);
 	}
 
@@ -174,6 +178,53 @@ public class UserServiceImpl implements IUserService {
 
 		userDao.modify(user);
 		userCache.removeUserFromCache(user.getUserId());
+	}
+
+	public FindBackEntry generateFindBackEntry(String userId)
+			throws DBAccessException {
+		FindBackEntry fb = new FindBackEntry();
+
+		fb.setUsed(Configuration.DB_NO);
+		fb.setUserId(userId);
+		fb.setStartTime(DateTimeUtils.getCurrentTime());
+
+		String captcha = userId + "-" + fb.getStartTime();
+		try {
+			fb.setCaptcha(EncryptUtils.getMD5(captcha));
+		} catch (NoSuchAlgorithmException e) {
+			throw new DBAccessException(e);
+		}
+
+		myBatisDaoSupport.save(fb);
+
+		return fb;
+	}
+
+	public void changeMyPwd(String userId, String captcha, String newPwd)
+			throws DBAccessException {
+		User user = new User();
+		user.setUserId(userId.toUpperCase());
+		user.setUserPwd(SecurityEncoderUtils.encodeUserPassword(newPwd,
+				user.getUserId()));
+
+		userDao.modify(user);
+		userCache.removeUserFromCache(user.getUserId());
+
+		FindBackEntry fb = new FindBackEntry();
+		fb.setUserId(userId);
+		fb.setCaptcha(captcha);
+		myBatisDaoSupport.modify(fb);
+	}
+
+	public FindBackEntry queryFindBackEntry(String userId, String captcha)
+			throws DBAccessException {
+		Map<String, Object> filter = new HashMap<String, Object>();
+
+		filter.put("userId", userId);
+		filter.put("captcha", captcha);
+
+		return (FindBackEntry) myBatisDaoSupport.queryOne(filter,
+				FindBackEntry.class);
 	}
 
 }

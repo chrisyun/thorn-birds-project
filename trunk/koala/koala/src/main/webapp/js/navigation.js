@@ -79,7 +79,7 @@ $(function() {
 		var children = formatTree(pNode.children);
 
 		var _menu = $('<ul class="nav nav-tabs nav-stacked"></ul>');
-		_menu.append('<li><a href="javascript:void(0);"><i class="icon-plus"></i><b>'
+		_menu.append('<li><a href="' + sys.path + pNode.targetUrl + '"><i class="icon-plus"></i><b>'
 						+ pNode.text + '</b></a></li>');
 
 		for ( var i = 0; i < children.length; i++) {

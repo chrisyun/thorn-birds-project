@@ -12,8 +12,32 @@
 
 
 	<sql id="Base_Column_List">
-		ID, USERID, CAPTCHA, USED, STARTTIME
+		ID, USERID, CAPTCHA, USED, DATE_FORMAT(STARTTIME, '%Y-%m-%d %H:%i:%s') as STARTTIME
   	</sql>
 	
+	<insert id="insert" parameterType="org.thorn.user.entity.FindBackEntry">
+		insert into t_sys_pwd_findback(USERID, CAPTCHA, USED, STARTTIME) 
+		values(#{userId,jdbcType=VARCHAR},#{captcha,jdbcType=VARCHAR},
+		#{used,jdbcType=VARCHAR},#{startTime,jdbcType=VARCHAR})
+	</insert>
+	
+	<update id="update" parameterType="org.thorn.user.entity.FindBackEntry">
+		update t_sys_pwd_findback set used = 'YES' 
+		where USERID = #{userId,jdbcType=VARCHAR} 
+		and CAPTCHA = #{captcha,jdbcType=VARCHAR}
+	</update>
+	
+	<select id="select" resultMap="BaseResultMap" parameterType="hashmap">
+		select <include refid="Base_Column_List"/>
+		from t_sys_pwd_findback 
+		<where>
+			<if test="userId != null and userId != ''">
+				and USERID = #{userId,jdbcType=VARCHAR}
+      		</if>
+      		<if test="captcha != null and captcha != ''">
+				and CAPTCHA = #{captcha,jdbcType=VARCHAR}
+      		</if>
+		</where>
+	</select>
 	
 </mapper>

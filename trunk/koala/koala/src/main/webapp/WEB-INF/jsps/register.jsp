@@ -27,7 +27,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				$.dialog.alertSuccess(msg, "用户注册成功", function() {
 					window.location.href = "<%=path%>";
 				});
-			},
+			}
 		});
 	}
     

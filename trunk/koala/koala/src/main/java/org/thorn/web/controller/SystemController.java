@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class SystemController {
 	
-	@RequestMapping("/html/**")
+	@RequestMapping("/html/*.jhtml")
 	public String toStaticJsp(HttpServletRequest request) {
 		String url = request.getServletPath();
 		url = url.replaceAll(".jhtml", "");
@@ -35,7 +35,7 @@ public class SystemController {
 	@RequestMapping("/System/index.jhtml")
 	public String systemIndex() {
 		
-		return "redict:/System/dd/dtPage.jhtml";
+		return "system/index";
 	}
 
 }
