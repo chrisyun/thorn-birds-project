@@ -58,15 +58,14 @@
 		} else {
 			_modalBody.css("height", "");
 		}
-
+		
+		_modalBody.removeClass();
+		_modalBody.addClass("modal-body");
+		
 		if (!$.utils.isEmpty(options.cls)) {
 			_modalBody.addClass(options.cls);
-		} else {
-			_modalBody.removeClass();
-			_modalBody.addClass("modal-body");
 		}
-	}
-	;
+	};
 
 	CWnd.prototype.show = function() {
 		$("#" + this.options.id).modal("show");

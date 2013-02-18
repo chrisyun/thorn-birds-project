@@ -7,22 +7,55 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
+    <title>找回密码</title>
+    <script type="text/javascript">
+    $(function(){
+    	initValidationEngine("findPwdForm");
+    });
     
-    <title>My JSP 'findBack.jsp' starting page</title>
+    function findBack() {
+    	$("#findPwdForm").submitForm({
+			onSuccess : function(msg) {
+				$.dialog.alertSuccess(msg, "身份验证成功", function() {
+					window.location.href = "<%=path%>";
+				});
+			}
+		});
+    }
+    </script>
     
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-
+    
   </head>
   
   <body>
-    This is my JSP page. <br>
+  	<div class="row">
+    	<div class="offset2 span6">
+    		<form class="form-horizontal" id="findPwdForm" 
+				method="post" action="<%=path%>/html/verifyIdentity.jmt">
+				<fieldset>
+					<legend>找回密码</legend>
+					<div class="control-group">
+						<label class="control-label">登录账号：</label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" id="userId" name="userId"
+								data-validation-engine="validate[required]">
+							<span class="help-block"><i class="redStar">*</i>必填</span>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">注册邮箱：</label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" id="email" name="email"
+								data-validation-engine="validate[required,maxSize[50],custom[email]]">
+							<span class="help-block"><i class="redStar">*</i>必填</span>
+						</div>
+					</div>
+					<div class="form-actions">
+				    	<button class="btn btn-primary btn-large" type="button" onclick="findBack();">提交</button>
+				    </div>
+				</fieldset>
+			</form>
+    	</div>
+    </div>
   </body>
 </html>

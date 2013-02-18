@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.thorn.web.entity.Page;
 import org.thorn.dao.exception.DBAccessException;
+import org.thorn.user.entity.FindBackEntry;
 import org.thorn.user.entity.User;
 
 /**
@@ -14,9 +15,9 @@ import org.thorn.user.entity.User;
  * @date 2012-5-4 下午03:02:29
  */
 public interface IUserService {
-	
+
 	public User queryUser(String userId, String mail) throws DBAccessException;
-	
+
 	public User queryUserByLogin(String idOrAccount) throws DBAccessException;
 
 	public void save(User user) throws DBAccessException;
@@ -38,5 +39,14 @@ public interface IUserService {
 	public List<User> queryList(String orgCode, String userName, String cumail,
 			Collection<String> areas, String userAccount,
 			Collection<String> userIds, Collection<String> orgIds)
+			throws DBAccessException;
+
+	public FindBackEntry generateFindBackEntry(String userId)
+			throws DBAccessException;
+
+	public void changeMyPwd(String userId, String captcha, String newPwd)
+			throws DBAccessException;
+
+	public FindBackEntry queryFindBackEntry(String userId, String captcha)
 			throws DBAccessException;
 }

@@ -34,11 +34,11 @@ tr.error {
 }
 
 td.Date {
-
+	
 }
 
 td.Thread {
-
+	
 }
 
 td.Level {
@@ -46,7 +46,7 @@ td.Level {
 }
 
 td.Logger {
-
+	
 }
 
 td.Message {
@@ -60,8 +60,6 @@ tr.error td.Message {
 /*
 SYSLOG CSS END
 */
-
-
 hr {
 	margin-top: 5px;
 	margin-bottom: 5px;
@@ -107,4 +105,10 @@ i {
 
 .nopadding {
 	padding: 0 0;
+}
+
+.bodyHeight {
+	height: auto !important;
+	height: 380px;
+	min-height: 380px;
 }

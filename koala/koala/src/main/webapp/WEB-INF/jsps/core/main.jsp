@@ -134,7 +134,7 @@ String thisUrl = request.getServletPath();
   			|| thisUrl.indexOf("/System/", 0) == 0
   			|| thisUrl.indexOf("/App/", 0) == 0) {
   	%>	
-  	<div class="container-fluid container">
+  	<div class="container-fluid container bodyHeight">
 		<div class="row-fluid">
 			
 			<div class="span2" id="_menuTree"></div>
@@ -146,7 +146,7 @@ String thisUrl = request.getServletPath();
   	<%	
   		} else {
   	%>
-  	<div class="container">
+  	<div class="container bodyHeight">
     	<decorator:body />
     </div>
     <%
