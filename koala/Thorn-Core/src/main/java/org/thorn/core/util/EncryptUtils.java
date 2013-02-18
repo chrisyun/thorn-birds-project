@@ -41,7 +41,7 @@ public class EncryptUtils {
 		MessageDigest md5 = MessageDigest.getInstance("MD5");
 		md5.update(val.getBytes());
 		byte[] m = md5.digest();// 加密
-		return getString(m);
+		return get16String(m);
 	}
 
 	public static String getSHA(String val) throws NoSuchAlgorithmException {
