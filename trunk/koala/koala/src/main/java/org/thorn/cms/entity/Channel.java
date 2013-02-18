@@ -37,7 +37,7 @@ public class Channel implements Serializable {
 	
 	private String title;
 	
-	private String describe;
+	private String description;
 	
 	private String tags;
 	
@@ -105,12 +105,12 @@ public class Channel implements Serializable {
 		this.title = title;
 	}
 
-	public String getDescribe() {
-		return describe;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDescribe(String describe) {
-		this.describe = describe;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getTags() {

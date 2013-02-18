@@ -37,5 +37,11 @@ public class SystemController {
 		
 		return "system/index";
 	}
+	
+	@RequestMapping("/CMS/index.jhtml")
+	public String cmsIndex() {
+		
+		return "cms/index";
+	}
 
 }
