@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.thorn.auth.entity.AuthUser;
 import org.thorn.auth.service.IAuthService;
-import org.thorn.core.util.LocalStringUtils;
 import org.thorn.dao.core.Configuration;
 import org.thorn.web.entity.JsonResponse;
 import org.thorn.web.entity.Page;

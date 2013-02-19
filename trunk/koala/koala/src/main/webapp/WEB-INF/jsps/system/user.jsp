@@ -446,7 +446,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</button>
 								</sec:authorize>
 								<sec:authorize url="/System/user/delete*.jmt">
-								<button class="btn btn-danger btn-mini" onclick="deleteUser'${user.userId }')">
+								<button class="btn btn-danger btn-mini" onclick="deleteUser('${user.userId }')">
 									<i class="nopadding icon-trash"></i>
 								</button>
 								</sec:authorize>

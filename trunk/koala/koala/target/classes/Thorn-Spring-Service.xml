@@ -100,5 +100,10 @@
 		<property name="dataSource" ref="dataSource-jdbc" />
 		<property name="incrementerName" value="T_INCR_SEQ" />
 	</bean>
-
+	
+	<!-- ###################################CMS######################################## -->
+	<bean id="wsService" class="org.thorn.cms.service.WebSiteServiceImpl" />
+	
+	
+	<!-- ###################################CMS######################################## -->
 </beans>
