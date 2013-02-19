@@ -31,10 +31,6 @@ public class WebSite implements Serializable {
 
 	private String templateFolder;
 
-	private String templatePrefix;
-
-	private String path;
-
 	public Integer getId() {
 		return id;
 	}
@@ -65,21 +61,5 @@ public class WebSite implements Serializable {
 
 	public void setTemplateFolder(String templateFolder) {
 		this.templateFolder = templateFolder;
-	}
-
-	public String getTemplatePrefix() {
-		return templatePrefix;
-	}
-
-	public void setTemplatePrefix(String templatePrefix) {
-		this.templatePrefix = templatePrefix;
-	}
-
-	public String getPath() {
-		return path;
-	}
-
-	public void setPath(String path) {
-		this.path = path;
 	}
 }
