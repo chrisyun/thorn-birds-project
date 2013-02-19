@@ -79,7 +79,9 @@ public class WSController extends BaseController {
 		Status status = new Status();
 
 		try {
-			wsService.delete(ids);
+			if(StringUtils.isNotBlank(ids)) {
+				wsService.delete(ids);
+			}
 
 			// 更新Session
 			WebSite wsSession = (WebSite) session

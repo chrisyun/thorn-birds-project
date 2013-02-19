@@ -103,7 +103,7 @@
 	
 	<!-- ###################################CMS######################################## -->
 	<bean id="wsService" class="org.thorn.cms.service.WebSiteServiceImpl" />
-	
+	<bean id="clService" class="org.thorn.cms.service.ChannelServiceImpl" />
 	
 	<!-- ###################################CMS######################################## -->
 </beans>

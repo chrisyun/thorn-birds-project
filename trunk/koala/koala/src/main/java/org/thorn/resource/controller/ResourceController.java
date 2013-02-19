@@ -13,7 +13,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.thorn.auth.service.IAuthService;
 import org.thorn.dao.core.Configuration;
 import org.thorn.web.entity.Page;
 import org.thorn.dao.exception.DBAccessException;
@@ -43,10 +42,6 @@ public class ResourceController extends BaseController {
 	@Autowired
 	@Qualifier("resourceService")
 	private IResourceService service;
-
-	@Autowired
-	@Qualifier("authService")
-	private IAuthService authService;
 
 	@RequestMapping("/queryResourcePage.jhtml")
 	public String resourcePage(Long pageIndex, Long pageSize, String sort,
