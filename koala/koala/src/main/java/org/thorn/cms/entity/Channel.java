@@ -17,6 +17,7 @@ import org.thorn.dao.mybatis.annotation.MethodType;
 		@MapperNode(id = "update", type = MethodType.UPDATE),
 		@MapperNode(id = "delete", type = MethodType.DELETE_BATCH),
 		@MapperNode(id = "select", type = MethodType.QUERY_LIST),
+		@MapperNode(id = "count", type = MethodType.COUNT),
 		@MapperNode(id = "select", type = MethodType.QUERY) })
 public class Channel implements Serializable {
 

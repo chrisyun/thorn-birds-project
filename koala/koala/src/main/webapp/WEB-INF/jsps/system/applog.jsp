@@ -12,6 +12,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     
     <title>操作日志</title>
+    <script type="text/javascript" src="<%=path%>/plugins/jquery-ui/jquery.ui.datepicker-zh-CN.js"></script>
+    
 	<script type="text/javascript">
 	$(function(){
 		$("#pagingBar").page({
@@ -46,7 +48,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				closed : true
 			}]
 		});
-	
+		
+		$("#queryForm [name=startTime]").datepicker({
+			changeMonth: true,
+			dateFormat:'yy-mm-dd',
+			maxDate : new Date(),
+			onSelect: function(selectedDate) {
+				if(selectedDate != ''){
+					$("#queryForm [name=endTime]").datepicker("option", "minDate", selectedDate);
+				} 
+			}  				
+		});
+		$("#queryForm [name=endTime]").datepicker({
+			changeMonth: true,
+			dateFormat:'yy-mm-dd',
+			maxDate : new Date(),
+			onSelect: function(selectedDate) {
+				if(selectedDate != ''){
+					$("#queryForm [name=startTime]").datepicker("option", "maxDate", selectedDate);
+				}
+			}
+		});
+		
 		$("#logTable a").tooltip();
 	});
 	
@@ -99,9 +122,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  	<select name="handleResult" class="input-medium renderer-result"></select>
 			  	<label style="width: 10px;"></label>
 			  	<label>操作时间：</label>
-			  	<input type="text" name="startTime" class="input-mini">
+			  	<input type="text" name="startTime" class="span2" readonly>
 			  	<label style="width: 5px;"></label>—<label style="width: 5px;"></label>
-			  	<input type="text" name="endTime" class="input-mini">
+			  	<input type="text" name="endTime" class="span2" readonly>
 			  	<label style="width: 10px;"></label>
 			  	<button type="submit" class="btn">搜索</button>
 			</form>
@@ -149,43 +172,43 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="control-group">
 				<label class="control-label" for="moduleName">模块名称：</label>
 				<div class="controls">
-					<input type="text" readonly class="input-large renderer-module" name="moduleName">
+					<input type="text" readonly class="input-xlarge renderer-module" name="moduleName">
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="methodName">方法名称：</label>
 				<div class="controls">
-					<input type="text" class="input-large" name="methodName" readonly>
+					<input type="text" class="input-xlarge" name="methodName" readonly>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="executeTime">操作时间：</label>
 				<div class="controls">
-					<input type="text" class="input-large" name="executeTime" readonly>
+					<input type="text" class="input-xlarge" name="executeTime" readonly>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="handleResult">操作结果：</label>
 				<div class="controls">
-					<select disabled name="handleResult" class="input-medium renderer-result"></select>
+					<select disabled name="handleResult" class="input-xlarge renderer-result"></select>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="userId">操作人：</label>
 				<div class="controls">
-					<input type="text" class="input-medium" name="userId" readonly>
+					<input type="text" class="input-xlarge" name="userId" readonly>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="parameters">参数详细：</label>
 				<div class="controls">
-					<textarea rows="5" class="input-large" name="parameters" readonly></textarea>
+					<textarea rows="5" class="input-xlarge" name="parameters" readonly></textarea>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="errorMsg">错误信息：</label>
 				<div class="controls">
-					<textarea rows="5" class="input-large" name="errorMsg" readonly></textarea>
+					<textarea rows="5" class="input-xlarge" name="errorMsg" readonly></textarea>
 				</div>
 			</div>
 		</fieldset>

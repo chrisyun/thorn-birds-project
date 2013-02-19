@@ -54,7 +54,7 @@
 		delete from T_CMS_WEBSITE where id in
 		<foreach collection="list" item="item" open="(" close=")"
 			separator=",">
-			#{item,jdbcType=VARCHAR}
+			#{item,jdbcType=DECIMAL}
 		</foreach>
 	</delete>
 	
