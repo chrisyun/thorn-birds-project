@@ -78,12 +78,13 @@ public class ChannelServiceImpl implements IChannelService {
 	}
 
 	public List<Channel> queryList(String name, Integer pid, Integer siteId,
-			String isShow) throws DBAccessException {
+			String path, String isShow) throws DBAccessException {
 		Map<String, Object> filter = new HashMap<String, Object>();
 		filter.put("name", name);
 		filter.put("pid", pid);
 		filter.put("siteId", siteId);
 		filter.put("isShow", isShow);
+		filter.put("path", path);
 		filter.put("isDisabled", Configuration.DB_NO);
 		return myBatisDaoSupport.queryList(filter, Channel.class);
 	}
