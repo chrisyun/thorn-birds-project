@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.thorn.cms.common.CMSConfiguration;
@@ -55,7 +56,22 @@ public class TemplateServiceImpl implements ITemplateService {
 		String path = tp.getAbsolutePath() + tp.getFolder() + File.separator + tp.getName();
 
 		try {
+			Map<String, Object> filter = new HashMap<String, Object>();
+			filter.put("id", tp.getId());
+
+			Template oldTp = (Template) myBatisDaoSupport.queryOne(filter,
+					Template.class);
+			String oldPath = tp.getAbsolutePath() + tp.getFolder() + File.separator + oldTp.getName();
+			
 			File file = new File(path);
+			
+			if(!StringUtils.equals(path, oldPath)) {
+				File oldFile = new File(oldPath);
+				oldFile.delete();
+				
+				file.createNewFile();
+			}
+			
 			TextfileUtils.writeText(file, tp.getContent(),
 					CMSConfiguration.TEMPLATE_ENCODING);
 			myBatisDaoSupport.modify(tp);
