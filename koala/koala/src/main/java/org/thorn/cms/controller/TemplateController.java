@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.thorn.cms.common.CMSConfiguration;
 import org.thorn.cms.common.CMSHelper;
-import org.thorn.cms.entity.Channel;
 import org.thorn.cms.entity.Template;
 import org.thorn.cms.entity.WebSite;
 import org.thorn.cms.service.ITemplateService;
