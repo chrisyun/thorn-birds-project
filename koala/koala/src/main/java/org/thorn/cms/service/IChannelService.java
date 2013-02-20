@@ -27,5 +27,5 @@ public interface IChannelService {
 			throws DBAccessException;
 
 	public List<Channel> queryList(String name, Integer pid, Integer siteId,
-			String isShow) throws DBAccessException;
+			String path, String isShow) throws DBAccessException;
 }

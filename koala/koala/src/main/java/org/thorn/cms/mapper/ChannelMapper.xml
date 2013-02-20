@@ -7,6 +7,7 @@
 	<resultMap id="BaseResultMap" type="org.thorn.cms.entity.Channel">
 		<id column="id" property="id" jdbcType="DECIMAL" />
 		<result column="pid" property="pid" jdbcType="DECIMAL" />
+		<result column="pName" property="pName" jdbcType="VARCHAR" />
 		<result column="siteId" property="siteId" jdbcType="DECIMAL" />
 		<result column="channelTemplate" property="channelTemplate" jdbcType="DECIMAL" />
 		<result column="contentTemplate" property="contentTemplate" jdbcType="DECIMAL" />
@@ -23,28 +24,31 @@
 	<sql id="Base_Column_List">
 		c.id,c.pid,c.siteId,c.channelTemplate,
 		c.contentTemplate,c.name,c.title,c.description,
-		c.tags,c.isShow,c.isDisabled,c.path,c.sortNum
+		c.tags,c.isShow,c.isDisabled,c.path,c.sortNum,p.name as pName
     </sql>
 
 	<sql id="Where_Clause">
 		<where>
 			<if test="id != null">
-				c.id = #{id,jdbcType=DECIMAL}
+				and c.id = #{id,jdbcType=DECIMAL}
 			</if>
 			<if test="pid != null">
-				c.pid = #{pid,jdbcType=DECIMAL}
+				and c.pid = #{pid,jdbcType=DECIMAL}
 			</if>
 			<if test="siteId != null">
-				c.siteId = #{siteId,jdbcType=DECIMAL}
+				and c.siteId = #{siteId,jdbcType=DECIMAL}
 			</if>
 			<if test="name != null and name != ''">
-				c.name like CONCAT('%',#{name,jdbcType=VARCHAR},'%')
+				and c.name like CONCAT('%',#{name,jdbcType=VARCHAR},'%')
       		</if>
       		<if test="isDisabled != null and isDisabled != ''">
-				c.isDisabled = #{isDisabled,jdbcType=VARCHAR}
+				and c.isDisabled = #{isDisabled,jdbcType=VARCHAR}
+      		</if>
+      		<if test="path != null and path != ''">
+				and c.path = #{path,jdbcType=VARCHAR}
       		</if>
       		<if test="isShow != null and isShow != ''">
-				c.isShow = #{isShow,jdbcType=VARCHAR}
+				and c.isShow = #{isShow,jdbcType=VARCHAR}
       		</if>
 		</where>
 	</sql>
@@ -112,16 +116,16 @@
 		<include refid="MySQLCommonMapper.pagingStart"/>
 		select
 		<include refid="Base_Column_List" />
-		from T_CMS_CHANNEL
+		from T_CMS_CHANNEL c left join T_CMS_CHANNEL p on c.pid = p.id
 		<include refid="Where_Clause" />
 		<include refid="MySQLCommonMapper.sortInfo"/>
 		<include refid="MySQLCommonMapper.pagingEnd"/>
 	</select>
 
-	<select id="selectTypePageCount" parameterType="hashmap"
+	<select id="count" parameterType="hashmap"
 		resultType="long">
-		select count(*) from T_CMS_CHANNEL
-		<include refid="DictType_Where_Clause" />
+		select count(*) from T_CMS_CHANNEL c left join T_CMS_CHANNEL p on c.pid = p.id
+		<include refid="Where_Clause" />
 	</select>
 
 </mapper>

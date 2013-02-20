@@ -28,6 +28,8 @@ public class Channel implements Serializable {
 	
 	private Integer pid;
 	
+	private String pName;
+	
 	private Integer siteId;
 	
 	private String name;
@@ -153,5 +155,14 @@ public class Channel implements Serializable {
 	public void setSortNum(Integer sortNum) {
 		this.sortNum = sortNum;
 	}
+
+	public String getpName() {
+		return pName;
+	}
+
+	public void setpName(String pName) {
+		this.pName = pName;
+	}
+	
 }
 

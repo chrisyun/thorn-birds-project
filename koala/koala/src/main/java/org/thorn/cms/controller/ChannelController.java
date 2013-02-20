@@ -69,7 +69,7 @@ public class ChannelController extends BaseController {
 		List<Tree> tree = new ArrayList<Tree>();
 
 		try {
-			List<Channel> list = clService.queryList(null, pid, null, null);
+			List<Channel> list = clService.queryList(null, pid, null, null, null);
 
 			for (Channel cl : list) {
 				Tree node = new Tree();
@@ -133,8 +133,16 @@ public class ChannelController extends BaseController {
 				WebSite ws = CMSHelper.getCurrentWebSite(session);
 				cl.setSiteId(ws.getId());
 
-				clService.save(cl);
-				status.setMessage("新增栏目成功！");
+				// 判断栏目路径是否重复
+				List<Channel> cls = clService.queryList(null, null, ws.getId(), cl.getPath(), null);
+				
+				if(cls != null && cls.size() > 0) {
+					status.setSuccess(false);
+					status.setMessage("栏目访问路径重复！");
+				} else {
+					clService.save(cl);
+					status.setMessage("新增栏目成功！");
+				}
 			} else if (StringUtils.equals(opType, Configuration.OP_MODIFY)) {
 				cl.setSiteId(null);
 
