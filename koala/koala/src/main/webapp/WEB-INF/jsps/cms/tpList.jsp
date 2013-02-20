@@ -37,6 +37,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						window.location.href = "<%=path%>/CMS/tp/queryTemplates.jhtml?folder=" + node.id;
 					} else {
 						//修改
+						window.location.href = "<%=path%>/CMS/tp/queryTemplate.jhtml?id=" + node.id;
 					}
 				}
 			}
@@ -59,6 +60,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	});
     }
     
+    function createTp() {
+    	var folder = $("#pFolder").val();
+    	window.location.href = "<%=path%>/CMS/tp/queryTemplate.jhtml?folder=" + folder;
+    }
+    
+    function editTp(id) {
+    	window.location.href = "<%=path%>/CMS/tp/queryTemplate.jhtml?id=" + id;
+    }
+    
+    function deleteTemplate(id, name) {
+    	$.dialog.confirm("您确认删除吗？", function(){
+			$.server.ajaxRequest({
+				url : "<%=path%>/CMS/tp/deleteTp.jmt",
+				data : {
+					id : id,
+					name : name,
+					curFolder : $("#pFolder").val()
+				},
+				onSuccess : function(msg, data) {
+					$.dialog.alertSuccess(msg, "请求处理成功", function(){
+						$.utils.refreshPage();
+					});
+				}
+			});
+		});
+    }
     </script>
 
   </head>
@@ -66,7 +93,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
     <div class="row">
 		<ul class="breadcrumb">
-			<li><a href="<%=path%>/CMS/index.jhtml">系统管理</a><span class="divider">/</span></li>
+			<li><a href="<%=path%>/CMS/index.jhtml">内容发布</a><span class="divider">/</span></li>
 			<li class="active">模板管理</li>
 		</ul>
 	</div>
@@ -84,12 +111,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<label>当前目录：</label>
 				<span class="input-medium uneditable-input"><%=CMSConfiguration.TEMPLATE_ROOT %>${dbFolder }</span>
 			  	<label style="width: 10px;"></label>
-			  	<input type="hidden" name="pFolder" value="${dbFolder }">
+			  	<input type="hidden" id="pFolder" name="pFolder" value="${dbFolder }">
 			  	<input name="folder" class="input-mini" type="text" data-validation-engine="validate[required]">
 			  	<label style="width: 10px;"></label>
 			  	<button type="button" class="btn btn-primary" onclick="createFolder();">新建目录</button>
 			  	<label style="width: 10px;"></label>
-			  	<button type="button" class="btn btn-info">创建模板</button>
+			  	<button type="button" class="btn btn-info" onclick="createTp();">创建模板</button>
 			  	<label style="width: 10px;"></label>
 			  	<button type="button" class="btn">上传文件</button>
 			</form>
@@ -111,13 +138,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td>${tp.updateTime }</td>
 						<td style="text-align: center;">
 							<div class="btn-group">
-								<sec:authorize url="/System/org/saveOrModify*.jmt">
-								<button class="btn btn-info btn-mini" onclick="edit('${tp.id }')">
+								<sec:authorize url="/CMS/tp/saveOrModify*.jmt">
+								<button class="btn btn-info btn-mini" onclick="editTp('${tp.id }')">
 									<i class="nopadding icon-edit"></i>
 								</button>
 								</sec:authorize>
-								<sec:authorize url="/System/org/delete*.jmt">
-								<button class="btn btn-danger btn-mini" onclick="delete('${tp.id }','${tp.name }')">
+								<sec:authorize url="/CMS/tp/delete*.jmt">
+								<button class="btn btn-danger btn-mini" onclick="deleteTemplate('${tp.id }','${tp.name }')">
 									<i class="nopadding icon-trash"></i>
 								</button>
 								</sec:authorize>

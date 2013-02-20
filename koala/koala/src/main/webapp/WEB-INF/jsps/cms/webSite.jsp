@@ -138,7 +138,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
     <div class="row">
 		<ul class="breadcrumb">
-			<li><a href="<%=path%>/CMS/index.jhtml">系统管理</a><span class="divider">/</span></li>
+			<li><a href="<%=path%>/CMS/index.jhtml">内容发布</a><span class="divider">/</span></li>
 			<li class="active">站点管理</li>
 		</ul>
 	</div>
