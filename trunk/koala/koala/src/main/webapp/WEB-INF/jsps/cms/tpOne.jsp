@@ -36,13 +36,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<div class="control-group">
 						<label class="control-label" for="curPassword">当前文件名：</label>
 						<div class="controls">
-							<input type="password" class="input-large" id="curPassword" name="curPassword"
+							<input type="text" class="input-large" id="name" name="name"
 								data-validation-engine="validate[required]">
-							<p class="help-block"><i class="redStar">*</i>必填，当前登录密码</p>
+							<input type="hidden" name="id" value="">
+							<input type="hidden" name="folder" value="">
+							<p class="help-block"><i class="redStar">*</i>必填，不得与其他文件重名</p>
 						</div>
 					</div>
-				
-				
+					<div class="control-group">
+						<div class="controls">
+							<textarea rows="50" class="span9"></textarea>
+						</div>
+					</div>
+					<div class="form-actions">
+				    	<button class="btn btn-primary btn-large" type="button" onclick="save();">保存</button>
+				    </div>
 				</fieldset>
 			</form>
 		</div>
