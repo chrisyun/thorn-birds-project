@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.thorn.cms.common.CMSConfiguration;
+import org.thorn.cms.common.CMSHelper;
 import org.thorn.cms.entity.WebSite;
 import org.thorn.cms.service.IWebSiteService;
 import org.thorn.dao.core.Configuration;
@@ -72,14 +73,14 @@ public class WSController extends BaseController {
 	@RequestMapping(value = "/deleteWebSite.jmt", method = RequestMethod.POST)
 	@ResponseBody
 	public Status deleteWebSite(String ids, HttpSession session) {
-		if(!ids.endsWith(",")) {
+		if (!ids.endsWith(",")) {
 			ids += ",";
 		}
-		
+
 		Status status = new Status();
 
 		try {
-			if(StringUtils.isNotBlank(ids)) {
+			if (StringUtils.isNotBlank(ids)) {
 				wsService.delete(ids);
 			}
 
@@ -112,14 +113,15 @@ public class WSController extends BaseController {
 			if (StringUtils.equals(opType, Configuration.OP_SAVE)) {
 
 				// 检查站点目录是否已经存在
-				StringBuilder path = new StringBuilder(session
-						.getServletContext().getRealPath(""));
+				StringBuilder path = new StringBuilder(
+						CMSHelper.getContextPath(session));
 
 				if (StringUtils.equals("\\", File.separator)) {
 					path.append(CMSConfiguration.TEMPLATE_ROOT.replaceAll("/",
 							"\\\\"));
 				} else {
-					path.append(CMSConfiguration.TEMPLATE_ROOT);
+					path.append(CMSConfiguration.TEMPLATE_ROOT.replaceAll(
+							"\\\\", "/"));
 				}
 				path.append(ws.getTemplateFolder());
 

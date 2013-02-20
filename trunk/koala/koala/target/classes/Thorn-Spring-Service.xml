@@ -104,6 +104,7 @@
 	<!-- ###################################CMS######################################## -->
 	<bean id="wsService" class="org.thorn.cms.service.WebSiteServiceImpl" />
 	<bean id="clService" class="org.thorn.cms.service.ChannelServiceImpl" />
+	<bean id="tpService" class="org.thorn.cms.service.TemplateServiceImpl" />
 	
 	<!-- ###################################CMS######################################## -->
 </beans>

@@ -35,8 +35,12 @@ public class CMSHelper {
 				session.setAttribute(CMSConfiguration.SESSION_WS, list.get(0));
 			}
 		}
-		
+
 		return wsSession;
+	}
+
+	public static String getContextPath(HttpSession session) {
+		return session.getServletContext().getRealPath("");
 	}
 
 }

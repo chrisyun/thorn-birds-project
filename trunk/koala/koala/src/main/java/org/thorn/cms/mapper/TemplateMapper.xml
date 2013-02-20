@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="TemplateMapper">
+
+	<cache-ref namespace="DictMapper" />
+
+	<resultMap id="BaseResultMap" type="org.thorn.cms.entity.Template">
+		<id column="id" property="id" jdbcType="DECIMAL" />
+		<result column="siteId" property="siteId" jdbcType="DECIMAL" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="folder" property="folder" jdbcType="VARCHAR" />
+		<result column="updater" property="updater" jdbcType="VARCHAR" />
+		<result column="updaterName" property="updaterName" jdbcType="VARCHAR" />
+		<result column="updateTime" property="updateTime" jdbcType="VARCHAR" />
+		<result column="isDisabled" property="isDisabled" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id,siteId,name,folder,updater,updaterName,updateTime,isDisabled
+    </sql>
+
+	<sql id="Where_Clause">
+		<where>
+			<if test="id != null">
+				id = #{id,jdbcType=DECIMAL}
+			</if>
+			<if test="folder != null and folder != ''">
+				and folder = #{folder,jdbcType=VARCHAR}
+      		</if>
+      		<if test="updater != null and updater != ''">
+				and updater = #{updater,jdbcType=VARCHAR}
+      		</if>
+      		<if test="updaterName != null and updaterName != ''">
+				and updaterName like CONCAT('%',#{updaterName,jdbcType=VARCHAR},'%')
+      		</if>
+      		<if test="isDisabled != null and isDisabled != ''">
+				and isDisabled = #{isDisabled,jdbcType=VARCHAR}
+      		</if>
+		</where>
+	</sql>
+
+	<insert id="insert" parameterType="org.thorn.cms.entity.Template">
+		insert into T_CMS_TEMPLATE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="folder != null and folder != ''">folder,</if>
+			<if test="name != null and name != ''">name,</if>
+			<if test="updater != null and updater != ''">updater,</if>
+			<if test="updaterName != null and updaterName != ''">updaterName,</if>
+			<if test="isDisabled != null and isDisabled != ''">isDisabled,</if>
+			<if test="updateTime != null and updateTime != ''">updateTime,</if>
+			<if test="siteId != null">siteId,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="folder != null and folder != ''">#{folder,jdbcType=VARCHAR},</if>
+			<if test="name != null and name != ''">#{name,jdbcType=VARCHAR},</if>
+			<if test="updater != null and updater != ''">#{updater,jdbcType=VARCHAR},</if>
+			<if test="updaterName != null and updaterName != ''">#{updaterName,jdbcType=VARCHAR},</if>
+			<if test="isDisabled != null and isDisabled != ''">#{isDisabled,jdbcType=VARCHAR},</if>
+			<if test="updateTime != null and updateTime != ''">#{updateTime,jdbcType=VARCHAR},</if>
+			<if test="siteId != null">#{siteId,jdbcType=DECIMAL},</if>
+		</trim>
+	</insert>
+	
+	<update id="update" parameterType="org.thorn.cms.entity.Template">
+		update T_CMS_TEMPLATE
+		<set>
+			<if test="folder != null and folder != ''">folder = #{folder,jdbcType=VARCHAR},</if>
+			<if test="name != null and name != ''">name = #{name,jdbcType=VARCHAR},</if>
+			<if test="updater != null and updater != ''">updater = #{updater,jdbcType=VARCHAR},</if>
+			<if test="updaterName != null and updaterName != ''">updaterName = #{updaterName,jdbcType=VARCHAR},</if>
+			<if test="isDisabled != null and isDisabled != ''">isDisabled = #{isDisabled,jdbcType=VARCHAR},</if>
+			<if test="updateTime != null and updateTime != ''">updateTime = #{updateTime,jdbcType=VARCHAR},</if>
+			<if test="siteId != null">siteId = #{siteId,jdbcType=DECIMAL},</if>
+		</set>
+		where id = #{id,jdbcType=DECIMAL}
+	</update>
+	
+	<select id="select" resultMap="BaseResultMap" parameterType="hashmap">
+		select
+		<include refid="Base_Column_List" />
+		from T_CMS_TEMPLATE
+		<include refid="Where_Clause" />
+	</select>
+
+</mapper>
