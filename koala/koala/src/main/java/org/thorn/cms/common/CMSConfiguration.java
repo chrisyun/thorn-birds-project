@@ -12,5 +12,7 @@ public interface CMSConfiguration {
 	public static final String SESSION_WS = "currentWebSite";
 	
 	public static final String TEMPLATE_ENCODING = "UTF-8";
+	
+	public static final String FOLDER_CSS = "/cms/";
 }
 
