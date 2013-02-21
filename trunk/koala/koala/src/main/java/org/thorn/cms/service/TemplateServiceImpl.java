@@ -40,10 +40,14 @@ public class TemplateServiceImpl implements ITemplateService {
 			}
 			if (!file.exists()) {
 				file.createNewFile();
+			} else {
+				throw new DBAccessException("文件已经存在！");
 			}
 
 			TextfileUtils.writeText(file, tp.getContent(),
 					CMSConfiguration.TEMPLATE_ENCODING);
+			
+			tp.setFolder(tp.getFolder().replaceAll("\\\\", "/"));
 			myBatisDaoSupport.save(tp);
 		} catch (IOException e) {
 			throw new DBAccessException(e);
@@ -66,14 +70,18 @@ public class TemplateServiceImpl implements ITemplateService {
 			File file = new File(path);
 			
 			if(!StringUtils.equals(path, oldPath)) {
-				File oldFile = new File(oldPath);
-				oldFile.delete();
 				
-				file.createNewFile();
+				if(file.exists()) {
+					throw new DBAccessException("文件已经存在！");
+				}
+				File oldFile = new File(oldPath);
+				oldFile.renameTo(file);
 			}
 			
 			TextfileUtils.writeText(file, tp.getContent(),
 					CMSConfiguration.TEMPLATE_ENCODING);
+			
+			tp.setFolder(tp.getFolder().replaceAll("\\\\", "/"));
 			myBatisDaoSupport.modify(tp);
 		} catch (IOException e) {
 			throw new DBAccessException(e);

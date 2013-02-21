@@ -22,7 +22,11 @@ import org.thorn.cms.common.CMSHelper;
 import org.thorn.cms.entity.Template;
 import org.thorn.cms.entity.WebSite;
 import org.thorn.cms.service.ITemplateService;
+import org.thorn.core.util.DateTimeUtils;
+import org.thorn.dao.core.Configuration;
 import org.thorn.dao.exception.DBAccessException;
+import org.thorn.security.SecurityUserUtils;
+import org.thorn.user.entity.User;
 import org.thorn.web.controller.BaseController;
 import org.thorn.web.entity.Status;
 import org.thorn.web.entity.Tree;
@@ -46,8 +50,9 @@ public class TemplateController extends BaseController {
 	private FilenameFilter folderFilter = new FilenameFilter() {
 
 		public boolean accept(File dir, String name) {
-
-			if (dir.isDirectory()) {
+			
+			File file = new File(dir, name);
+			if (file.isDirectory()) {
 				return true;
 			} else {
 				return false;
@@ -74,8 +79,10 @@ public class TemplateController extends BaseController {
 				}
 
 				Template tp = tpService.queryOne(id, path.toString());
-				
+
 				model.put("template", tp);
+				
+				folder = tp.getFolder();
 			}
 		} catch (DBAccessException e) {
 			log.error("queryTemplate[Template] - " + e.getMessage(), e);
@@ -227,7 +234,8 @@ public class TemplateController extends BaseController {
 
 		try {
 			Template tp = new Template();
-
+			tp.setName(name);
+			
 			if (StringUtils.equals("\\", File.separator)) {
 				tp.setAbsolutePath(CMSHelper.getContextPath(session)
 						+ CMSConfiguration.TEMPLATE_ROOT
@@ -246,11 +254,11 @@ public class TemplateController extends BaseController {
 
 				String[] children = folder.list();
 				if (children == null || children.length == 0) {
-					status.setSuccess(false);
-					status.setMessage("请先删除目录下的文件！");
-				} else {
 					folder.delete();
 					status.setMessage("目录删除成功！");
+				} else {
+					status.setSuccess(false);
+					status.setMessage("请先删除目录下的文件！");
 				}
 
 			} else {
@@ -265,6 +273,84 @@ public class TemplateController extends BaseController {
 			log.error("deleteTp[Template] - " + e.getMessage(), e);
 		}
 
+		return status;
+	}
+
+	@RequestMapping(value = "/saveOrModifyTemplate.jmt", method = RequestMethod.POST)
+	@ResponseBody
+	public Status saveOrModifyTemplate(Template tp, HttpSession session) {
+		Status status = new Status();
+
+		try {
+			User user = SecurityUserUtils.getCurrentUser();
+			tp.setUpdater(user.getUserId());
+			tp.setUpdaterName(user.getUserName());
+			tp.setUpdateTime(DateTimeUtils.getCurrentTime());
+			tp.setIsDisabled(Configuration.DB_NO);
+			tp.setSiteId(CMSHelper.getCurrentWebSite(session).getId());
+			
+			if (StringUtils.equals("\\", File.separator)) {
+				tp.setAbsolutePath(CMSHelper.getContextPath(session)
+						+ CMSConfiguration.TEMPLATE_ROOT
+								.replaceAll("/", "\\\\"));
+				tp.setFolder(tp.getFolder().replaceAll("/", "\\\\"));
+			} else {
+				tp.setAbsolutePath(CMSHelper.getContextPath(session)
+						+ CMSConfiguration.TEMPLATE_ROOT
+								.replaceAll("\\\\", "/"));
+				tp.setFolder(tp.getFolder().replaceAll("\\\\", "/"));
+			}
+
+			if (tp.getId() == null) {
+				tpService.save(tp);
+				status.setMessage("模板新增成功！");
+			} else {
+				tpService.modify(tp);
+				status.setMessage("模板修改成功！");
+			}
+		} catch (DBAccessException e) {
+			status.setSuccess(false);
+			status.setMessage("数据保存失败：" + e.getMessage());
+			log.error("saveOrModifyTemplate[Template] - " + e.getMessage(), e);
+		}
+
+		return status;
+	}
+
+	@RequestMapping(value = "/saveOrModifyFolder.jmt", method = RequestMethod.POST)
+	@ResponseBody
+	public Status saveOrModifyFolder(String folder, String pFolder,
+			String oldFolder, HttpSession session) {
+		Status status = new Status();
+
+		StringBuilder path = new StringBuilder(
+				CMSHelper.getContextPath(session));
+
+		if (StringUtils.equals("\\", File.separator)) {
+			path.append(CMSConfiguration.TEMPLATE_ROOT.replaceAll("/", "\\\\"));
+			path.append(pFolder.replaceAll("/", "\\\\"));
+		} else {
+			path.append(CMSConfiguration.TEMPLATE_ROOT.replaceAll("\\\\", "/"));
+			path.append(pFolder.replaceAll("\\\\", "/"));
+		}
+
+		if (!StringUtils.equals(folder, oldFolder)) {
+
+			File file = new File(path.toString() + File.separator + folder);
+
+			if (file.exists()) {
+				status.setSuccess(false);
+				status.setMessage("该目录已经存在！");
+			} else {
+				File oldFile = new File(path.toString() + File.separator + oldFolder);
+				oldFile.renameTo(file);
+			}
+		}
+		
+		if(status.isSuccess()) {
+			status.setMessage("目录重命名成功！");
+		}
+		
 		return status;
 	}
 
