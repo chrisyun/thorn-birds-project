@@ -16,7 +16,7 @@
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		id,siteId,name,folder,updater,updaterName,updateTime,isDisabled
+		id,siteId,name,folder,updater,updaterName,DATE_FORMAT(updateTime, '%Y-%m-%d %H:%i:%s') as updateTime,isDisabled
     </sql>
 
 	<sql id="Where_Clause">
