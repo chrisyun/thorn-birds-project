@@ -64,15 +64,29 @@ $(function() {
 			|| paths[1] == "System") {
 		$("#_nav_" + paths[1]).parent("li").addClass("active");
 	}
-
+	
+	var urlFinder = false;
 	$("#_menuTree > ul > li").each(function() {
 		var href = $(this).find("a").attr("href");
 
 		if (href.indexOf(thisUrl) >= 0 && href != undefined) {
 			$(this).addClass("active");
+			urlFinder = true;
 		}
-
 	});
+	
+	if(!urlFinder) {
+		var lastli = $("ul[class=breadcrumb] li[class=active]").prev("li");
+		var url = lastli.find("a").attr("href");
+		
+		$("#_menuTree > ul > li").each(function() {
+			var href = $(this).find("a").attr("href");
+			
+			if(href.indexOf(url) >= 0 && href != undefined) {
+				$(this).addClass("active");
+			}
+		});
+	}
 
 	function createMenu(pNode) {
 

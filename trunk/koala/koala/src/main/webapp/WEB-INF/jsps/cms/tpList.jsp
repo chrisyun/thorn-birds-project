@@ -18,8 +18,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     <script type="text/javascript">
     $(function(){
-    	initValidationEngine("addFolderForm");
-    	
 		var setting = {
 			async: {
 				enable: true,
@@ -48,6 +46,52 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			text : "模板根目录",
 			isParent : "true"
 		}]);
+		
+		var root = tree.getNodeByParam("text", "模板根目录", null);
+		tree.reAsyncChildNodes(root, "refresh");
+		
+		$("#folderForm").formDialog({
+			title : "编辑目录信息",
+			buttons : [{
+				text : "保存",
+				cls : "btn-primary",
+				click : function() {
+					$("#folderForm").submitForm({
+						progress : false,
+						onSuccess : function(msg) {
+							$("#folderMsgTips").message({
+								type : "success",
+								text : msg,
+								title : "请求处理成功"
+							});
+							setTimeout(function(){
+								$.utils.reloadPage();
+							}, 2000);
+						},
+						onFailure : function(msg) {
+							$("#folderMsgTips").message({
+								type : "error",
+								text : msg,
+								title : "数据处理出错"
+							});
+						},
+						onError : function() {
+							$("#folderMsgTips").message({
+								type : "error",
+								text : "网络请求超时，请稍后再试！",
+								title : "数据处理出错"
+							});
+						}
+					});
+				}
+			}, {
+				text : "关闭",
+				closed : true
+			}]
+		});
+		
+		initValidationEngine("folderForm");
+		initValidationEngine("addFolderForm");
     });
     
     function createFolder() {
@@ -65,8 +109,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	window.location.href = "<%=path%>/CMS/tp/queryTemplate.jhtml?folder=" + folder;
     }
     
-    function editTp(id) {
-    	window.location.href = "<%=path%>/CMS/tp/queryTemplate.jhtml?id=" + id;
+    function editTp(id, name) {
+    	if($.utils.isEmpty(id)) {
+    		//修改文件名
+    		var folder = $("#pFolder").val();
+    		$("#folderMsgTips").html("");
+    		$("#folderForm").resetForm();
+    		$("#folderForm").setFormValues({
+    			folder : name,
+    			oldFolder : name,
+    			pFolder : folder
+    		});
+    		$("#folderForm").formDialog("show");
+    	} else {
+    		window.location.href = "<%=path%>/CMS/tp/queryTemplate.jhtml?id=" + id;
+    	}
     }
     
     function deleteTemplate(id, name) {
@@ -126,20 +183,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<tr>
 						<th width="40%">文件名</th>
 						<th width="20%">最后修改人</th>
-						<th width="20%">最后修改时间</th>
-						<th width="20%" style="text-align: center;">操作</th>
+						<th width="25%">最后修改时间</th>
+						<th width="15%" style="text-align: center;">操作</th>
 					</tr>
 				</thead>
 				<tbody>
 				<c:forEach var="tp" items="${list }">
 					<tr>
 						<td>${tp.name }</td>
-						<td>${tp.updaterName }</td>
+						<td>${tp.updater }（${tp.updaterName }）</td>
 						<td>${tp.updateTime }</td>
 						<td style="text-align: center;">
 							<div class="btn-group">
 								<sec:authorize url="/CMS/tp/saveOrModify*.jmt">
-								<button class="btn btn-info btn-mini" onclick="editTp('${tp.id }')">
+								<button class="btn btn-info btn-mini" onclick="editTp('${tp.id }','${tp.name }')">
 									<i class="nopadding icon-edit"></i>
 								</button>
 								</sec:authorize>
@@ -156,5 +213,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</table>
 		</div>
 	</div>
+	
+	<form class="form-horizontal" method="post" action="<%=path%>/CMS/tp/saveOrModifyFolder.jmt" id="folderForm">
+		<fieldset>
+			<div id="folderMsgTips"></div>
+			<input type="hidden" name="pFolder">
+			<input type="hidden" name="oldFolder">
+			<div class="control-group">
+				<label class="control-label" for="folder">目录：</label>
+				<div class="controls">
+					<input type="text" class="input-medium" name="folder"
+							data-validation-engine="validate[required,custom[onlyLetterNumber]]">
+					<p class="help-block"><i class="redStar">*</i>必填，不得与现有的文件夹重名</p>
+				</div>
+			</div>
+		</fieldset>
+	</form>
+	
   </body>
 </html>
