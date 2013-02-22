@@ -50,7 +50,7 @@ public class TemplateController extends BaseController {
 	private FilenameFilter folderFilter = new FilenameFilter() {
 
 		public boolean accept(File dir, String name) {
-			
+
 			File file = new File(dir, name);
 			if (file.isDirectory()) {
 				return true;
@@ -70,18 +70,13 @@ public class TemplateController extends BaseController {
 				StringBuilder path = new StringBuilder(
 						CMSHelper.getContextPath(session));
 
-				if (StringUtils.equals("\\", File.separator)) {
-					path.append(CMSConfiguration.TEMPLATE_ROOT.replaceAll("/",
-							"\\\\"));
-				} else {
-					path.append(CMSConfiguration.TEMPLATE_ROOT.replaceAll(
-							"\\\\", "/"));
-				}
+				path.append(CMSConfiguration.TEMPLATE_ROOT);
 
-				Template tp = tpService.queryOne(id, path.toString());
+				Template tp = tpService.queryOne(id,
+						CMSHelper.convertLocalPath(path.toString()));
 
 				model.put("template", tp);
-				
+
 				folder = tp.getFolder();
 			}
 		} catch (DBAccessException e) {
@@ -105,19 +100,12 @@ public class TemplateController extends BaseController {
 
 			StringBuilder path = new StringBuilder(
 					CMSHelper.getContextPath(session));
+			path.append(CMSConfiguration.TEMPLATE_ROOT);
+			path.append(folder);
 
-			if (StringUtils.equals("\\", File.separator)) {
-				path.append(CMSConfiguration.TEMPLATE_ROOT.replaceAll("/",
-						"\\\\"));
-				path.append(folder.replaceAll("/", "\\\\"));
-			} else {
-				path.append(CMSConfiguration.TEMPLATE_ROOT.replaceAll("\\\\",
-						"/"));
-				path.append(folder.replaceAll("\\\\", "/"));
-			}
-
-			File curFolder = new File(path.toString());
-			String dbFolder = folder.replaceAll("\\\\", "/");
+			File curFolder = new File(CMSHelper.convertLocalPath(path
+					.toString()));
+			String dbFolder = CMSHelper.convertLocalPath(folder);
 			model.put("dbFolder", dbFolder);
 
 			List<Template> list = tpService.queryList(ws.getId(), dbFolder);
@@ -149,18 +137,12 @@ public class TemplateController extends BaseController {
 
 		StringBuilder path = new StringBuilder(
 				CMSHelper.getContextPath(session));
-
-		if (StringUtils.equals("\\", File.separator)) {
-			path.append(CMSConfiguration.TEMPLATE_ROOT.replaceAll("/", "\\\\"));
-			path.append(pFolder.replaceAll("/", "\\\\"));
-		} else {
-			path.append(CMSConfiguration.TEMPLATE_ROOT.replaceAll("\\\\", "/"));
-			path.append(pFolder.replaceAll("\\\\", "/"));
-		}
+		path.append(CMSConfiguration.TEMPLATE_ROOT);
+		path.append(pFolder);
 
 		path.append(File.separator).append(folder);
 
-		File file = new File(path.toString());
+		File file = new File(CMSHelper.convertLocalPath(path.toString()));
 
 		if (!file.exists()) {
 			file.mkdirs();
@@ -185,19 +167,12 @@ public class TemplateController extends BaseController {
 
 			StringBuilder path = new StringBuilder(
 					CMSHelper.getContextPath(session));
+			path.append(CMSConfiguration.TEMPLATE_ROOT);
+			path.append(folder);
 
-			if (StringUtils.equals("\\", File.separator)) {
-				path.append(CMSConfiguration.TEMPLATE_ROOT.replaceAll("/",
-						"\\\\"));
-				path.append(folder.replaceAll("/", "\\\\"));
-			} else {
-				path.append(CMSConfiguration.TEMPLATE_ROOT.replaceAll("\\\\",
-						"/"));
-				path.append(folder.replaceAll("\\\\", "/"));
-			}
-
-			File curFolder = new File(path.toString());
-			String dbFolder = folder.replaceAll("\\\\", "/");
+			File curFolder = new File(CMSHelper.convertLocalPath(path
+					.toString()));
+			String dbFolder = CMSHelper.convertLocalPath(folder);
 
 			List<Template> list = tpService.queryList(ws.getId(), dbFolder);
 
@@ -235,18 +210,10 @@ public class TemplateController extends BaseController {
 		try {
 			Template tp = new Template();
 			tp.setName(name);
-			
-			if (StringUtils.equals("\\", File.separator)) {
-				tp.setAbsolutePath(CMSHelper.getContextPath(session)
-						+ CMSConfiguration.TEMPLATE_ROOT
-								.replaceAll("/", "\\\\"));
-				tp.setFolder(curFolder.replaceAll("/", "\\\\"));
-			} else {
-				tp.setAbsolutePath(CMSHelper.getContextPath(session)
-						+ CMSConfiguration.TEMPLATE_ROOT
-								.replaceAll("\\\\", "/"));
-				tp.setFolder(curFolder.replaceAll("\\\\", "/"));
-			}
+
+			tp.setAbsolutePath(CMSHelper.convertLocalPath(CMSHelper
+					.getContextPath(session) + CMSConfiguration.TEMPLATE_ROOT));
+			tp.setFolder(CMSHelper.convertLocalPath(curFolder));
 
 			if (id == null) {
 				File folder = new File(tp.getAbsolutePath() + tp.getFolder()
@@ -288,18 +255,10 @@ public class TemplateController extends BaseController {
 			tp.setUpdateTime(DateTimeUtils.getCurrentTime());
 			tp.setIsDisabled(Configuration.DB_NO);
 			tp.setSiteId(CMSHelper.getCurrentWebSite(session).getId());
-			
-			if (StringUtils.equals("\\", File.separator)) {
-				tp.setAbsolutePath(CMSHelper.getContextPath(session)
-						+ CMSConfiguration.TEMPLATE_ROOT
-								.replaceAll("/", "\\\\"));
-				tp.setFolder(tp.getFolder().replaceAll("/", "\\\\"));
-			} else {
-				tp.setAbsolutePath(CMSHelper.getContextPath(session)
-						+ CMSConfiguration.TEMPLATE_ROOT
-								.replaceAll("\\\\", "/"));
-				tp.setFolder(tp.getFolder().replaceAll("\\\\", "/"));
-			}
+
+			tp.setAbsolutePath(CMSHelper.convertLocalPath(CMSHelper
+					.getContextPath(session) + CMSConfiguration.TEMPLATE_ROOT));
+			tp.setFolder(CMSHelper.convertLocalPath(tp.getFolder()));
 
 			if (tp.getId() == null) {
 				tpService.save(tp);
@@ -325,32 +284,31 @@ public class TemplateController extends BaseController {
 
 		StringBuilder path = new StringBuilder(
 				CMSHelper.getContextPath(session));
-
-		if (StringUtils.equals("\\", File.separator)) {
-			path.append(CMSConfiguration.TEMPLATE_ROOT.replaceAll("/", "\\\\"));
-			path.append(pFolder.replaceAll("/", "\\\\"));
-		} else {
-			path.append(CMSConfiguration.TEMPLATE_ROOT.replaceAll("\\\\", "/"));
-			path.append(pFolder.replaceAll("\\\\", "/"));
-		}
+		path.append(CMSConfiguration.TEMPLATE_ROOT);
+		path.append(pFolder);
 
 		if (!StringUtils.equals(folder, oldFolder)) {
 
-			File file = new File(path.toString() + File.separator + folder);
-
+			File file = new File(CMSHelper.convertLocalPath(path.toString())
+					+ File.separator + folder);
+			File oldFile = new File(CMSHelper.convertLocalPath(path.toString()) + File.separator
+					+ oldFolder);
+			
 			if (file.exists()) {
 				status.setSuccess(false);
 				status.setMessage("该目录已经存在！");
+			} else if (oldFile.list().length > 0) {
+				status.setSuccess(false);
+				status.setMessage("目录下有文件，不允许重命名！");
 			} else {
-				File oldFile = new File(path.toString() + File.separator + oldFolder);
 				oldFile.renameTo(file);
 			}
 		}
-		
-		if(status.isSuccess()) {
+
+		if (status.isSuccess()) {
 			status.setMessage("目录重命名成功！");
 		}
-		
+
 		return status;
 	}
 

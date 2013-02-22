@@ -31,5 +31,23 @@ public class DateTimeUtils {
 	public static Date formatDate(String date) throws ParseException {
 		return dateDf.parse(date);
 	}
+	
+	public static String formatTime(Long millisecond) {
+		Date date = new Date(millisecond);
+		return formatTime(date);
+	}
+	
+	public static String formatTime(Date date) {
+		return timeDf.format(date);	
+	}
+	
+	public static String formatDate(Long millisecond) {
+		Date date = new Date(millisecond);
+		return formatDate(date);
+	}
+	
+	public static String formatDate(Date date) {
+		return dateDf.format(date);	
+	}
 
 }

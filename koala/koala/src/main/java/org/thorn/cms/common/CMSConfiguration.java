@@ -13,6 +13,6 @@ public interface CMSConfiguration {
 	
 	public static final String TEMPLATE_ENCODING = "UTF-8";
 	
-	public static final String FOLDER_CSS = "/cms/";
+	public static final String FOLDER_CSS = "/plugins/";
 }
 

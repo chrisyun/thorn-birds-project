@@ -1,9 +1,11 @@
 package org.thorn.cms.common;
 
+import java.io.File;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.thorn.cms.entity.WebSite;
 import org.thorn.cms.service.IWebSiteService;
 import org.thorn.core.context.SpringContext;
@@ -41,6 +43,17 @@ public class CMSHelper {
 
 	public static String getContextPath(HttpSession session) {
 		return session.getServletContext().getRealPath("");
+	}
+
+	public static String convertLocalPath(String path) {
+
+		if (StringUtils.equals("\\", File.separator)) {
+			path = path.replaceAll("/", "\\\\");
+		} else {
+			path = path.replaceAll("\\\\", "/");
+		}
+
+		return path;
 	}
 
 }
