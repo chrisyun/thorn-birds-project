@@ -12,43 +12,41 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
   <head>
     
-    <title>模板管理</title>
-    <link href="<%=path %>/plugins/zTree/zTreeBookStyle.css" rel="stylesheet">
-    <script type="text/javascript" src="<%=path %>/plugins/zTree/jquery.ztree.all-3.5.js"></script>
-    
-    <script type="text/javascript">
-    $(function(){
-		var setting = {
-			async: {
-				enable: true,
-				url:"<%=path%>/CMS/tp/queryTemplateTree.jmt",
-				autoParam:["id=folder"]
-			},
-			data : {
-				key : {
-					name : "text"
-				}
-			},
-			callback : {
-				onDblClick : function(event, treeId, node) {
-					if(node.isParent) {
-						window.location.href = "<%=path%>/CMS/tp/queryTemplates.jhtml?folder=" + node.id;
-					} else {
-						//修改
-						window.location.href = "<%=path%>/CMS/tp/queryTemplate.jhtml?id=" + node.id;
-					}
+    <title>资源管理</title>
+	<script type="text/javascript">
+	$(function(){
+		
+		$(".renderer-file").renderer({
+			renderer : "custom",
+			rendererFunc : function(obj) {
+				var type = obj.attr("type");
+				var name = obj.html();
+				var folder = $("#pFolder").val() + name;
+				
+				var html = "";
+				if(type == "folder") {
+					html = "<i class='icon-folder-close'></i>" + 
+								"<a href='<%=path%>/CMS/rs/queryResource.jhtml?pFolder=" + folder + "'>" 
+								+ name + "</a>";
+					obj.html(html);
+				} else if(type == "image") {
+					var _a = $('<a href="<%=path + CMSConfiguration.FOLDER_CSS%>' + folder 
+							+ '" target="_blank" title="<img src=\'<%=path + CMSConfiguration.FOLDER_CSS%>' 
+							+ folder + '\'>">' + name + '</a>');
+					obj.html("<i class='icon-picture'></i>");
+					obj.append(_a);
+					
+					_a.popover({
+						trigger : "hover"
+					});
+				} else {
+					html = "<i class='icon-file'></i>" + 
+							"<a target='_blank' href='<%=path + CMSConfiguration.FOLDER_CSS%>" + folder + "'>" 
+							+ name + "</a>";
+					obj.html(html);
 				}
 			}
-		};
-    	
-		var tree = $.fn.zTree.init($("#tree"), setting, [{
-			id : "",
-			text : "模板根目录",
-			isParent : "true"
-		}]);
-		
-		var root = tree.getNodeByParam("text", "模板根目录", null);
-		tree.reAsyncChildNodes(root, "refresh");
+		});
 		
 		$("#folderForm").formDialog({
 			title : "编辑目录信息",
@@ -91,9 +89,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		});
 		
 		initValidationEngine("folderForm");
-		initValidationEngine("addFolderForm");
-    });
-    
+		initValidationEngine("addFolderForm");		
+	});
+	
+	function deleteFile(name) {
+    	$.dialog.confirm("您确认删除吗？", function(){
+			$.server.ajaxRequest({
+				url : "<%=path%>/CMS/rs/deleteFile.jmt",
+				data : {
+					file : name,
+					folder : $("#pFolder").val()
+				},
+				onSuccess : function(msg, data) {
+					$.dialog.alertSuccess(msg, "请求处理成功", function(){
+						$.utils.refreshPage();
+					});
+				}
+			});
+		});
+	}
+	
     function createFolder() {
     	$("#addFolderForm").submitForm({
     		onSuccess : function(msg) {
@@ -103,77 +118,41 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}
     	});
     }
-    
-    function createTp() {
+	
+    function reNameFile(name) {
     	var folder = $("#pFolder").val();
-    	window.location.href = "<%=path%>/CMS/tp/queryTemplate.jhtml?folder=" + folder;
-    }
-    
-    function editTp(id, name) {
-    	if($.utils.isEmpty(id)) {
-    		//修改文件名
-    		var folder = $("#pFolder").val();
-    		$("#folderMsgTips").html("");
-    		$("#folderForm").resetForm();
-    		$("#folderForm").setFormValues({
-    			folder : name,
-    			oldFolder : name,
-    			pFolder : folder
-    		});
-    		$("#folderForm").formDialog("show");
-    	} else {
-    		window.location.href = "<%=path%>/CMS/tp/queryTemplate.jhtml?id=" + id;
-    	}
-    }
-    
-    function deleteTemplate(id, name) {
-    	$.dialog.confirm("您确认删除吗？", function(){
-			$.server.ajaxRequest({
-				url : "<%=path%>/CMS/tp/deleteTp.jmt",
-				data : {
-					id : id,
-					name : name,
-					curFolder : $("#pFolder").val()
-				},
-				onSuccess : function(msg, data) {
-					$.dialog.alertSuccess(msg, "请求处理成功", function(){
-						$.utils.refreshPage();
-					});
-				}
-			});
+		$("#folderMsgTips").html("");
+		$("#folderForm").resetForm();
+		$("#folderForm").setFormValues({
+			folder : name,
+			oldFolder : name,
+			pFolder : folder
 		});
+		$("#folderForm").formDialog("show");
     }
-    </script>
-
+	</script>
+	
+	
   </head>
   
   <body>
     <div class="row">
 		<ul class="breadcrumb">
 			<li><a href="<%=path%>/CMS/index.jhtml">内容发布</a><span class="divider">/</span></li>
-			<li class="active">模板管理</li>
+			<li class="active">资源管理</li>
 		</ul>
 	</div>
 	
 	<div class="row">
-  		<div class="span3">
-  			<div style="border: 1px solid #DDDDDD;margin-bottom: 20px;">
-  				<div class="rectangle-header">模板目录</div>
-  				<ul id="tree" class="ztree" style="height: 400px;overflow: auto;"></ul>
-  			</div>
-  		</div>
-	
-		<div class="span9">
-  			<form class="form-search" method="post" action="<%=path %>/CMS/tp/createFolder.jmt" id="addFolderForm">
+		<div class="span12">
+  			<form class="form-search" method="post" action="<%=path %>/CMS/rs/createFolder.jmt" id="addFolderForm">
 				<label>当前目录：</label>
-				<input type="text" value="<%=CMSConfiguration.TEMPLATE_ROOT %>${dbFolder }" readonly class="input-medium">
+				<input type="text" value="<%=CMSConfiguration.FOLDER_CSS %>${pFolder }" readonly class="input-medium">
 			  	<label style="width: 10px;"></label>
-			  	<input type="hidden" id="pFolder" name="pFolder" value="${dbFolder }">
+			  	<input type="hidden" id="pFolder" name="pFolder" value="${pFolder }">
 			  	<input name="folder" class="input-mini" type="text" data-validation-engine="validate[required,custom[onlyLetterNumber]]">
 			  	<label style="width: 10px;"></label>
 			  	<button type="button" class="btn btn-primary" onclick="createFolder();">新建目录</button>
-			  	<label style="width: 10px;"></label>
-			  	<button type="button" class="btn btn-info" onclick="createTp();">创建模板</button>
 			  	<label style="width: 10px;"></label>
 			  	<button type="button" class="btn">上传文件</button>
 			</form>
@@ -182,26 +161,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<thead id="listHeader">
 					<tr>
 						<th width="40%">文件名</th>
-						<th width="20%">最后修改人</th>
+						<th width="20%">大小</th>
 						<th width="25%">最后修改时间</th>
 						<th width="15%" style="text-align: center;">操作</th>
 					</tr>
 				</thead>
 				<tbody>
-				<c:forEach var="tp" items="${list }">
+				<tr>
+					<td colspan="4">
+						<i class="icon-folder-open"></i><a href="<%=path%>/CMS/rs/queryResource.jhtml?pFolder=${pFolder}&toParent=..">...</a>
+					</td>
+				</tr>
+				<c:forEach var="rs" items="${list }">
 					<tr>
-						<td>${tp.name }</td>
-						<td>${tp.updater }（${tp.updaterName }）</td>
-						<td>${tp.updateTime }</td>
+						<td class="renderer-file" type="${rs.type }">${rs.name }</td>
+						<td>${rs.size }</td>
+						<td>${rs.lastModifyTime }</td>
 						<td style="text-align: center;">
 							<div class="btn-group">
-								<sec:authorize url="/CMS/tp/saveOrModify*.jmt">
-								<button class="btn btn-info btn-mini" onclick="editTp('${tp.id }','${tp.name }')">
+								<sec:authorize url="/CMS/rs/saveOrModify*.jmt">
+								<button class="btn btn-info btn-mini" onclick="reNameFile('${rs.name }')">
 									<i class="nopadding icon-edit"></i>
 								</button>
 								</sec:authorize>
-								<sec:authorize url="/CMS/tp/delete*.jmt">
-								<button class="btn btn-danger btn-mini" onclick="deleteTemplate('${tp.id }','${tp.name }')">
+								<sec:authorize url="/CMS/rs/delete*.jmt">
+								<button class="btn btn-danger btn-mini" onclick="deleteFile('${rs.name }')">
 									<i class="nopadding icon-trash"></i>
 								</button>
 								</sec:authorize>
@@ -214,7 +198,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 	</div>
 	
-	<form class="form-horizontal" method="post" action="<%=path%>/CMS/tp/saveOrModifyFolder.jmt" id="folderForm">
+	<form class="form-horizontal" method="post" action="<%=path%>/CMS/rs/saveOrModifyFolder.jmt" id="folderForm">
 		<fieldset>
 			<div id="folderMsgTips"></div>
 			<input type="hidden" name="pFolder">
@@ -228,7 +212,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 			</div>
 		</fieldset>
-	</form>
+	</form>	
+	
 	
   </body>
 </html>

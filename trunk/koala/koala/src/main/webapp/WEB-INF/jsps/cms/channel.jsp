@@ -292,7 +292,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<label class="control-label" for="name">栏目名称：</label>
 				<div class="span4 controls-column">
 					<input type="text" class="input-large" name="name"
-						data-validation-engine="validate[required]">
+						data-validation-engine="validate[required,custom[onlyLetterNumber]]">
 					<p class="help-inline"><i class="redStar">*</i>必填</p>
 				</div>
 			</div>

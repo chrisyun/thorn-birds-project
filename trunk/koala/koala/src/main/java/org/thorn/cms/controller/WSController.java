@@ -115,17 +115,11 @@ public class WSController extends BaseController {
 				// 检查站点目录是否已经存在
 				StringBuilder path = new StringBuilder(
 						CMSHelper.getContextPath(session));
-
-				if (StringUtils.equals("\\", File.separator)) {
-					path.append(CMSConfiguration.TEMPLATE_ROOT.replaceAll("/",
-							"\\\\"));
-				} else {
-					path.append(CMSConfiguration.TEMPLATE_ROOT.replaceAll(
-							"\\\\", "/"));
-				}
+				
+				path.append(CMSConfiguration.TEMPLATE_ROOT);
 				path.append(ws.getTemplateFolder());
 
-				File folder = new File(path.toString());
+				File folder = new File(CMSHelper.convertLocalPath(path.toString()));
 
 				if (folder.exists()) {
 					status.setSuccess(false);
