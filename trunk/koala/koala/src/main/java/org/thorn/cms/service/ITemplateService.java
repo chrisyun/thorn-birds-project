@@ -14,7 +14,9 @@ import org.thorn.dao.exception.DBAccessException;
 public interface ITemplateService {
 
 	public void save(Template tp) throws DBAccessException;
-
+	
+	public void upload(Template tp) throws DBAccessException;
+	
 	public void modify(Template tp) throws DBAccessException;
 
 	public void delete(Template tp) throws DBAccessException;

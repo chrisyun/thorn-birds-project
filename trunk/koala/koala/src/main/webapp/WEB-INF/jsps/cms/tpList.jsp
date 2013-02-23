@@ -15,7 +15,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <title>模板管理</title>
     <link href="<%=path %>/plugins/zTree/zTreeBookStyle.css" rel="stylesheet">
     <script type="text/javascript" src="<%=path %>/plugins/zTree/jquery.ztree.all-3.5.js"></script>
-    
+    <script type="text/javascript" src="<%=path %>/plugins/func/uploadFile.js"></script>
     <script type="text/javascript">
     $(function(){
 		var setting = {
@@ -88,6 +88,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				text : "关闭",
 				closed : true
 			}]
+		});
+		
+		$("#uploadBtn").uploadFile({
+			dir : $("#curFolder").val(),
+			dirRead : true,
+			func : function(form) {
+				$.server.ajaxRequest({
+					progress : false,
+					url : "<%=path%>/CMS/tp/saveOrModifyUpload.jmt",
+					data : {
+						name : form.fileName,
+						folder : $("#pFolder").val()
+					},
+					onSuccess : function(msg, data) {
+						setTimeout(function(){
+							$.utils.reloadPage();
+						}, 2000);
+					}
+				});
+			}
 		});
 		
 		initValidationEngine("folderForm");
@@ -166,7 +186,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="span9">
   			<form class="form-search" method="post" action="<%=path %>/CMS/tp/createFolder.jmt" id="addFolderForm">
 				<label>当前目录：</label>
-				<input type="text" value="<%=CMSConfiguration.TEMPLATE_ROOT %>${dbFolder }" readonly class="input-medium">
+				<input type="text" value="<%=CMSConfiguration.TEMPLATE_ROOT %>${dbFolder }" id="curFolder" readonly class="input-medium">
 			  	<label style="width: 10px;"></label>
 			  	<input type="hidden" id="pFolder" name="pFolder" value="${dbFolder }">
 			  	<input name="folder" class="input-mini" type="text" data-validation-engine="validate[required,custom[onlyLetterNumber]]">
@@ -175,7 +195,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  	<label style="width: 10px;"></label>
 			  	<button type="button" class="btn btn-info" onclick="createTp();">创建模板</button>
 			  	<label style="width: 10px;"></label>
-			  	<button type="button" class="btn">上传文件</button>
+			  	<button type="button" class="btn" id="uploadBtn">上传文件</button>
 			</form>
 			
 			<table class="table table-striped table-bordered table-condensed" id="tpTable">

@@ -87,7 +87,7 @@
 						text : msg,
 						title : "请求处理成功"
 					});
-					setTimeout(this.options.func, 2000);
+					obj.options.func(new UploadForm($("#_uploadForm")));
 				},
 				onFailure : function(msg) {
 					$("#_uploadForm_MsgTips").message({
@@ -133,13 +133,23 @@
 		}
 	};
 	
+	function UploadForm(form) {
+		this.folder = form.find("[name=dir]").val();
+		this.file = form.find("[name=attach]").val();
+		this.fileName = form.find("[name=attach]").val();
+		
+		return this;
+	}
+	
 	$.fn.uploadFile = function(options) {
 		
 		var defaults = {
 			url : sys.path + "/CMS/WS/uploadFile.jmt",
 			dir : "",
-			func : function() {
-				$.utils.reloadPage();
+			func : function(form) {
+				setTimeout(function(){
+					$.utils.reloadPage();
+				}, 2000);
 			},
 			dirRead : false
 		};
