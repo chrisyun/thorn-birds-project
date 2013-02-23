@@ -52,7 +52,10 @@ public class TemplateServiceImpl implements ITemplateService {
 		} catch (IOException e) {
 			throw new DBAccessException(e);
 		}
-
+	}
+	
+	public void upload(Template tp) throws DBAccessException {
+		myBatisDaoSupport.save(tp);
 	}
 
 	public void modify(Template tp) throws DBAccessException {

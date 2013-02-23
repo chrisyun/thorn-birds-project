@@ -275,6 +275,36 @@ public class TemplateController extends BaseController {
 
 		return status;
 	}
+	
+	@RequestMapping(value = "/saveOrModifyUpload.jmt", method = RequestMethod.POST)
+	@ResponseBody
+	public Status uploadTemplate(String name, String folder, HttpSession session) {
+		Status status = new Status();
+		Template tp = new Template();
+		
+		try {
+			User user = SecurityUserUtils.getCurrentUser();
+			tp.setUpdater(user.getUserId());
+			tp.setUpdaterName(user.getUserName());
+			tp.setUpdateTime(DateTimeUtils.getCurrentTime());
+			tp.setIsDisabled(Configuration.DB_NO);
+			tp.setSiteId(CMSHelper.getCurrentWebSite(session).getId());
+
+			tp.setAbsolutePath(CMSHelper.convertLocalPath(CMSHelper
+					.getContextPath(session) + CMSConfiguration.TEMPLATE_ROOT));
+			tp.setFolder(CMSHelper.convertLocalPath(folder));
+			tp.setName(name);
+			
+			tpService.upload(tp);
+			status.setMessage("模板上传成功！");
+		} catch (DBAccessException e) {
+			status.setSuccess(false);
+			status.setMessage("数据保存失败：" + e.getMessage());
+			log.error("uploadTemplate[Template] - " + e.getMessage(), e);
+		}
+
+		return status;
+	}
 
 	@RequestMapping(value = "/saveOrModifyFolder.jmt", method = RequestMethod.POST)
 	@ResponseBody
