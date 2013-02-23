@@ -3,6 +3,12 @@
 	$.fn.submitForm = function(options) {
 		var defaults = {
 			progress : true,
+			progressStartFunc : function() {
+				$.dialog.progress();
+			},
+			progressEndFunc : function() {
+				$.dialog.progress("close");
+			},
 			onSuccess : function(msg) {
 				$.dialog.alertSuccess(msg, "请求处理成功");
 			},
@@ -17,9 +23,9 @@
 		};
 
 		var options = $.extend(defaults, options);
-
+		
 		var checkStatus = $(this).validationEngine("validate");
-
+		
 		var ajaxFormOptions = {
 			beforeSubmit : function(formData, jqForm, options) {
 				return checkStatus;
@@ -27,9 +33,7 @@
 			error : function() {
 				var sec = 0;
 				if (options.progress) {
-					setTimeout(function() {
-						$.dialog.progress("close");
-					}, 500);
+					setTimeout(options.progressEndFunc, 500);
 					sec = 800;
 				}
 
@@ -38,9 +42,7 @@
 			success : function(result) {
 				var sec = 0;
 				if (options.progress) {
-					setTimeout(function() {
-						$.dialog.progress("close");
-					}, 500);
+					setTimeout(options.progressEndFunc, 500);
 					sec = 800;
 				}
 
@@ -61,7 +63,7 @@
 		};
 
 		if (checkStatus && options.progress) {
-			$.dialog.progress();
+			options.progressStartFunc();
 		}
 
 		this.each(function() {

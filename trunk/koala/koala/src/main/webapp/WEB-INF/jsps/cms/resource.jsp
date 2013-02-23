@@ -13,6 +13,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     
     <title>资源管理</title>
+    <script type="text/javascript" src="<%=path %>/plugins/func/uploadFile.js"></script>
+    
 	<script type="text/javascript">
 	$(function(){
 		
@@ -88,6 +90,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}]
 		});
 		
+		$("#uploadBtn").uploadFile({
+			dir : $("#curFolder").val(),
+			dirRead : true
+		});
+		
 		initValidationEngine("folderForm");
 		initValidationEngine("addFolderForm");		
 	});
@@ -147,14 +154,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="span12">
   			<form class="form-search" method="post" action="<%=path %>/CMS/rs/createFolder.jmt" id="addFolderForm">
 				<label>当前目录：</label>
-				<input type="text" value="<%=CMSConfiguration.FOLDER_CSS %>${pFolder }" readonly class="input-medium">
+				<input type="text" value="<%=CMSConfiguration.FOLDER_CSS %>${pFolder }" readonly class="input-medium" id="curFolder">
 			  	<label style="width: 10px;"></label>
 			  	<input type="hidden" id="pFolder" name="pFolder" value="${pFolder }">
 			  	<input name="folder" class="input-mini" type="text" data-validation-engine="validate[required,custom[onlyLetterNumber]]">
 			  	<label style="width: 10px;"></label>
 			  	<button type="button" class="btn btn-primary" onclick="createFolder();">新建目录</button>
 			  	<label style="width: 10px;"></label>
-			  	<button type="button" class="btn">上传文件</button>
+			  	<button type="button" class="btn" id="uploadBtn">上传文件</button>
 			</form>
 			
 			<table class="table table-striped table-bordered table-condensed" id="tpTable">
@@ -197,7 +204,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</table>
 		</div>
 	</div>
-	
+
 	<form class="form-horizontal" method="post" action="<%=path%>/CMS/rs/saveOrModifyFolder.jmt" id="folderForm">
 		<fieldset>
 			<div id="folderMsgTips"></div>
@@ -213,7 +220,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</fieldset>
 	</form>	
-	
 	
   </body>
 </html>
