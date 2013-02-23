@@ -112,3 +112,16 @@ i {
 	height: 380px;
 	min-height: 380px;
 }
+
+.customfile-input {
+	background: none repeat scroll 0 0 transparent;
+	border: 0 none;
+	left: 0px;
+	opacity: 0;
+	position: absolute;
+	cursor: pointer;
+}
+
+.uploadWaiting {
+	background: url("../images/waiting.gif") no-repeat center center;
+}

@@ -1,11 +1,16 @@
 package org.thorn.cms.controller;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +19,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.thorn.cms.common.CMSConfiguration;
 import org.thorn.cms.common.CMSHelper;
 import org.thorn.cms.entity.WebSite;
@@ -24,6 +32,7 @@ import org.thorn.dao.exception.DBAccessException;
 import org.thorn.web.controller.BaseController;
 import org.thorn.web.entity.JsonResponse;
 import org.thorn.web.entity.Status;
+import org.thorn.web.util.ResponseHeaderUtils;
 
 /**
  * @ClassName: WSController
@@ -115,11 +124,12 @@ public class WSController extends BaseController {
 				// 检查站点目录是否已经存在
 				StringBuilder path = new StringBuilder(
 						CMSHelper.getContextPath(session));
-				
+
 				path.append(CMSConfiguration.TEMPLATE_ROOT);
 				path.append(ws.getTemplateFolder());
 
-				File folder = new File(CMSHelper.convertLocalPath(path.toString()));
+				File folder = new File(CMSHelper.convertLocalPath(path
+						.toString()));
 
 				if (folder.exists()) {
 					status.setSuccess(false);
@@ -171,6 +181,66 @@ public class WSController extends BaseController {
 		}
 
 		return status;
+	}
+
+	@RequestMapping(value = "/uploadFile.jmt", method = RequestMethod.POST)
+	public void uploadFile(String dir,
+			@RequestParam("attach") CommonsMultipartFile attach,
+			HttpServletResponse response, HttpSession session)
+			throws IOException {
+		
+		Status status = new Status();
+
+		StringBuilder folderPath = new StringBuilder(
+				CMSHelper.getContextPath(session));
+
+		if (!StringUtils.startsWith(dir, "/")) {
+			dir = "/" + dir;
+		}
+
+		folderPath.append(dir);
+
+		File folder = new File(
+				CMSHelper.convertLocalPath(folderPath.toString()));
+
+		if (!folder.exists()) {
+			folder.mkdirs();
+		}
+
+		String fileName = attach.getFileItem().getName();
+		File file = new File(folder, fileName);
+
+		if (file.exists()) {
+			status.setSuccess(false);
+			status.setMessage("文件名重复，请修改文件名重新进行上传！");
+		} else {
+
+			try {
+				file.createNewFile();
+				OutputStream os = new FileOutputStream(file);
+				os.write(attach.getBytes());
+				os.flush();
+				os.close();
+				
+				status.setMessage("文件上传成功！");
+			} catch (IOException e) {
+				status.setSuccess(false);
+				status.setMessage("文件上传失败：" + e.getMessage());
+				log.error("uploadFile[File] - " + e.getMessage(), e);
+			}
+		}
+
+		ObjectMapper mapper = new ObjectMapper();
+		String json = "";
+		try {
+			json = mapper.writeValueAsString(status);
+		} catch (Exception e) {
+			log.error("uploadFile[json] - " + e.getMessage(), e);
+		}
+
+		ResponseHeaderUtils.setHtmlResponse(response);
+		response.getWriter().write(json);
+		response.getWriter().flush();
 	}
 
 }
