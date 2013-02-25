@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.thorn.cms.common.CMSHelper;
 import org.thorn.cms.entity.Channel;
+import org.thorn.cms.entity.Template;
 import org.thorn.cms.entity.WebSite;
 import org.thorn.cms.service.IChannelService;
+import org.thorn.cms.service.ITemplateService;
 import org.thorn.dao.core.Configuration;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.web.controller.BaseController;
@@ -43,6 +45,10 @@ public class ChannelController extends BaseController {
 	@Qualifier("clService")
 	private IChannelService clService;
 
+	@Autowired
+	@Qualifier("tpService")
+	private ITemplateService tpService;
+	
 	@RequestMapping("/queryChannelPage.jhtml")
 	public String channelPage(Long pageIndex, Long pageSize, String sort,
 			String dir, Integer pid, String name, HttpSession session,
@@ -54,7 +60,10 @@ public class ChannelController extends BaseController {
 			WebSite ws = CMSHelper.getCurrentWebSite(session);
 			page.setPageData(clService.queryPage(name, pid, ws.getId(), null,
 					page.getStart(), page.getPageSize(), sort, dir));
-
+			
+			List<Template> list = tpService.queryList(ws.getId(), null);
+			
+			model.put("tpList", list);
 			model.put("page", page);
 		} catch (DBAccessException e) {
 			log.error("channelPage[Channel] - " + e.getMessage(), e);

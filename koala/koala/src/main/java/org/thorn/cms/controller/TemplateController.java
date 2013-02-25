@@ -105,22 +105,24 @@ public class TemplateController extends BaseController {
 
 			File curFolder = new File(CMSHelper.convertLocalPath(path
 					.toString()));
-			String dbFolder = CMSHelper.convertLocalPath(folder);
+			String dbFolder = folder.replaceAll("\\\\", "/");
 			model.put("dbFolder", dbFolder);
 
 			List<Template> list = tpService.queryList(ws.getId(), dbFolder);
 
 			String[] folders = curFolder.list(folderFilter);
+			
+			if(folders != null) {
+				for (String dir : folders) {
+					Template tp = new Template();
 
-			for (String dir : folders) {
-				Template tp = new Template();
+					tp.setSiteId(ws.getId());
+					tp.setName(dir);
 
-				tp.setSiteId(ws.getId());
-				tp.setName(dir);
-
-				list.add(0, tp);
+					list.add(0, tp);
+				}
 			}
-
+			
 			model.put("list", list);
 		} catch (DBAccessException e) {
 			log.error("queryTemplates[Template] - " + e.getMessage(), e);
@@ -172,20 +174,22 @@ public class TemplateController extends BaseController {
 
 			File curFolder = new File(CMSHelper.convertLocalPath(path
 					.toString()));
-			String dbFolder = CMSHelper.convertLocalPath(folder);
+			String dbFolder = folder.replaceAll("\\\\", "/");
 
 			List<Template> list = tpService.queryList(ws.getId(), dbFolder);
 
 			String[] folders = curFolder.list(folderFilter);
-
-			for (String dir : folders) {
-				Tree node = new Tree();
-				node.setId(dbFolder + "/" + dir);
-				node.setText(dir);
-				node.setLeaf(false);
-				tree.add(node);
+			
+			if(folders != null) {
+				for (String dir : folders) {
+					Tree node = new Tree();
+					node.setId(dbFolder + "/" + dir);
+					node.setText(dir);
+					node.setLeaf(false);
+					tree.add(node);
+				}
 			}
-
+			
 			for (Template tp : list) {
 				Tree node = new Tree();
 				node.setId(String.valueOf(tp.getId()));
