@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.util.HtmlUtils;
 import org.thorn.cms.common.CMSConfiguration;
 import org.thorn.cms.entity.Template;
 import org.thorn.core.util.TextfileUtils;
@@ -55,6 +56,7 @@ public class TemplateServiceImpl implements ITemplateService {
 	}
 	
 	public void upload(Template tp) throws DBAccessException {
+		tp.setFolder(tp.getFolder().replaceAll("\\\\", "/"));
 		myBatisDaoSupport.save(tp);
 	}
 
@@ -116,7 +118,9 @@ public class TemplateServiceImpl implements ITemplateService {
 			tp.setAbsolutePath(absolutePath);
 			tp.setContent(TextfileUtils.readText(path,
 					CMSConfiguration.TEMPLATE_ENCODING));
-
+			
+			tp.setContent(HtmlUtils.htmlEscape(tp.getContent()));
+			
 			return tp;
 		} catch (IOException e) {
 			throw new DBAccessException(e);

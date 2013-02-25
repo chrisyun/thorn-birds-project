@@ -328,14 +328,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="control-group">
 				<label class="control-label" for="channelTemplate">栏目模板：</label>
 				<div class="controls-column input-medium">
-					<input type="text" class="input-medium" name="channelTemplate"
+					<select class="input-medium" name="channelTemplate"
 						data-validation-engine="validate[required]">
+					<c:forEach var="tp" items="${tpList }">
+						<option value="${tp.id }">${tp.folder }/${tp.name }</option>
+					</c:forEach>		
+					</select>
 					<p class="help-block"><i class="redStar">*</i>必填</p>
 				</div>
 				<label class="control-label" for="contentTemplate">内容模板：</label>
 				<div class="controls-column input-medium">
-					<input type="text" class="input-medium" name="contentTemplate"
+					<select class="input-medium" name="contentTemplate"
 						data-validation-engine="validate[required]">
+					<c:forEach var="tp" items="${tpList }">
+						<option value="${tp.id }">${tp.folder }/${tp.name }</option>
+					</c:forEach>		
+					</select>	
 					<p class="help-block"><i class="redStar">*</i>必填</p>
 				</div>
 			</div>
