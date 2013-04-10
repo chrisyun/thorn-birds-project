@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jbpm-configuration spring="enabled">
+
+  <process-engine-context>
+  
+    <command-service name="newTxRequiredCommandService">
+      <retry-interceptor />
+      <environment-interceptor policy="requiresNew" />
+      <spring-transaction-interceptor policy="requiresNew" />
+    </command-service>
+    
+    <!-- Default command service has a Spring transaction interceptor-->
+    <command-service name="txRequiredCommandService">
+      <retry-interceptor />
+      <environment-interceptor />
+      <!-- 配置了多个事务管理器的时候需要手工指定 -->
+      <spring-transaction-interceptor current="true" transaction-manager="jbpm-transactionManager"/>
+    </command-service>
+    
+  </process-engine-context>
+
+  <transaction-context>
+    <transaction type="spring" />
+    <hibernate-session current="true" />
+  </transaction-context>
+
+</jbpm-configuration>
