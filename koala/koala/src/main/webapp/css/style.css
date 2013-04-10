@@ -1,0 +1,127 @@
+.redStar {
+	color: #FF0000;
+	vertical-align: middle;
+	padding: 3px;
+}
+
+.red {
+	color: #FF0000;
+	padding: 0px 1px;
+}
+
+.blue {
+	color: #0066FF;
+	padding: 0px 1px;
+}
+
+.center {
+	text-align: center;
+}
+
+/*
+SYSLOG CSS START
+*/
+tr.even {
+	background: #F9F9F9;
+}
+
+tr.odd {
+	background: white;
+}
+
+tr.error {
+	
+}
+
+td.Date {
+	
+}
+
+td.Thread {
+	
+}
+
+td.Level {
+	color: #f89406;
+}
+
+td.Logger {
+	
+}
+
+td.Message {
+	color: #3a87ad;
+}
+
+tr.error td.Message {
+	color: #da4f49;
+}
+
+/*
+SYSLOG CSS END
+*/
+hr {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.formOutSide {
+	padding: 2px 2px;
+	margin-bottom: 3px;
+}
+
+.controls-column {
+	float: left;
+	margin-left: 5px;
+}
+
+.rectangle-header {
+	background-color: #F5F5F5;
+	border-bottom: 1px solid #DDDDDD;
+	padding: 5px 10px;
+}
+
+footer {
+	background: none repeat scroll 0 0 #F0F0F0;
+	border-top: 1px solid #CCCCCC;
+	min-height: 8em;
+	overflow: hidden;
+	font-size: 85%;
+}
+
+footer ul {
+	box-shadow: none;
+	margin: 20px 0px;
+}
+
+footer li {
+	display: inline-block;
+	margin-right: 5px;
+}
+
+i {
+	padding: 0 3px;
+}
+
+.nopadding {
+	padding: 0 0;
+}
+
+.bodyHeight {
+	height: auto !important;
+	height: 380px;
+	min-height: 380px;
+}
+
+.customfile-input {
+	background: none repeat scroll 0 0 transparent;
+	border: 0 none;
+	left: 0px;
+	opacity: 0;
+	position: absolute;
+	cursor: pointer;
+}
+
+.uploadWaiting {
+	background: url("../images/waiting.gif") no-repeat center center;
+}
