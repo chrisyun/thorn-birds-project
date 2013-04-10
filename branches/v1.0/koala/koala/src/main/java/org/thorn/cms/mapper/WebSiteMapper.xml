@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="WebSiteMapper">
+
+	<cache-ref namespace="DictMapper" />
+
+	<resultMap id="BaseResultMap" type="org.thorn.cms.entity.WebSite">
+		<id column="id" property="id" jdbcType="DECIMAL" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="shortName" property="shortName" jdbcType="VARCHAR" />
+		<result column="templateFolder" property="templateFolder" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id,name,shortName,templateFolder
+    </sql>
+
+	<sql id="Where_Clause">
+		<where>
+			<if test="id != null">
+				id = #{id,jdbcType=DECIMAL}
+			</if>
+			<if test="name != null and name != ''">
+				and name like CONCAT('%',#{name,jdbcType=VARCHAR},'%')
+      		</if>
+		</where>
+	</sql>
+
+	<insert id="insert" parameterType="org.thorn.cms.entity.WebSite">
+		insert into T_CMS_WEBSITE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null and name != ''">name,</if>
+			<if test="shortName != null and shortName != ''">shortName,</if>
+			<if test="templateFolder != null and templateFolder != ''">templateFolder,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="name != null and name != ''">#{name,jdbcType=VARCHAR},</if>
+			<if test="shortName != null and shortName != ''">#{shortName,jdbcType=VARCHAR},</if>
+			<if test="templateFolder != null and templateFolder != ''">#{templateFolder,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
+	
+	<update id="update" parameterType="org.thorn.cms.entity.WebSite">
+		update T_CMS_WEBSITE
+		<set>
+			<if test="name != null and name != ''">name = #{name,jdbcType=VARCHAR},</if>
+			<if test="shortName != null and shortName != ''">shortName = #{shortName,jdbcType=VARCHAR},</if>
+			<if test="templateFolder != null and templateFolder != ''">templateFolder = #{templateFolder,jdbcType=VARCHAR},</if>
+		</set>
+		where id = #{id,jdbcType=DECIMAL}
+	</update>
+	
+	<delete id="delete">
+		delete from T_CMS_WEBSITE where id in
+		<foreach collection="list" item="item" open="(" close=")"
+			separator=",">
+			#{item,jdbcType=DECIMAL}
+		</foreach>
+	</delete>
+	
+	<select id="select" resultMap="BaseResultMap" parameterType="hashmap">
+		select
+		<include refid="Base_Column_List" />
+		from T_CMS_WEBSITE
+		<include refid="Where_Clause" />
+	</select>
+
+</mapper>

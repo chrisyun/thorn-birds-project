@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ChannelMapper">
+
+	<cache-ref namespace="DictMapper" />
+
+	<resultMap id="BaseResultMap" type="org.thorn.cms.entity.Channel">
+		<id column="id" property="id" jdbcType="DECIMAL" />
+		<result column="pid" property="pid" jdbcType="DECIMAL" />
+		<result column="pName" property="pName" jdbcType="VARCHAR" />
+		<result column="siteId" property="siteId" jdbcType="DECIMAL" />
+		<result column="channelTemplate" property="channelTemplate" jdbcType="DECIMAL" />
+		<result column="contentTemplate" property="contentTemplate" jdbcType="DECIMAL" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="tags" property="tags" jdbcType="VARCHAR" />
+		<result column="isShow" property="isShow" jdbcType="VARCHAR" />
+		<result column="isDisabled" property="isDisabled" jdbcType="VARCHAR" />
+		<result column="path" property="path" jdbcType="VARCHAR" />
+		<result column="sortNum" property="sortNum" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		c.id,c.pid,c.siteId,c.channelTemplate,
+		c.contentTemplate,c.name,c.title,c.description,
+		c.tags,c.isShow,c.isDisabled,c.path,c.sortNum,p.name as pName
+    </sql>
+
+	<sql id="Where_Clause">
+		<where>
+			<if test="id != null">
+				and c.id = #{id,jdbcType=DECIMAL}
+			</if>
+			<if test="pid != null">
+				and c.pid = #{pid,jdbcType=DECIMAL}
+			</if>
+			<if test="siteId != null">
+				and c.siteId = #{siteId,jdbcType=DECIMAL}
+			</if>
+			<if test="name != null and name != ''">
+				and c.name like CONCAT('%',#{name,jdbcType=VARCHAR},'%')
+      		</if>
+      		<if test="isDisabled != null and isDisabled != ''">
+				and c.isDisabled = #{isDisabled,jdbcType=VARCHAR}
+      		</if>
+      		<if test="path != null and path != ''">
+				and c.path = #{path,jdbcType=VARCHAR}
+      		</if>
+      		<if test="isShow != null and isShow != ''">
+				and c.isShow = #{isShow,jdbcType=VARCHAR}
+      		</if>
+		</where>
+	</sql>
+
+	<insert id="insert" parameterType="org.thorn.cms.entity.Channel">
+		insert into T_CMS_CHANNEL
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pid != null">pid,</if>
+			<if test="siteId != null">siteId,</if>
+			<if test="channelTemplate != null">channelTemplate,</if>
+			<if test="contentTemplate != null">contentTemplate,</if>
+			<if test="sortNum != null">sortNum,</if>
+			<if test="name != null and name != ''">name,</if>
+			<if test="title != null and title != ''">title,</if>
+			<if test="description != null and description != ''">description,</if>
+			<if test="tags != null and tags != ''">tags,</if>
+			<if test="isShow != null and isShow != ''">isShow,</if>
+			<if test="isDisabled != null and isDisabled != ''">isDisabled,</if>
+			<if test="path != null and path != ''">path,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="pid != null">#{pid,jdbcType=DECIMAL},</if>
+			<if test="siteId != null">#{siteId,jdbcType=DECIMAL},</if>
+			<if test="channelTemplate != null">#{channelTemplate,jdbcType=DECIMAL},</if>
+			<if test="contentTemplate != null">#{contentTemplate,jdbcType=DECIMAL},</if>
+			<if test="sortNum != null">#{sortNum,jdbcType=DECIMAL},</if>
+			<if test="name != null and name != ''">#{name,jdbcType=VARCHAR},</if>
+			<if test="title != null and title != ''">#{title,jdbcType=VARCHAR},</if>
+			<if test="description != null and description != ''">#{description,jdbcType=VARCHAR},</if>
+			<if test="tags != null and tags != ''">#{tags,jdbcType=VARCHAR},</if>
+			<if test="isShow != null and isShow != ''">#{isShow,jdbcType=VARCHAR},</if>
+			<if test="isDisabled != null and isDisabled != ''">#{isDisabled,jdbcType=VARCHAR},</if>
+			<if test="path != null and path != ''">#{path,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
+	
+	<update id="update" parameterType="org.thorn.cms.entity.Channel">
+		update T_CMS_CHANNEL
+		<set>
+			<if test="pid != null">pid = #{pid,jdbcType=DECIMAL},</if>
+			<if test="siteId != null">siteId = #{siteId,jdbcType=DECIMAL},</if>
+			<if test="channelTemplate != null">channelTemplate = #{channelTemplate,jdbcType=DECIMAL},</if>
+			<if test="contentTemplate != null">contentTemplate = #{contentTemplate,jdbcType=DECIMAL},</if>
+			<if test="sortNum != null">sortNum = #{sortNum,jdbcType=DECIMAL},</if>
+			<if test="name != null and name != ''">name = #{name,jdbcType=VARCHAR},</if>
+			<if test="title != null and title != ''">title = #{title,jdbcType=VARCHAR},</if>
+			<if test="description != null and description != ''">description = #{description,jdbcType=VARCHAR},</if>
+			<if test="tags != null and tags != ''">tags = #{tags,jdbcType=VARCHAR},</if>
+			<if test="isShow != null and isShow != ''">isShow = #{isShow,jdbcType=VARCHAR},</if>
+			<if test="isDisabled != null and isDisabled != ''">isDisabled = #{isDisabled,jdbcType=VARCHAR},</if>
+			<if test="path != null and path != ''">path = #{path,jdbcType=VARCHAR},</if>
+		</set>
+		where id = #{id,jdbcType=DECIMAL}
+	</update>
+	
+	<delete id="delete">
+		delete from T_CMS_CHANNEL where id in
+		<foreach collection="list" item="item" open="(" close=")"
+			separator=",">
+			#{item,jdbcType=DECIMAL}
+		</foreach>
+	</delete>
+	
+	<select id="select" resultMap="BaseResultMap" parameterType="hashmap">
+		<include refid="MySQLCommonMapper.pagingStart"/>
+		select
+		<include refid="Base_Column_List" />
+		from T_CMS_CHANNEL c left join T_CMS_CHANNEL p on c.pid = p.id
+		<include refid="Where_Clause" />
+		<include refid="MySQLCommonMapper.sortInfo"/>
+		<include refid="MySQLCommonMapper.pagingEnd"/>
+	</select>
+
+	<select id="count" parameterType="hashmap"
+		resultType="long">
+		select count(*) from T_CMS_CHANNEL c left join T_CMS_CHANNEL p on c.pid = p.id
+		<include refid="Where_Clause" />
+	</select>
+
+</mapper>
