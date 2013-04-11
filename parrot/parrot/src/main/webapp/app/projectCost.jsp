@@ -10,7 +10,7 @@
 	var year = new Array();
 	var now = new Date(); 
 	var curYear = now.getFullYear();
-	var nextYear = parseInt(curYear) + 1;
+	var nextYear = parseInt(curYear);
 	//year.push([curYear,curYear]);
 	year.push([nextYear,nextYear]);
 	

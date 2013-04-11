@@ -26,6 +26,7 @@
 	temp.push(user.role);
 	var roles = temp.join(",");
 	if (roles.indexOf(Configuration.keyRole.ADMIN) < 0
+			&& roles.indexOf(Configuration.keyRole.SEE) < 0
 			&& roles.indexOf(Configuration.keyRole.CENTRE) < 0) {
 		for ( var i = 0; i < area.length; i++) {
 			if (area[i][0] == user.org) {
