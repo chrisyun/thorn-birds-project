@@ -23,9 +23,9 @@ public class Builder implements Serializable {
 	
 	private Table table;
 	
-	private List<Mapper> ids = new ArrayList<Mapper>();
+	private List<Column> ids = new ArrayList<Column>();
 	
-	private List<Mapper> columns = new ArrayList<Mapper>();
+	private List<Column> columns = new ArrayList<Column>();
 
 	public String getOutput() {
 		return output;
@@ -59,19 +59,19 @@ public class Builder implements Serializable {
 		this.table = table;
 	}
 
-	public List<Mapper> getIds() {
+	public List<Column> getIds() {
 		return ids;
 	}
 
-	public void setIds(List<Mapper> ids) {
+	public void setIds(List<Column> ids) {
 		this.ids = ids;
 	}
 
-	public List<Mapper> getColumns() {
+	public List<Column> getColumns() {
 		return columns;
 	}
 
-	public void setColumns(List<Mapper> columns) {
+	public void setColumns(List<Column> columns) {
 		this.columns = columns;
 	}
 	

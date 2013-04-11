@@ -2,6 +2,8 @@ package org.thorn.cb.xml;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.StringUtils;
+
 /** 
  * @ClassName: Table 
  * @Description: 
@@ -41,6 +43,14 @@ public class Table implements Serializable {
 
 	public void setOverride(Boolean override) {
 		this.override = override;
+	}
+	
+	public void setOverride(String override) {
+		if(StringUtils.equalsIgnoreCase(override, "false")) {
+			this.override = false;
+		} else {
+			this.override = true;
+		}
 	}
 	
 }
