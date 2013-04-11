@@ -5,11 +5,11 @@ import java.io.IOException;
 
 import freemarker.template.Configuration;
 
-public class TemplateHander {
+public class TemplateHandler {
 	
 	private Configuration cf = new Configuration();
 	
-	public TemplateHander(String dir) throws IOException {
+	public TemplateHandler(String dir) throws IOException {
 		
 		File tempFolder = new File(new File("/").getAbsoluteFile() + dir);
 		
