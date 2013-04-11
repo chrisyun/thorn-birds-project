@@ -23,6 +23,7 @@ var Configuration = {
 	},
 	keyRole : {
 		ADMIN : "SYSADMIN",
+		SEE : "buweichakan",
 		USER  : "COMMONUSER",
 		PROVINCE : "PROVINCEUSER",
 		CENTRE	: "CENTRALUSER"
