@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build>
+	
+	<name>user</name>
+	
+	<package>com.thorn</package>
+	
+	<output>d:\qwqw\df</output>
+	
+	<sql override="true" tableName="t_sys_user">
+		<![CDATA[
+		
+		]]>
+	</sql>
+	
+	<mapper>
+		<id property="id" value="id" type="integer"/>
+		<column property="name" value="name" type="string"/>
+	</mapper>
+	
+</build>
