@@ -108,7 +108,8 @@ public class SecurityUserUtils {
 
 		boolean isAdmin = false;
 		for (String role : list) {
-			if (LocalStringUtils.equals(SecurityConfiguration.SYS_ADMIN_ROLE, role)) {
+			if (LocalStringUtils.equals(SecurityConfiguration.SYS_ADMIN_ROLE, role)
+					|| LocalStringUtils.equals(SecurityConfiguration.ADMIN_ROLE, role)) {
 				isAdmin = true;
 				break;
 			}
