@@ -41,7 +41,7 @@
 		<constructor-arg value="classpath:build.xml" />
 	</bean>
 	
-	<bean id="templateHander" class="org.thorn.cb.data.TemplateHander">
+	<bean id="templateHandler" class="org.thorn.cb.data.TemplateHandler">
 		<constructor-arg value="template" />
 	</bean>
 	
