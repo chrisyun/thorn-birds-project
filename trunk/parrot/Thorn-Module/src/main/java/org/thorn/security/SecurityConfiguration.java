@@ -39,6 +39,10 @@ public interface SecurityConfiguration {
 	 * 系统管理员角色ID
 	 */
 	public static final String SYS_ADMIN_ROLE = "SYSADMIN";
+	/**
+	 * 只能查看管理员
+	 */
+	public static final String ADMIN_ROLE = "buweichakan";
 	
 	public static final String COMMON_USER_ROLE = "COMMONUSER";
 	

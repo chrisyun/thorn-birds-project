@@ -17,6 +17,7 @@ import org.thorn.web.entity.Page;
 import org.thorn.dao.exception.DBAccessException;
 import org.thorn.resource.entity.Resource;
 import org.thorn.resource.service.IResourceService;
+import org.thorn.security.SecurityConfiguration;
 import org.thorn.security.SecurityUserUtils;
 import org.thorn.web.controller.BaseController;
 import org.thorn.web.entity.FullTree;
@@ -62,10 +63,13 @@ public class ResourceController extends BaseController {
 		
 		try {
 			List<Resource> source = service.queryLeftTree(pid);
+			
+			List<String> roles = SecurityUserUtils.getRoleList();
 			for (Resource res : source) {
 				
 				if(! LocalStringUtils.equals("YES", isSourcePanel)) {
-					if(! SecurityUserUtils.isSysAdmin() 
+					//if(! SecurityUserUtils.isSysAdmin() 
+					if(! roles.contains(SecurityConfiguration.SYS_ADMIN_ROLE)
 							&& !userSource.contains(res.getSourceCode())) {
 						continue;
 					}
