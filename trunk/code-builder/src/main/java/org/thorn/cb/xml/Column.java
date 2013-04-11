@@ -16,17 +16,17 @@ public class Column implements Serializable {
 	private static final long serialVersionUID = -4672555167550182245L;
 	
 	/**
-	 * 数据库字段名（不可为空，转换为大写）
+	 * 数据库字段名（不可为空）
 	 */
 	private String name;
 	
 	/**
-	 * 实体类属性（可为空，自动转换为数据库字段名的小写形式）
+	 * 实体类属性（可为空）
 	 */
 	private String property;
 	
 	/**
-	 * 实体类类型（可为空，自动判断类型）
+	 * 实体类类型（可为空）
 	 */
 	private String javaType;
 	
@@ -43,11 +43,6 @@ public class Column implements Serializable {
 	}
 
 	public void setProperty(String property) {
-		
-		if(StringUtils.isBlank(property)) {
-			property = this.name.toLowerCase();
-		}
-		
 		this.property = property;
 	}
 
@@ -57,6 +52,17 @@ public class Column implements Serializable {
 
 	public void setJavaType(String javaType) {
 		this.javaType = javaType;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj instanceof String 
+				&& StringUtils.equalsIgnoreCase(name, (String)obj)) {
+			return true;
+		} else {
+			return super.equals(obj);
+		}
 	}
 	
 }

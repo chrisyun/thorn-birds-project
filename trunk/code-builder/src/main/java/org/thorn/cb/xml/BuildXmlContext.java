@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -50,6 +51,10 @@ public class BuildXmlContext {
 				Column column = new Column();
 				
 				column.setName(key.getStringValue());
+				if(StringUtils.isEmpty(column.getName())) {
+					column.setName(key.attributeValue("value"));
+				} 
+				
 				column.setJavaType(key.attributeValue("type"));
 				column.setProperty(key.attributeValue("property"));
 				
@@ -65,6 +70,10 @@ public class BuildXmlContext {
 				Column column = new Column();
 				
 				column.setName(key.getStringValue());
+				if(StringUtils.isEmpty(column.getName())) {
+					column.setName(key.attributeValue("value"));
+				} 
+				
 				column.setJavaType(key.attributeValue("type"));
 				column.setProperty(key.attributeValue("property"));
 				

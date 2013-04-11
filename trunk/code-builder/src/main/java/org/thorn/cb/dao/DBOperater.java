@@ -84,7 +84,7 @@ public class DBOperater {
 				String defVal = rs.getString("COLUMN_DEF");
 				
 				Field field = new Field();
-				field.setTabName(columnName);
+				field.setTabName(columnName.toUpperCase());
 				field.setTabLength(columnSize);
 				field.setJdbcType(dataType);
 				field.setTabType(JDBCTypesMapping.getJDBCTypeName(dataType));
