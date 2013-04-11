@@ -2,6 +2,8 @@ package org.thorn.cb.data;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.StringUtils;
+
 public class Field implements Serializable {
 	
 	/**

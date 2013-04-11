@@ -36,5 +36,14 @@
 	</bean>
 	
 	<bean id="dbOperater" class="org.thorn.cb.dao.DBOperater" />
-
+	
+	<bean class="org.thorn.cb.xml.BuildXmlContext">
+		<constructor-arg value="classpath:build.xml" />
+	</bean>
+	
+	<bean id="templateHander" class="org.thorn.cb.data.TemplateHander">
+		<constructor-arg value="template" />
+	</bean>
+	
+	
 </beans>

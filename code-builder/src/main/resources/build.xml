@@ -9,13 +9,13 @@
 	
 	<sql override="true" tableName="t_sys_user">
 		<![CDATA[
-		
+			asasasas
 		]]>
 	</sql>
 	
 	<mapper>
-		<id property="id" value="id" type="integer"/>
-		<column property="name" value="name" type="string"/>
+		<id property="IDS" value="id" type="integer"/>
+		<column type="string">name</column>
 	</mapper>
 	
 </build>
