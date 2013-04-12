@@ -9,7 +9,7 @@ import org.thorn.cb.xml.Column;
 
 public class DataConverter {
 
-	public TemplateData convert(Builder xml, Set<Field> fields) {
+	public static TemplateData convert(Builder xml, Set<Field> fields) {
 
 		TemplateData templateData = new TemplateData();
 
