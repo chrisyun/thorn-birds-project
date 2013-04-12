@@ -1,0 +1,7 @@
+name:${name}
+tableName:${tableName}
+pkg:${pkg}
+nameAllUpperCase:${nameAllUpperCase}
+nameAllLowerCase:${nameAllLowerCase}
+nameFirLetterLc:${nameFirLetterLc}
+nameFirLetterUc:${nameFirLetterUc}

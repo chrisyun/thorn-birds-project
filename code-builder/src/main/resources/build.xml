@@ -5,16 +5,21 @@
 	
 	<package>com.thorn</package>
 	
-	<output>d:\qwqw\df</output>
+	<output>d:\cb\</output>
 	
 	<sql override="true" tableName="t_sys_user">
 		<![CDATA[
-			asasasas
+			DROP TABLE IF EXISTS `t_sys_user`;
+			CREATE TABLE `t_sys_user` (
+			  `ID` int(50) NOT NULL default '0',
+			  `name` varchar(300) default NULL COMMENT '姓名',
+			  PRIMARY KEY  (`ID`)
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 		]]>
 	</sql>
 	
 	<mapper>
-		<id property="IDS" value="id" type="integer"/>
+		<id property="id" value="id" type="integer"/>
 		<column type="string">name</column>
 	</mapper>
 	
