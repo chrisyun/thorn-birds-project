@@ -36,7 +36,7 @@ public class BuildXmlContext {
 		
 		Table table = new Table();
 		table.setSql(sql.getText());
-		table.setTable(sql.attributeValue("tableName"));
+		table.setTable(sql.attributeValue("tableName").toUpperCase());
 		table.setOverride(sql.attributeValue("override"));
 		
 		xmlInformation.setTable(table);
