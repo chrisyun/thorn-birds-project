@@ -42,7 +42,7 @@
 	</bean>
 	
 	<bean id="templateHandler" class="org.thorn.cb.data.TemplateHandler">
-		<constructor-arg value="template" />
+		<constructor-arg value="classpath:template/localtion.properties" />
 	</bean>
 	
 	
