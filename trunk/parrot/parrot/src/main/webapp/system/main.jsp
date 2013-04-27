@@ -163,8 +163,8 @@
 		
 		navMenuTree.on("beforeappend",function(tree, pnode, node){
 			if(node.id == "PROCESSCPCR") {
-				if(user.role.indexOf("PROVINCEUSER") >= 0
-						|| user.role.indexOf("CENTRALUSER") >= 0) {
+				//user.role.indexOf("PROVINCEUSER") >= 0 || 
+				if(user.role.indexOf("CENTRALUSER") >= 0) {
 					return false;
 				}
 			}
