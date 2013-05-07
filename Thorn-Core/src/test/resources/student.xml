@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<excel>
+	<name>
+		<file>tyu</file>
+		<sheet>学生</sheet>
+	</name>
+
+	<style>
+		<font>宋体</font>
+		<fontSize>12</fontSize>
+		<color>red</color>
+		<backgroundColor>white</backgroundColor>
+		<border>2</border>
+		<borderColor>black</borderColor>
+		<height>320</height>
+		<width>90</width>
+		<align>center</align>
+		<dateFormat>yyyy-MM-dd</dateFormat>
+		<numberFormat></numberFormat>
+	</style>
+
+	<title>
+		<header colspan="3">学生信息</header>
+		<header style="color: blue;align : right;">请仔细核对</header>
+	</title>
+
+	<mapper>
+		<object>org.thorn.test.excel.Student</object>
+		<columns>
+			<column attr="name">姓名</column>
+			<column attr="age" style="borderColor: yellow;">年龄</column>
+			<column attr="sex">性别</column>
+			<column attr="birthday">生日</column>
+		</columns>
+	</mapper>
+
+</excel>
