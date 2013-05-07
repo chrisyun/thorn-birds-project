@@ -3,7 +3,6 @@ package org.thorn.core.excel.xml;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
@@ -13,7 +12,6 @@ import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFBorderFormatting;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -33,12 +31,18 @@ public class ExcelByXmlUtils {
 
     private ExcelConfig config;
 
-    public ExcelByXmlUtils(String configName) throws ConfigurationException, ClassNotFoundException {
+    public ExcelByXmlUtils(String configName) throws ExcelByXmlException {
         config = configMap.get(configName);
 
         if (config == null) {
             synchronized (ExcelByXmlUtils.class) {
-                config = load(configName);
+                try {
+                    config = load(configName);
+                } catch (ConfigurationException e) {
+                    throw new ExcelByXmlException("the xml config has some mistakes!", e);
+                } catch (ClassNotFoundException e) {
+                    throw new ExcelByXmlException("the object can't find!", e);
+                }
             }
         }
     }
