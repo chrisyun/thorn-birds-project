@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<excel>
+	<name>
+		<file></file>
+		<sheet></sheet>
+	</name>
+
+	<style>
+		<font></font>
+		<fontSize></fontSize>
+		<color></color>
+		<backgroundColor></backgroundColor>
+		<border></border>
+		<borderColor></borderColor>
+		<height></height>
+		<width></width>
+		<align></align>
+		<dateFormat></dateFormat>
+		<numberFormat></numberFormat>
+	</style>
+
+	<title>
+		<header colspan="1" rowspan="1"></header>
+		<header style="font: 3;"></header>
+	</title>
+	
+	<mapper>
+		<object></object>
+		<columns>
+			<column attr="" style=""></column>
+			<column attr=""></column>
+			<column attr=""></column>
+			<column attr=""></column>
+			<column attr=""></column>
+			<column attr=""></column>
+		</columns>
+	</mapper>
+
+</excel>
