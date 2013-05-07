@@ -104,7 +104,7 @@ public class ExcelUtils {
 
 		workBook.write(os);
 	}
-
+	
 	private static void addColumn2Row(HSSFRow row, Object[] content,
 			int cellType, ExcelStyle style, int columnNum) {
 
