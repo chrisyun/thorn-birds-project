@@ -24,6 +24,11 @@
 		<header style="color: blue;align : right;">请仔细核对</header>
 	</title>
 
+	<title>
+		<header colspan="3">学生信息1</header>
+		<header style="color: blue;align : right;">请仔细核对1</header>
+	</title>
+
 	<mapper>
 		<object>org.thorn.test.excel.Student</object>
 		<columns>
