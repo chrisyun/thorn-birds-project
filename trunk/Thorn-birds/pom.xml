@@ -32,6 +32,7 @@
 
 
 	<modules>
+		<!-- 
 		<module>Thorn-Core</module>
 		<module>Thorn-Dao</module>
 		<module>Thorn-Jbpm</module>
@@ -40,6 +41,7 @@
 		<module>parrot</module>
 		<module>parrot-data-init</module>
 		<module>Thorn-Module</module>
+		 -->
 	</modules>
 
 
