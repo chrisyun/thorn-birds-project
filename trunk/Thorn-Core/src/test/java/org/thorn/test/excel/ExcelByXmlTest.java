@@ -7,15 +7,15 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
+
+import junit.framework.TestCase;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.thorn.core.excel.xml.ExcelByXmlException;
 import org.thorn.core.excel.xml.ExcelByXmlUtils;
-
-
-import junit.framework.TestCase;
 
 public class ExcelByXmlTest extends TestCase {
     
@@ -35,7 +35,9 @@ public class ExcelByXmlTest extends TestCase {
         try {
             Configuration config = new XMLConfiguration("student.xml");
             
-            System.out.println(config.getString("title.header(0)[@colspan]"));
+            Object oj = config.getProperty("title");
+            
+            System.out.println(config.getStringArray("title(0).header").length);
             
             
         } catch (ConfigurationException e) {
@@ -59,12 +61,6 @@ public class ExcelByXmlTest extends TestCase {
             excelUtils.outputExcel(list, os);
             
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (ConfigurationException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (ExcelByXmlException e) {
