@@ -43,8 +43,13 @@ public class MainFrame extends JFrame {
 	contentPane.setLayout(new BorderLayout(0, 0));
 	setContentPane(contentPane);
 	
-	JMenuBar menuBar = new MyPassMenuBar();
+	MyPassMenuBar menuBar = new MyPassMenuBar();
 	setJMenuBar(menuBar);
+	
+	menuBar.loginAction(false);
+	
+	ComponentReference.setMianFrame(this);
+	System.out.println(Thread.currentThread().getId());
     }
 
 }
