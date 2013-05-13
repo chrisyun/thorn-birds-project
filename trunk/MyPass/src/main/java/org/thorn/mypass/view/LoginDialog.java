@@ -25,8 +25,8 @@ public class LoginDialog {
     private Box getBox(Component lable, Component comp) {
 	Box box = Box.createHorizontalBox();
 	
-	lable.setPreferredSize(new Dimension(80, 40));
-	comp.setPreferredSize(new Dimension(160, 40));
+	lable.setPreferredSize(new Dimension(80, 30));
+	comp.setPreferredSize(new Dimension(160, 30));
 	box.add(lable);
 	box.add(comp);
 	
@@ -35,7 +35,7 @@ public class LoginDialog {
     
     public LoginDialog() {
 	loginDialog = new JDialog(ComponentReference.getMainFrame(), true);
-	loginDialog.setBounds(PositionUtils.locationInCenter(ComponentReference.getMainFrame().getBounds(), 280, 130));
+	loginDialog.setBounds(PositionUtils.locationInCenter(ComponentReference.getMainFrame().getBounds(), 280, 160));
 	
 	JPanel contentPanel = new JPanel();
 	contentPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
@@ -54,7 +54,13 @@ public class LoginDialog {
 	
 	JButton butOk = new JButton("OK");
 	JButton butCancel = new JButton("Cancel");
-	rowBox.add(getBox(butOk, butCancel));
+	butOk.setPreferredSize(new Dimension(110, 30));
+	butCancel.setPreferredSize(new Dimension(110, 30));
+	Box colbox = Box.createHorizontalBox();
+	colbox.add(butOk);
+	colbox.add(Box.createHorizontalStrut(20));
+	colbox.add(butCancel);
+	rowBox.add(colbox);
 	rowBox.add(Box.createVerticalStrut(10));
 	
 	loginDialog.setContentPane(contentPanel);
