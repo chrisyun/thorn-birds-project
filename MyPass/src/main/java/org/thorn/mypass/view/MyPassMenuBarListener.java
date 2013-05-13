@@ -3,24 +3,20 @@ package org.thorn.mypass.view;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MyPassMenuBarListener {
-    
-    public static ActionListener logoutAction() {
-	return new ActionListener() {
+import org.apache.commons.lang.StringUtils;
 
-	    public void actionPerformed(ActionEvent e) {
-		System.exit(0);
-	    }
-	};
-    }
-    
-    public static ActionListener loginAction() {
-	return new ActionListener() {
-	    
-	    public void actionPerformed(ActionEvent e) {
-		LoginDialog dialog = new LoginDialog();
-		dialog.login();
-	    }
-	};
+public class MyPassMenuBarListener implements ActionListener {
+
+    public void actionPerformed(ActionEvent e) {
+        String menuName = e.getActionCommand();
+        
+        MainFrame frame = ComponentReference.getMainFrame();
+        
+        if(StringUtils.equals(menuName, MyPassMenuBar.MENU_FILE_EXIT)) {
+            frame.exit();
+        } else if (StringUtils.equals(menuName, MyPassMenuBar.MENU_FILE_LOGIN)) {
+            frame.doLogin();
+        }
+        
     }
 }
