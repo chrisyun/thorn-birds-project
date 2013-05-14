@@ -57,11 +57,11 @@ public class MainFrame extends JFrame {
 	this.menuBar.loginAction(false);
 	new LoginDialog();
     }
-    
+
     public void doRegister() {
 	new RegisterDialog();
     }
-    
+
     public void doLogout() {
 	int result = JOptionPane.showConfirmDialog(this, "Do you confirm logout?", "logout", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 	if (result == JOptionPane.YES_OPTION) {
