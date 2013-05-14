@@ -8,58 +8,69 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 import org.apache.commons.lang.StringUtils;
 
-public class LoginDialog extends CommonDialog {
+public class RegisterDialog extends CommonDialog {
 
-    private JComboBox userCombo;
+    private JTextField userText;
 
     private JPasswordField pwdField;
 
+    private JPasswordField pwdRpField;
+
     private Box getBox(Component lable, Component comp) {
-	return super.getBox(lable, 80, comp, 160, 30);
+	return super.getBox(lable, 120, comp, 160, 30);
     }
 
-    public LoginDialog() {
-	super(280, 160);
-	
+    public RegisterDialog() {
+	super(320, 200);
+
 	JPanel contentPanel = new JPanel();
 	contentPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
 	Box rowBox = Box.createVerticalBox();
 	contentPanel.add(rowBox);
 
 	JLabel nameLabel = new JLabel("Username:");
-	userCombo = new JComboBox(new String[] { "chenyun", "zhengzhuo" });
-	rowBox.add(getBox(nameLabel, userCombo));
+	userText = new JTextField();
+	rowBox.add(getBox(nameLabel, userText));
 	rowBox.add(Box.createVerticalStrut(10));
 
 	JLabel pwdLabel = new JLabel("Password:");
 	pwdField = new JPasswordField();
 	rowBox.add(getBox(pwdLabel, pwdField));
 	rowBox.add(Box.createVerticalStrut(10));
-
-	JButton butOk = new JButton("Sign in");
+	
+	JLabel pwdRpLabel = new JLabel("Confirm password:");
+	pwdRpField = new JPasswordField();
+	rowBox.add(getBox(pwdRpLabel, pwdRpField));
+	rowBox.add(Box.createVerticalStrut(10));
+	
+	JButton butOk = new JButton("Create");
 	butOk.addActionListener(new ActionListener() {
 
 	    public void actionPerformed(ActionEvent e) {
 		String pwd = String.copyValueOf(pwdField.getPassword());
-		String userName = userCombo.getSelectedItem().toString();
+		String rpPwd = String.copyValueOf(pwdRpField.getPassword());
+		String userName = userText.getText();
 
 		if (StringUtils.isEmpty(userName)) {
-		    JOptionPane.showMessageDialog(dialog, "You need choosing your username!", "Checking", JOptionPane.WARNING_MESSAGE);
+		    JOptionPane.showMessageDialog(dialog, "You need inputting your username!", "Checking", JOptionPane.WARNING_MESSAGE);
 		} else if (StringUtils.isEmpty(pwd)) {
 		    JOptionPane.showMessageDialog(dialog, "You need inputting your password!", "Checking", JOptionPane.WARNING_MESSAGE);
-		} else if (!StringUtils.equals(pwd, "password") ) {
-		    JOptionPane.showMessageDialog(dialog, "The password is wrong.", "Error", JOptionPane.ERROR_MESSAGE);
+		}  else if (StringUtils.isEmpty(rpPwd)) {
+		    JOptionPane.showMessageDialog(dialog, "You need inputting your confirm password!", "Checking", JOptionPane.WARNING_MESSAGE);
+		} else if (!StringUtils.equals(pwd, rpPwd)) {
+		    JOptionPane.showMessageDialog(dialog, "The two passwords is not the same!", "Checking", JOptionPane.WARNING_MESSAGE);
 		} else {
+		    JOptionPane.showMessageDialog(dialog, "Register success!", "Success", JOptionPane.INFORMATION_MESSAGE);
 		    dialog.setVisible(false);
-		    ComponentReference.getMainFrame().loginSuccess();
+		    ComponentReference.getMainFrame().doLogin();
 		}
 	    }
 	});
@@ -72,16 +83,16 @@ public class LoginDialog extends CommonDialog {
 	    }
 	});
 
-	butOk.setPreferredSize(new Dimension(110, 30));
-	butCancel.setPreferredSize(new Dimension(110, 30));
+	butOk.setPreferredSize(new Dimension(130, 30));
+	butCancel.setPreferredSize(new Dimension(130, 30));
 	Box colbox = Box.createHorizontalBox();
 	colbox.add(butOk);
 	colbox.add(Box.createHorizontalStrut(20));
 	colbox.add(butCancel);
 	rowBox.add(colbox);
 	rowBox.add(Box.createVerticalStrut(10));
-
-	super.showDialog("Sign in", contentPanel);
+	
+	super.showDialog("Create a new Account", contentPanel);
     }
 
 }
