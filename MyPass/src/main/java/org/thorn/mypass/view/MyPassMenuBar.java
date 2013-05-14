@@ -20,11 +20,11 @@ public class MyPassMenuBar extends JMenuBar {
 
     public static final String MENU_FILE = "File";
 
-    public static final String MENU_FILE_LOGIN = "Login";
+    public static final String MENU_FILE_LOGIN = "Sign in";
 
     public static final String MENU_FILE_REGISTER = "Register";
 
-    public static final String MENU_FILE_SWITCH = "Switch User";
+    public static final String MENU_FILE_LOGOUT = "Logout";
 
     public static final String MENU_FILE_EXIT = "Exit";
 
@@ -85,7 +85,7 @@ public class MyPassMenuBar extends JMenuBar {
 
         sysMenu.add(getJMenuItem(MENU_FILE_LOGIN, false));
         sysMenu.add(getJMenuItem(MENU_FILE_REGISTER, false));
-        sysMenu.add(getJMenuItem(MENU_FILE_SWITCH, true));
+        sysMenu.add(getJMenuItem(MENU_FILE_LOGOUT, true));
         sysMenu.addSeparator();
         sysMenu.add(getJMenuItem(MENU_FILE_EXIT,
                 KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.CTRL_MASK)));
