@@ -30,7 +30,7 @@ public class MyPassMenuBar extends JMenuBar {
 
     public static final String MENU_TOOL = "Tool";
 
-    public static final String MENU_TOOL_ACCOUNT = "Query Account";
+    public static final String MENU_TOOL_ACCOUNT = "Query Website Account";
 
     public static final String MENU_TOOL_DATA = "Query Data";
 
