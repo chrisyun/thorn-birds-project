@@ -60,11 +60,11 @@ public class RegisterDialog extends CommonDialog {
 		String userName = userText.getText();
 
 		if (StringUtils.isEmpty(userName)) {
-		    JOptionPane.showMessageDialog(dialog, "You need inputting your username!", "Checking", JOptionPane.WARNING_MESSAGE);
+		    JOptionPane.showMessageDialog(dialog, "You need inputting username!", "Checking", JOptionPane.WARNING_MESSAGE);
 		} else if (StringUtils.isEmpty(pwd)) {
-		    JOptionPane.showMessageDialog(dialog, "You need inputting your password!", "Checking", JOptionPane.WARNING_MESSAGE);
+		    JOptionPane.showMessageDialog(dialog, "You need inputting password!", "Checking", JOptionPane.WARNING_MESSAGE);
 		}  else if (StringUtils.isEmpty(rpPwd)) {
-		    JOptionPane.showMessageDialog(dialog, "You need inputting your confirm password!", "Checking", JOptionPane.WARNING_MESSAGE);
+		    JOptionPane.showMessageDialog(dialog, "You need inputting confirm password!", "Checking", JOptionPane.WARNING_MESSAGE);
 		} else if (!StringUtils.equals(pwd, rpPwd)) {
 		    JOptionPane.showMessageDialog(dialog, "The two passwords is not the same!", "Checking", JOptionPane.WARNING_MESSAGE);
 		} else {

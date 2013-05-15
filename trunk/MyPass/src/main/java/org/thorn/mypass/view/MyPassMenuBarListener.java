@@ -20,6 +20,10 @@ public class MyPassMenuBarListener implements ActionListener {
             frame.doLogout();
         } else if (StringUtils.equals(menuName, MyPassMenuBar.MENU_FILE_REGISTER)) {
             frame.doRegister();
+        } else if (StringUtils.equals(menuName, MyPassMenuBar.MENU_SETTING_PASSWORD)) {
+            frame.doModifyPassword();
+        } else if (StringUtils.equals(menuName, MyPassMenuBar.MENU_TOOL_ACCOUNT)) {
+            frame.queryAccount();
         }
         
     }

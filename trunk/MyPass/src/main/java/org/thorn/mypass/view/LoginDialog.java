@@ -52,9 +52,9 @@ public class LoginDialog extends CommonDialog {
 		String userName = userCombo.getSelectedItem().toString();
 
 		if (StringUtils.isEmpty(userName)) {
-		    JOptionPane.showMessageDialog(dialog, "You need choosing your username!", "Checking", JOptionPane.WARNING_MESSAGE);
+		    JOptionPane.showMessageDialog(dialog, "You need choosing username!", "Checking", JOptionPane.WARNING_MESSAGE);
 		} else if (StringUtils.isEmpty(pwd)) {
-		    JOptionPane.showMessageDialog(dialog, "You need inputting your password!", "Checking", JOptionPane.WARNING_MESSAGE);
+		    JOptionPane.showMessageDialog(dialog, "You need inputting password!", "Checking", JOptionPane.WARNING_MESSAGE);
 		} else if (!StringUtils.equals(pwd, "password") ) {
 		    JOptionPane.showMessageDialog(dialog, "The password is wrong.", "Error", JOptionPane.ERROR_MESSAGE);
 		} else {
