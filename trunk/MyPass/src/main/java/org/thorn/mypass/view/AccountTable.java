@@ -40,11 +40,11 @@ public class AccountTable implements ActionListener {
 	querybox.add(btn);
 	querybox.add(Box.createHorizontalStrut(100));
 	box.add(querybox);
-	box.add(Box.createVerticalStrut(3));
+	box.add(Box.createVerticalStrut(5));
 	
 	// init table
 	table = new JTable(new AccountTableModal());
-        table.setPreferredScrollableViewportSize(new Dimension(520, 380));
+        table.setPreferredScrollableViewportSize(new Dimension(530, 380));
         table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
 	JScrollPane tableScrollPanel = new JScrollPane(table);
 	
