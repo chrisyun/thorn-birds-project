@@ -4,11 +4,11 @@
 	<groupId>org.thorn</groupId>
 	<artifactId>MyPass</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.thorn</groupId>
-			<artifactId>Thorn-Core</artifactId>
+			<artifactId>Thorn-Dao</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
@@ -18,15 +18,5 @@
 			<version>3.7.2</version>
 		</dependency>
 	</dependencies>
-	
-	<profiles>
-		<profile>
-			<id></id>
-			<properties>
-				<jdbc.url>jdbc:sqlite:database/myPass.db3</jdbc.url>
-				<jdbc.driver>org.sqlite.JDBC</jdbc.driver>
-			</properties>
-		</profile>
-	</profiles>
 
 </project>
