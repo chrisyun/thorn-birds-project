@@ -28,4 +28,10 @@
 	</bean>
 
 	<context:component-scan base-package="org.thorn" />
+	
+	<!-- 开启基于aspectj注解的代理，并使用cglib的方式 -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	<bean class="org.thorn.mypass.core.DAOEncryptAdvisor" />
+	
+	
 </beans>
