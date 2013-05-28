@@ -15,6 +15,10 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 
 import org.apache.commons.lang.StringUtils;
+import org.thorn.core.context.SpringContext;
+import org.thorn.mypass.entity.CommonResult;
+import org.thorn.mypass.entity.User;
+import org.thorn.mypass.service.UserService;
 
 public class LoginDialog extends CommonDialog {
 
@@ -23,65 +27,76 @@ public class LoginDialog extends CommonDialog {
     private JPasswordField pwdField;
 
     private Box getBox(Component lable, Component comp) {
-	return super.getBox(lable, 80, comp, 160, 30);
+        return super.getBox(lable, 80, comp, 160, 30);
     }
 
-    public LoginDialog() {
-	super(280, 160);
-	
-	JPanel contentPanel = new JPanel();
-	contentPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
-	Box rowBox = Box.createVerticalBox();
-	contentPanel.add(rowBox);
+    public LoginDialog(String[] users) {
+        super(280, 160);
 
-	JLabel nameLabel = new JLabel("Username:");
-	userCombo = new JComboBox(new String[] { "chenyun", "zhengzhuo" });
-	rowBox.add(getBox(nameLabel, userCombo));
-	rowBox.add(Box.createVerticalStrut(10));
+        JPanel contentPanel = new JPanel();
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
+        Box rowBox = Box.createVerticalBox();
+        contentPanel.add(rowBox);
 
-	JLabel pwdLabel = new JLabel("Password:");
-	pwdField = new JPasswordField();
-	rowBox.add(getBox(pwdLabel, pwdField));
-	rowBox.add(Box.createVerticalStrut(10));
+        JLabel nameLabel = new JLabel("Username:");
+        userCombo = new JComboBox(users);
+        rowBox.add(getBox(nameLabel, userCombo));
+        rowBox.add(Box.createVerticalStrut(10));
 
-	JButton butOk = new JButton("Sign in");
-	butOk.addActionListener(new ActionListener() {
+        JLabel pwdLabel = new JLabel("Password:");
+        pwdField = new JPasswordField();
+        rowBox.add(getBox(pwdLabel, pwdField));
+        rowBox.add(Box.createVerticalStrut(10));
 
-	    public void actionPerformed(ActionEvent e) {
-		String pwd = String.copyValueOf(pwdField.getPassword());
-		String userName = userCombo.getSelectedItem().toString();
+        JButton butOk = new JButton("Sign in");
+        butOk.addActionListener(new AbstractListener() {
 
-		if (StringUtils.isEmpty(userName)) {
-		    JOptionPane.showMessageDialog(dialog, "You need choosing username!", "Checking", JOptionPane.WARNING_MESSAGE);
-		} else if (StringUtils.isEmpty(pwd)) {
-		    JOptionPane.showMessageDialog(dialog, "You need inputting password!", "Checking", JOptionPane.WARNING_MESSAGE);
-		} else if (!StringUtils.equals(pwd, "password") ) {
-		    JOptionPane.showMessageDialog(dialog, "The password is wrong.", "Error", JOptionPane.ERROR_MESSAGE);
-		} else {
-		    dialog.setVisible(false);
-		    ComponentReference.getMainFrame().loginSuccess();
-		}
-	    }
-	});
+            protected Component comp = dialog;
 
-	JButton butCancel = new JButton("Cancel");
-	butCancel.addActionListener(new ActionListener() {
+            @Override
+            public void action(ActionEvent e) throws Exception {
+                String pwd = String.copyValueOf(pwdField.getPassword());
+                String userName = userCombo.getSelectedItem().toString();
 
-	    public void actionPerformed(ActionEvent e) {
-		dialog.setVisible(false);
-	    }
-	});
+                if (StringUtils.isEmpty(userName)) {
+                    JOptionPane.showMessageDialog(dialog, "You need choosing username!", "Checking",
+                            JOptionPane.WARNING_MESSAGE);
+                } else if (StringUtils.isEmpty(pwd)) {
+                    JOptionPane.showMessageDialog(dialog, "You need inputting password!", "Checking",
+                            JOptionPane.WARNING_MESSAGE);
+                } else {
 
-	butOk.setPreferredSize(new Dimension(110, 30));
-	butCancel.setPreferredSize(new Dimension(110, 30));
-	Box colbox = Box.createHorizontalBox();
-	colbox.add(butOk);
-	colbox.add(Box.createHorizontalStrut(20));
-	colbox.add(butCancel);
-	rowBox.add(colbox);
-	rowBox.add(Box.createVerticalStrut(10));
+                    UserService userService = SpringContext.getBean("userService");
+                    CommonResult<User> result = userService.login(userName, pwd);
 
-	super.showDialog("Sign in", contentPanel);
+                    if (result.isSuccess()) {
+                        dialog.setVisible(false);
+                        ComponentReference.getMainFrame().loginSuccess();
+                    } else {
+                        JOptionPane.showMessageDialog(dialog, result.getMsg(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        });
+
+        JButton butCancel = new JButton("Cancel");
+        butCancel.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                dialog.setVisible(false);
+            }
+        });
+
+        butOk.setPreferredSize(new Dimension(110, 30));
+        butCancel.setPreferredSize(new Dimension(110, 30));
+        Box colbox = Box.createHorizontalBox();
+        colbox.add(butOk);
+        colbox.add(Box.createHorizontalStrut(20));
+        colbox.add(butCancel);
+        rowBox.add(colbox);
+        rowBox.add(Box.createVerticalStrut(10));
+
+        super.showDialog("Sign in", contentPanel);
     }
 
 }

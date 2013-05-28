@@ -48,8 +48,8 @@ public class UserDAO extends MyPassBaseDAO {
     }
 
     public int saveUser(User user) {
-        String sql = "insert into t_user(id,username,password) values(null,?,?)";
-        return this.jdbcTemplate.update(sql, user.getUsername(), user.getPassword());
+        String sql = "insert into t_user(id,username,password,usedVersion) values(null,?,?,?)";
+        return this.jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), user.getUsedVersion());
     }
 
     public int modifyUserPassword(User user) {
