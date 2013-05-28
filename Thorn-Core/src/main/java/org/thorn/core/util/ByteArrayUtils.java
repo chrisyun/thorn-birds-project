@@ -2,24 +2,17 @@ package org.thorn.core.util;
 
 import java.io.IOException;
 
-import sun.misc.BASE64Encoder;
-import sun.misc.BASE64Decoder;
-
 public class ByteArrayUtils {
 
-    private static BASE64Encoder base64Encoder = new BASE64Encoder();
-    
-    private static BASE64Decoder base64Decoder = new BASE64Decoder();
-    
     private static char hexDigits[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
             'a', 'b', 'c', 'd', 'e', 'f' };
 
     public static String encodeOfBASE64(byte[] b) {
-        return base64Encoder.encodeBuffer(b);
+        return Base64Utils.encode(b);
     }
-    
+
     public static byte[] decodeOfBASE64(String str) throws IOException {
-        return base64Decoder.decodeBuffer(str);
+        return Base64Utils.decode(str);
     }
 
     public static String encode(byte[] b) {

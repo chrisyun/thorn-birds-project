@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
 import org.thorn.core.util.AESUtils;
+import org.thorn.core.util.ByteArrayUtils;
 import org.thorn.core.util.MD5Utils;
 
 import junit.framework.TestCase;
@@ -47,5 +48,26 @@ public class EncryptTest extends TestCase {
         }
         
     }
-
+    
+    public void testPwd() {
+        
+        try {
+            String encryptUsername = AESUtils.encrypt("1234", "121212121212");
+            String encryptPassword = MD5Utils.encodeByBASE64("chenyun313");
+            encryptPassword = MD5Utils.encodeBySalt(encryptPassword, "CHENYUN");
+            
+            System.out.println(encryptUsername);
+            
+            System.out.println(ByteArrayUtils.encodeOfBASE64("qwqwqw".getBytes()));
+            
+            System.out.println(encryptPassword);
+            System.out.println("--------------------");
+            
+            
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    }
+    
+    
 }
