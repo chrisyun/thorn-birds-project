@@ -1,0 +1,32 @@
+package org.thorn.mypass.view;
+
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JOptionPane;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public abstract class AbstractListener implements ActionListener {
+
+    static Logger log = LoggerFactory.getLogger(AbstractListener.class);
+
+    protected Component comp;
+
+    public void actionPerformed(ActionEvent e) {
+        try {
+            action(e);
+        } catch (Exception ex) {
+            log.error("The button name : " + e.getActionCommand() + " and panel cls : " + e.getSource().getClass(), ex);
+            if (comp == null) {
+                comp = ComponentReference.getMainFrame();
+            }
+            JOptionPane.showMessageDialog(comp, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public abstract void action(ActionEvent e) throws Exception;
+
+}
