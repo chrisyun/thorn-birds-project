@@ -37,7 +37,7 @@ public class GroupDAO extends MyPassBaseDAO {
     }
 
     public int modifyGroup(Group group) {
-        String sql = "update t_group set name = ?, pname = ?, version = ?, username = ?, operatorTime = datetime('now') where id = ?)";
+        String sql = "update t_group set name = ?, pname = ?, version = ?, username = ?, operatorTime = datetime('now') where id = ?";
         return this.jdbcTemplate.update(sql, group.getName(), group.getPname(), group.getVersion(),
                 group.getUsername(), group.getId());
     }

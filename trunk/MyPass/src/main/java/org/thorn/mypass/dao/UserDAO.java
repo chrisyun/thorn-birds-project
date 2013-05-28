@@ -53,18 +53,18 @@ public class UserDAO extends MyPassBaseDAO {
     }
 
     public int modifyUserPassword(User user) {
-        String sql = "update t_user set password = ? where username = ?)";
+        String sql = "update t_user set password = ? where username = ?";
         return this.jdbcTemplate.update(sql, user.getPassword(), user.getUsername());
     }
 
     public int modifyLoginTime(String username) {
-        String sql = "update t_user set loginTime = datetime('now') where username = ?)";
+        String sql = "update t_user set loginTime = datetime('now') where username = ?";
 
         return this.jdbcTemplate.update(sql, username);
     }
 
     public int modifyUsedVersion(String username, Integer version) {
-        String sql = "update t_user set usedVersion = ? where username = ?)";
+        String sql = "update t_user set usedVersion = ? where username = ?";
 
         return this.jdbcTemplate.update(sql, version, username);
     }
