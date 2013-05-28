@@ -12,7 +12,7 @@ public class MD5Utils {
         md5.update(salt.getBytes("utf-8"));
         md5.update(str.getBytes("utf-8"));
         byte[] digesta = md5.digest();
-        return ByteArrayUtils.encode(digesta);
+        return ByteArrayUtils.encodeOfBASE64(digesta);
     }
 
     public static byte[] encode(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException {
