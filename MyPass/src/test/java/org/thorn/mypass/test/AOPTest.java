@@ -25,26 +25,4 @@ public class AOPTest extends TestCase {
         System.out.println("-----------");
         
     }
-    
-    public void testPwd() {
-        
-        try {
-            String encryptUsername = AESUtils.encrypt("1234", Configuration.CORE_PASSWORD);
-            String encryptPassword = MD5Utils.encodeByBASE64("chenyun313");
-            encryptPassword = MD5Utils.encodeBySalt(encryptPassword, "CHENYUN");
-            
-            System.out.println(encryptUsername);
-            
-            System.out.println(ByteArrayUtils.encodeOfBASE64("qwqwqw".getBytes()));
-            
-            System.out.println(encryptPassword);
-            System.out.println("--------------------");
-            
-            
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
-    }
-    
-    
 }
