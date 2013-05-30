@@ -27,7 +27,7 @@ public class LoginDialog extends CommonDialog {
     private JPasswordField pwdField;
 
     private Box getBox(Component lable, Component comp) {
-        return super.getBox(lable, 80, comp, 160, 30);
+        return super.getBox(lable, 40, comp, 200, 30);
     }
 
     public LoginDialog(String[] users) {
@@ -38,17 +38,17 @@ public class LoginDialog extends CommonDialog {
         Box rowBox = Box.createVerticalBox();
         contentPanel.add(rowBox);
 
-        JLabel nameLabel = new JLabel("Username:");
+        JLabel nameLabel = new JLabel("账号：");
         userCombo = new JComboBox(users);
         rowBox.add(getBox(nameLabel, userCombo));
         rowBox.add(Box.createVerticalStrut(10));
 
-        JLabel pwdLabel = new JLabel("Password:");
+        JLabel pwdLabel = new JLabel("密码：");
         pwdField = new JPasswordField();
         rowBox.add(getBox(pwdLabel, pwdField));
         rowBox.add(Box.createVerticalStrut(10));
 
-        JButton butOk = new JButton("Sign in");
+        JButton butOk = new JButton("登录");
         butOk.addActionListener(new AbstractListener() {
 
             protected Component comp = dialog;
@@ -59,10 +59,10 @@ public class LoginDialog extends CommonDialog {
                 String userName = userCombo.getSelectedItem().toString();
 
                 if (StringUtils.isEmpty(userName)) {
-                    JOptionPane.showMessageDialog(dialog, "You need choosing username!", "Checking",
+                    JOptionPane.showMessageDialog(dialog, "请输入账号！", "错误",
                             JOptionPane.WARNING_MESSAGE);
                 } else if (StringUtils.isEmpty(pwd)) {
-                    JOptionPane.showMessageDialog(dialog, "You need inputting password!", "Checking",
+                    JOptionPane.showMessageDialog(dialog, "请输入密码！", "错误",
                             JOptionPane.WARNING_MESSAGE);
                 } else {
 
@@ -73,13 +73,13 @@ public class LoginDialog extends CommonDialog {
                         dialog.setVisible(false);
                         ComponentReference.getMainFrame().loginSuccess();
                     } else {
-                        JOptionPane.showMessageDialog(dialog, result.getMsg(), "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(dialog, result.getMsg(), "失败", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
         });
 
-        JButton butCancel = new JButton("Cancel");
+        JButton butCancel = new JButton("取消");
         butCancel.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
@@ -96,7 +96,7 @@ public class LoginDialog extends CommonDialog {
         rowBox.add(colbox);
         rowBox.add(Box.createVerticalStrut(10));
 
-        super.showDialog("Sign in", contentPanel);
+        super.showDialog("登录", contentPanel);
     }
 
 }

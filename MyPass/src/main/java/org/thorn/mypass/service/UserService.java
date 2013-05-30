@@ -50,7 +50,7 @@ public class UserService {
             
             if(users.contains(encryptUsername)) {
                 result.setSuccess(false);
-                result.setMsg("This username has existed!");
+                result.setMsg("该账号已经存在！");
             } else {
                 // insert
                 User user = new User();
@@ -96,7 +96,7 @@ public class UserService {
                 userDAO.modifyLoginTime(encryptUsername);
             } else {
                 result.setSuccess(false);
-                result.setMsg("Password is wrong!");
+                result.setMsg("登录密码错误！");
             }
         } catch (Exception e) {
             throw new DBAccessException(e);

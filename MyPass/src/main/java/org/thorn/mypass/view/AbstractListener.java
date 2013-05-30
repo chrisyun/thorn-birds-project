@@ -23,7 +23,8 @@ public abstract class AbstractListener implements ActionListener {
             if (comp == null) {
                 comp = ComponentReference.getMainFrame();
             }
-            JOptionPane.showMessageDialog(comp, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            String msg = ex.getMessage().replaceAll(";", ";\n");
+            JOptionPane.showMessageDialog(comp, msg, "操作异常", JOptionPane.ERROR_MESSAGE);
         }
     }
 

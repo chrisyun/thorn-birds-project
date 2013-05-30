@@ -1,7 +1,7 @@
 package org.thorn.mypass.view;
 
+import java.awt.Dimension;
 import java.awt.Event;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.HashSet;
@@ -18,31 +18,31 @@ public class MyPassMenuBar extends JMenuBar {
 
     private Set<JMenuItem> loginItem = new HashSet<JMenuItem>();
 
-    public static final String MENU_FILE = "File";
+    public static final String MENU_FILE = "文件(F)";
 
-    public static final String MENU_FILE_LOGIN = "Sign in";
+    public static final String MENU_FILE_LOGIN = "登录";
 
-    public static final String MENU_FILE_REGISTER = "Register";
+    public static final String MENU_FILE_REGISTER = "注册账号";
 
-    public static final String MENU_FILE_LOGOUT = "Logout";
+    public static final String MENU_FILE_LOGOUT = "注销";
 
-    public static final String MENU_FILE_EXIT = "Exit";
+    public static final String MENU_FILE_EXIT = "退出";
 
-    public static final String MENU_TOOL = "Tool";
+    public static final String MENU_TOOL = "数据(D)";
 
-    public static final String MENU_TOOL_ACCOUNT = "Query Website Account";
+    public static final String MENU_TOOL_ACCOUNT = "网站账户";
 
-    public static final String MENU_TOOL_DATA = "Query Data";
+    public static final String MENU_TOOL_DATA = "个人数据";
 
-    public static final String MENU_SETTING = "Setting";
+    public static final String MENU_SETTING = "设置(S)";
 
-    public static final String MENU_SETTING_LOCATION = "Data Location";
+    public static final String MENU_SETTING_LOCATION = "数据备份";
 
-    public static final String MENU_SETTING_PASSWORD = "Password";
+    public static final String MENU_SETTING_PASSWORD = "密码修改";
 
-    public static final String MENU_HELP = "Help";
+    public static final String MENU_HELP = "帮助(H)";
 
-    public static final String MENU_HELP_ABOUT = "About MyPass";
+    public static final String MENU_HELP_ABOUT = "关于 MyPass";
 
     private ActionListener listener;
 
@@ -94,10 +94,10 @@ public class MyPassMenuBar extends JMenuBar {
 
         // tool menu(query(data\account))
         JMenu toolMenu = new JMenu(MENU_TOOL);
-        toolMenu.add(getJMenuItem(MENU_TOOL_ACCOUNT, true));
-        toolMenu.add(getJMenuItem(MENU_TOOL_DATA, true));
-        
-        toolMenu.setMnemonic(KeyEvent.VK_T);
+        toolMenu.add(getJMenuItem(MENU_TOOL_ACCOUNT, true, KeyStroke.getKeyStroke(KeyEvent.VK_W, Event.CTRL_MASK)));
+        toolMenu.add(getJMenuItem(MENU_TOOL_DATA, true, KeyStroke.getKeyStroke(KeyEvent.VK_D, Event.CTRL_MASK)));
+
+        toolMenu.setMnemonic(KeyEvent.VK_D);
         this.add(toolMenu);
 
         // setting menu(data\password)

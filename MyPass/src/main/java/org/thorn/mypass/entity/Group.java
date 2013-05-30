@@ -5,7 +5,20 @@ public class Group extends BaseEntity {
     private String name;
     
     private String pname;
-
+    
+    public Group() {
+        
+    }
+    
+    public Group(String name) {
+        this.name = name;
+    }
+    
+    public Group(String name, String pname) {
+        this.name = name;
+        this.pname = pname;
+    }
+    
     public String getName() {
         return name;
     }
@@ -20,5 +33,10 @@ public class Group extends BaseEntity {
 
     public void setPname(String pname) {
         this.pname = pname;
+    }
+    
+    @Override
+    public String toString() {
+        return this.name;
     }
 }
