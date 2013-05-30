@@ -25,4 +25,12 @@ public class AOPTest extends TestCase {
         System.out.println("-----------");
         
     }
+    
+    public void testReplace() {
+        String a = "aaaa;ll;aaa;";
+        a = a.replaceAll(";", ";\n");
+        
+        System.out.println(a);
+    }
+    
 }
