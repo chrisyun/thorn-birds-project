@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -59,6 +60,23 @@ public class ReflectUtils {
         return obj;
     }
 
+    private static Field[] getFields(Class cls) {
+
+        Set<Field> set = new HashSet<Field>();
+
+        do {
+            Field[] fields = cls.getDeclaredFields();
+            
+            for(Field f : fields) {
+                set.add(f);
+            }
+            
+            cls = cls.getSuperclass();
+        } while (cls != null);
+        
+        return set.toArray(new Field[set.size()]);
+    }
+
     /**
      * 
      * @Description：将javabean对象映射为map
@@ -70,7 +88,7 @@ public class ReflectUtils {
     public static Map<String, Object> object2Map(Object obj) {
 
         Class objCl = obj.getClass();
-        Field[] fields = objCl.getDeclaredFields();
+        Field[] fields = getFields(objCl);
         Map<String, Object> map = new HashMap<String, Object>();
 
         for (Field field : fields) {
@@ -93,11 +111,11 @@ public class ReflectUtils {
     }
 
     public static <T> List<Object[]> object2ArrayByFilter(List<T> listBean, String[] fields) {
-        
+
         if (listBean == null || listBean.size() == 0) {
             return null;
         }
-        
+
         List<Object[]> list = new ArrayList<Object[]>();
         list.add(fields);
 
@@ -144,7 +162,7 @@ public class ReflectUtils {
         Class<T> cls = (Class<T>) listBean.get(0).getClass();
 
         // set field
-        Field[] fieldArray = cls.getDeclaredFields();
+        Field[] fieldArray = getFields(cls);
         String[] header = new String[fieldArray.length];
 
         for (int i = 0; i < header.length; i++) {
