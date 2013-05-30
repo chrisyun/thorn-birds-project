@@ -6,4 +6,7 @@ public class Configuration {
     
     public static final int BEGIN_VERSION = 1;
     
+    public static final String GROUP_ROOT_NAME = "Root";
+    
+    public static final String GROUP_ROOT_SHOW_NAME = "全部分组";
 }

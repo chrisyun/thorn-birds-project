@@ -29,33 +29,33 @@ public class RegisterDialog extends CommonDialog {
     private JPasswordField pwdRpField;
 
     private Box getBox(Component lable, Component comp) {
-        return super.getBox(lable, 120, comp, 160, 30);
+        return super.getBox(lable, 70, comp, 190, 30);
     }
 
     public RegisterDialog() {
-        super(320, 200);
+        super(300, 200);
 
         JPanel contentPanel = new JPanel();
         contentPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
         Box rowBox = Box.createVerticalBox();
         contentPanel.add(rowBox);
 
-        JLabel nameLabel = new JLabel("Username:");
+        JLabel nameLabel = new JLabel("账号：");
         userText = new JTextField();
         rowBox.add(getBox(nameLabel, userText));
         rowBox.add(Box.createVerticalStrut(10));
 
-        JLabel pwdLabel = new JLabel("Password:");
+        JLabel pwdLabel = new JLabel("密码：");
         pwdField = new JPasswordField();
         rowBox.add(getBox(pwdLabel, pwdField));
         rowBox.add(Box.createVerticalStrut(10));
 
-        JLabel pwdRpLabel = new JLabel("Confirm password:");
+        JLabel pwdRpLabel = new JLabel("重复密码：");
         pwdRpField = new JPasswordField();
         rowBox.add(getBox(pwdRpLabel, pwdRpField));
         rowBox.add(Box.createVerticalStrut(10));
 
-        JButton butOk = new JButton("Create");
+        JButton butOk = new JButton("注册");
         butOk.addActionListener(new AbstractListener() {
 
             protected Component comp = dialog;
@@ -67,16 +67,16 @@ public class RegisterDialog extends CommonDialog {
                 String userName = userText.getText();
 
                 if (StringUtils.isEmpty(userName)) {
-                    JOptionPane.showMessageDialog(dialog, "You need inputting username!", "Checking",
+                    JOptionPane.showMessageDialog(dialog, "请输入账号！", "错误",
                             JOptionPane.WARNING_MESSAGE);
                 } else if (StringUtils.isEmpty(pwd)) {
-                    JOptionPane.showMessageDialog(dialog, "You need inputting password!", "Checking",
+                    JOptionPane.showMessageDialog(dialog, "请输入密码！", "错误",
                             JOptionPane.WARNING_MESSAGE);
                 } else if (StringUtils.isEmpty(rpPwd)) {
-                    JOptionPane.showMessageDialog(dialog, "You need inputting confirm password!", "Checking",
+                    JOptionPane.showMessageDialog(dialog, "请再次输入密码！", "错误",
                             JOptionPane.WARNING_MESSAGE);
                 } else if (!StringUtils.equals(pwd, rpPwd)) {
-                    JOptionPane.showMessageDialog(dialog, "The two passwords is not the same!", "Checking",
+                    JOptionPane.showMessageDialog(dialog, "输入的两次密码必须相同！", "错误",
                             JOptionPane.WARNING_MESSAGE);
                 } else {
 
@@ -84,19 +84,19 @@ public class RegisterDialog extends CommonDialog {
                     CommonResult<User> result = userService.register(userName, pwd);
 
                     if (result.isSuccess()) {
-                        JOptionPane.showMessageDialog(dialog, "Register success!", "Success",
+                        JOptionPane.showMessageDialog(dialog, "注册成功！", "成功",
                                 JOptionPane.INFORMATION_MESSAGE);
                         dialog.setVisible(false);
                         ComponentReference.getMainFrame().doLogin();
                     } else {
-                        JOptionPane.showMessageDialog(dialog, result.getMsg(), "Error",
+                        JOptionPane.showMessageDialog(dialog, result.getMsg(), "失败",
                                 JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
         });
 
-        JButton butCancel = new JButton("Cancel");
+        JButton butCancel = new JButton("取消");
         butCancel.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
@@ -104,8 +104,8 @@ public class RegisterDialog extends CommonDialog {
             }
         });
 
-        butOk.setPreferredSize(new Dimension(130, 30));
-        butCancel.setPreferredSize(new Dimension(130, 30));
+        butOk.setPreferredSize(new Dimension(120, 30));
+        butCancel.setPreferredSize(new Dimension(120, 30));
         Box colbox = Box.createHorizontalBox();
         colbox.add(butOk);
         colbox.add(Box.createHorizontalStrut(20));
@@ -113,7 +113,7 @@ public class RegisterDialog extends CommonDialog {
         rowBox.add(colbox);
         rowBox.add(Box.createVerticalStrut(10));
 
-        super.showDialog("Create a new Account", contentPanel);
+        super.showDialog("注册账号", contentPanel);
     }
 
 }

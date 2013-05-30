@@ -1,11 +1,15 @@
 package org.thorn.mypass.view;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
+import java.util.Enumeration;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.UIManager;
+import javax.swing.plaf.FontUIResource;
 
 import org.thorn.core.context.SpringContext;
 import org.thorn.mypass.service.UserService;
@@ -20,6 +24,9 @@ public class MainFrame extends JFrame {
      * Create the frame.
      */
     public MainFrame() {
+
+        initGlobalFontSetting(new Font("微软雅黑", Font.PLAIN, 12));
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(300, 100, 780, 500);
         contentPane = new JPanel();
@@ -30,13 +37,24 @@ public class MainFrame extends JFrame {
         setJMenuBar(menuBar);
     }
 
+    public void initGlobalFontSetting(Font fnt) {
+        FontUIResource fontRes = new FontUIResource(fnt);
+        for (Enumeration keys = UIManager.getDefaults().keys(); keys.hasMoreElements();) {
+            Object key = keys.nextElement();
+            Object value = UIManager.get(key);
+            if (value instanceof FontUIResource) {
+                UIManager.put(key, fontRes);
+            }
+        }
+    }
+
     public void doLogin() throws Exception {
         this.menuBar.loginAction(false);
 
         UserService userService = SpringContext.getBean("userService");
         String[] combo = userService.getUserCombo();
-        
-        if(combo == null || combo.length == 0) {
+
+        if (combo == null || combo.length == 0) {
             doRegister();
         } else {
             new LoginDialog(combo);
@@ -51,7 +69,7 @@ public class MainFrame extends JFrame {
         new ModifyPasswordDialog();
     }
 
-    public void queryAccount() {
+    public void queryAccount() throws Exception {
         AccountTable table = new AccountTable();
         JPanel tablePanel = table.getTablePanel();
 
@@ -66,7 +84,7 @@ public class MainFrame extends JFrame {
     }
 
     public void doLogout() throws Exception {
-        int result = JOptionPane.showConfirmDialog(this, "Do you confirm logout?", "logout", JOptionPane.YES_NO_OPTION,
+        int result = JOptionPane.showConfirmDialog(this, "是否确认注销账号？", "注销", JOptionPane.YES_NO_OPTION,
                 JOptionPane.INFORMATION_MESSAGE);
         if (result == JOptionPane.YES_OPTION) {
             doLogin();
@@ -78,11 +96,10 @@ public class MainFrame extends JFrame {
     }
 
     public void exit() {
-        int result = JOptionPane.showConfirmDialog(this, "Do you confirm exit?", "Exit", JOptionPane.YES_NO_OPTION,
+        int result = JOptionPane.showConfirmDialog(this, "是否确认退出？", "退出", JOptionPane.YES_NO_OPTION,
                 JOptionPane.INFORMATION_MESSAGE);
         if (result == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
     }
-
 }
