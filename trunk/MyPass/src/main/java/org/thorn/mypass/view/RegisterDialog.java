@@ -15,9 +15,10 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import org.apache.commons.lang.StringUtils;
-import org.thorn.core.context.SpringContext;
 import org.thorn.mypass.entity.CommonResult;
 import org.thorn.mypass.entity.User;
+import org.thorn.mypass.listener.AbstractListener;
+import org.thorn.mypass.service.ServiceFactory;
 import org.thorn.mypass.service.UserService;
 
 public class RegisterDialog extends CommonDialog {
@@ -80,7 +81,7 @@ public class RegisterDialog extends CommonDialog {
                             JOptionPane.WARNING_MESSAGE);
                 } else {
 
-                    UserService userService = SpringContext.getBean("userService");
+                    UserService userService = ServiceFactory.getInstance().getUserService();
                     CommonResult<User> result = userService.register(userName, pwd);
 
                     if (result.isSuccess()) {

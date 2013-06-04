@@ -1,4 +1,4 @@
-package org.thorn.mypass;
+package org.thorn.mypass.demo;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.*;
 import java.awt.*;
