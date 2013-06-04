@@ -1,8 +1,11 @@
-package org.thorn.mypass.view;
+package org.thorn.mypass.listener;
 
 import java.awt.event.ActionEvent;
 
 import org.apache.commons.lang.StringUtils;
+import org.thorn.mypass.view.ComponentReference;
+import org.thorn.mypass.view.MainFrame;
+import org.thorn.mypass.view.MyPassMenuBar;
 
 public class MyPassMenuBarListener extends AbstractListener {
 

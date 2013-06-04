@@ -1,4 +1,4 @@
-package org.thorn.mypass;
+package org.thorn.mypass.demo;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;

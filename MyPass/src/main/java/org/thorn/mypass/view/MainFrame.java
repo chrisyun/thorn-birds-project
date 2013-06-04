@@ -11,7 +11,7 @@ import javax.swing.JSplitPane;
 import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
 
-import org.thorn.core.context.SpringContext;
+import org.thorn.mypass.service.ServiceFactory;
 import org.thorn.mypass.service.UserService;
 
 public class MainFrame extends JFrame {
@@ -51,7 +51,7 @@ public class MainFrame extends JFrame {
     public void doLogin() throws Exception {
         this.menuBar.loginAction(false);
 
-        UserService userService = SpringContext.getBean("userService");
+        UserService userService = ServiceFactory.getInstance().getUserService();
         String[] combo = userService.getUserCombo();
 
         if (combo == null || combo.length == 0) {
@@ -91,8 +91,9 @@ public class MainFrame extends JFrame {
         }
     }
 
-    public void loginSuccess() {
+    public void loginSuccess() throws Exception {
         this.menuBar.loginAction(true);
+        queryAccount();
     }
 
     public void exit() {
