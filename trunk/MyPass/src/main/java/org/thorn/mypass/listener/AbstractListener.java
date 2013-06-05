@@ -16,7 +16,6 @@ public abstract class AbstractListener implements ActionListener {
 
     protected Component comp;
 
-    @Override
     public void actionPerformed(ActionEvent e) {
         try {
             action(e);
