@@ -1,9 +1,9 @@
 package org.thorn.mypass.entity;
 
 public class Data extends BaseEntity {
-    
+
     private String dataInfo;
-    
+
     private String groupName;
 
     public String getDataInfo() {

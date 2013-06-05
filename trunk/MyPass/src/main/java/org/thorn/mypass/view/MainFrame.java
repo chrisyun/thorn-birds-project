@@ -39,7 +39,7 @@ public class MainFrame extends JFrame {
 
     public void initGlobalFontSetting(Font fnt) {
         FontUIResource fontRes = new FontUIResource(fnt);
-        for (Enumeration keys = UIManager.getDefaults().keys(); keys.hasMoreElements();) {
+        for (Enumeration keys = UIManager.getDefaults().keys(); keys.hasMoreElements(); ) {
             Object key = keys.nextElement();
             Object value = UIManager.get(key);
             if (value instanceof FontUIResource) {

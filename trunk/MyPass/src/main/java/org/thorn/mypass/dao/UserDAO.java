@@ -16,10 +16,10 @@ public class UserDAO extends MyPassBaseDAO {
     public User getUserByNameAndPassword(String username, String password) {
         String sql = "select id,username,password,usedVersion from t_user where username = ? and password = ?";
 
-        return this.jdbcTemplate.query(sql, new String[] { username, password }, new ResultSetExtractor<User>() {
+        return this.jdbcTemplate.query(sql, new String[]{username, password}, new ResultSetExtractor<User>() {
 
             public User extractData(ResultSet rs) throws SQLException, DataAccessException {
-                
+
                 while (rs.next()) {
                     User user = new User();
                     user.setUsername(rs.getString("username"));
@@ -29,7 +29,7 @@ public class UserDAO extends MyPassBaseDAO {
 
                     return user;
                 }
-                
+
                 return null;
             }
         });

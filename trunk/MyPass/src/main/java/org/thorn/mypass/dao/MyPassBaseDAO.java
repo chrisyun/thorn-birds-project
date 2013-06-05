@@ -7,6 +7,6 @@ public class MyPassBaseDAO {
 
     @Autowired
     protected JdbcTemplate jdbcTemplate;
-    
-    
+
+
 }

@@ -16,16 +16,16 @@ public class WebsiteService {
     private WebsiteDAO wsDAO;
 
     public List<Website> queryWebsite(String groupName, String websiteName) throws Exception {
-        
+
         Website filter = new Website();
         filter.setWebsite(websiteName);
         filter.setGroupName(groupName);
-        
+
         Session session = Session.getCurrentSession();
         User user = session.getUser();
         filter.setUsername(user.getUsername());
         filter.setVersion(user.getUsedVersion());
-        
+
         return wsDAO.queryWebsiteByFilter(filter);
     }
 

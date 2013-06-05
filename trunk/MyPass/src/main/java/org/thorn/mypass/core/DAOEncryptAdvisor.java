@@ -18,12 +18,16 @@ public class DAOEncryptAdvisor {
 
     @Pointcut("execution(public * org.thorn.mypass.dao.*DAO.*(..))")
     private void pointcut() {
-    };
+    }
+
+    ;
 
     @Pointcut("!execution(public * org.thorn.mypass.dao.*DAO.delete*(..)) " +
             "&& !execution(public * org.thorn.mypass.dao.UserDAO.*(..))")
     private void noPointcut() {
-    };
+    }
+
+    ;
 
     @Around("pointcut() && noPointcut()")
     public Object doAround(ProceedingJoinPoint jp) throws Throwable {

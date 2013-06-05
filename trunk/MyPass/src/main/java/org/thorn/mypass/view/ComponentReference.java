@@ -4,19 +4,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ComponentReference {
-    
-    private static ThreadLocal<Map<String, Object>> local = new ThreadLocal<Map<String,Object>>();
-    
+
+    private static ThreadLocal<Map<String, Object>> local = new ThreadLocal<Map<String, Object>>();
+
     static {
-	local.set(new HashMap<String, Object>());
+        local.set(new HashMap<String, Object>());
     }
-    
-    public static void setMianFrame(MainFrame frame) {
-	local.get().put("mainFrame", frame);
+
+    public static void setMainFrame(MainFrame frame) {
+        local.get().put("mainFrame", frame);
     }
-    
+
     public static MainFrame getMainFrame() {
-	return (MainFrame) local.get().get("mainFrame");
+        return (MainFrame) local.get().get("mainFrame");
     }
-    
+
 }

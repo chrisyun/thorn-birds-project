@@ -36,19 +36,19 @@ public class UserService {
 
         return null;
     }
-    
+
     public CommonResult<User> register(String username, String password) throws DBAccessException {
-        
+
         CommonResult<User> result = new CommonResult<User>();
         username = username.toUpperCase();
-        
+
         try {
             List<String> users = userDAO.getAllUserName();
             String encryptUsername = AESUtils.encrypt(username, Configuration.CORE_PASSWORD);
             String encryptPassword = MD5Utils.encodeByBASE64(password);
             encryptPassword = MD5Utils.encodeBySalt(encryptPassword, username);
-            
-            if(users.contains(encryptUsername)) {
+
+            if (users.contains(encryptUsername)) {
                 result.setSuccess(false);
                 result.setMsg("该账号已经存在！");
             } else {
@@ -58,18 +58,18 @@ public class UserService {
                 user.setUsername(encryptUsername);
                 user.setUsedVersion(Configuration.BEGIN_VERSION);
                 userDAO.saveUser(user);
-                
+
                 result.setSuccess(true);
                 result.setData(user);
             }
         } catch (Exception e) {
             throw new DBAccessException(e);
         }
-        
+
         return result;
     }
-    
-    
+
+
     public CommonResult<User> login(String username, String password) throws DBAccessException {
 
         CommonResult<User> result = new CommonResult<User>();
