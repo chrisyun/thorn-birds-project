@@ -14,7 +14,7 @@ public class GroupDAO extends MyPassBaseDAO {
     public List<Group> getGroupByUserAndVersion(String username, Integer version) {
         String sql = "select id,name,pname,version,username from t_group where username = ? and version = ?";
 
-        return this.jdbcTemplate.query(sql, new Object[] { username, version }, new RowMapper<Group>() {
+        return this.jdbcTemplate.query(sql, new Object[]{username, version}, new RowMapper<Group>() {
 
             public Group mapRow(ResultSet rs, int rowNum) throws SQLException {
                 Group group = new Group();

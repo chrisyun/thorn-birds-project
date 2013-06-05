@@ -28,7 +28,7 @@ public class Launcher {
                     frame.setIconImage(ImageUtils.getIconFromCls("/icons/logo.png").getImage());
                     frame.setVisible(true);
 
-                    ComponentReference.setMianFrame(frame);
+                    ComponentReference.setMainFrame(frame);
                     frame.doLogin();
                 } catch (Exception e) {
                     log.error("Launcher exception", e);

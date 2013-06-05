@@ -1,11 +1,11 @@
 package org.thorn.mypass.entity;
 
 public class BaseEntity {
-    
+
     private Integer id;
-    
+
     private Integer version;
-    
+
     private String username;
 
     public Integer getId() {

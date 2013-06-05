@@ -16,9 +16,9 @@ import javax.swing.JPasswordField;
 import org.apache.commons.lang.StringUtils;
 
 /**
+ * @author chenyun
  * @ClassName: ModifyPasswordDialog
  * @Description:
- * @author chenyun
  * @date 2013-5-14 下午10:16:23
  */
 public class ModifyPasswordDialog extends CommonDialog {

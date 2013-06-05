@@ -1,15 +1,15 @@
 package org.thorn.mypass.entity;
 
 public class Website extends BaseEntity {
-    
+
     private String website;
-    
+
     private String account;
-    
+
     private String password;
-    
+
     private String description;
-    
+
     private String groupName;
 
     public String getWebsite() {
@@ -51,5 +51,5 @@ public class Website extends BaseEntity {
     public void setGroupName(String groupName) {
         this.groupName = groupName;
     }
-    
+
 }

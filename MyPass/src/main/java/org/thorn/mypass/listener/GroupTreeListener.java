@@ -28,7 +28,7 @@ public class GroupTreeListener extends AbstractListener {
     }
 
     private void addGroup(DefaultMutableTreeNode selectionNode, Group thisGroup, DefaultTreeModel model,
-            GroupService groupService) throws DBAccessException {
+                          GroupService groupService) throws DBAccessException {
         String result = JOptionPane.showInputDialog(frame, "请输入分组名称：", "添加分组",
                 JOptionPane.INFORMATION_MESSAGE);
 
@@ -65,7 +65,7 @@ public class GroupTreeListener extends AbstractListener {
     }
 
     private void deleteGroup(DefaultMutableTreeNode selectionNode, Group thisGroup, DefaultTreeModel model,
-            GroupService groupService)
+                             GroupService groupService)
             throws DBAccessException {
         if (!selectionNode.isLeaf()) {
             JOptionPane.showMessageDialog(frame, "请先删除该分组下面的分组", "错误",
@@ -91,7 +91,7 @@ public class GroupTreeListener extends AbstractListener {
 
         TreePath parentPath = tree.getSelectionPath();
         DefaultMutableTreeNode selectionNode = (DefaultMutableTreeNode)
-                         (parentPath.getLastPathComponent());
+                (parentPath.getLastPathComponent());
 
         if (selectionNode == null) {
             JOptionPane.showMessageDialog(frame, "请选择一个分组！", "错误",

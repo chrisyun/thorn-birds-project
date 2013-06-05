@@ -1,15 +1,15 @@
 package org.thorn.mypass.entity;
 
 public class User {
-    
+
     private Integer id;
-    
+
     private String username;
-    
+
     private String password;
-    
+
     private Integer usedVersion;
-    
+
     public Integer getId() {
         return id;
     }
@@ -41,5 +41,5 @@ public class User {
     public void setUsedVersion(Integer usedVersion) {
         this.usedVersion = usedVersion;
     }
-    
+
 }

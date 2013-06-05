@@ -13,8 +13,8 @@ public class MyPassMenuBarListener extends AbstractListener {
     public void action(ActionEvent e) throws Exception {
         String menuName = e.getActionCommand();
         MainFrame frame = ComponentReference.getMainFrame();
-        
-        if(StringUtils.equals(menuName, MyPassMenuBar.MENU_FILE_EXIT)) {
+
+        if (StringUtils.equals(menuName, MyPassMenuBar.MENU_FILE_EXIT)) {
             frame.exit();
         } else if (StringUtils.equals(menuName, MyPassMenuBar.MENU_FILE_LOGIN)) {
             frame.doLogin();

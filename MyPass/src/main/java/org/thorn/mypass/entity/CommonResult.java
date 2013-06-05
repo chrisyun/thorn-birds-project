@@ -3,11 +3,11 @@ package org.thorn.mypass.entity;
 import java.io.Serializable;
 
 public class CommonResult<T> implements Serializable {
-    
+
     private boolean success;
-    
+
     private String msg;
-    
+
     private T data;
 
     public boolean isSuccess() {
