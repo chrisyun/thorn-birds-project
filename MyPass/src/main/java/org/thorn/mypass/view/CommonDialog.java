@@ -1,5 +1,7 @@
 package org.thorn.mypass.view;
 
+import org.thorn.core.swing.PositionUtils;
+
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -7,7 +9,6 @@ import java.awt.Dimension;
 import javax.swing.Box;
 import javax.swing.JDialog;
 
-import org.thorn.mypass.utils.PositionUtils;
 
 public class CommonDialog {
 

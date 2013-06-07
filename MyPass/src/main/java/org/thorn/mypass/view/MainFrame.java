@@ -11,6 +11,7 @@ import javax.swing.JSplitPane;
 import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
 
+import org.thorn.core.swing.GlobalSettingUtils;
 import org.thorn.mypass.service.ServiceFactory;
 import org.thorn.mypass.service.UserService;
 
@@ -25,7 +26,7 @@ public class MainFrame extends JFrame {
      */
     public MainFrame() {
 
-        initGlobalFontSetting(new Font("微软雅黑", Font.PLAIN, 12));
+        GlobalSettingUtils.initGlobalFontSetting(new Font("微软雅黑", Font.PLAIN, 12));
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(300, 100, 780, 500);
@@ -35,17 +36,6 @@ public class MainFrame extends JFrame {
 
         menuBar = new MyPassMenuBar();
         setJMenuBar(menuBar);
-    }
-
-    public void initGlobalFontSetting(Font fnt) {
-        FontUIResource fontRes = new FontUIResource(fnt);
-        for (Enumeration keys = UIManager.getDefaults().keys(); keys.hasMoreElements(); ) {
-            Object key = keys.nextElement();
-            Object value = UIManager.get(key);
-            if (value instanceof FontUIResource) {
-                UIManager.put(key, fontRes);
-            }
-        }
     }
 
     public void doLogin() throws Exception {
