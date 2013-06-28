@@ -26,12 +26,12 @@ public class CommonDialog {
         dialog.setVisible(true);
     }
 
-    protected Box getBox(Component lable, int labWidth, Component comp, int compWidth, int height) {
+    protected Box getBox(Component label, int labWidth, Component comp, int compWidth, int height) {
         Box box = Box.createHorizontalBox();
 
-        lable.setPreferredSize(new Dimension(labWidth, height));
+        label.setPreferredSize(new Dimension(labWidth, height));
         comp.setPreferredSize(new Dimension(compWidth, height));
-        box.add(lable);
+        box.add(label);
         box.add(comp);
 
         return box;

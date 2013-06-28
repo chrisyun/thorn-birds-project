@@ -12,6 +12,7 @@ import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
 
 import org.thorn.core.swing.GlobalSettingUtils;
+import org.thorn.mypass.listener.AccountTableListener;
 import org.thorn.mypass.service.ServiceFactory;
 import org.thorn.mypass.service.UserService;
 
@@ -60,11 +61,12 @@ public class MainFrame extends JFrame {
     }
 
     public void queryAccount() throws Exception {
-        AccountTable table = new AccountTable();
-        JPanel tablePanel = table.getTablePanel();
-
         GroupPanel group = new GroupPanel();
         JPanel groupPanel = group.getGroupPanel();
+
+        AccountTable table = new AccountTable();
+        JPanel tablePanel = table.getTablePanel();
+        group.registerClickListener(new AccountTableListener(), table, AccountTable.TREE_QUERY);
 
         JSplitPane splitPane = new JSplitPane(
                 JSplitPane.HORIZONTAL_SPLIT, true, groupPanel, tablePanel);

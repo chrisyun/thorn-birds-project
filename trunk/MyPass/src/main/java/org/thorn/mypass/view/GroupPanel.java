@@ -1,6 +1,7 @@
 package org.thorn.mypass.view;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -28,11 +29,7 @@ import org.thorn.mypass.service.ServiceFactory;
 
 public class GroupPanel implements TreeSelectionListener {
 
-    private JTree tree;
-
-    private JPanel panel;
-
-    private JPopupMenu popMenu;
+    public static String selectedGroupName = "";
 
     public static final String ACTION_ADD = "ADD";
 
@@ -40,17 +37,31 @@ public class GroupPanel implements TreeSelectionListener {
 
     public static final String ACTION_DELETE = "DELETE";
 
-    private JButton getButton(String text, String commond, ActionListener listener) {
+    public static final String ACTION_CLICK = "TREE_QUERY";
+
+    private JTree tree;
+
+    private JPanel panel;
+
+    private JPopupMenu popMenu;
+
+    private ActionListener clickListener;
+
+    private Object source;
+
+    private String queryCommand;
+
+    private JButton getButton(String text, String command, ActionListener listener) {
         JButton b = new JButton(text);
         b.addActionListener(listener);
-        b.setActionCommand(commond);
+        b.setActionCommand(command);
         return b;
     }
 
-    private JMenuItem getJMenuItem(String text, String commond, ActionListener listener) {
+    private JMenuItem getJMenuItem(String text, String command, ActionListener listener) {
         JMenuItem item = new JMenuItem(text);
         item.addActionListener(listener);
-        item.setActionCommand(commond);
+        item.setActionCommand(command);
         return item;
     }
 
@@ -128,9 +139,21 @@ public class GroupPanel implements TreeSelectionListener {
 
         if (selectionNode != null) {
             Group selectedNode = (Group) selectionNode.getUserObject();
-            // TODO do query
 
+            // set current groupName
+            selectedGroupName = selectedNode.getName();
+
+            // do query
+            ActionEvent ae = new ActionEvent(source, 13, queryCommand);
+            clickListener.actionPerformed(ae);
         }
+    }
+
+
+    public void registerClickListener(ActionListener listener, Object source, String command) {
+        this.clickListener = listener;
+        this.queryCommand = command;
+        this.source = source;
     }
 
 }
