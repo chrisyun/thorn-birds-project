@@ -1,6 +1,8 @@
 package org.thorn.mypass.view;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -9,6 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import org.thorn.mypass.listener.AbstractListener;
 import org.thorn.mypass.listener.AccountTableListener;
 
 public class AccountTable {
@@ -17,6 +20,14 @@ public class AccountTable {
 
     private JPanel panel;
 
+    private JTextField websiteText;
+
+    public static final String BTN_QUERY = "查询";
+
+    public static final String BTN_ADD = "新增";
+
+    public static final String TREE_QUERY = "按组查询";
+
     public AccountTable() throws Exception {
 
         // init queryPanel
@@ -24,17 +35,26 @@ public class AccountTable {
         Box box = Box.createVerticalBox();
         panel.add(box);
 
-        Box querybox = Box.createHorizontalBox();
-        querybox.add(Box.createHorizontalStrut(5));
-        querybox.add(new JLabel("网站地址："));
-        JTextField websiteText = new JTextField();
-        querybox.add(websiteText);
-        querybox.add(Box.createHorizontalStrut(40));
-        JButton btn = new JButton("查询");
-        btn.addActionListener(new AccountTableListener(table, websiteText));
-        querybox.add(btn);
-        querybox.add(Box.createHorizontalStrut(100));
-        box.add(querybox);
+        Box queryBox = Box.createHorizontalBox();
+        queryBox.add(Box.createHorizontalStrut(5));
+        queryBox.add(new JLabel("网站地址："));
+        websiteText = new JTextField();
+        queryBox.add(websiteText);
+        queryBox.add(Box.createHorizontalStrut(40));
+        JButton btn = new JButton(BTN_QUERY);
+
+        final AccountTable thisObj = this;
+        btn.addActionListener(new AbstractListener() {
+
+            @Override
+            public void action(ActionEvent e) throws Exception {
+                e.setSource(thisObj);
+                new AccountTableListener().actionPerformed(e);
+            }
+        });
+        queryBox.add(btn);
+        queryBox.add(Box.createHorizontalStrut(100));
+        box.add(queryBox);
         box.add(Box.createVerticalStrut(5));
 
         // init table
@@ -46,8 +66,15 @@ public class AccountTable {
         box.add(tableScrollPanel);
     }
 
-    public JPanel getTablePanel() {
-        return this.panel;
+    public JTable getTable() {
+        return table;
     }
 
+    public JPanel getTablePanel() {
+        return panel;
+    }
+
+    public String getQueryWebSite() {
+        return websiteText.getText();
+    }
 }

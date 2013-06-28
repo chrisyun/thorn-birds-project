@@ -1,24 +1,30 @@
 package org.thorn.mypass.listener;
 
+import org.apache.commons.lang.StringUtils;
+import org.thorn.mypass.view.AccountTable;
+import org.thorn.mypass.view.AccountTableModal;
+import org.thorn.mypass.view.GroupPanel;
+
 import java.awt.event.ActionEvent;
 
-import javax.swing.JTable;
 import javax.swing.JTextField;
 
 public class AccountTableListener extends AbstractListener {
 
-    private JTextField websiteText;
-
-    private JTable table;
-
-    public AccountTableListener(JTable table, JTextField websiteText) {
-        this.websiteText = websiteText;
-        this.table = table;
-    }
-
     @Override
     public void action(ActionEvent e) throws Exception {
-        // TODO Auto-generated method stub
+
+        AccountTable table = (AccountTable) e.getSource();
+
+        String command = e.getActionCommand();
+
+        if(StringUtils.equals(command, AccountTable.BTN_QUERY)) {
+            table.getTable().setModel(new AccountTableModal(GroupPanel.selectedGroupName, table.getQueryWebSite()));
+        } else if(StringUtils.equals(command, AccountTable.BTN_ADD)) {
+
+        }  else if(StringUtils.equals(command, AccountTable.TREE_QUERY)) {
+            table.getTable().setModel(new AccountTableModal(GroupPanel.selectedGroupName, null));
+        }
 
     }
 
