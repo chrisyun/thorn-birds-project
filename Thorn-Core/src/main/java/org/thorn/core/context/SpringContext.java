@@ -65,5 +65,10 @@ public class SpringContext implements ApplicationContextAware {
 		return (T) applicationContext.getBean(name);
 	}
 
+    public static <T> T getBean(Class<T> cls) {
+        Assert.notNull(applicationContext);
+        return (T) applicationContext.getBean(cls);
+    }
+
 }
 
