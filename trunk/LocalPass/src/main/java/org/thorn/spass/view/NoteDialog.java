@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 
 /**
@@ -98,6 +100,13 @@ public class NoteDialog extends JDialog {
         columnBox.add(button);
         columnBox.add(Box.createHorizontalStrut(100));
         rowBox.add(columnBox);
+
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+                passwordField.requestFocus();
+            }
+        });
 
         this.setContentPane(contentPanel);
         this.setResizable(false);

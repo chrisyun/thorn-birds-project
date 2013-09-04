@@ -22,7 +22,7 @@ public class AccountTable extends JPanel {
     public AccountTable() throws Exception {
 
         JPanel queryPanel = new JPanel();
-        queryPanel.setBorder(BorderFactory.createEmptyBorder(3, 5, 3, 5));
+        queryPanel.setBorder(BorderFactory.createTitledBorder("根据标签查询"));
 
         AccountService accountService = SpringContext.getBean(AccountService.class);
         Set<String> tagSet = accountService.queryTags();
@@ -31,8 +31,6 @@ public class AccountTable extends JPanel {
 
             JPanel tagPanel = new JPanel();
             tagPanel.setLayout(new GridLayout(tagSet.size() / 3, 3));
-            tagPanel.setBorder(BorderFactory.createTitledBorder("标签"));
-
             for (String tag : tagSet) {
                 JCheckBox checkBox = new JCheckBox(tag);
 
@@ -42,14 +40,6 @@ public class AccountTable extends JPanel {
 
             queryPanel.add(tagPanel);
         }
-
-
-        Box columnBox = Box.createHorizontalBox();
-        JButton button = new JButton("添 加");
-        button.addActionListener(new OpenAccountDialogAction());
-        columnBox.add(Box.createHorizontalStrut(450));
-        columnBox.add(button);
-        queryPanel.add(columnBox);
 
         table = new JTable(new AccountTableModal(null));
         table.setPreferredScrollableViewportSize(new Dimension(590, 330));
@@ -62,7 +52,9 @@ public class AccountTable extends JPanel {
         table.addMouseListener(new OpenAccountDialogListener(table));
 
         Box rowBox = Box.createVerticalBox();
-        rowBox.add(queryPanel);
+        JScrollPane jScrollPane = new JScrollPane(queryPanel);
+        jScrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        rowBox.add(jScrollPane);
         rowBox.add(Box.createVerticalStrut(5));
         rowBox.add(tableScrollPanel);
 

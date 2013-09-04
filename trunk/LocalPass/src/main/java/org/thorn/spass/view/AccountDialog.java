@@ -44,7 +44,7 @@ public class AccountDialog extends JDialog {
 
     public AccountDialog(Account account) {
         super(MFrame.MAIN_FRAME, true);
-        this.setBounds(PositionUtils.locationInCenter(MFrame.MAIN_FRAME.getBounds(), 350, 350));
+        this.setBounds(PositionUtils.locationInCenter(MFrame.MAIN_FRAME.getBounds(), 370, 350));
 
         this.account = account;
 
@@ -115,7 +115,7 @@ public class AccountDialog extends JDialog {
 
             JPanel tagPanel = new JPanel();
             tagPanel.setLayout(new GridLayout(tagSet.size() / 3, 4));
-            tagPanel.setBorder(BorderFactory.createTitledBorder("标签"));
+            tagPanel.setBorder(BorderFactory.createTitledBorder("选择已有标签"));
 
             for (String tag : tagSet) {
                 JCheckBox checkBox = new JCheckBox(tag);
@@ -144,6 +144,7 @@ public class AccountDialog extends JDialog {
 
         Box rowBox = Box.createVerticalBox();
         scrollPane = new JScrollPane(formBox);
+        scrollPane.setPreferredSize(new Dimension(370, 250));
         scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         rowBox.add(scrollPane);
         rowBox.add(Box.createVerticalStrut(15));
@@ -175,7 +176,6 @@ public class AccountDialog extends JDialog {
             tag.setText(tags);
         }
         rowBox.add(columnBox);
-
         contentPanel.add(rowBox);
 
         this.setContentPane(contentPanel);
