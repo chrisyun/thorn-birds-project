@@ -7,6 +7,7 @@ import org.thorn.spass.service.LocationService;
 import org.thorn.spass.view.AccountTable;
 import org.thorn.spass.view.MFrame;
 import org.thorn.spass.view.NoteDialog;
+import org.thorn.spass.view.TopMenuBar;
 
 import javax.swing.*;
 import java.awt.*;
@@ -43,23 +44,28 @@ public class LoadNoteAction extends AbsAction {
 
         if (StringUtils.isEmpty(filePath)) {
             JOptionPane.showMessageDialog(noteDialog, "请选择密码本", "错误", JOptionPane.WARNING_MESSAGE);
-        } else if (StringUtils.isEmpty(pwd)) {
-            JOptionPane.showMessageDialog(noteDialog, "请输入密码", "错误", JOptionPane.WARNING_MESSAGE);
         } else {
-            AccountService accountService = SpringContext.getBean(AccountService.class);
-            if(isCreate) {
-                accountService.createNote(filePath, pwd);
+            if (StringUtils.isEmpty(pwd)) {
+                JOptionPane.showMessageDialog(noteDialog, "请输入密码", "错误", JOptionPane.WARNING_MESSAGE);
             } else {
-                accountService.loadNote(filePath, pwd);
+                AccountService accountService = SpringContext.getBean(AccountService.class);
+                if (isCreate) {
+                    accountService.createNote(filePath, pwd);
+                } else {
+                    accountService.loadNote(filePath, pwd);
+                }
+
+                LocationService locationService = SpringContext.getBean(LocationService.class);
+                locationService.addOpenedNote(filePath);
+
+                AccountTable accountTable = new AccountTable();
+                MFrame.MAIN_FRAME.setMainPane(accountTable);
+
+                noteDialog.setVisible(false);
+
+                TopMenuBar topMenuBar = (TopMenuBar) MFrame.MAIN_FRAME.getJMenuBar();
+                topMenuBar.addOperationMenus();
             }
-
-            LocationService locationService = SpringContext.getBean(LocationService.class);
-            locationService.addOpenedNote(filePath);
-
-            AccountTable accountTable = new AccountTable();
-            MFrame.MAIN_FRAME.setMainPane(accountTable);
-
-            noteDialog.setVisible(false);
         }
     }
 }

@@ -3,6 +3,7 @@ package org.thorn.spass.view;
 import org.thorn.core.context.SpringContext;
 import org.thorn.spass.listener.CreateOrOpenNoteAction;
 import org.thorn.spass.listener.ExitAction;
+import org.thorn.spass.listener.OpenAccountDialogAction;
 import org.thorn.spass.service.LocationService;
 
 import javax.swing.*;
@@ -55,4 +56,22 @@ public class TopMenuBar extends JMenuBar {
 
         this.add(menu);
     }
+
+    public void addOperationMenus() {
+
+        if(this.getMenuCount() > 1) {
+            return ;
+        }
+
+        JMenu menu = new JMenu();
+        menu.setText("操作");
+
+        JMenuItem menuItem = new JMenuItem();
+        menuItem.setText("添加账号...    ");
+        menuItem.addActionListener(new OpenAccountDialogAction());
+        menu.add(menuItem);
+
+        this.add(menu);
+    }
+
 }
