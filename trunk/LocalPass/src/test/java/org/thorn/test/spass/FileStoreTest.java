@@ -3,6 +3,8 @@ package org.thorn.test.spass;
 import junit.framework.TestCase;
 import org.thorn.spass.storage.FileStore;
 
+import java.io.File;
+
 /**
  * @Author: yfchenyun
  * @Since: 13-8-28 上午10:25
@@ -18,6 +20,13 @@ public class FileStoreTest extends TestCase {
 
     public void testRead() throws Exception {
         System.out.println(fileStore.read("D:\\Document\\d.dat"));
+    }
+
+    public void testFileRName() {
+
+        File file = new File("D:\\opt\\parrot_log\\parrot.log.2013-09-05.log");
+
+        file.renameTo(new File("D:\\opt\\parrot_log\\data\\parrot.log.2013-08-26.log.bak"));
     }
 
 }

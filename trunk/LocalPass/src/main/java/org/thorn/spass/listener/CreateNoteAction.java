@@ -11,6 +11,7 @@ import org.thorn.spass.view.TopMenuBar;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.File;
 
 /**
  * @Author: yfchenyun
@@ -57,6 +58,15 @@ public class CreateNoteAction extends AbsAction {
                 filePath.append("\\").append(note);
             } else {
                 filePath.append(note);
+            }
+
+            File noteFile = new File(filePath.toString());
+            if(noteFile.exists()) {
+                int result = JOptionPane.showConfirmDialog(noteDialog, "文件已经存在，是否覆盖？", "文件已存在", JOptionPane.YES_NO_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE);
+                if (result == JOptionPane.NO_OPTION) {
+                    return ;
+                }
             }
 
             accountService.createNote(filePath.toString(), pwd);

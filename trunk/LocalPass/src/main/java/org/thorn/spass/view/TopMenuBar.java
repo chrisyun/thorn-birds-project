@@ -1,9 +1,7 @@
 package org.thorn.spass.view;
 
 import org.thorn.core.context.SpringContext;
-import org.thorn.spass.listener.NoteMenuAction;
-import org.thorn.spass.listener.ExitAction;
-import org.thorn.spass.listener.OpenAccountDialogAction;
+import org.thorn.spass.listener.*;
 import org.thorn.spass.service.LocationService;
 
 import javax.swing.*;
@@ -15,23 +13,29 @@ import javax.swing.*;
  */
 public class TopMenuBar extends JMenuBar {
 
+    private JMenu startMenu;
+
+    private JMenu helpMenu;
+
+    private JMenu operationMenu;
+
     public TopMenuBar() {
         super();
 
-        JMenu menu = new JMenu();
-        menu.setText("菜单");
+        startMenu = new JMenu();
+        startMenu.setText("菜单");
 
         JMenuItem menuItem = new JMenuItem();
         menuItem.setText("创建新密码本...    ");
         menuItem.addActionListener(new NoteMenuAction(null, true));
-        menu.add(menuItem);
+        startMenu.add(menuItem);
 
-        menu.addSeparator();
+        startMenu.addSeparator();
 
         menuItem = new JMenuItem();
         menuItem.setText("打开密码本...    ");
         menuItem.addActionListener(new NoteMenuAction(null, false));
-        menu.add(menuItem);
+        startMenu.add(menuItem);
 
         JMenu recentNote = new JMenu();
         recentNote.setText("打开最近密码本    ");
@@ -45,33 +49,70 @@ public class TopMenuBar extends JMenuBar {
             menuItem.addActionListener(new NoteMenuAction(note, false));
             recentNote.add(menuItem);
         }
-        menu.add(recentNote);
+        startMenu.add(recentNote);
+        startMenu.addSeparator();
 
-        menu.addSeparator();
+        menuItem = new JMenuItem();
+        menuItem.setText("设置密码本目录...    ");
+        menuItem.addActionListener(new OpenNotesFolderSettingAction());
+        startMenu.add(menuItem);
+        startMenu.addSeparator();
 
         menuItem = new JMenuItem();
         menuItem.setText("退出");
         menuItem.addActionListener(new ExitAction(MFrame.MAIN_FRAME));
-        menu.add(menuItem);
+        startMenu.add(menuItem);
 
-        this.add(menu);
+        this.add(startMenu);
+
+        helpMenu = new JMenu();
+        helpMenu.setText("帮助");
+        menuItem = new JMenuItem();
+        menuItem.setText("关于LocalPass");
+        helpMenu.add(menuItem);
+
+        this.add(helpMenu);
     }
 
     public void addOperationMenus() {
 
-        if(this.getMenuCount() > 1) {
+        if(this.operationMenu != null) {
             return ;
         }
 
-        JMenu menu = new JMenu();
-        menu.setText("操作");
+        operationMenu = new JMenu();
+        operationMenu.setText("操作");
 
         JMenuItem menuItem = new JMenuItem();
         menuItem.setText("添加账号...    ");
         menuItem.addActionListener(new OpenAccountDialogAction());
-        menu.add(menuItem);
+        operationMenu.add(menuItem);
 
-        this.add(menu);
+        operationMenu.addSeparator();
+
+        menuItem = new JMenuItem();
+        menuItem.setText("修改密码...    ");
+        menuItem.addActionListener(new OpenModifyPwdAction());
+        operationMenu.add(menuItem);
+
+        operationMenu.addSeparator();
+
+        menuItem = new JMenuItem();
+        menuItem.setText("注销    ");
+        menuItem.addActionListener(new LogoutAction());
+        operationMenu.add(menuItem);
+
+        this.removeAll();
+        this.add(startMenu);
+        this.add(operationMenu);
+        this.add(helpMenu);
+    }
+
+    public void removeOperationMenus() {
+        this.operationMenu = null;
+        this.removeAll();
+        this.add(startMenu);
+        this.add(helpMenu);
     }
 
 }

@@ -23,6 +23,10 @@ public class SessionService {
         session = new Session(xml, accountList, tags, filePath, password);
     }
 
+    public void clearSession() {
+        session = null;
+    }
+
     public String getCurrentXml() {
         Assert.notNull(session);
         return session.getXml();

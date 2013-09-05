@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thorn.spass.storage.LocationManager;
 
+import java.io.File;
+
 /**
  * @Author: yfchenyun
  * @Since: 13-8-29 上午10:55
@@ -46,5 +48,19 @@ public class LocationService {
         locationManager.setLocation(StringUtils.join(newNotes, ";"));
     }
 
+    public void setNotesSaveFolder(String folder) {
+        locationManager.setDataFolder(folder);
+    }
+
+    public String getNotesSaveFolder() {
+        String folder =  locationManager.getDataFolder();
+
+        File file = new File(folder);
+        if(!file.exists()) {
+            file.mkdirs();
+        }
+
+        return folder;
+    }
 
 }

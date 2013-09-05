@@ -1,8 +1,11 @@
 package org.thorn.spass.storage;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @Author: yfchenyun
@@ -18,11 +21,11 @@ public class FileStore {
         File file = new File(fileName);
         File folder = new File(file.getParent());
 
-        if(!folder.exists()) {
+        if (!folder.exists()) {
             folder.mkdirs();
         }
 
-        if(!file.exists()) {
+        if (!file.exists()) {
             file.createNewFile();
         }
 
@@ -42,7 +45,7 @@ public class FileStore {
     public String read(String fileName) throws IOException {
         File file = new File(fileName);
 
-        if(!file.exists()) {
+        if (!file.exists()) {
             throw new IOException(fileName + " not exists!");
         }
 
