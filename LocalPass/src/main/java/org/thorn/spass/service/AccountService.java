@@ -11,11 +11,12 @@ import org.thorn.spass.exception.SPassException;
 import org.thorn.spass.storage.FileStore;
 import org.thorn.spass.storage.XmlParser;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @Author: yfchenyun
@@ -34,12 +35,41 @@ public class AccountService {
     @Autowired
     private SessionService sessionService;
 
+    @Autowired
+    private LocationService locationService;
+
+    private void autoBackUp(String fileName) {
+        File file = new File(fileName);
+
+        if(!file.exists()) {
+            return ;
+        }
+
+        long lastModifiedTime = file.lastModified();
+        long autoBackupTime = 1000 * 60 * 60 * 5;
+        if (System.currentTimeMillis() - lastModifiedTime > autoBackupTime) {
+            File backUpFolder = new File(locationService.getNotesSaveFolder(), "backup");
+
+            if(!backUpFolder.exists()) {
+                backUpFolder.mkdirs();
+            }
+
+            SimpleDateFormat df = new SimpleDateFormat("MMddHH");
+
+            String name = file.getName() + "-" + df.format(new Date()) + ".bak";
+
+            file.renameTo(new File(backUpFolder, name));
+        }
+    }
+
+
     public void createNote(String filePath, String password) throws Exception {
 
         String root = "<Note></Note>";
         String aesKey = MD5Utils.encodeBySalt(password, password);
         String content = AESUtils.encrypt(root, aesKey);
 
+        this.autoBackUp(filePath);
         fileStore.write(filePath, content);
         sessionService.loadSession(filePath, root, new ArrayList<Account>(), new HashSet<String>(), aesKey);
     }
@@ -51,6 +81,7 @@ public class AccountService {
             String xml = xmlParser.addNode(sessionService.getCurrentXml(), account);
             String content = AESUtils.encrypt(xml, sessionService.getCurrentPassword());
 
+            this.autoBackUp(sessionService.getCurrentFilePath());
             fileStore.write(sessionService.getCurrentFilePath(), content);
 
             this.loadNoteByAesKey(sessionService.getCurrentFilePath(), sessionService.getCurrentPassword());
@@ -66,6 +97,7 @@ public class AccountService {
             String xml = xmlParser.modifyNode(sessionService.getCurrentXml(), account);
             String content = AESUtils.encrypt(xml, sessionService.getCurrentPassword());
 
+            this.autoBackUp(sessionService.getCurrentFilePath());
             fileStore.write(sessionService.getCurrentFilePath(), content);
 
             this.loadNoteByAesKey(sessionService.getCurrentFilePath(), sessionService.getCurrentPassword());
@@ -81,6 +113,7 @@ public class AccountService {
             String xml = xmlParser.delNode(sessionService.getCurrentXml(), account);
             String content = AESUtils.encrypt(xml, sessionService.getCurrentPassword());
 
+            this.autoBackUp(sessionService.getCurrentFilePath());
             fileStore.write(sessionService.getCurrentFilePath(), content);
 
             this.loadNoteByAesKey(sessionService.getCurrentFilePath(), sessionService.getCurrentPassword());
@@ -180,11 +213,52 @@ public class AccountService {
                 }
             }
 
-            sessionService.loadSession(filePath, xml, accountList, tagSet, password);
+            sessionService.loadSession(filePath, xml, accountList, tagSet, aesKey);
         } catch (DocumentException e) {
             throw new SPassException("密码错误，解析失败", e);
         }
     }
 
+    public boolean verifyPassword(String password) throws SPassException {
 
+        String aesKey = null;
+        try {
+            aesKey = MD5Utils.encodeBySalt(password, password);
+        } catch (Exception e) {
+            throw new SPassException("验证密码错误", e);
+        }
+
+        if(StringUtils.equals(aesKey, sessionService.getCurrentPassword())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void modifyPassword(String password)  throws SPassException {
+        String xml = sessionService.getCurrentXml();
+
+        String aesKey = null;
+        try {
+            aesKey = MD5Utils.encodeBySalt(password, password);
+        } catch (Exception e) {
+            throw new SPassException("验证密码错误", e);
+        }
+
+        String content = null;
+        try {
+            content = AESUtils.encrypt(xml, aesKey);
+        } catch (Exception e) {
+            throw new SPassException("加密文件出错", e);
+        }
+
+        try {
+            this.autoBackUp(sessionService.getCurrentFilePath());
+            fileStore.write(sessionService.getCurrentFilePath(), content);
+        } catch (IOException e) {
+            throw new SPassException("修改密码出错", e);
+        }
+
+        loadNoteByAesKey(sessionService.getCurrentFilePath(), aesKey);
+    }
 }

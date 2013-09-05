@@ -1,9 +1,11 @@
 package org.thorn.spass.view;
 
 import org.apache.commons.lang.StringUtils;
+import org.thorn.core.context.SpringContext;
 import org.thorn.core.swing.PositionUtils;
 import org.thorn.spass.listener.CreateNoteAction;
 import org.thorn.spass.listener.LoadNoteAction;
+import org.thorn.spass.service.LocationService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,20 +30,16 @@ public class CreateNoteDialog extends JDialog {
 
     public CreateNoteDialog() {
         super(MFrame.MAIN_FRAME, true);
-        this.setBounds(PositionUtils.locationInCenter(MFrame.MAIN_FRAME.getBounds(), 280, 260));
+        this.setBounds(PositionUtils.locationInCenter(MFrame.MAIN_FRAME.getBounds(), 270, 240));
 
         JPanel contentPanel = new JPanel();
-        contentPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
-        Box rowBox = Box.createVerticalBox();
-        contentPanel.add(rowBox);
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
-        Box columnBox = Box.createHorizontalBox();
-
+        JPanel labelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JLabel label = new JLabel("目录：");
-        columnBox.add(label);
-        columnBox.add(Box.createHorizontalStrut(220));
-        rowBox.add(columnBox);
-        rowBox.add(Box.createVerticalStrut(5));
+        labelPanel.add(label);
+        contentPanel.add(labelPanel);
 
         folder = new JTextField();
         folder.setEditable(false);
@@ -49,6 +47,12 @@ public class CreateNoteDialog extends JDialog {
         final JDialog thisDialog = this;
 
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+        LocationService locationService = SpringContext.getBean(LocationService.class);
+        String folderPath = locationService.getNotesSaveFolder();
+        fileChooser.setCurrentDirectory(new File(folderPath));
+        folder.setText(folderPath);
+
         fileChooser.setApproveButtonText("选择密码本存放目录");
         fileChooser.setDialogTitle("请选择目录");
 
@@ -65,48 +69,36 @@ public class CreateNoteDialog extends JDialog {
             }
         });
 
-        columnBox = Box.createHorizontalBox();
+        Box columnBox = Box.createHorizontalBox();
         columnBox.add(folder);
         columnBox.add(Box.createHorizontalStrut(5));
         columnBox.add(fileBtn);
-        rowBox.add(columnBox);
-        rowBox.add(Box.createVerticalStrut(10));
+        contentPanel.add(columnBox);
 
+        labelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         label = new JLabel("密码本名称：");
-        columnBox = Box.createHorizontalBox();
-        columnBox.add(label);
-        columnBox.add(Box.createHorizontalStrut(180));
-        rowBox.add(columnBox);
-        rowBox.add(Box.createVerticalStrut(5));
+        labelPanel.add(label);
+        contentPanel.add(labelPanel);
 
         noteName = new JTextField();
-        noteName.setPreferredSize(new Dimension(205, 27));
-        rowBox.add(noteName);
-        rowBox.add(Box.createVerticalStrut(10));
+        noteName.setPreferredSize(new Dimension(noteName.getWidth(), 27));
+        contentPanel.add(noteName);
 
+        labelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         label = new JLabel("密码：");
-        columnBox = Box.createHorizontalBox();
-        columnBox.add(label);
-        columnBox.add(Box.createHorizontalStrut(220));
-        rowBox.add(columnBox);
-        rowBox.add(Box.createVerticalStrut(5));
+        labelPanel.add(label);
+        contentPanel.add(labelPanel);
 
         passwordField = new JPasswordField();
-        passwordField.setPreferredSize(new Dimension(205, 27));
-        rowBox.add(passwordField);
-        rowBox.add(Box.createVerticalStrut(10));
+        passwordField.setPreferredSize(new Dimension(passwordField.getWidth(), 27));
+        contentPanel.add(passwordField);
+        contentPanel.add(Box.createVerticalStrut(5));
 
         JButton button = new JButton();
-
         this.setTitle("创建新密码本");
         button.setText("创建");
         button.addActionListener(new CreateNoteAction(this, folder, noteName, passwordField));
-
-        columnBox = Box.createHorizontalBox();
-        columnBox.add(Box.createHorizontalStrut(100));
-        columnBox.add(button);
-        columnBox.add(Box.createHorizontalStrut(100));
-        rowBox.add(columnBox);
+        contentPanel.add(button);
 
         this.addWindowListener(new WindowAdapter() {
             @Override

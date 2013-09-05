@@ -45,4 +45,11 @@ public class MFrame extends JFrame {
         this.contentPane.add(contentPane);
         this.contentPane.updateUI();
     }
+
+    public void removeMainPane() {
+        TagSearchAction.clearSelectedTags();
+
+        this.contentPane.removeAll();
+        this.contentPane.updateUI();
+    }
 }

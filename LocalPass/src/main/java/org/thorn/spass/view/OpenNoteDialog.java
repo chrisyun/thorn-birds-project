@@ -1,8 +1,10 @@
 package org.thorn.spass.view;
 
 import org.apache.commons.lang.StringUtils;
+import org.thorn.core.context.SpringContext;
 import org.thorn.core.swing.PositionUtils;
 import org.thorn.spass.listener.LoadNoteAction;
+import org.thorn.spass.service.LocationService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,20 +27,16 @@ public class OpenNoteDialog extends JDialog {
 
     public OpenNoteDialog(final String filePath) {
         super(MFrame.MAIN_FRAME, true);
-        this.setBounds(PositionUtils.locationInCenter(MFrame.MAIN_FRAME.getBounds(), 280, 200));
+        this.setBounds(PositionUtils.locationInCenter(MFrame.MAIN_FRAME.getBounds(), 270, 190));
 
         JPanel contentPanel = new JPanel();
-        contentPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
-        Box rowBox = Box.createVerticalBox();
-        contentPanel.add(rowBox);
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
-        Box columnBox = Box.createHorizontalBox();
-
+        JPanel labelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JLabel label = new JLabel("文件地址：");
-        columnBox.add(label);
-        columnBox.add(Box.createHorizontalStrut(200));
-        rowBox.add(columnBox);
-        rowBox.add(Box.createVerticalStrut(5));
+        labelPanel.add(label);
+        contentPanel.add(labelPanel);
 
         file = new JTextField();
         file.setEditable(false);
@@ -47,6 +45,10 @@ public class OpenNoteDialog extends JDialog {
         if (StringUtils.isNotBlank(filePath)) {
             file.setText(filePath);
             fileChooser.setCurrentDirectory(new File(filePath).getParentFile());
+        } else {
+            LocationService locationService = SpringContext.getBean(LocationService.class);
+            String folderPath = locationService.getNotesSaveFolder();
+            fileChooser.setCurrentDirectory(new File(folderPath));
         }
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.setApproveButtonText("选择密码本");
@@ -65,36 +67,28 @@ public class OpenNoteDialog extends JDialog {
             }
         });
 
-        columnBox = Box.createHorizontalBox();
+        Box columnBox = Box.createHorizontalBox();
         columnBox.add(file);
         columnBox.add(Box.createHorizontalStrut(5));
         columnBox.add(fileBtn);
-        rowBox.add(columnBox);
-        rowBox.add(Box.createVerticalStrut(10));
+        contentPanel.add(columnBox);
 
+        labelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         label = new JLabel("密码：");
-        columnBox = Box.createHorizontalBox();
-        columnBox.add(label);
-        columnBox.add(Box.createHorizontalStrut(220));
-        rowBox.add(columnBox);
-        rowBox.add(Box.createVerticalStrut(5));
+        labelPanel.add(label);
+        contentPanel.add(labelPanel);
 
         passwordField = new JPasswordField();
-        passwordField.setPreferredSize(new Dimension(205, 27));
-        rowBox.add(passwordField);
-        rowBox.add(Box.createVerticalStrut(10));
+        passwordField.setPreferredSize(new Dimension(passwordField.getWidth(), 27));
+        contentPanel.add(passwordField);
+        contentPanel.add(Box.createVerticalStrut(10));
 
         JButton button = new JButton();
 
         this.setTitle("打开密码本");
         button.setText("打开");
         button.addActionListener(new LoadNoteAction(this, file, passwordField));
-
-        columnBox = Box.createHorizontalBox();
-        columnBox.add(Box.createHorizontalStrut(100));
-        columnBox.add(button);
-        columnBox.add(Box.createHorizontalStrut(100));
-        rowBox.add(columnBox);
+        contentPanel.add(button);
 
         this.addWindowListener(new WindowAdapter() {
             @Override
