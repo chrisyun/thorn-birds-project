@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class AccountTableModal extends AbstractTableModel {
 
-    private static final String[] HEADER = {"网站地址", "账号", "密码", "备注"};
+    private static final String[] HEADER = {"网站地址", "账号", "密码"};
 
     private List<Account> data;
 

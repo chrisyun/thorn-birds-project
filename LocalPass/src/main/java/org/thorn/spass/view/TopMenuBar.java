@@ -1,7 +1,7 @@
 package org.thorn.spass.view;
 
 import org.thorn.core.context.SpringContext;
-import org.thorn.spass.listener.CreateOrOpenNoteAction;
+import org.thorn.spass.listener.NoteMenuAction;
 import org.thorn.spass.listener.ExitAction;
 import org.thorn.spass.listener.OpenAccountDialogAction;
 import org.thorn.spass.service.LocationService;
@@ -23,14 +23,14 @@ public class TopMenuBar extends JMenuBar {
 
         JMenuItem menuItem = new JMenuItem();
         menuItem.setText("创建新密码本...    ");
-        menuItem.addActionListener(new CreateOrOpenNoteAction(null, true));
+        menuItem.addActionListener(new NoteMenuAction(null, true));
         menu.add(menuItem);
 
         menu.addSeparator();
 
         menuItem = new JMenuItem();
         menuItem.setText("打开密码本...    ");
-        menuItem.addActionListener(new CreateOrOpenNoteAction(null, false));
+        menuItem.addActionListener(new NoteMenuAction(null, false));
         menu.add(menuItem);
 
         JMenu recentNote = new JMenu();
@@ -42,7 +42,7 @@ public class TopMenuBar extends JMenuBar {
         for (String note : recentNotes) {
             menuItem = new JMenuItem();
             menuItem.setText(note);
-            menuItem.addActionListener(new CreateOrOpenNoteAction(note, false));
+            menuItem.addActionListener(new NoteMenuAction(note, false));
             recentNote.add(menuItem);
         }
         menu.add(recentNote);

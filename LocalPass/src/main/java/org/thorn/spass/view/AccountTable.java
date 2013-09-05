@@ -7,6 +7,7 @@ import org.thorn.spass.listener.TagSearchAction;
 import org.thorn.spass.service.AccountService;
 
 import javax.swing.*;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.util.Set;
 
@@ -30,10 +31,10 @@ public class AccountTable extends JPanel {
         if (tagSet != null && tagSet.size() > 0) {
 
             JPanel tagPanel = new JPanel();
-            tagPanel.setLayout(new GridLayout(tagSet.size() / 3, 3));
+            tagPanel.setPreferredSize(new Dimension(570, 60));
+            tagPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
             for (String tag : tagSet) {
                 JCheckBox checkBox = new JCheckBox(tag);
-
                 checkBox.addItemListener(new TagSearchAction(this));
                 tagPanel.add(checkBox);
             }
@@ -42,14 +43,16 @@ public class AccountTable extends JPanel {
         }
 
         table = new JTable(new AccountTableModal(null));
-        table.setPreferredScrollableViewportSize(new Dimension(590, 330));
+        JTableHeader header = table.getTableHeader();
+        header.setPreferredSize(new Dimension(header.getWidth(), 25));
+        table.setRowHeight(22);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
         // set table double click
         table.setColumnSelectionAllowed(false);
         table.setRowSelectionAllowed(true);
-        JScrollPane tableScrollPanel = new JScrollPane(table);
-
         table.addMouseListener(new OpenAccountDialogListener(table));
+        JScrollPane tableScrollPanel = new JScrollPane(table);
+        tableScrollPanel.setPreferredSize(new Dimension(590, 300));
 
         Box rowBox = Box.createVerticalBox();
         JScrollPane jScrollPane = new JScrollPane(queryPanel);
@@ -59,6 +62,7 @@ public class AccountTable extends JPanel {
         rowBox.add(tableScrollPanel);
 
         this.add(rowBox);
+        this.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
     }
 
     public void query(Set<String> tags) throws Exception {
