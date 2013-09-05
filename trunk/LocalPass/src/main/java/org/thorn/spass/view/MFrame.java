@@ -23,11 +23,11 @@ public class MFrame extends JFrame {
 
         MAIN_FRAME = this;
 
-        GlobalSettingUtils.initGlobalFontSetting(new Font("微软雅黑", Font.PLAIN, 12));
+        GlobalSettingUtils.initGlobalFontSetting(new Font("微软雅黑", Font.PLAIN, 13));
 
         this.setTitle("LocalPass");
         this.setIconImage(ImageUtils.getIconFromCls("/icons/logo.png").getImage());
-        this.setBounds(300, 100, 600, 500);
+        this.setBounds(300, 100, 620, 500);
 
         this.contentPane = new JPanel();
         this.contentPane.setLayout(new BorderLayout(0, 0));

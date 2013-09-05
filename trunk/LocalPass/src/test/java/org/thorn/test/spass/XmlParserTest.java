@@ -1,6 +1,7 @@
 package org.thorn.test.spass;
 
 import junit.framework.TestCase;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
 import org.thorn.spass.entity.Account;
 import org.thorn.spass.storage.XmlParser;
@@ -74,5 +75,18 @@ public class XmlParserTest extends TestCase {
 
         List<Account> list2 = xmlParser.parse(newXml);
         Assert.isTrue(list2.size() == 2);
+    }
+
+    public void testSplit() {
+
+        String a = "aaaa";
+
+        String[] a1 = a.split("#");
+
+        System.out.println(a1.length + "---" + a1[0]);
+
+        String[] a2 = StringUtils.split(a, "#");
+        System.out.println(a2.length + "---" + a2[0]);
+
     }
 }

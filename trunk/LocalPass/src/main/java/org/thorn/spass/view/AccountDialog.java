@@ -114,7 +114,7 @@ public class AccountDialog extends JDialog {
         if (tagSet != null && tagSet.size() > 0) {
 
             JPanel tagPanel = new JPanel();
-            tagPanel.setLayout(new GridLayout(tagSet.size() / 3, 4));
+            tagPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
             tagPanel.setBorder(BorderFactory.createTitledBorder("选择已有标签"));
 
             for (String tag : tagSet) {
@@ -184,29 +184,29 @@ public class AccountDialog extends JDialog {
     }
 
     public Account getFormData() {
-        Account account = new Account();
+        Account ac = new Account();
 
         if (this.account != null) {
-            account.setId(account.getId());
+            ac.setId(this.account.getId());
         }
 
-        String tags = this.remark.getText();
+        String tags = this.tag.getText();
         String[] tagArray = StringUtils.split(tags, "#");
 
-        account.setAddress(this.address.getText());
-        account.setUsername(this.username.getText());
-        account.setPassword(this.password.getText());
-        account.setTag(new HashSet<String>());
-        account.setRemark(this.remark.getText());
+        ac.setAddress(this.address.getText());
+        ac.setUsername(this.username.getText());
+        ac.setPassword(this.password.getText());
+        ac.setTag(new HashSet<String>());
+        ac.setRemark(this.remark.getText());
 
         for (String tag : tagArray) {
 
             if (StringUtils.isNotBlank(tag)) {
-                account.getTag().add(tag);
+                ac.getTag().add(tag);
             }
         }
 
-        return account;
+        return ac;
     }
 
 

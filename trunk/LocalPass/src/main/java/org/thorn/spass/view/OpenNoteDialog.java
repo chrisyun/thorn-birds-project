@@ -17,14 +17,14 @@ import java.io.File;
  * @Since: 13-9-3 下午2:27
  * @Version: 1.0
  */
-public class NoteDialog extends JDialog {
+public class OpenNoteDialog extends JDialog {
 
     private JTextField file;
 
     private JPasswordField passwordField;
 
-    public NoteDialog(Frame owner, boolean isCreate, final String filePath) {
-        super(owner, true);
+    public OpenNoteDialog(final String filePath) {
+        super(MFrame.MAIN_FRAME, true);
         this.setBounds(PositionUtils.locationInCenter(MFrame.MAIN_FRAME.getBounds(), 280, 200));
 
         JPanel contentPanel = new JPanel();
@@ -44,7 +44,7 @@ public class NoteDialog extends JDialog {
         file.setEditable(false);
         final JFileChooser fileChooser = new JFileChooser();
         final JDialog thisDialog = this;
-        if (!isCreate && StringUtils.isNotBlank(filePath)) {
+        if (StringUtils.isNotBlank(filePath)) {
             file.setText(filePath);
             fileChooser.setCurrentDirectory(new File(filePath).getParentFile());
         }
@@ -86,14 +86,9 @@ public class NoteDialog extends JDialog {
 
         JButton button = new JButton();
 
-        if (isCreate) {
-            this.setTitle("创建新密码本");
-            button.setText("创建");
-        } else {
-            this.setTitle("打开密码本");
-            button.setText("打开");
-        }
-        button.addActionListener(new LoadNoteAction(this, file, passwordField, isCreate));
+        this.setTitle("打开密码本");
+        button.setText("打开");
+        button.addActionListener(new LoadNoteAction(this, file, passwordField));
 
         columnBox = Box.createHorizontalBox();
         columnBox.add(Box.createHorizontalStrut(100));

@@ -1,11 +1,9 @@
 package org.thorn.spass.listener;
 
-import org.apache.commons.lang.StringUtils;
+import org.thorn.spass.view.CreateNoteDialog;
 import org.thorn.spass.view.MFrame;
-import org.thorn.spass.view.NoteDialog;
+import org.thorn.spass.view.OpenNoteDialog;
 
-import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 
 /**
@@ -13,13 +11,13 @@ import java.awt.event.ActionEvent;
  * @Since: 13-9-3 下午3:04
  * @Version: 1.0
  */
-public class CreateOrOpenNoteAction extends AbsAction {
+public class NoteMenuAction extends AbsAction {
 
     private String filePath;
 
     private boolean isCreate;
 
-    public CreateOrOpenNoteAction(String filePath, boolean isCreate) {
+    public NoteMenuAction(String filePath, boolean isCreate) {
         super(MFrame.MAIN_FRAME);
         this.filePath = filePath;
         this.isCreate = isCreate;
@@ -27,6 +25,11 @@ public class CreateOrOpenNoteAction extends AbsAction {
 
     @Override
     public void action(ActionEvent e) throws Exception {
-        NoteDialog dialog = new NoteDialog(MFrame.MAIN_FRAME, isCreate, filePath);
+
+        if(isCreate) {
+            CreateNoteDialog dialog = new CreateNoteDialog();
+        } else {
+            OpenNoteDialog dialog =new OpenNoteDialog(filePath);
+        }
     }
 }

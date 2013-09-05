@@ -6,7 +6,6 @@ import org.thorn.spass.service.AccountService;
 import org.thorn.spass.service.LocationService;
 import org.thorn.spass.view.AccountTable;
 import org.thorn.spass.view.MFrame;
-import org.thorn.spass.view.NoteDialog;
 import org.thorn.spass.view.TopMenuBar;
 
 import javax.swing.*;
@@ -24,16 +23,13 @@ public class LoadNoteAction extends AbsAction {
 
     private JPasswordField passwordField;
 
-    private NoteDialog noteDialog;
+    private JDialog noteDialog;
 
-    private boolean isCreate;
-
-    public LoadNoteAction(Component parentComp, JTextField file, JPasswordField passwordField, boolean isCreate) {
+    public LoadNoteAction(Component parentComp, JTextField file, JPasswordField passwordField) {
         super(parentComp);
-        this.noteDialog = (NoteDialog) parentComp;
+        this.noteDialog = (JDialog) parentComp;
         this.file = file;
         this.passwordField = passwordField;
-        this.isCreate = isCreate;
     }
 
     @Override
@@ -49,11 +45,7 @@ public class LoadNoteAction extends AbsAction {
                 JOptionPane.showMessageDialog(noteDialog, "请输入密码", "错误", JOptionPane.WARNING_MESSAGE);
             } else {
                 AccountService accountService = SpringContext.getBean(AccountService.class);
-                if (isCreate) {
-                    accountService.createNote(filePath, pwd);
-                } else {
-                    accountService.loadNote(filePath, pwd);
-                }
+                accountService.loadNote(filePath, pwd);
 
                 LocationService locationService = SpringContext.getBean(LocationService.class);
                 locationService.addOpenedNote(filePath);
