@@ -4,11 +4,11 @@
 <!-- 设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false -->
 <configuration scan="false" scanPeriod="60 seconds" debug="false">
 	<!-- 设置上下文名称 -->
-	<contextName>spass</contextName>
+	<contextName>localPass</contextName>
 
 	<!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径 -->
 	<!-- 变量定义 -->
-	<property name="LOG_HOME" value="d:/opt/parrot_log" />
+	<property name="LOG_HOME" value="../log" />
 
 	<!-- 控制台输出 -->
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -37,7 +37,7 @@
 		<!-- 不支持文件压缩，不能设置file属性 -->
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!--日志文件输出的文件名 -->
-			<FileNamePattern>${LOG_HOME}/parrot.log.%d{yyyy-MM-dd}.log
+			<FileNamePattern>${LOG_HOME}/localPass.log.%d{yyyy-MM-dd}.log
 			</FileNamePattern>
 			<!-- 控制保留的归档文件的最大数量，如30则保留最近30天的文件 -->
 			<MaxHistory>30</MaxHistory>
