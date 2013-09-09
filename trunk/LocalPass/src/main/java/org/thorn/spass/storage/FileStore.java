@@ -2,10 +2,14 @@ package org.thorn.spass.storage;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.stereotype.Service;
+import org.thorn.core.excel.ArrayAdapter;
 
 import java.io.*;
+import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author: yfchenyun
@@ -15,7 +19,7 @@ import java.util.Date;
 @Service
 public class FileStore {
 
-    private static String CHARSET_CODE = "UTF-16BE";
+    private static String CHARSET_CODE = "UTF-8";
 
     public void write(String fileName, String content) throws IOException {
         File file = new File(fileName);
@@ -64,5 +68,4 @@ public class FileStore {
 
         return content.toString();
     }
-
 }
