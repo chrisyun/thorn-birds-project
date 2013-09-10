@@ -7,7 +7,7 @@ import java.util.Set;
  * @Since: 13-8-26 下午2:49
  * @Version: 1.0
  */
-public class Account {
+public class Account implements Comparable<Account> {
 
     private String id;
 
@@ -67,5 +67,17 @@ public class Account {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+
+    @Override
+    public int compareTo(Account o) {
+        if(o.getAddress() == null) {
+            return -1;
+        } else if(this.address == null) {
+            return 1;
+        } else {
+            return o.getAddress().compareTo(this.address);
+        }
     }
 }

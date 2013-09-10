@@ -74,6 +74,7 @@ public class NotesFolderSettingDialog extends JDialog {
         this.setTitle("设置密码本存放目录");
         button.setText("确定");
         button.addActionListener(new SettingNotesFolderAction(this, folder));
+        this.getRootPane().setDefaultButton(button);
         columnBox = Box.createHorizontalBox();
         columnBox.add(button);
         columnBox.add(Box.createHorizontalStrut(10));

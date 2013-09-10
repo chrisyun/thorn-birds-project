@@ -74,6 +74,7 @@ public class ModifyPwdDialog extends JDialog {
         button.addActionListener(new ModifyPwdAction(this, curPwdField, newPwdField, repeatPwdField));
         formBox.add(button);
 
+        this.getRootPane().setDefaultButton(button);
         contentPanel.add(formBox);
         this.setContentPane(contentPanel);
         this.setResizable(false);
