@@ -99,6 +99,7 @@ public class CreateNoteDialog extends JDialog {
         button.setText("创建");
         button.addActionListener(new CreateNoteAction(this, folder, noteName, passwordField));
         contentPanel.add(button);
+        this.getRootPane().setDefaultButton(button);
 
         this.addWindowListener(new WindowAdapter() {
             @Override

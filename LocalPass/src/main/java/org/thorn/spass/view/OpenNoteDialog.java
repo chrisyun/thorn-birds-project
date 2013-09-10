@@ -89,6 +89,7 @@ public class OpenNoteDialog extends JDialog {
         button.setText("打开");
         button.addActionListener(new LoadNoteAction(this, file, passwordField));
         contentPanel.add(button);
+        this.getRootPane().setDefaultButton(button);
 
         this.addWindowListener(new WindowAdapter() {
             @Override

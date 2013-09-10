@@ -124,7 +124,10 @@ public class AccountDialog extends JDialog {
                 tagPanel.add(checkBox);
             }
 
-            formBox.add(tagPanel);
+            JScrollPane scrollPane = new JScrollPane(tagPanel);
+            scrollPane.setPreferredSize(new Dimension(320, 90));
+            scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+            formBox.add(scrollPane);
             formBox.add(Box.createVerticalStrut(10));
         }
 
@@ -150,7 +153,7 @@ public class AccountDialog extends JDialog {
         rowBox.add(Box.createVerticalStrut(15));
 
         columnBox = Box.createHorizontalBox();
-        // TODO
+
         if (account == null) {
             JButton button = new JButton("创  建");
             button.addActionListener(new AccountOperateAction(this, AccountOperateEnum.ADD));

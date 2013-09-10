@@ -53,16 +53,23 @@ public class FileStore {
             throw new IOException(fileName + " not exists!");
         }
 
-        byte[] bytes = new byte[1024];
         StringBuilder content = new StringBuilder();
         InputStream input = null;
+        BufferedReader reader = null;
 
         try {
             input = new FileInputStream(file);
-            while (input.read(bytes) != -1) {
-                content.append(new String(bytes, CHARSET_CODE));
+            InputStreamReader streamReader = new InputStreamReader(input, CHARSET_CODE);
+            reader = new BufferedReader(streamReader);
+            content.append(reader.readLine());
+
+            String str = null;
+            while ((str = reader.readLine()) != null) {
+                content.append("\n");
+                content.append(str);
             }
         } finally {
+            reader.close();
             input.close();
         }
 
