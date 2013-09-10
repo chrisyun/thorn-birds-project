@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class AccountTableModal extends AbstractTableModel {
 
-    private static final String[] HEADER = {"网站地址", "账号", "密码"};
+    private static final String[] HEADER = {"网站地址", "账号", "标签"};
 
     private List<Account> data;
 
@@ -41,7 +41,13 @@ public class AccountTableModal extends AbstractTableModel {
                 value = account.getUsername();
                 break;
             case 2:
-                value = account.getPassword();
+                Set<String> tags = account.getTag();
+                StringBuilder stringBuilder = new StringBuilder();
+                for(String tag : tags) {
+                    stringBuilder.append(tag).append("#");
+                }
+
+                value = stringBuilder.toString();
                 break;
             case 3:
                 value = account.getRemark();
