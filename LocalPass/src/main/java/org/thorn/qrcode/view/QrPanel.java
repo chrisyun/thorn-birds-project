@@ -44,6 +44,7 @@ public class QrPanel extends JPanel {
         folderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         folderChooser.setApproveButtonText("选择目录");
         folderChooser.setDialogTitle("请选择二维图片生成目录");
+        folderChooser.setCurrentDirectory(new File(dir));
 
         final JPanel thisPanel = this;
         JButton fileBtn = new JButton("选择");
