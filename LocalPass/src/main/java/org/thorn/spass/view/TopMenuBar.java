@@ -1,6 +1,8 @@
 package org.thorn.spass.view;
 
 import org.thorn.core.context.SpringContext;
+import org.thorn.qrcode.listener.LoadQrPanelAction;
+import org.thorn.reader.listener.LoadReaderPanelAction;
 import org.thorn.spass.listener.*;
 import org.thorn.spass.service.LocationService;
 
@@ -18,6 +20,8 @@ public class TopMenuBar extends JMenuBar {
     private JMenu helpMenu;
 
     private JMenu operationMenu;
+
+    private JMenu toolMenu;
 
     public TopMenuBar() {
         super();
@@ -65,6 +69,23 @@ public class TopMenuBar extends JMenuBar {
 
         this.add(startMenu);
 
+        toolMenu = new JMenu();
+        toolMenu.setText("工具");
+
+        menuItem = new JMenuItem();
+        menuItem.setText("电子书转换    ");
+        menuItem.addActionListener(new LoadReaderPanelAction());
+        toolMenu.add(menuItem);
+
+        toolMenu.addSeparator();
+
+        menuItem = new JMenuItem();
+        menuItem.setText("二维码生成    ");
+        menuItem.addActionListener(new LoadQrPanelAction());
+        toolMenu.add(menuItem);
+
+        this.add(toolMenu);
+
         helpMenu = new JMenu();
         helpMenu.setText("帮助");
         menuItem = new JMenuItem();
@@ -105,6 +126,7 @@ public class TopMenuBar extends JMenuBar {
         this.removeAll();
         this.add(startMenu);
         this.add(operationMenu);
+        this.add(toolMenu);
         this.add(helpMenu);
     }
 
@@ -112,6 +134,7 @@ public class TopMenuBar extends JMenuBar {
         this.operationMenu = null;
         this.removeAll();
         this.add(startMenu);
+        this.add(toolMenu);
         this.add(helpMenu);
     }
 
