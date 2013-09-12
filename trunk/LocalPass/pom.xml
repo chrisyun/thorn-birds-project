@@ -25,6 +25,11 @@
             <version>1.0.1</version>
         </dependency>
         <dependency>
+            <groupId>org.thorn</groupId>
+            <artifactId>qrcode-lib</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.9</version>
