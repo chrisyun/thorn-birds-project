@@ -82,7 +82,7 @@
                 <executions>
                     <execution>
                         <configuration>
-                            <mainClass>org.thorn.spass.Launcher</mainClass>
+                            <mainClass>org.thorn.humpback.Launcher</mainClass>
                         </configuration>
                         <goals>
                             <goal>one-jar</goal>
