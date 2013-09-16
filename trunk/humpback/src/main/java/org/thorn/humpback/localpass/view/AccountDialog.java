@@ -120,6 +120,10 @@ public class AccountDialog extends JDialog {
             for (String tag : tagSet) {
                 JCheckBox checkBox = new JCheckBox(tag);
 
+                if(account != null && account.getTag().contains(tag)) {
+                    checkBox.setSelected(true);
+                }
+
                 checkBox.addItemListener(new TagAddAction(this.tag));
                 tagPanel.add(checkBox);
             }
