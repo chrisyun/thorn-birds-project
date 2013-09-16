@@ -16,6 +16,8 @@ public class MainFrame extends JFrame {
 
     private JPanel contentPane;
 
+    private JPanel bgPanel;
+
     public MainFrame() throws HeadlessException {
         super();
 
@@ -24,15 +26,17 @@ public class MainFrame extends JFrame {
         GlobalSettingUtils.initGlobalFontSetting(new Font("微软雅黑", Font.PLAIN, 13));
 
         this.setTitle("humpback");
-        this.setIconImage(ImageUtils.getIconFromCls("/icons/humpback.png").getImage());
+        this.setIconImage(ImageUtils.getIconFromCls("/icons/humpback3.png").getImage());
         this.setBounds(300, 100, 620, 500);
 
         this.contentPane = new JPanel();
-        this.contentPane.setLayout(new BorderLayout(0, 0));
         this.setContentPane(this.contentPane);
 
         JMenuBar menuBar = new TopMenuBar();
         this.setJMenuBar(menuBar);
+
+        bgPanel = new LogoPanel();
+        contentPane.add(bgPanel);
     }
 
     public void setMainPane(JPanel contentPane) {
@@ -48,6 +52,7 @@ public class MainFrame extends JFrame {
         Context.clearSelectedTags();
 
         this.contentPane.removeAll();
+        contentPane.add(bgPanel);
         this.contentPane.updateUI();
     }
 }
