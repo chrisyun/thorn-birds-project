@@ -2,12 +2,17 @@ package org.thorn.humpback.frame.view;
 
 import org.thorn.core.context.SpringContext;
 import org.thorn.humpback.frame.action.ExitAction;
+import org.thorn.humpback.frame.action.OpenDialogAction;
 import org.thorn.humpback.localpass.action.*;
 import org.thorn.humpback.localpass.service.LocationService;
+import org.thorn.humpback.localpass.view.AccountDialog;
+import org.thorn.humpback.localpass.view.ModifyPwdDialog;
+import org.thorn.humpback.localpass.view.NotesFolderSettingDialog;
 import org.thorn.humpback.qrcode.action.LoadQrPanelAction;
 import org.thorn.humpback.reader.action.LoadReaderPanelAction;
 
 import javax.swing.*;
+import java.awt.event.ActionListener;
 
 /**
  * @Author: yfchenyun
@@ -59,7 +64,8 @@ public class TopMenuBar extends JMenuBar {
 
         menuItem = new JMenuItem();
         menuItem.setText("设置密码本目录...    ");
-        menuItem.addActionListener(new OpenNotesFolderSettingAction());
+        menuItem.setActionCommand(NotesFolderSettingDialog.class.getName());
+        menuItem.addActionListener(new OpenDialogAction());
         startMenu.add(menuItem);
         startMenu.addSeparator();
 
@@ -107,14 +113,16 @@ public class TopMenuBar extends JMenuBar {
 
         JMenuItem menuItem = new JMenuItem();
         menuItem.setText("添加账号...    ");
-        menuItem.addActionListener(new OpenAccountDialogAction());
+        menuItem.setActionCommand(AccountDialog.class.getName());
+        menuItem.addActionListener(new OpenDialogAction());
         operationMenu.add(menuItem);
 
         operationMenu.addSeparator();
 
         menuItem = new JMenuItem();
         menuItem.setText("修改密码...    ");
-        menuItem.addActionListener(new OpenModifyPwdAction());
+        menuItem.setActionCommand(ModifyPwdDialog.class.getName());
+        menuItem.addActionListener(new OpenDialogAction());
         operationMenu.add(menuItem);
 
         operationMenu.addSeparator();
