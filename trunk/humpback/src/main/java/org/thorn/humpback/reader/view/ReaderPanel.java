@@ -45,6 +45,7 @@ public class ReaderPanel extends JPanel {
     private final static Dimension smallField = new Dimension(130, 27);
 
     public ReaderPanel() {
+        this.setPreferredSize(new Dimension(620, 490));
         this.setBorder(BorderFactory.createEmptyBorder(40, 10, 2, 10));
 
         Box rowBox = Box.createHorizontalBox();
