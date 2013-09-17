@@ -26,6 +26,7 @@ public class QrPanel extends JPanel {
     private final static Dimension fieldDimension = new Dimension(250, 27);
 
     public QrPanel() {
+        this.setPreferredSize(new Dimension(620, 490));
         this.setBorder(BorderFactory.createEmptyBorder(10, 230, 2, 230));
 
         Registry registry = SpringContext.getBean(Registry.class);
