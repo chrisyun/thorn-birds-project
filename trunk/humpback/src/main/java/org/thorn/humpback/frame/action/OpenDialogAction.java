@@ -1,6 +1,7 @@
 package org.thorn.humpback.frame.action;
 
 import org.apache.commons.lang.StringUtils;
+import org.thorn.humpback.codebuilder.view.DBConfigDialog;
 import org.thorn.humpback.frame.service.Context;
 import org.thorn.humpback.localpass.view.AccountDialog;
 import org.thorn.humpback.localpass.view.ModifyPwdDialog;
@@ -34,8 +35,8 @@ public class OpenDialogAction extends AbsAction {
             new NotesFolderSettingDialog();
         } else if(StringUtils.equals(command, ModifyPwdDialog.class.getName())) {
             new ModifyPwdDialog();
+        } else if(StringUtils.equals(command, DBConfigDialog.class.getName())) {
+            new DBConfigDialog();
         }
-
-
     }
 }
