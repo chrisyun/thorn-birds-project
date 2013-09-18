@@ -1,6 +1,7 @@
 package org.thorn.humpback.frame.view;
 
 import org.thorn.core.context.SpringContext;
+import org.thorn.humpback.codebuilder.action.LoadCodeBuilderPanelAction;
 import org.thorn.humpback.frame.action.ExitAction;
 import org.thorn.humpback.frame.action.OpenDialogAction;
 import org.thorn.humpback.localpass.action.*;
@@ -89,6 +90,13 @@ public class TopMenuBar extends JMenuBar {
         menuItem = new JMenuItem();
         menuItem.setText("二维码生成    ");
         menuItem.addActionListener(new LoadQrPanelAction());
+        toolMenu.add(menuItem);
+
+        toolMenu.addSeparator();
+
+        menuItem = new JMenuItem();
+        menuItem.setText("代码生成    ");
+        menuItem.addActionListener(new LoadCodeBuilderPanelAction());
         toolMenu.add(menuItem);
 
         this.add(toolMenu);
