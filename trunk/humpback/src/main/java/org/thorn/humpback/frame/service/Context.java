@@ -1,5 +1,6 @@
 package org.thorn.humpback.frame.service;
 
+import org.omg.IOP.TAG_CODE_SETS;
 import org.thorn.humpback.frame.view.MainFrame;
 
 import java.util.HashMap;
@@ -18,29 +19,35 @@ public class Context {
 
     public static MainFrame MAIN_FRAME = null;
 
+    private static final String SELECTED_TAGS = "SELECTED_TAGS";
+
     public static void clearSelectedTags() {
-        Set<String> selectedTags = (Set<String>) CONTEXT_MAP.get("SELECTED_TAGS");
+        Set<String> selectedTags = (Set<String>) CONTEXT_MAP.get(SELECTED_TAGS);
         if(selectedTags != null) {
             selectedTags.clear();
         }
     }
 
     public static void addSelectedTags(String tag) {
-        Set<String> selectedTags = (Set<String>) CONTEXT_MAP.get("SELECTED_TAGS");
+        Set<String> selectedTags = (Set<String>) CONTEXT_MAP.get(SELECTED_TAGS);
         if(selectedTags != null) {
             selectedTags.add(tag);
+        } else {
+            selectedTags = new HashSet<String>();
+            selectedTags.add(tag);
+            CONTEXT_MAP.put(SELECTED_TAGS, selectedTags);
         }
     }
 
     public static void removeSelectedTags(String tag) {
-        Set<String> selectedTags = (Set<String>) CONTEXT_MAP.get("SELECTED_TAGS");
+        Set<String> selectedTags = (Set<String>) CONTEXT_MAP.get(SELECTED_TAGS);
         if(selectedTags != null) {
             selectedTags.remove(tag);
         }
     }
 
     public static Set<String> getSelectedTags() {
-        Set<String> selectedTags = (Set<String>) CONTEXT_MAP.get("SELECTED_TAGS");
+        Set<String> selectedTags = (Set<String>) CONTEXT_MAP.get(SELECTED_TAGS);
 
         return selectedTags;
     }
