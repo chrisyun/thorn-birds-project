@@ -2,9 +2,8 @@ package org.thorn.humpback.codebuilder.service;
 
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
-import org.springframework.core.io.Resource;
-import org.thorn.humpback.codebuilder.entity.Template;
-import org.thorn.humpback.codebuilder.entity.TemplateData;
+import org.thorn.humpback.codebuilder.entity.RenderData;
+import org.thorn.humpback.codebuilder.entity.TemplateFile;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -18,10 +17,13 @@ public class TemplateHandler {
 
 	private File tempFolder;
 
-	public TemplateHandler(Resource location) throws IOException {
+	public TemplateHandler(File tempFolder) throws IOException {
 
-		tempFolder = location.getFile().getParentFile();
+        if(tempFolder == null || !tempFolder.isDirectory() || !tempFolder.exists()) {
+            throw new IOException("模块目录不存在");
+        }
 
+		this.tempFolder = tempFolder;
 		cf.setDirectoryForTemplateLoading(tempFolder);
 		cf.setDefaultEncoding("UTF-8");
 	}
@@ -36,7 +38,7 @@ public class TemplateHandler {
 	 * @param dir
 	 * @param list
 	 */
-	public void listFile(File dir, List<Template> list) {
+	public void listFile(File dir, List<TemplateFile> list) {
 
 		if (dir == null) {
 			return;
@@ -66,16 +68,24 @@ public class TemplateHandler {
 			if (fl.isDirectory()) {
 				listFile(fl, list);
 			} else {
-				list.add(new Template(fl, tempFolder));
+				list.add(new TemplateFile(fl, tempFolder));
 			}
 		}
 	}
 
-	public void applyTemplate(TemplateData data, Template template,
+    /**
+     *
+     * @param data
+     * @param templateFile
+     * @param destination
+     * @throws IOException
+     * @throws TemplateException
+     */
+	public void applyTemplate(RenderData data, TemplateFile templateFile,
 			File destination) throws IOException, TemplateException {
 
-		String tpName = template.getFolder() + File.separator
-				+ template.getFile().getName();
+		String tpName = templateFile.getFolder() + File.separator
+				+ templateFile.getFile().getName();
 		freemarker.template.Template tp = cf.getTemplate(tpName);
 		
 		tp.process(data, new FileWriter(destination));

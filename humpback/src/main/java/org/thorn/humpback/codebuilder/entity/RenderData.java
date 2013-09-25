@@ -1,10 +1,12 @@
 package org.thorn.humpback.codebuilder.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-public class TemplateData implements Serializable {
+public class RenderData implements Serializable {
 	
 	/**
 	 * 
@@ -29,7 +31,7 @@ public class TemplateData implements Serializable {
 	/**
 	 * 属性信息（数据库字段与实体类信息）
 	 */
-	private Set<Field> fields = new HashSet<Field>();
+	private List<Field> fields = new ArrayList<Field>();
 	
 	public String getName() {
 		return name;
@@ -89,11 +91,11 @@ public class TemplateData implements Serializable {
 		this.pkg = pkg;
 	}
 
-	public Set<Field> getFields() {
+	public List<Field> getFields() {
 		return fields;
 	}
 
-	public void setFields(Set<Field> fields) {
+	public void setFields(List<Field> fields) {
 		this.fields = fields;
 	}
 	

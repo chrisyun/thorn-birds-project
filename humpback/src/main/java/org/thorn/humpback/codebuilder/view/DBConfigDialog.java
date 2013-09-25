@@ -90,6 +90,8 @@ public class DBConfigDialog extends JDialog {
         button.addActionListener(new ConfigDataSourceAction(this));
         rowBox.add(button);
 
+        this.getRootPane().setDefaultButton(button);
+
         contentPanel.add(rowBox);
 
         DBConfig dbConfig = (DBConfig) Context.get(DBConfig.class.getName());

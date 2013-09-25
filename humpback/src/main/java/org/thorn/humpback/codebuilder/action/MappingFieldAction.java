@@ -1,7 +1,7 @@
 package org.thorn.humpback.codebuilder.action;
 
-import org.apache.commons.lang.StringUtils;
 import org.thorn.humpback.codebuilder.entity.Field;
+import org.thorn.humpback.codebuilder.view.RenderTemplatePanel;
 import org.thorn.humpback.frame.action.AbsAction;
 import org.thorn.humpback.frame.service.Context;
 
@@ -28,25 +28,20 @@ public class MappingFieldAction extends AbsAction {
     @Override
     public void action(ActionEvent e) throws Exception {
 
-//        List<Field> fieldList = (List<Field>) Context.get(Field.class.getName());
         List<Field> fieldList = new ArrayList<Field>();
 
-                TableModel tableModel = table.getModel();
+        TableModel tableModel = table.getModel();
 
         int rowSize = tableModel.getRowCount();
 
         for (int i = 0; i < rowSize; i++) {
             Field field = (Field) tableModel.getValueAt(i, 99);
             fieldList.add(field);
-//            for (Field fieldInList : fieldList) {
-//                if (StringUtils.equalsIgnoreCase(field.getTabName(), fieldInList.getTabName())) {
-//                    fieldInList.setFieldName((String) tableModel.getValueAt(i, 3));
-//                    fieldInList.setFieldType((String) tableModel.getValueAt(i, 4));
-//                    break;
-//                }
-//            }
         }
 
         Context.put(Field.class.getName(), fieldList);
+
+        JPanel panel = new RenderTemplatePanel();
+        Context.MAIN_FRAME.setMainPane(panel);
     }
 }

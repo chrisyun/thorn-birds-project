@@ -3,7 +3,7 @@ package org.thorn.humpback.codebuilder.view;
 import org.thorn.humpback.codebuilder.entity.Field;
 import org.thorn.humpback.frame.service.Context;
 
-import javax.swing.table.DefaultTableModel;
+import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
 /**
@@ -11,7 +11,7 @@ import java.util.List;
  * @Since: 13-9-18 下午3:23
  * @Version: 1.0
  */
-public class FieldMappingModal extends DefaultTableModel {
+public class FieldMappingModal extends AbstractTableModel {
 
     private static final String[] HEADER = {"列名", "列类型", "主键", "字段名", "字段类型"};
 
@@ -39,8 +39,6 @@ public class FieldMappingModal extends DefaultTableModel {
 
     @Override
     public void setValueAt(Object aValue, int row, int column) {
-        super.setValueAt(aValue, row, column);
-
         Field field = fieldList.get(row);
         if(column == 3) {
             field.setFieldName((String) aValue);

@@ -4,7 +4,7 @@ import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 
-public class Template {
+public class TemplateFile {
 	
 	private File file;
 	
@@ -14,7 +14,7 @@ public class Template {
 	
 	private String name;
 	
-	public Template(File file, File root) {
+	public TemplateFile(File file, File root) {
 		this.file = file;
 		
 		String fileName = file.getName();

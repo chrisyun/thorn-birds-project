@@ -12,7 +12,7 @@ public class Field implements Serializable {
 	/**
 	 * 是否主键（true是\false否）
 	 */
-	private boolean isKey;
+	private boolean key;
 	
 	/**
 	 * 数据库字段名称（大写）
@@ -50,11 +50,11 @@ public class Field implements Serializable {
 	private String fieldType;
 
 	public boolean isKey() {
-		return isKey;
+		return key;
 	}
 
-	public void setKey(boolean isKey) {
-		this.isKey = isKey;
+	public void setKey(boolean key) {
+		this.key = key;
 	}
 
 	public String getTabName() {

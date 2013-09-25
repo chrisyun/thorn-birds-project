@@ -34,4 +34,15 @@ public class FileStoreTest extends TestCase {
         file.renameTo(new File("D:\\opt\\parrot_log\\data\\parrot.log.2013-08-26.log.bak"));
     }
 
+    public void testReplace() {
+        String a = "com.jd.user";
+        String b = a.replaceAll("\\.", "/");
+        File outputRoot = new File("D:\\humpback\\output",b);
+
+        if(!outputRoot.exists()) {
+            outputRoot.mkdirs();
+        }
+
+    }
+
 }
