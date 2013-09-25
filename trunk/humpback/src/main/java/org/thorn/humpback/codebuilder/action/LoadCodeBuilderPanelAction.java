@@ -1,6 +1,7 @@
 package org.thorn.humpback.codebuilder.action;
 
 import org.thorn.humpback.codebuilder.view.ExecuteSqlPanel;
+import org.thorn.humpback.codebuilder.view.RenderTemplatePanel;
 import org.thorn.humpback.frame.action.AbsAction;
 import org.thorn.humpback.frame.service.Context;
 
@@ -21,6 +22,7 @@ public class LoadCodeBuilderPanelAction extends AbsAction {
     @Override
     public void action(ActionEvent e) throws Exception {
         JPanel panel = new ExecuteSqlPanel();
+//        JPanel panel = new RenderTemplatePanel();
         Context.MAIN_FRAME.setMainPane(panel);
     }
 }

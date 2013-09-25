@@ -95,7 +95,7 @@ public class TopMenuBar extends JMenuBar {
         toolMenu.addSeparator();
 
         menuItem = new JMenuItem();
-        menuItem.setText("代码生成    ");
+        menuItem.setText("代码自动生成    ");
         menuItem.addActionListener(new LoadCodeBuilderPanelAction());
         toolMenu.add(menuItem);
 

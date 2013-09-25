@@ -1,5 +1,8 @@
 package org.thorn.humpback.codebuilder.view;
 
+import org.thorn.humpback.codebuilder.action.MappingFieldAction;
+import org.thorn.humpback.codebuilder.action.MappingModalListener;
+import org.thorn.humpback.codebuilder.action.RetExecuteSqlAction;
 import org.thorn.humpback.codebuilder.entity.JDBCTypesMapping;
 import org.thorn.humpback.frame.action.OpenDialogAction;
 import org.thorn.humpback.localpass.view.AccountTableModal;
@@ -21,10 +24,11 @@ public class MappingFieldPanel extends JPanel {
 
     public MappingFieldPanel() {
         this.setPreferredSize(new Dimension(580, 420));
-        this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLUE), "第二步 配置字段映射（双击字段名及字段类型列进行修改）"));
+        this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLUE), "第二步 配置字段映射"));
 
         FieldMappingModal mappingModal = new FieldMappingModal();
         table = new JTable(mappingModal);
+        table.getModel().addTableModelListener(new MappingModalListener(table));
 
         TableColumnModel tableColumnModel = table.getColumnModel();
         TableColumn tableColumn = tableColumnModel.getColumn(4);
@@ -48,9 +52,11 @@ public class MappingFieldPanel extends JPanel {
 
         Box columnBox = Box.createHorizontalBox();
         JButton button = new JButton("上一步");
+        button.addActionListener(new RetExecuteSqlAction());
         columnBox.add(button);
         columnBox.add(Box.createHorizontalStrut(30));
         button = new JButton("下一步");
+        button.addActionListener(new MappingFieldAction(table));
         columnBox.add(button);
 
         rowBox.add(columnBox);
