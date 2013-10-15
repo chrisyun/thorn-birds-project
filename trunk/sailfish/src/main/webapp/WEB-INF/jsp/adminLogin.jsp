@@ -3,7 +3,7 @@
 <html>
 <head>
 
-    <title>后台登陆</title>
+    <title>后台登录</title>
     <style>
         .login {
             border-width: 1px;
@@ -37,7 +37,7 @@
 
                     <p class="help-block">${error}</p>
                 </div>
-                <button type="submit" class="btn btn-default">登 陆</button>
+                <button type="submit" class="btn btn-default">登 录</button>
             </form>
         </div>
     </div>
