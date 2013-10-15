@@ -69,7 +69,7 @@
                         </ul>
 
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="#">欢饮您回来，</a></li>
+                            <li><a href="#">欢迎您回来，</a></li>
                             <li class="active">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     ${sessionScope.sessionUser.userName} <b class="caret"></b>

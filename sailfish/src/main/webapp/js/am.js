@@ -14,6 +14,8 @@ $(function() {
             return false;
         }
     });
+
+    $("a[href=#]").attr("href", "javascript:void(0);");
 });
 
 function matchUrl(pUrl, cUrl) {
