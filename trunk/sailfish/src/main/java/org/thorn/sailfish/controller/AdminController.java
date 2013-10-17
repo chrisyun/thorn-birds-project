@@ -17,7 +17,7 @@ public class AdminController {
 
     @RequestMapping("/index")
     public String index() {
-        return "adminIndex";
+        return "index";
     }
 
     @RequestMapping("/logout")

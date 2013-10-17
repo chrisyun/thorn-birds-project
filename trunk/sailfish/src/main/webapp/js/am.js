@@ -1,9 +1,10 @@
 $(function() {
     var miniHeight = $("#container").height();
-    var maxHeight = document.body.clientHeight;
+    var footerHeight = $("footer").height() * 2;
+    var maxHeight = document.body.scrollHeight;
 
-    if(maxHeight > (miniHeight + 50)) {
-        $("#container").height(miniHeight + (maxHeight - miniHeight - 50));
+    if(maxHeight > (miniHeight + footerHeight)) {
+        $("#container").height(maxHeight - footerHeight);
     }
 
     var thisUrl = window.location.href;
@@ -20,14 +21,15 @@ $(function() {
 
 function matchUrl(pUrl, cUrl) {
 
-    var moduleUrl = pUrl.split("/");
-    var isMatch = true;
-    $.each(moduleUrl, function(i, n) {
-        if(cUrl.indexOf("/" + n) < 0) {
-            isMatch = false;
-            return false;
-        }
-    });
+    if(cUrl.indexOf(pUrl) > 0) {
+        return true;
+    }
 
-    return isMatch;
+    var reg = new RegExp("(^|&)module=([^&]*)(&|$)","i");
+    var module = cUrl.match(reg);
+    if(pUrl.indexOf("/" + module + "/index") >= 0) {
+        return true;
+    }
+
+    return false;
 }
