@@ -26,6 +26,7 @@
 
     <link rel="stylesheet" href="<%=path%>/plugins/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="<%=path%>/css/style.css">
+    <link rel="stylesheet" href="<%=path%>/css/override-bootstrap.css">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
         <script src="<%=path%>/plugins/html5shiv.js"></script>
@@ -36,7 +37,10 @@
     <script src="<%=path%>/plugins/jquery-1.9.1.js" type="text/javascript"></script>
 
     <link rel="stylesheet" href="<%=path%>/plugins/bootstrap/css/bootstrap-theme.min.css">
-    <script src="<%=path%>/plugins/bootstrap/js/bootstrap.min.js"  type="text/javascript"></script>
+    <script src="<%=path%>/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+
+    <script src="<%=path%>/plugins/func/utils.js" type="text/javascript"></script>
+    <script src="<%=path%>/plugins/func/dialog.js" type="text/javascript"></script>
     <script src="<%=path%>/js/am.js"  type="text/javascript"></script>
 
     <decorator:head />
@@ -62,7 +66,7 @@
                         <ul class="nav navbar-nav" id="moduleNav">
                             <li><a href="/am/index">首页</a></li>
                             <li><a href="#">栏目</a></li>
-                            <li><a href="#">资源与模板</a></li>
+                            <li><a href="/am/rs/index">资源与模板</a></li>
                             <li><a href="#">访问URL</a></li>
                             <li><a href="#">广告</a></li>
                             <li><a href="#">文章</a></li>
@@ -88,7 +92,7 @@
     <decorator:body />
 </div>
 
-<footer class=" footer">
+<footer class="footer">
     <p>Sailfish - <a href="http://zh.wikipedia.org/wiki/%E6%97%97%E9%AD%9A">旗鱼</a>
         本网站使用<a href="https://github.com/twbs/bootstrap/">Bootstrap</a>构建</p>
     <p>Powered By C.y_Chris</p>

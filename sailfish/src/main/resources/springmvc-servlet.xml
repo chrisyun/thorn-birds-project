@@ -74,7 +74,7 @@
 
     <mvc:interceptors>
         <mvc:interceptor>
-            <mvc:mapping path="/am/*"/>
+            <mvc:mapping path="/am/**"/>
             <bean class="org.thorn.sailfish.filter.SecurityInterceptor">
                 <property name="loginUrl" value="/am/login" />
             </bean>

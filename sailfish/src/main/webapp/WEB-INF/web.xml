@@ -28,6 +28,10 @@
         <url-pattern>*.apk</url-pattern>
         <url-pattern>*.htc</url-pattern>
         <url-pattern>*.xls</url-pattern>
+        <url-pattern>*.eot</url-pattern>
+        <url-pattern>*.ttf</url-pattern>
+        <url-pattern>*.woff</url-pattern>
+        <url-pattern>*.svg</url-pattern>
     </servlet-mapping>
 
     <filter>

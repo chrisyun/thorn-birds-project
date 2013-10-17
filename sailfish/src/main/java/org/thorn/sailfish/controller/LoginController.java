@@ -32,13 +32,13 @@ public class LoginController {
             return "redirect:/am/index";
         } else {
             modelMap.put("error", "用户名或者密码错误");
-            return "adminLogin";
+            return "login";
         }
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String toLogin() {
-        return "adminLogin";
+        return "login";
     }
 
 
