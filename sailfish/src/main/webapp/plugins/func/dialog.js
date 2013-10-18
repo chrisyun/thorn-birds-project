@@ -42,11 +42,11 @@
             $("#" + options.id).modal("hide");
         } else {
             // reset
-            $("#" + options.id + " > .modal-header > h4").html(options.title);
-            $("#" + options.id + " > .modal-body").empty();
-            $("#" + options.id + " > .modal-body").append(options.body);
-            $("#" + options.id + " > .modal-footer").empty();
-            $("#" + options.id + " > .modal-footer").append(options.foot);
+            $("#" + options.id + "  .modal-header > h4").html(options.title);
+            $("#" + options.id + "  .modal-body").empty();
+            $("#" + options.id + "  .modal-body").append(options.body);
+            $("#" + options.id + "  .modal-footer").empty();
+            $("#" + options.id + "  .modal-footer").append(options.foot);
         }
 
         if (!$.utils.isEmpty(options.width)) {
@@ -55,7 +55,7 @@
             $("#" + options.id + " > .modal-dialog").css("width", "");
         }
 
-        var _modalBody = $("#" + options.id + " > .modal-body");
+        var _modalBody = $("#" + options.id + "  .modal-body");
 
         if (!$.utils.isEmpty(options.height)) {
             _modalBody.css("height", options.height);
@@ -95,9 +95,10 @@
                     id: "_progressDialog",
                     title: "请求处理中...",
                     width: 400,
-                    body: '<div class="progress progress-striped active" style="margin-top: 20px;">'
-                        + '<div class="bar" id="_progressDialogBar" style="width: 0%;"></div>',
-                    foot: '<a class="btn" data-dismiss="modal">关闭</a>'
+                    body: '<div class="progress progress-striped active mb0">' +
+                            '<div class="progress-bar progress-bar-info" role="progressbar" ' +
+                                'aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" id="_progressDialogBar" style="width: 0%;"></div>',
+                    foot: '<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>'
                 });
 
             if (action != null && action == "close") {
@@ -108,7 +109,7 @@
             var _activeProgressBar;
 
             $("#_progressDialog").on(
-                "shown",
+                "shown.bs.modal",
                 function () {
                     _activeProgressBar = setInterval(function () {
                         var maxWidth = parseInt($("#_progressDialogBar")
@@ -127,7 +128,7 @@
                     }, 700);
                 });
 
-            $("#_progressDialog").on("hidden", function () {
+            $("#_progressDialog").on("hidden.bs.modal", function () {
                 $("#_progressDialogBar").css("width", "0%");
                 window.clearInterval(_activeProgressBar);
             });
@@ -139,6 +140,7 @@
             attr.type = "info";
             attr.title = title;
             attr.text = text;
+            attr.cls = "alert-info";
             $.dialog.alert(attr);
         },
         alertError: function (text, title) {
@@ -146,6 +148,7 @@
             attr.type = "error";
             attr.title = title;
             attr.text = text;
+            attr.cls = "alert-danger";
             $.dialog.alert(attr);
         },
         alertSuccess: function (text, title, closeFunc) {
@@ -154,6 +157,7 @@
             attr.title = title;
             attr.text = text;
             attr.closeFunc = closeFunc;
+            attr.cls = "alert-success";
             $.dialog.alert(attr);
         },
         alert: function (options) {
@@ -161,27 +165,31 @@
             if ($.utils.isEmpty(options.title)) {
                 if (options.type == "success") {
                     options.title = "成功提示";
+                    options.cls = "alert-success";
                 } else if (options.type == "error") {
                     options.title = "错误提示";
+                    options.cls = "alert-danger";
                 } else {
                     options.title = "信息提示";
+                    options.cls = "alert-info";
                 }
             }
+
+            var _msg = $('<div class="mb0 alert ' + options.cls + '"></div>')
+            _msg.html(options.text);
 
             var cwnd = new CWnd({
                 id: "_alertDialog",
                 title: options.title,
                 width: 400,
-                height: 60,
-                cls: "alert-" + options.type,
-                body: "<p>" + options.text + "</p>",
-                foot: '<a class="btn" data-dismiss="modal">确定</a>'
+                body: _msg,
+                foot: '<button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>'
             });
 
             if ($.utils.isEmpty(options.closeFunc)) {
-                $("#_alertDialog").unbind("hidden");
+                $("#_alertDialog").unbind("hidden.bs.modal");
             } else {
-                $("#_alertDialog").on("hidden", options.closeFunc);
+                $("#_alertDialog").on("hidden.bs.modal", options.closeFunc);
             }
 
             cwnd.show();

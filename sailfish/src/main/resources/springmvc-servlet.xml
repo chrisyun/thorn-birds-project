@@ -17,7 +17,7 @@
 
     <context:annotation-config/>
     <context:component-scan base-package="org.thorn.sailfish" />
-    <!--<mvc:annotation-driven/>-->
+    <mvc:annotation-driven/>
 
     <bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
