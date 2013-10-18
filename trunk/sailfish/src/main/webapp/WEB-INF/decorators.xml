@@ -2,7 +2,7 @@
 <sitemesh>
 	 <!--excludes 用于不使用装饰器
 	 <excludes>          
-        <pattern>/index/*</pattern>  
+        <pattern>/am/rs/uploadFile*</pattern>
     </excludes>
      -->
 	<decorators>

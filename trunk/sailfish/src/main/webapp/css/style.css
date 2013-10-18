@@ -1,3 +1,9 @@
+.content {
+    *height: auto !important;
+    *height: 555px;
+    min-height: 555px;
+}
+
 .footer {
     color: #999;
     text-align: center;
@@ -106,6 +112,10 @@
 }
 
 /* 边距 */
+.m0 {
+    margin: 0px;
+}
+
 .m10 {
     margin: 10px;
 }
@@ -116,6 +126,10 @@
 
 .m30 {
     margin: 30px;
+}
+
+.mt0 {
+    margin-top: 0px;
 }
 
 .mt5 {
@@ -150,6 +164,10 @@
     margin-top: 100px;
 }
 
+.mb0 {
+    margin-bottom: 0px;
+}
+
 .mb5 {
     margin-bottom: 5px;
 }
@@ -176,6 +194,10 @@
 
 .mb100 {
     margin-bottom: 100px;
+}
+
+.ml0 {
+    margin-left: 0px;
 }
 
 .ml3 {
@@ -226,6 +248,10 @@
     margin-left: 120px;
 }
 
+.mr0 {
+    margin-right: 0px;
+}
+
 .mr5 {
     margin-right: 5px;
 }
@@ -254,6 +280,10 @@
     margin-right: 100px;
 }
 
+.p0 {
+    padding: 0px;
+}
+
 .p10 {
     padding: 10px;
 }
@@ -268,6 +298,10 @@
 
 .p30 {
     padding: 30px;
+}
+
+.pt0 {
+    padding-top: 0px;
 }
 
 .pt5 {
@@ -302,6 +336,10 @@
     padding-top: 100px;
 }
 
+.pb0 {
+    padding-bottom: 0px;
+}
+
 .pb5 {
     padding-bottom: 5px;
 }
@@ -328,6 +366,10 @@
 
 .pb100 {
     padding-bottom: 100px;
+}
+
+.pl0 {
+    padding-left: 0px;
 }
 
 .pl5 {
@@ -364,6 +406,10 @@
 
 .pl120 {
     padding-left: 120px;
+}
+
+.pr0 {
+    padding-right: 0px;
 }
 
 .pr5 {

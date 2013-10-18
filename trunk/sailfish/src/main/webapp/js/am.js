@@ -1,11 +1,11 @@
 $(function() {
-    var miniHeight = $("#container").height();
-    var footerHeight = $("footer").height() * 2;
-    var maxHeight = document.body.scrollHeight;
-
-    if(maxHeight > (miniHeight + footerHeight)) {
-        $("#container").height(maxHeight - footerHeight);
-    }
+//    var miniHeight = $("#container").height();
+//    var footerHeight = $("footer").height() * 2;
+//    var maxHeight = document.body.scrollHeight - 5;
+//
+//    if(maxHeight > (miniHeight + footerHeight)) {
+//        $("#container").height(maxHeight - footerHeight);
+//    }
 
     var thisUrl = window.location.href;
     $("#moduleNav li a").each(function() {
