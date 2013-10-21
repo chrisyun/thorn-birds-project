@@ -36,22 +36,29 @@
                     text : "保存",
                     cls : "btn-primary",
                     click : function() {
-                        var refreshPage = "/am/rs/index?p=${folder.parent}" + $("#renameDir").val()
+                        var refreshPage = "/am/rs/index?p=${folder.parent}" + $("#renameDir").val();
+
+                        $("#dirForm").formDialog("close");
+                        var file = $("#renameDir").val();
+                        if(file == "") {
+                            $.dialog.alertInfo("请填写目录名", "提示", function() {
+                                $("#dirForm").formDialog();
+                            });
+                            $("#renameDir").focus();
+                            return ;
+                        }
+
                         $("#dirForm").submitForm({
-                            progress : false,
+                            progress : true,
                             onSuccess : function(msg, data) {
-                                $("#dirForm .alert").removeClass("hidden");
-                                $("#dirForm .alert").removeClass("alert-danger");
-                                $("#dirForm .alert").addClass("alert-success");
-                                $("#dirForm .alert").html(msg);
-                                setTimeout(function(){
+                                $.dialog.alertSuccess(msg, "请求处理成功", function(){
                                     $.utils.toUrl(refreshPage);
-                                }, 800);
+                                });
                             },
                             onFailure : function(msg, data) {
-                                $("#dirForm .alert").removeClass("hidden");
-                                $("#dirForm .alert").addClass("alert-danger");
-                                $("#dirForm .alert").html(msg);
+                                $.dialog.alertError(msg, "请求处理失败", function() {
+                                    $("#dirForm").formDialog();
+                                });
                             }
                         })
                     }
@@ -72,17 +79,28 @@
                     text : "上传",
                     cls : "btn-primary",
                     click : function() {
+                        $("#uploadForm").formDialog("close");
+
+                        var file = $("#fileTxt").val();
+                        if(file == "") {
+                            $.dialog.alertInfo("请选择上传文件", "提示", function() {
+                                $("#uploadForm").formDialog();
+                            });
+                            $("#fileTxt").focus();
+                            return ;
+                        }
+
                         $("#uploadForm").submitForm({
-                            progress : false,
+                            progress : true,
                             onSuccess : function(msg, data) {
-                                $("#uploadForm").formDialog("close");
                                 $.dialog.alertSuccess(msg, "请求处理成功", function(){
                                     $.utils.refreshPage();
                                 });
                             },
                             onFailure : function(msg, data) {
-                                $("#uploadForm").formDialog("close");
-                                $.dialog.alertError(msg, "请求处理失败");
+                                $.dialog.alertError(msg, "请求处理失败", function() {
+                                    $("#uploadForm").formDialog();
+                                });
                             }
                         })
                     }
@@ -167,30 +185,29 @@
                 </div>
             </div>
             <div class="panel-body">
-                <table class="table table-striped table-bordered table-hover table-condensed">
-                    <thead>
-                        <tr>
-                            <th width="40%">文件名</th>
-                            <th width="15%">文件大小</th>
-                            <th width="30%">上次修改时间</th>
-                            <th width="15%">操作</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach var="resource" items="${resources}">
-                        <tr>
-                            <td>${resource.name}</td>
-                            <td><fmt:formatNumber pattern="#,#0.0#" value="${resource.size/1024}" />&nbsp;KB</td>
-                            <td>${resource.lastModifyTime}</td>
-                            <td>
-                                <a href="#"><span class="glyphicon glyphicon-edit mr10 ml20"></span></a>
-                                <a href="#"><span class="glyphicon glyphicon-trash mr10 ml20"></span></a>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-            </div>
+            <table class="table table-striped table-bordered table-hover table-condensed">
+                <thead>
+                <tr>
+                    <th width="40%">文件名</th>
+                    <th width="15%">文件大小</th>
+                    <th width="30%">上次修改时间</th>
+                    <th width="15%" style="text-align: center;">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="resource" items="${resources}">
+                    <tr>
+                        <td>${resource.name}</td>
+                        <td><fmt:formatNumber pattern="#,##0.0#" value="${resource.size/1024}" />&nbsp;KB</td>
+                        <td>${resource.lastModifyTime}</td>
+                        <td style="text-align: center;">
+                            <a href="#"><span class="glyphicon glyphicon-edit mr30"></span></a>
+                            <a href="#"><span class="glyphicon glyphicon-trash"></span></a>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table></div>
         </div>
     </div>
 </div>
@@ -204,7 +221,6 @@
             <input type="text" class="form-control" name="renameDir" value="${folder.name}" id="renameDir" placeholder="输入目录名称">
         </div>
         <span class="help-block"><i class="redStar">*</i>必填，目录名称不得与现有目录名称重复</span>
-        <div class="alert mb0 hidden"></div>
     </div>
 </form>
 

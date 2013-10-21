@@ -55,7 +55,7 @@
 </head>
 
 <body>
-<div id="container" class="container content">
+<div id="container" class="container">
 
     <c:if test="${not empty sessionScope.sessionUser}">
         <div class="row" style="margin-top: 30px;">

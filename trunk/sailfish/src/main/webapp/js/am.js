@@ -1,11 +1,15 @@
 $(function() {
-//    var miniHeight = $("#container").height();
-//    var footerHeight = $("footer").height() * 2;
-//    var maxHeight = document.body.scrollHeight - 5;
-//
-//    if(maxHeight > (miniHeight + footerHeight)) {
-//        $("#container").height(maxHeight - footerHeight);
-//    }
+    var miniHeight = $("#container").height();
+    var footerHeight = $("footer").height() * 2;
+    var maxHeight = document.body.scrollHeight - 5;
+
+    if(maxHeight > (miniHeight + footerHeight)) {
+        var height = maxHeight - footerHeight;
+
+        $("#container").css("*height", "auto !important");
+        $("#container").css("*height", height + "px");
+        $("#container").css("min-height", height + "px");
+    }
 
     var thisUrl = window.location.href;
     $("#moduleNav li a").each(function() {
