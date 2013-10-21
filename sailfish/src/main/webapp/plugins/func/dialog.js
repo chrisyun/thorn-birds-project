@@ -135,19 +135,21 @@
 
             cwnd.show();
         },
-        alertInfo: function (text, title) {
+        alertInfo: function (text, title, closeFunc) {
             var attr = new Object();
             attr.type = "info";
             attr.title = title;
             attr.text = text;
+            attr.closeFunc = closeFunc;
             attr.cls = "alert-info";
             $.dialog.alert(attr);
         },
-        alertError: function (text, title) {
+        alertError: function (text, title, closeFunc) {
             var attr = new Object();
             attr.type = "error";
             attr.title = title;
             attr.text = text;
+            attr.closeFunc = closeFunc;
             attr.cls = "alert-danger";
             $.dialog.alert(attr);
         },

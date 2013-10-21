@@ -4,18 +4,6 @@
 <head>
 
     <title>后台登录</title>
-    <style>
-        .login {
-            border-width: 1px;
-            border-color: #ddd;
-            border-style: solid;
-            margin-top: 100px;
-            padding: 45px 15px 15px;
-            background-color: #e7e7e7;
-            border-radius: 6px 6px 6px 6px;
-            box-shadow: none;
-        }
-    </style>
 
 
 </head>
