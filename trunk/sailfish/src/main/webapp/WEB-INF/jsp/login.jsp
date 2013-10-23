@@ -4,7 +4,18 @@
 <head>
 
     <title>后台登录</title>
+    <script type="text/javascript">
+        $(function() {
+            var formValidator = $("#loginForm").validate();
 
+            $("#submit-btn").click(function() {
+
+                if(formValidator.isValidated()) {
+                    $("#loginForm").submit();
+                }
+            });
+        });
+    </script>
 
 </head>
 
@@ -18,18 +29,18 @@
                 <h3 class="panel-title">系统登录</h3>
             </div>
             <div class="panel-body">
-                <form action="/am/login" method="post" role="form">
+                <form action="/am/login" method="post" role="form" id="loginForm">
                     <div class="form-group">
                         <label for="username">用户名</label>
-                        <input type="text" class="form-control" name="username" id="username" placeholder="输入用户名">
+                        <input type="text" class="form-control" name="username" id="username" validate="required" placeholder="输入用户名">
                     </div>
                     <div class="form-group">
                         <label for="username">密码</label>
-                        <input type="password" class="form-control" name="password" id="password" placeholder="输入密码">
+                        <input type="password" class="form-control" name="password" validate="required" id="password" placeholder="输入密码">
 
                         <p class="help-block">${error}</p>
                     </div>
-                    <button type="submit" class="btn btn-default">登 录</button>
+                    <button type="button" id="submit-btn" class="btn btn-default">登 录</button>
                 </form>
             </div>
         </div>

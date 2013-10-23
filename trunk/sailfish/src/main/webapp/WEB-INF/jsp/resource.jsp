@@ -8,27 +8,32 @@
     <script type="text/javascript">
         $(function() {
 
+            // 新建目录
+            var newValidator = $("#newDir").validate({
+                placement : "top"
+            });
             $("#mkdirBtn").click(function() {
-                var dir = $("#newDir").val();
                 var p = "${p}";
 
-                if(dir == "") {
-                    $.dialog.alertInfo("请填写目录名称", "提示");
+                if(!newValidator.isValidated()) {
                     $("#newDir").focus();
                     return ;
                 }
 
+                var dir = $("#newDir").val();
                 $.request.ajax({
                     url : "/am/rs/createFolder",
                     data : {p : p, dir : dir},
                     onSuccess : function(msg, data) {
-                        $.dialog.alertSuccess(msg, "请求处理成功", function(){
+                        $.alert.Success(msg, function(){
                             $.utils.refreshPage();
                         });
                     }
                 });
             });
 
+            // 修改目录
+            var renameValidator = $("#dirForm").validate();
             $("#dirForm").formDialog({
                 title : "修改目录名",
                 width : 430,
@@ -38,25 +43,21 @@
                     click : function() {
                         var refreshPage = "/am/rs/index?p=${folder.parent}" + $("#renameDir").val();
 
-                        $("#dirForm").formDialog("close");
-                        var file = $("#renameDir").val();
-                        if(file == "") {
-                            $.dialog.alertInfo("请填写目录名", "提示", function() {
-                                $("#dirForm").formDialog();
-                            });
+                        if(!renameValidator.isValidated()) {
                             $("#renameDir").focus();
                             return ;
                         }
 
+                        $("#dirForm").formDialog("close");
                         $("#dirForm").submitForm({
                             progress : true,
                             onSuccess : function(msg, data) {
-                                $.dialog.alertSuccess(msg, "请求处理成功", function(){
+                                $.alert.Success(msg, function(){
                                     $.utils.toUrl(refreshPage);
                                 });
                             },
                             onFailure : function(msg, data) {
-                                $.dialog.alertError(msg, "请求处理失败", function() {
+                                $.alert.Error(msg, function() {
                                     $("#dirForm").formDialog();
                                 });
                             }
@@ -67,11 +68,13 @@
                     closed : true
                 }]
             });
-
             $("#renameDirBtn").click(function() {
+                $("#renameDir").val($("#renameDir").attr("current"));
                 $("#dirForm").formDialog("show");
             });
 
+            // 上传文件
+            var uploadValidator = $("#uploadForm").validate();
             $("#uploadForm").formDialog({
                 title : "上传文件",
                 width : 430,
@@ -79,26 +82,22 @@
                     text : "上传",
                     cls : "btn-primary",
                     click : function() {
-                        $("#uploadForm").formDialog("close");
-
                         var file = $("#fileTxt").val();
-                        if(file == "") {
-                            $.dialog.alertInfo("请选择上传文件", "提示", function() {
-                                $("#uploadForm").formDialog();
-                            });
+                        if(!uploadValidator.isValidated()) {
                             $("#fileTxt").focus();
                             return ;
                         }
 
+                        $("#uploadForm").formDialog("close");
                         $("#uploadForm").submitForm({
                             progress : true,
                             onSuccess : function(msg, data) {
-                                $.dialog.alertSuccess(msg, "请求处理成功", function(){
+                                $.alert.Success(msg, function(){
                                     $.utils.refreshPage();
                                 });
                             },
                             onFailure : function(msg, data) {
-                                $.dialog.alertError(msg, "请求处理失败", function() {
+                                $.alert.Error(msg, function() {
                                     $("#uploadForm").formDialog();
                                 });
                             }
@@ -109,8 +108,8 @@
                     closed : true
                 }]
             });
-
             $("#uploadBtn").click(function() {
+                $('#uploadForm').resetForm();
                 $("#uploadForm").formDialog("show");
             });
 
@@ -169,7 +168,7 @@
                             <span>当前目录：${p}/</span>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control pt5 pb5" id="newDir" placeholder="新建目录">
+                            <input type="text" validate="required" class="form-control pt5 pb5" id="newDir" placeholder="新建目录">
                         </div>
                         <div class="form-group">
                             <button type="button" id="mkdirBtn" class="btn btn-warning btn-sm">新建</button>
@@ -218,7 +217,7 @@
         <div class="input-group">
             <span class="input-group-addon">${folder.parent}</span>
             <input type="hidden" name="p" value="${p}">
-            <input type="text" class="form-control" name="renameDir" value="${folder.name}" id="renameDir" placeholder="输入目录名称">
+            <input type="text" validate="required" class="form-control" name="renameDir" current="${folder.name}" value="${folder.name}" id="renameDir" placeholder="输入目录名称">
         </div>
         <span class="help-block"><i class="redStar">*</i>必填，目录名称不得与现有目录名称重复</span>
     </div>
@@ -235,7 +234,7 @@
     <div class="form-group">
         <label for="fileTxt" class="col-sm-3 control-label">选择文件</label>
         <div class="col-sm-9">
-            <input type="file" name="file" id="fileTxt"  class="form-control">
+            <input type="file" validate="required" name="file" id="fileTxt"  class="form-control">
         </div>
     </div>
 </form>

@@ -2,34 +2,36 @@
 
 	$.fn.submitForm = function(options) {
 		var defaults = {
+            validator : null,
 			progress : true,
 			progressStartFunc : function() {
-				$.dialog.progress();
+				$.progress();
 			},
 			progressEndFunc : function() {
-				$.dialog.progress("close");
+				$.progress("close");
 			},
 			onSuccess : function(msg) {
-				$.dialog.alertSuccess(msg, "请求处理成功");
+				$.alert.Success(msg);
 			},
 			onFailure : function(msg) {
-				$.dialog.alertError(msg, "数据处理出错");
+                $.alert.Error(msg);
 			},
 			onError : function() {
-				$.dialog.alertError("网络请求超时，请稍后再试！");
+                $.alert.Error("网络请求超时，请稍后再试！");
 			},
 			data : null,
 			dataType : "json"
 		};
 
 		var options = $.extend(defaults, options);
-		
-//		var checkStatus = $(this).validationEngine("validate");
+
+        if(options.validator == null || !options.validator.isValidated()) {
+            return ;
+        }
 		
 		var ajaxFormOptions = {
 			beforeSubmit : function(formData, jqForm, options) {
                 return true;
-//				return checkStatus;
 			},
 			error : function() {
 				var sec = 0;
@@ -78,13 +80,13 @@
 				url : null,
 				progress : true,
 				onSuccess : function(msg, data) {
-					$.dialog.alertSuccess(msg, "请求处理成功");
+					$.alert.Success(msg);
 				},
 				onFailure : function(msg, data) {
-					$.dialog.alertError(msg, "数据处理出错");
+                    $.alert.Error(msg);
 				},
 				onError : function() {
-					$.dialog.alertError("网络请求超时，请稍后再试！");
+                    $.alert.Error("网络请求超时，请稍后再试！");
 				},
 				data : null,
 				async : true,
@@ -94,7 +96,7 @@
 
 			var options = $.extend(defaults, options);
 			if (options.progress) {
-				$.dialog.progress();
+				$.progress();
 			}
 
 			$.ajax({
@@ -108,7 +110,7 @@
 					var sec = 0;
 					if (options.progress) {
 						setTimeout(function() {
-							$.dialog.progress("close");
+							$.progress("close");
 						}, 500);
 						sec = 800;
 					}
@@ -129,7 +131,7 @@
 					var sec = 0;
 					if (options.progress) {
 						setTimeout(function() {
-							$.dialog.progress("close");
+							$.progress("close");
 						}, 500);
 						sec = 800;
 					}

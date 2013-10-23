@@ -1,6 +1,6 @@
 (function ($) {
 
-    function CWnd(options) {
+    function Dialog(options) {
 
         var defaults = {
             id: "",
@@ -15,24 +15,18 @@
         this.options = $.extend(defaults, options);
 
         if ($("#" + options.id).length <= 0) {
-            var _content = $('<div class="modal-content"></div>');
-            var _header = $('<div class="modal-header">' +
+            var dialog = $('<div id="' + options.id + '" tabindex="-1" class="modal fade" aria-hidden="true" role="dialog">' +
+                '<div class="modal-dialog"><div class="modal-content"></div></div></div>');
+
+            dialog = dialog.find(".modal-content");
+
+            dialog.append('<div class="modal-header">' +
                 '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' +
                 '<h4 class="modal-title">' + options.title + '</h4></div>');
-            var _body = $('<div class="modal-body"></div>').append(options.body);
-            var _footer = $('<div class="modal-footer"></div>').append(options.foot);
+            dialog.append($('<div class="modal-body"></div>').append(options.body));
+            dialog.append($('<div class="modal-footer"></div>').append(options.foot));
 
-            _content.append(_header);
-            _content.append(_body);
-            _content.append(_footer);
-
-            var _dialog = $('<div class="modal-dialog"></div>');
-            _dialog.append(_content);
-
-            var _dialog_div = $('<div id="' + options.id + '" tabindex="-1" class="modal fade" aria-hidden="true" role="dialog"></div>');
-            _dialog_div.append(_dialog);
-
-            _dialog_div.appendTo("body");
+            dialog.parents("#" + options.id).appendTo("body");
 
             $("#" + options.id).modal({
                 backdrop: 'static',
@@ -71,151 +65,20 @@
         }
     };
 
-    CWnd.prototype.show = function () {
+    Dialog.prototype.show = function () {
         $("#" + this.options.id).modal("show");
     };
 
-    CWnd.prototype.hide = function () {
+    Dialog.prototype.hide = function () {
         $("#" + this.options.id).modal("hide");
     };
 
-    CWnd.prototype.setTitle = function (title) {
+    Dialog.prototype.setTitle = function (title) {
 
         if (!$.utils.isEmpty(title)) {
             title = this.options.title;
         }
         $("#" + this.options.id + " > .modal-header > h4").html(title);
-    };
-
-    $.dialog = {
-        progress: function (action) {
-
-            var cwnd = new CWnd(
-                {
-                    id: "_progressDialog",
-                    title: "请求处理中...",
-                    width: 400,
-                    body: '<div class="progress progress-striped active mb0">' +
-                            '<div class="progress-bar progress-bar-info" role="progressbar" ' +
-                                'aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" id="_progressDialogBar" style="width: 0%;"></div>',
-                    foot: '<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>'
-                });
-
-            if (action != null && action == "close") {
-                cwnd.hide();
-                return;
-            }
-
-            var _activeProgressBar;
-
-            $("#_progressDialog").on(
-                "shown.bs.modal",
-                function () {
-                    _activeProgressBar = setInterval(function () {
-                        var maxWidth = parseInt($("#_progressDialogBar")
-                            .parent().css("width"), 10);
-                        var width = parseInt($("#_progressDialogBar").css(
-                            "width"), 10);
-                        if (width < maxWidth) {
-                            var persent = width / maxWidth + 0.1;
-
-                            $("#_progressDialogBar").css("width",
-                                maxWidth * persent + "px");
-                        } else {
-                            $("#_progressDialogBar").css("width", "0px");
-                        }
-
-                    }, 700);
-                });
-
-            $("#_progressDialog").on("hidden.bs.modal", function () {
-                $("#_progressDialogBar").css("width", "0%");
-                window.clearInterval(_activeProgressBar);
-            });
-
-            cwnd.show();
-        },
-        alertInfo: function (text, title, closeFunc) {
-            var attr = new Object();
-            attr.type = "info";
-            attr.title = title;
-            attr.text = text;
-            attr.closeFunc = closeFunc;
-            attr.cls = "alert-info";
-            $.dialog.alert(attr);
-        },
-        alertError: function (text, title, closeFunc) {
-            var attr = new Object();
-            attr.type = "error";
-            attr.title = title;
-            attr.text = text;
-            attr.closeFunc = closeFunc;
-            attr.cls = "alert-danger";
-            $.dialog.alert(attr);
-        },
-        alertSuccess: function (text, title, closeFunc) {
-            var attr = new Object();
-            attr.type = "success";
-            attr.title = title;
-            attr.text = text;
-            attr.closeFunc = closeFunc;
-            attr.cls = "alert-success";
-            $.dialog.alert(attr);
-        },
-        alert: function (options) {
-
-            if ($.utils.isEmpty(options.title)) {
-                if (options.type == "success") {
-                    options.title = "成功提示";
-                    options.cls = "alert-success";
-                } else if (options.type == "error") {
-                    options.title = "错误提示";
-                    options.cls = "alert-danger";
-                } else {
-                    options.title = "信息提示";
-                    options.cls = "alert-info";
-                }
-            }
-
-            var _msg = $('<div class="mb0 alert ' + options.cls + '"></div>')
-            _msg.html(options.text);
-
-            var cwnd = new CWnd({
-                id: "_alertDialog",
-                title: options.title,
-                width: 400,
-                body: _msg,
-                foot: '<button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>'
-            });
-
-            if ($.utils.isEmpty(options.closeFunc)) {
-                $("#_alertDialog").unbind("hidden.bs.modal");
-            } else {
-                $("#_alertDialog").on("hidden.bs.modal", options.closeFunc);
-            }
-
-            cwnd.show();
-        },
-        confirm: function (text, title, func) {
-            if ($.utils.isEmpty(func)) {
-                func = title;
-                title = "确认窗口";
-            }
-
-            var cwnd = new CWnd({
-                id: "_confirmDialog",
-                title: title,
-                width: 400,
-                height: 60,
-                cls: "alert-info",
-                body: "<p>" + text + "</p>",
-                foot: '<a class="btn btn-primary" data-dismiss="modal">确定</a>'
-                    + '<a class="btn" data-dismiss="modal">关闭</a>'
-            });
-
-            $("#_confirmDialog .modal-footer .btn-primary").on("click", func);
-            cwnd.show();
-        }
     };
 
     $.fn.formDialog = function (options) {
@@ -255,27 +118,24 @@
                 _form.remove();
 
                 var _foot = $("<div></div>");
-                for (var i = 0; i < options.buttons.length; i++) {
-
-                    var btn = options.buttons[i];
-
+                $.each(options.buttons, function(i, n) {
                     var _btn = $('<button type="button" class="btn"></button>');
-                    _btn.html(btn.text);
-                    _btn.addClass(btn.cls);
+                    _btn.html(n.text);
+                    _btn.addClass(n.cls);
 
-                    if (!$.utils.isEmpty(btn.closed) && btn.closed == true) {
+                    if (!$.utils.isEmpty(n.closed) && n.closed == true) {
                         _btn.attr("data-dismiss", "modal");
                         _btn.addClass("btn-default");
                     }
 
-                    if (!$.utils.isEmpty(btn.click)) {
-                        _btn.click(btn.click);
+                    if (!$.utils.isEmpty(n.click)) {
+                        _btn.click(n.click);
                     }
 
                     _foot.append(_btn);
-                }
+                });
 
-                new CWnd({
+                new Dialog({
                     id: _dialogId,
                     title: options.title,
                     body: _body,
@@ -302,6 +162,54 @@
         } else {
             _method["init"](options);
         }
+    };
+
+    $.progress = function(action) {
+
+        var dialog = new Dialog(
+            {
+                id: "_progressDialog",
+                title: "请求处理中...",
+                width: 400,
+                body: '<div class="progress progress-striped active mb0">' +
+                    '<div class="progress-bar progress-bar-info" role="progressbar" ' +
+                    'aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" id="_progressDialogBar" style="width: 0%;"></div>',
+                foot: '<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>'
+            });
+
+        if (action != null && action == "close") {
+            dialog.hide();
+            return;
+        }
+
+        var _activeProgressBar;
+
+        $("#_progressDialog").on(
+            "shown.bs.modal",
+            function () {
+                _activeProgressBar = setInterval(function () {
+                    var maxWidth = parseInt($("#_progressDialogBar")
+                        .parent().css("width"), 10);
+                    var width = parseInt($("#_progressDialogBar").css(
+                        "width"), 10);
+                    if (width < maxWidth) {
+                        var percent = width / maxWidth + 0.1;
+
+                        $("#_progressDialogBar").css("width",
+                            maxWidth * percent + "px");
+                    } else {
+                        $("#_progressDialogBar").css("width", "0px");
+                    }
+
+                }, 700);
+            });
+
+        $("#_progressDialog").on("hidden.bs.modal", function () {
+            $("#_progressDialogBar").css("width", "0%");
+            window.clearInterval(_activeProgressBar);
+        });
+
+        dialog.show();
     };
 
 })(jQuery);
