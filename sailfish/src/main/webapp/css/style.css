@@ -18,6 +18,18 @@
     padding: 3px;
 }
 
+.tip-danger {
+    color: #b94a48;
+}
+
+.tip-success {
+    color: #468847;
+}
+
+.tip-info {
+    color : #3a87ad
+}
+
 /* 长度高度 */
 .w10 {
     width: 10px;

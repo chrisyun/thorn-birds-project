@@ -42,6 +42,8 @@
     <script src="<%=path%>/plugins/func/utils.js" type="text/javascript"></script>
     <script src="<%=path%>/plugins/func/dialog.js" type="text/javascript"></script>
     <script src="<%=path%>/plugins/func/request.js" type="text/javascript"></script>
+    <script src="<%=path%>/plugins/func/validate.js" type="text/javascript"></script>
+    <script src="<%=path%>/plugins/func/alert.js" type="text/javascript"></script>
     <script src="<%=path%>/plugins/jquery-form/jquery.form.js" type="text/javascript"></script>
     <script src="<%=path%>/js/am.js"  type="text/javascript"></script>
 
