@@ -2,9 +2,9 @@ package org.thorn.sailfish.controller;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,18 +13,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.thorn.sailfish.core.Configuration;
-import org.thorn.sailfish.entity.Resource;
-import org.thorn.sailfish.entity.ResourceFolder;
-import org.thorn.sailfish.entity.Status;
+import org.thorn.sailfish.entity.*;
+import org.thorn.sailfish.enums.OperateEnum;
+import org.thorn.sailfish.service.ResourceLogService;
 import org.thorn.sailfish.utils.DateTimeUtils;
 import org.thorn.sailfish.utils.PathUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -43,6 +40,9 @@ public class ResourceController {
     private static final String CMS_TAG = "CMS";
 
     private static final String FLT_TAG = CMS_TAG + "/FLT";
+
+    @Autowired
+    private ResourceLogService resourceLogService;
 
     @RequestMapping("/index")
     public String index(String p, HttpSession session, ModelMap modelMap) {
@@ -63,13 +63,7 @@ public class ResourceController {
             p = p.substring(0, p.length() - 1);
         }
 
-        //特殊处理 {CMS}、{CMS}/{FLT}
-        String realPath = PathUtils.getContextPath(session);
-        if (StringUtils.startsWith(p, FLT_TAG)) {
-            realPath = realPath + Configuration.FORMWORK_PATH + StringUtils.removeStart(p, FLT_TAG);
-        } else {
-            realPath = realPath + Configuration.STATIC_RESOURCE_PATH + StringUtils.removeStart(p, CMS_TAG);
-        }
+        String realPath = getRealPath(p, session);
 
         //获取目录下的文件信息
         //获取目录下的文件夹信息及文件夹的数量
@@ -136,35 +130,16 @@ public class ResourceController {
     @RequestMapping("/createFolder")
     @ResponseBody
     public Status createFolder(String p, String dir, HttpSession session) {
-        Status status = new Status();
+        Status status = validatePath(p);
 
-        //校验p格式是否正确
-        if (!StringUtils.startsWith(p, CMS_TAG)) {
-            status.setSuccess(false);
-            status.setMessage("上级目录路径格式错误");
+        if(!status.isSuccess()) {
             return status;
         }
 
-        if (p.endsWith("/") || p.endsWith("\\")) {
-            p = p.substring(0, p.length() - 1);
-        }
-
-        if (StringUtils.equals(p, CMS_TAG) && StringUtils.equals(dir, FLT_TAG)) {
-            status.setSuccess(false);
-            status.setMessage("目录名称与现有目录名重复");
-            return status;
-        }
-
-        //特殊处理 {CMS}、{CMS}/{FLT}
-        String realPath = PathUtils.getContextPath(session);
-        if (StringUtils.startsWith(p, FLT_TAG)) {
-            realPath = realPath + Configuration.FORMWORK_PATH + StringUtils.removeStart(p, FLT_TAG);
-        } else {
-            realPath = realPath + Configuration.STATIC_RESOURCE_PATH + StringUtils.removeStart(p, CMS_TAG);
-        }
+        String realPath = getRealPath(p, session);
 
         File folder = new File(realPath);
-        if (!folder.exists() || !folder.isDirectory()) {
+        if (!directoryExists(folder)) {
             status.setSuccess(false);
             status.setMessage("上级目录不存在");
             return status;
@@ -186,12 +161,9 @@ public class ResourceController {
     @RequestMapping("/renameFolder")
     @ResponseBody
     public Status renameFolder(String p, String renameDir, HttpSession session) {
-        Status status = new Status();
+        Status status = validatePath(p);
 
-        //校验p格式是否正确
-        if (!StringUtils.startsWith(p, CMS_TAG)) {
-            status.setSuccess(false);
-            status.setMessage("目录路径格式错误");
+        if(!status.isSuccess()) {
             return status;
         }
 
@@ -205,16 +177,10 @@ public class ResourceController {
             return status;
         }
 
-        //特殊处理 {CMS}、{CMS}/{FLT}
-        String realPath = PathUtils.getContextPath(session);
-        if (StringUtils.startsWith(p, FLT_TAG)) {
-            realPath = realPath + Configuration.FORMWORK_PATH + StringUtils.removeStart(p, FLT_TAG);
-        } else {
-            realPath = realPath + Configuration.STATIC_RESOURCE_PATH + StringUtils.removeStart(p, CMS_TAG);
-        }
+        String realPath = getRealPath(p, session);
 
         File folder = new File(realPath);
-        if (!folder.exists() || !folder.isDirectory()) {
+        if (!directoryExists(folder)) {
             status.setSuccess(false);
             status.setMessage("当前目录不存在");
             return status;
@@ -233,16 +199,12 @@ public class ResourceController {
         return status;
     }
 
-    @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+    @RequestMapping("/deleteFolder")
     @ResponseBody
-    public Status uploadFile(String p, @RequestParam("file") CommonsMultipartFile file,
-                           HttpServletResponse response, HttpSession session) throws IOException {
-        Status status = new Status();
+    public Status deleteFolder(String p, HttpSession session) {
+        Status status = validatePath(p);
 
-        //校验p格式是否正确
-        if (!StringUtils.startsWith(p, CMS_TAG)) {
-            status.setSuccess(false);
-            status.setMessage("上传目录路径格式错误");
+        if(!status.isSuccess()) {
             return status;
         }
 
@@ -250,16 +212,48 @@ public class ResourceController {
             p = p.substring(0, p.length() - 1);
         }
 
-        //特殊处理 {CMS}、{CMS}/{FLT}
-        String realPath = PathUtils.getContextPath(session);
-        if (StringUtils.startsWith(p, FLT_TAG)) {
-            realPath = realPath + Configuration.FORMWORK_PATH + StringUtils.removeStart(p, FLT_TAG);
-        } else {
-            realPath = realPath + Configuration.STATIC_RESOURCE_PATH + StringUtils.removeStart(p, CMS_TAG);
+        if (StringUtils.equals(p, CMS_TAG) && StringUtils.equals(p, FLT_TAG)) {
+            status.setSuccess(false);
+            status.setMessage("系统目录不允许删除");
+            return status;
         }
 
+        String realPath = getRealPath(p, session);
+
         File folder = new File(realPath);
-        if (!folder.exists() || !folder.isDirectory()) {
+        if (!directoryExists(folder)) {
+            status.setSuccess(false);
+            status.setMessage("当前目录不存在");
+            return status;
+        }
+
+        String[] children = folder.list();
+        if (children != null && children.length > 0) {
+            status.setSuccess(false);
+            status.setMessage("非空目录不允许删除");
+            return status;
+        }
+
+        folder.delete();
+
+        status.setMessage("目录删除成功");
+        return status;
+    }
+
+    @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+    @ResponseBody
+    public Status uploadFile(String p, @RequestParam("file") CommonsMultipartFile file,
+                           HttpServletResponse response, HttpSession session) throws IOException {
+        Status status = validatePath(p);
+
+        if(!status.isSuccess()) {
+            return status;
+        }
+
+        String realPath = getRealPath(p, session);
+
+        File folder = new File(realPath);
+        if (!directoryExists(folder)) {
             status.setSuccess(false);
             status.setMessage("当前目录不存在");
             return status;
@@ -283,16 +277,262 @@ public class ResourceController {
             os.close();
 
             status.setMessage("文件上传成功！");
+
+            if(needLog(resourceName)) {
+                ResourceLog resourceLog = new ResourceLog();
+                SessionData sessionData = (SessionData) session.getAttribute(Configuration.SESSION_USER);
+                resourceLog.setModifier(sessionData.getUserId());
+                resourceLog.setName(resourceName);
+                resourceLog.setPath(resource.getParent());
+                resourceLog.setOperateType(OperateEnum.SAVE.getCode());
+                resourceLog.setContent(new String(file.getBytes(), "UTF-8"));
+                resourceLogService.save(resourceLog);
+            }
+
         } catch (IOException e) {
             status.setSuccess(false);
             status.setMessage("文件上传失败：" + e.getMessage());
             log.error("uploadFile[File] - " + e.getMessage(), e);
         }
 
-        //TODO write db
+        return status;
+    }
+
+    @RequestMapping("/deleteFile")
+    @ResponseBody
+    public Status deleteFile(String p, String name, HttpSession session) {
+        Status status = validatePath(p);
+
+        if(!status.isSuccess()) {
+            return status;
+        }
+
+        String realPath = getRealPath(p, session);
+
+        File file = new File(realPath, name);
+        if(!fileExists(file)) {
+            status.setSuccess(false);
+            status.setMessage("文件不存在");
+            return status;
+        }
+
+        file.delete();
+
+        if(needLog(name)) {
+            ResourceLog resourceLog = new ResourceLog();
+            SessionData sessionData = (SessionData) session.getAttribute(Configuration.SESSION_USER);
+            resourceLog.setModifier(sessionData.getUserId());
+            resourceLog.setName(name);
+            resourceLog.setPath(file.getParent());
+            resourceLog.setOperateType(OperateEnum.DELETE.getCode());
+            resourceLogService.save(resourceLog);
+        }
+
+        status.setMessage("文件删除成功");
 
         return status;
     }
 
+    @RequestMapping("/loadFile")
+    @ResponseBody
+    public JsonResponse<String> loadFile(String p, String name, HttpSession session) throws IOException {
+        JsonResponse<String> jsonResponse = new JsonResponse<String>();
+
+        Status status = validatePath(p);
+
+        if(!status.isSuccess()) {
+            jsonResponse.setSuccess(false);
+            jsonResponse.setMessage(status.getMessage());
+            return jsonResponse;
+        }
+
+        if(!needLog(name)) {
+            jsonResponse.setSuccess(false);
+            jsonResponse.setMessage("非文本文件不能打开");
+            return jsonResponse;
+        }
+
+        String realPath = getRealPath(p, session);
+
+        File file = new File(realPath, name);
+        if(!fileExists(file)) {
+            jsonResponse.setSuccess(false);
+            jsonResponse.setMessage("文件不存在");
+            return jsonResponse;
+        }
+
+        InputStreamReader streamReader = null;
+        BufferedReader bufferedReader = null;
+        try {
+            streamReader = new InputStreamReader(new FileInputStream(file), "UTF-8");
+            bufferedReader = new BufferedReader(streamReader);
+
+            StringBuilder builder = new StringBuilder();
+            String str;
+            while((str = bufferedReader.readLine()) != null) {
+                builder.append(str).append("\n");
+            }
+
+            jsonResponse.setData(builder.toString());
+        }catch (IOException e) {
+            jsonResponse.setSuccess(false);
+            jsonResponse.setMessage("读取文件出错");
+            log.error("loadFile[" + file.getAbsolutePath() + "]", e);
+        } finally {
+            if(streamReader != null) {
+                streamReader.close();
+            }
+            if(bufferedReader != null) {
+                bufferedReader.close();
+            }
+        }
+
+        return jsonResponse;
+    }
+
+    @RequestMapping(value = "/editFile", method = RequestMethod.POST)
+    @ResponseBody
+    public Status editFile(String p, String name, String newName, String content, HttpSession session) throws IOException {
+        Status status = validatePath(p);
+
+        if(!status.isSuccess()) {
+            return status;
+        }
+
+        if(!needLog(name)) {
+            status.setSuccess(false);
+            status.setMessage("非文本文件不能编辑");
+            return status;
+        }
+
+
+        String realPath = getRealPath(p, session);
+
+        File file = new File(realPath, name);
+        if(!fileExists(file)) {
+            status.setSuccess(false);
+            status.setMessage("文件不存在");
+            return status;
+        }
+
+        // rename
+        if(!StringUtils.equals(name, newName)) {
+
+            File newFile = new File(realPath, newName);
+            if(fileExists(newFile)) {
+                status.setSuccess(false);
+                status.setMessage("文件名已经存在");
+                return status;
+            }
+
+            file.renameTo(newFile);
+            file = new File(realPath, newName);
+        }
+
+        // write file
+        BufferedOutputStream os = null;
+
+        try {
+            os = new BufferedOutputStream(new FileOutputStream(file));
+            byte[] b = content.getBytes("UTF-8");
+            os.write(b);
+            os.flush();
+
+            status.setMessage("文件修改成功");
+
+            if(needLog(name)) {
+                ResourceLog resourceLog = new ResourceLog();
+                SessionData sessionData = (SessionData) session.getAttribute(Configuration.SESSION_USER);
+                resourceLog.setModifier(sessionData.getUserId());
+                resourceLog.setName(newName);
+                resourceLog.setLastName(name);
+                resourceLog.setPath(file.getParent());
+                resourceLog.setOperateType(OperateEnum.MODIFY.getCode());
+                resourceLog.setContent(content);
+                resourceLogService.save(resourceLog);
+            }
+
+        } catch (IOException e) {
+            status.setSuccess(false);
+            status.setMessage("更新文件出错");
+            log.error("loadFile[" + file.getAbsolutePath() + "]", e);
+        } finally {
+            if (os != null) {
+                os.close();
+            }
+        }
+
+        return status;
+    }
+
+    private Status validatePath(String p) {
+        Status status = new Status();
+
+        //校验p格式是否正确
+        if (!StringUtils.startsWith(p, CMS_TAG)) {
+            status.setSuccess(false);
+            status.setMessage("目录路径格式错误");
+            return status;
+        }
+
+        return status;
+    }
+
+    private String getRealPath(String p, HttpSession session) {
+        if (p.endsWith("/") || p.endsWith("\\")) {
+            p = p.substring(0, p.length() - 1);
+        }
+
+        //特殊处理 {CMS}、{CMS}/{FLT}
+        String realPath = PathUtils.getContextPath(session);
+        if (StringUtils.startsWith(p, FLT_TAG)) {
+            realPath = realPath + Configuration.FORMWORK_PATH + StringUtils.removeStart(p, FLT_TAG);
+        } else {
+            realPath = realPath + Configuration.STATIC_RESOURCE_PATH + StringUtils.removeStart(p, CMS_TAG);
+        }
+
+        return realPath;
+    }
+
+    private boolean directoryExists(String parent, String name) {
+        File file = new File(parent, name);
+        return directoryExists(file);
+    }
+
+    private boolean directoryExists(File file) {
+        if(!file.exists() || !file.isDirectory()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean fileExists(String parent, String name) {
+        File file = new File(parent, name);
+
+        return fileExists(file);
+    }
+
+    private boolean fileExists(File file) {
+        if(!file.exists() || !file.isFile()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean needLog(String name) {
+
+        if(StringUtils.endsWithIgnoreCase(name, "css") ||
+                StringUtils.endsWithIgnoreCase(name, "js") ||
+                StringUtils.endsWithIgnoreCase(name, "txt") ||
+                StringUtils.endsWithIgnoreCase(name, "html") ||
+                StringUtils.endsWithIgnoreCase(name, "flt") ||
+                StringUtils.endsWithIgnoreCase(name, "htm")) {
+            return true;
+        }
+
+        return false;
+    }
 
 }

@@ -6,6 +6,8 @@
 <head>
     <title>管理后台 - 资源与模板</title>
     <script type="text/javascript">
+        var editValidator;
+
         $(function() {
 
             // 新建目录
@@ -15,7 +17,7 @@
             $("#mkdirBtn").click(function() {
                 var p = "${p}";
 
-                if(!newValidator.isValidated()) {
+                if(!newValidator.validated()) {
                     $("#newDir").focus();
                     return ;
                 }
@@ -33,7 +35,6 @@
             });
 
             // 修改目录
-            var renameValidator = $("#dirForm").validate();
             $("#dirForm").formDialog({
                 title : "修改目录名",
                 width : 430,
@@ -43,7 +44,7 @@
                     click : function() {
                         var refreshPage = "/am/rs/index?p=${folder.parent}" + $("#renameDir").val();
 
-                        if(!renameValidator.isValidated()) {
+                        if(!renameValidator.validated()) {
                             $("#renameDir").focus();
                             return ;
                         }
@@ -69,12 +70,32 @@
                 }]
             });
             $("#renameDirBtn").click(function() {
-                $("#renameDir").val($("#renameDir").attr("current"));
+                $("#renameDir").val($("#renameDir").attr("old"));
+                renameValidator.clear();
                 $("#dirForm").formDialog("show");
+            });
+            var renameValidator = $("#dirForm").validate({
+                container : "#_formDialog_dirForm"
+            });
+
+            //删除当前目录
+            $("#deleteDirBtn").click(function() {
+                $.confirm("是否确认当前目录？", function() {
+                    var p = '${p}';
+
+                    $.request.ajax({
+                        url : "/am/rs/deleteFolder",
+                        data : {p : p},
+                        onSuccess : function(msg, data) {
+                            $.alert.Success(msg, function(){
+                                $.utils.refreshPage();
+                            });
+                        }
+                    });
+                });
             });
 
             // 上传文件
-            var uploadValidator = $("#uploadForm").validate();
             $("#uploadForm").formDialog({
                 title : "上传文件",
                 width : 430,
@@ -83,7 +104,7 @@
                     cls : "btn-primary",
                     click : function() {
                         var file = $("#fileTxt").val();
-                        if(!uploadValidator.isValidated()) {
+                        if(!uploadValidator.validated()) {
                             $("#fileTxt").focus();
                             return ;
                         }
@@ -110,13 +131,82 @@
             });
             $("#uploadBtn").click(function() {
                 $('#uploadForm').resetForm();
+                uploadValidator.clear();
                 $("#uploadForm").formDialog("show");
             });
+            var uploadValidator = $("#uploadForm").validate({
+                container : "#_formDialog_uploadForm"
+            });
 
+            // 修改文件
+            $("#editForm").formDialog({
+                title : "编辑文件",
+                width : 800,
+                height : 450,
+                buttons : [{
+                    text : "保存",
+                    cls : "btn-primary",
+                    click : function() {
+                        if(!editValidator.validated()) {
+                            return ;
+                        }
 
-
+                        $("#editForm").formDialog("close");
+                        $("#editForm").submitForm({
+                            progress : true,
+                            onSuccess : function(msg, data) {
+                                $.alert.Success(msg, function(){
+                                    $.utils.refreshPage();
+                                });
+                            },
+                            onFailure : function(msg, data) {
+                                $.alert.Error(msg, function() {
+                                    $("#editForm").formDialog();
+                                });
+                            }
+                        })
+                    }
+                }, {
+                    text : "关闭",
+                    closed : true
+                }]
+            });
+            editValidator = $("#editForm").validate({
+                container : "#_formDialog_editForm"
+            });
         });
+        function loadFile(name) {
+            var p = '${p}';
+            editValidator.clear();
+            $.request.ajax({
+                url : "/am/rs/loadFile",
+                data : {p : p, name : name},
+                onSuccess : function(msg, data) {
+                    $("#editForm [name=name]").val(name);
+                    $("#editForm [name=newName]").val(name);
 
+                    $("#editForm [name=content]").val(data);
+
+                    $("#editForm").formDialog("show");
+                }
+            });
+        }
+
+        function deleteFile(name) {
+            $.confirm("是否确认删除该文件？", function() {
+                var p = '${p}';
+
+                $.request.ajax({
+                    url : "/am/rs/deleteFile",
+                    data : {p : p, name : name},
+                    onSuccess : function(msg, data) {
+                        $.alert.Success(msg, function(){
+                            $.utils.refreshPage();
+                        });
+                    }
+                });
+            });
+        }
 
     </script>
 </head>
@@ -172,6 +262,9 @@
                         </div>
                         <div class="form-group">
                             <button type="button" id="mkdirBtn" class="btn btn-warning btn-sm">新建</button>
+                        <c:if test="${not empty folder.parent and folder.path != 'CMS/FLT'}">
+                            <button type="button" id="deleteDirBtn" class="btn btn-danger btn-sm">删除</button>
+                        </c:if>
                         </div>
                         <div class="form-group pull-right">
                         <c:if test="${not empty folder.parent and folder.path != 'CMS/FLT'}">
@@ -196,12 +289,12 @@
                 <tbody>
                 <c:forEach var="resource" items="${resources}">
                     <tr>
-                        <td>${resource.name}</td>
+                        <td><a href="#" onclick="loadFile('${resource.name}')">${resource.name}</a></td>
                         <td><fmt:formatNumber pattern="#,##0.0#" value="${resource.size/1024}" />&nbsp;KB</td>
                         <td>${resource.lastModifyTime}</td>
                         <td style="text-align: center;">
-                            <a href="#"><span class="glyphicon glyphicon-edit mr30"></span></a>
-                            <a href="#"><span class="glyphicon glyphicon-trash"></span></a>
+                            <a href="#" onclick="loadFile('${resource.name}')"><span class="glyphicon glyphicon-edit mr30"></span></a>
+                            <a href="#" onclick="deleteFile('${resource.name}')"><span class="glyphicon glyphicon-trash"></span></a>
                         </td>
                     </tr>
                 </c:forEach>
@@ -217,7 +310,7 @@
         <div class="input-group">
             <span class="input-group-addon">${folder.parent}</span>
             <input type="hidden" name="p" value="${p}">
-            <input type="text" validate="required" class="form-control" name="renameDir" current="${folder.name}" value="${folder.name}" id="renameDir" placeholder="输入目录名称">
+            <input type="text" validate="required" class="form-control" name="renameDir" old="${folder.name}" value="${folder.name}" id="renameDir">
         </div>
         <span class="help-block"><i class="redStar">*</i>必填，目录名称不得与现有目录名称重复</span>
     </div>
@@ -236,6 +329,21 @@
         <div class="col-sm-9">
             <input type="file" validate="required" name="file" id="fileTxt"  class="form-control">
         </div>
+    </div>
+</form>
+
+<form role="form" action="/am/rs/editFile" method="post" id="editForm">
+    <div class="form-group">
+        <label for="newName" class="control-label">文件名</label>
+        <div class="input-group">
+            <span class="input-group-addon">${p}/</span>
+            <input type="hidden" name="p" value="${p}">
+            <input type="hidden" name="name">
+            <input type="text" validate="required" class="form-control" name="newName" id="newName">
+        </div>
+    </div>
+    <div class="form-group">
+        <textarea class="form-control" name="content" rows="16"></textarea>
     </div>
 </form>
 

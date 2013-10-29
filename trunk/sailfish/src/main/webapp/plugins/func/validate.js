@@ -73,19 +73,19 @@
         this.apply = function(field, isSuccess, text) {
 
             if(isSuccess) {
-                field.parent(".form-group").addClass("has-success");
+                field.parents(".form-group").addClass("has-success");
             } else {
                 this.options.content = text;
                 field.popover(this.options);
 
                 field.popover('show');
-                field.parent(".form-group").addClass("has-error");
+                field.parents(".form-group").addClass("has-error");
             }
         };
         this.cancel = function(field) {
             field.popover('destroy');
-            field.parent(".form-group").removeClass("has-success");
-            field.parent(".form-group").removeClass("has-error");
+            field.parents(".form-group").removeClass("has-success");
+            field.parents(".form-group").removeClass("has-error");
         };
 
         return this;
@@ -100,11 +100,18 @@
 
         this.fieldsArray = fieldsArray;
 
-        this.isValidated = function() {
+        this.clear = function() {
+
+            $.each(this.fieldsArray, function(i, n) {
+                n.clear();
+            });
+        };
+
+        this.validated = function() {
 
             var result = true;
             $.each(this.fieldsArray, function(i, n) {
-                result = n.isValidated() && result;
+                result = n.validated() && result;
             });
 
             return result;
@@ -157,10 +164,14 @@
         });
 
         field.blur(function() {
-            _this.isValidated();
+            _this.validated();
         });
 
-        this.isValidated = function() {
+        this.clear = function() {
+            this.effect.cancel(this.field);
+        }
+
+        this.validated = function() {
 
             var _field = this.field;
             var _placement = this.placement;

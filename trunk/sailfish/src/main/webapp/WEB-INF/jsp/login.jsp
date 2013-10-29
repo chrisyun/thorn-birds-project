@@ -10,7 +10,7 @@
 
             $("#submit-btn").click(function() {
 
-                if(formValidator.isValidated()) {
+                if(formValidator.validated()) {
                     $("#loginForm").submit();
                 }
             });

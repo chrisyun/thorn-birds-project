@@ -25,7 +25,7 @@
 
 		var options = $.extend(defaults, options);
 
-        if(options.validator == null || !options.validator.isValidated()) {
+        if(options.validator != null && !options.validator.validated()) {
             return ;
         }
 		
@@ -117,7 +117,7 @@
 
 					var success = result.success;
 					var msg = result.message;
-					var data = result.obj;
+					var data = result.data;
 
 					setTimeout(function() {
 						if (success || success == "true") {
