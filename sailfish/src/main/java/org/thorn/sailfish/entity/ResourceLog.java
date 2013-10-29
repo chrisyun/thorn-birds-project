@@ -2,68 +2,114 @@ package org.thorn.sailfish.entity;
 
 /**
  * @Author: yfchenyun
- * @Since: 13-10-16 上午10:22
+ * @Since: 2013-10-29 15:33:00
  * @Version: 1.0
  */
 public class ResourceLog {
 
+    /**
+     *
+     */
     private Integer id;
 
+    /**
+     * 文件名
+     */
     private String name;
 
-    private String parent;
+    /**
+     * 路径
+     */
+    private String path;
 
+    /**
+     * 文本内容
+     */
     private String content;
 
+    /**
+     * 修改人
+     */
     private String modifier;
 
+    /**
+     * 修改时间
+     */
     private String modifyTime;
 
-    public Integer getId() {
-        return id;
-    }
+    /**
+     * 0：新增；1：修改；2：删除
+     */
+    private Integer operateType;
+
+    /**
+     * 原名称（修改名称使用）
+     */
+    private String lastName;
+
 
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Integer getId() {
+        return this.id;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getParent() {
-        return parent;
+    public String getName() {
+        return this.name;
     }
 
-    public void setParent(String parent) {
-        this.parent = parent;
+    public void setPath(String path) {
+        this.path = path;
     }
 
-    public String getContent() {
-        return content;
+    public String getPath() {
+        return this.path;
     }
 
     public void setContent(String content) {
         this.content = content;
     }
 
-    public String getModifier() {
-        return modifier;
+    public String getContent() {
+        return this.content;
     }
 
     public void setModifier(String modifier) {
         this.modifier = modifier;
     }
 
-    public String getModifyTime() {
-        return modifyTime;
+    public String getModifier() {
+        return this.modifier;
     }
 
     public void setModifyTime(String modifyTime) {
         this.modifyTime = modifyTime;
     }
+
+    public String getModifyTime() {
+        return this.modifyTime;
+    }
+
+    public void setOperateType(Integer operateType) {
+        this.operateType = operateType;
+    }
+
+    public Integer getOperateType() {
+        return this.operateType;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getLastName() {
+        return this.lastName;
+    }
+
 }

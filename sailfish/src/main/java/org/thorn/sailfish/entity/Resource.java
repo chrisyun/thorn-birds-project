@@ -1,5 +1,11 @@
 package org.thorn.sailfish.entity;
 
+import org.apache.commons.lang.StringUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @Author: yfchenyun
  * @Since: 13-10-16 上午10:11
@@ -16,6 +22,10 @@ public class Resource {
     private long size;
 
     public String getName() {
+        StringUtils.split(name, ',');
+
+        List<String> list = Arrays.asList(StringUtils.split(name, ','));
+
         return name;
     }
 
