@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <entry key="zookeeper.host">10.45.255.170:2181,10.45.255.170:2182,10.45.255.170:2183</entry>
+    <entry key="zookeeper.session.timeout">4000</entry>
+    <entry key="zookeeper.root.node">/octopus</entry>
+    <entry key="zookeeper.account.node">/account</entry>
+    <entry key="zookeeper.config.node">/config</entry>
+</properties>
