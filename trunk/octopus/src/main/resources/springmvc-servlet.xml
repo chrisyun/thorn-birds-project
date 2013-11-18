@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+						http://www.springframework.org/schema/util
+						http://www.springframework.org/schema/util/spring-util-3.0.xsd
+						http://www.springframework.org/schema/mvc    
+						http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+						http://www.springframework.org/schema/tx
+						http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+						http://www.springframework.org/schema/context    
+           				http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <context:annotation-config/>
+    <context:component-scan base-package="org.thorn.octopus" />
+    <mvc:annotation-driven/>
+
+    <util:properties id="zk" location="classpath:config.xml"></util:properties>
+
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:config.xml</value>
+            </list>
+        </property>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+    </bean>
+
+
+    <bean id="JSPviewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass"
+                  value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsps/"/>
+        <property name="suffix" value=".jsp"/>
+        <property name="contentType">
+            <value>text/html;charset=UTF-8</value>
+        </property>
+    </bean>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="org.thorn.octopus.filter.SecurityInterceptor">
+                <property name="loginUrl" value="/login" />
+                <property name="excludeUrls">
+                    <list>
+                        <value>/init</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <bean class="org.thorn.octopus.core.ZooKeeperFactory">
+        <constructor-arg index="0" name="host" value="${zookeeper.host}" />
+        <constructor-arg index="1" name="sessionTimeout" value="${zookeeper.session.timeout}" />
+    </bean>
+
+</beans>
