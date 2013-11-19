@@ -103,7 +103,7 @@ public class ResourceController {
                 resource.setName(file.getName());
                 resource.setSize(file.length());
                 resource.setLastModifyTime(DateTimeUtils.formatTime(new Date(file.lastModified())));
-                resource.setFormWork(isFormWork);
+                resource.setText(needLog(file.getName()));
                 resources.add(resource);
             }
         }

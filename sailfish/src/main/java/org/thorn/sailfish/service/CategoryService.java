@@ -1,9 +1,8 @@
 package org.thorn.sailfish.service;
 
-import org.thorn.sailfish.entity.${nameFirLetterUc};
-import org.thorn.sailfish.dao.${nameFirLetterUc}Dao;
+import org.thorn.sailfish.entity.Category;
+import org.thorn.sailfish.dao.CategoryDao;
 import org.thorn.sailfish.core.Configuration;
-import org.thorn.sailfish.entity.Page;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,23 +12,25 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.thorn.sailfish.entity.Page;
+
 /**
  * @Author: yfchenyun
- * @Since: ${.now}
+ * @Since: 2013-10-30 13:58:11
  * @Version: 1.0
  */
 @Service
-public class ${nameFirLetterUc}Service {
+public class CategoryService {
 
     @Autowired
-    private ${nameFirLetterUc}Dao ${name}Dao;
+    private CategoryDao categoryDao;
 
-    public void save(${nameFirLetterUc} ${name}) {
-        ${name}Dao.save(${name});
+    public void save(Category category) {
+        categoryDao.save(category);
     }
 
-    public void modify(${nameFirLetterUc} ${name}) {
-        ${name}Dao.modify(${name});
+    public void modify(Category category) {
+        categoryDao.modify(category);
     }
 
     public void delete(String ids) {
@@ -39,10 +40,10 @@ public class ${nameFirLetterUc}Service {
         }
 
         List<String> list = Arrays.asList(array);
-        ${name}Dao.delete(list);
+        categoryDao.delete(list);
     }
 
-    public Page<${nameFirLetterUc}> queryPage(long start, long limit, String sort, String dir) {
+    public Page<Category> queryPage(long start, long limit, String sort, String dir) {
         Map<String, Object> filter = new HashMap<String, Object>();
 
 		filter.put(Configuration.PAGE_LIMIT, limit);
@@ -50,11 +51,11 @@ public class ${nameFirLetterUc}Service {
 		filter.put(Configuration.SORT_NAME, sort);
 		filter.put(Configuration.ORDER_NAME, dir);
 
-		Page<${nameFirLetterUc}> page = new Page<${nameFirLetterUc}>();
+		Page<Category> page = new Page<Category>();
 
-		page.setTotal(${name}Dao.count(filter));
+		page.setTotal(categoryDao.count(filter));
 		if(page.getTotal() > 0) {
-			page.setResultSet(${name}Dao.query(filter));
+			page.setResultSet(categoryDao.query(filter));
 		}
 
 		return page;

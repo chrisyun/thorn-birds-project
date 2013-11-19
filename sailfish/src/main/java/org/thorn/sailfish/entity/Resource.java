@@ -15,17 +15,13 @@ public class Resource {
 
     private String name;
 
-    private boolean isFormWork;
+    private boolean isText;
 
     private String lastModifyTime;
 
     private long size;
 
     public String getName() {
-        StringUtils.split(name, ',');
-
-        List<String> list = Arrays.asList(StringUtils.split(name, ','));
-
         return name;
     }
 
@@ -33,12 +29,12 @@ public class Resource {
         this.name = name;
     }
 
-    public boolean isFormWork() {
-        return isFormWork;
+    public boolean isText() {
+        return isText;
     }
 
-    public void setFormWork(boolean formWork) {
-        isFormWork = formWork;
+    public void setText(boolean text) {
+        isText = text;
     }
 
     public String getLastModifyTime() {
