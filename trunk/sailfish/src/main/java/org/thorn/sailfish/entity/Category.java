@@ -42,13 +42,18 @@ public class Category {
      */
     private String indexTemplate;
 
+    /**
+     * 是否隐藏
+     */
+    private Integer hidden;
+
 
     public void setEnName(String enName) {
         this.enName = enName;
     }
 
     public String getEnName() {
-            return this.enName;
+        return this.enName;
     }
 
     public void setCnName(String cnName) {
@@ -56,7 +61,7 @@ public class Category {
     }
 
     public String getCnName() {
-            return this.cnName;
+        return this.cnName;
     }
 
     public void setPath(String path) {
@@ -64,7 +69,7 @@ public class Category {
     }
 
     public String getPath() {
-            return this.path;
+        return this.path;
     }
 
     public void setSort(Integer sort) {
@@ -72,7 +77,7 @@ public class Category {
     }
 
     public Integer getSort() {
-            return this.sort;
+        return this.sort;
     }
 
     public void setParent(String parent) {
@@ -80,7 +85,7 @@ public class Category {
     }
 
     public String getParent() {
-            return this.parent;
+        return this.parent;
     }
 
     public void setArticleTemplate(String articleTemplate) {
@@ -88,7 +93,7 @@ public class Category {
     }
 
     public String getArticleTemplate() {
-            return this.articleTemplate;
+        return this.articleTemplate;
     }
 
     public void setIndexTemplate(String indexTemplate) {
@@ -96,7 +101,14 @@ public class Category {
     }
 
     public String getIndexTemplate() {
-            return this.indexTemplate;
+        return this.indexTemplate;
     }
 
+    public Integer getHidden() {
+        return hidden;
+    }
+
+    public void setHidden(Integer hidden) {
+        this.hidden = hidden;
+    }
 }

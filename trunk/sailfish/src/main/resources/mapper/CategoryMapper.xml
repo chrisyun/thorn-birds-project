@@ -8,6 +8,7 @@
         <result column="CNNAME" property="cnName" jdbcType="VARCHAR" javaType="String"/>
         <result column="PATH" property="path" jdbcType="VARCHAR" javaType="String"/>
         <result column="SORT" property="sort" jdbcType="INTEGER" javaType="Integer"/>
+        <result column="HIDDEN" property="hidden" jdbcType="INTEGER" javaType="Integer"/>
         <result column="PARENT" property="parent" jdbcType="VARCHAR" javaType="String"/>
         <result column="ARTICLETEMPLATE" property="articleTemplate" jdbcType="VARCHAR" javaType="String"/>
         <result column="INDEXTEMPLATE" property="indexTemplate" jdbcType="VARCHAR" javaType="String"/>
@@ -19,6 +20,7 @@
             PATH,
             SORT,
             PARENT,
+            HIDDEN,
             ARTICLETEMPLATE,
             INDEXTEMPLATE
 	</sql>
@@ -36,6 +38,9 @@
             </if>
             <if test="sort != null">
                 and t.SORT = #{sort,jdbcType=INTEGER}
+            </if>
+            <if test="hidden != null">
+                and t.HIDDEN = #{hidden,jdbcType=INTEGER}
             </if>
             <if test="parent != null and parent != ''">
                 and t.PARENT = #{parent,jdbcType=VARCHAR}
@@ -56,6 +61,7 @@
             <if test="cnName != null and cnName != ''">CNNAME,</if>
             <if test="path != null and path != ''">PATH,</if>
             <if test="sort != null">SORT,</if>
+            <if test="hidden != null">HIDDEN,</if>
             <if test="parent != null and parent != ''">PARENT,</if>
             <if test="articleTemplate != null and articleTemplate != ''">ARTICLETEMPLATE,</if>
             <if test="indexTemplate != null and indexTemplate != ''">INDEXTEMPLATE,</if>
@@ -65,6 +71,7 @@
             <if test="cnName != null and cnName != ''">#{cnName,jdbcType=VARCHAR},</if>
             <if test="path != null and path != ''">#{path,jdbcType=VARCHAR},</if>
             <if test="sort != null">#{sort,jdbcType=INTEGER},</if>
+            <if test="hidden != null">#{hidden,jdbcType=INTEGER},</if>
             <if test="parent != null and parent != ''">#{parent,jdbcType=VARCHAR},</if>
             <if test="articleTemplate != null and articleTemplate != ''">#{articleTemplate,jdbcType=VARCHAR},</if>
             <if test="indexTemplate != null and indexTemplate != ''">#{indexTemplate,jdbcType=VARCHAR},</if>
@@ -77,6 +84,7 @@
             <if test="cnName != null and cnName != ''">CNNAME = #{cnName,jdbcType=VARCHAR},</if>
             <if test="path != null and path != ''">PATH = #{path,jdbcType=VARCHAR},</if>
             <if test="sort != null">SORT = #{sort,jdbcType=INTEGER},</if>
+            <if test="hidden != null">HIDDEN = #{hidden,jdbcType=INTEGER},</if>
             <if test="parent != null and parent != ''">PARENT = #{parent,jdbcType=VARCHAR},</if>
             <if test="articleTemplate != null and articleTemplate != ''">ARTICLETEMPLATE = #{articleTemplate,jdbcType=VARCHAR},</if>
             <if test="indexTemplate != null and indexTemplate != ''">INDEXTEMPLATE = #{indexTemplate,jdbcType=VARCHAR},</if>
@@ -85,10 +93,8 @@
     </update>
 
     <delete id="delete">
-        delete from category where
-                enName in <foreach collection="list" item="item" open="(" close=")"separator=",">
-                            #{item,jdbcType=VARCHAR}
-                           </foreach>
+        delete from category where enName in
+        <foreach collection="list" item="item" open="(" close=")" separator=",">#{item,jdbcType=VARCHAR}</foreach>
     </delete>
 
 	<select id="select" resultMap="CategoryMap" parameterType="hashmap">
