@@ -289,21 +289,21 @@
                 <tbody>
                 <c:forEach var="resource" items="${resources}">
                     <tr>
-                    <c:if test="${resource.isText}">
+                    <c:if test="${resource.text}">
                         <td><a href="#" onclick="loadFile('${resource.name}')">${resource.name}</a></td>
                     </c:if>
-                    <c:if test="${!resource.isText}">
+                    <c:if test="${!resource.text}">
                         <td>${resource.name}</td>
                     </c:if>
                         <td><fmt:formatNumber pattern="#,##0.0#" value="${resource.size/1024}" />&nbsp;KB</td>
                         <td>${resource.lastModifyTime}</td>
                         <td style="text-align: center;">
-                            <c:if test="${resource.isText}">
+                            <c:if test="${resource.text}">
                                 <a href="#" onclick="loadFile('${resource.name}')"><span class="glyphicon glyphicon-edit mr30"></span></a>
                                 <a href="#" onclick="deleteFile('${resource.name}')"><span class="glyphicon glyphicon-trash"></span></a>
                             </c:if>
-                            <c:if test="${!resource.isText}">
-                                <a href="#" onclick="deleteFile('${resource.name}')"><span class="glyphicon glyphicon-trash ml80"></span></a>
+                            <c:if test="${!resource.text}">
+                                <a href="#" onclick="deleteFile('${resource.name}')"><span class="glyphicon glyphicon-trash ml50"></span></a>
                             </c:if>
                         </td>
                     </tr>

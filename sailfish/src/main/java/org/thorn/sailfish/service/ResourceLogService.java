@@ -28,20 +28,6 @@ public class ResourceLogService {
         resourceLogDao.save(resourceLog);
     }
 
-    public void modify(ResourceLog resourceLog) {
-        resourceLogDao.modify(resourceLog);
-    }
-
-    public void delete(String ids) {
-        String[] array = StringUtils.split(ids, ',');
-        if(array == null || array.length == 0) {
-            return ;
-        }
-
-        List<String> list = Arrays.asList(array);
-        resourceLogDao.delete(list);
-    }
-
     public Page<ResourceLog> queryPage(long start, long limit, String sort, String dir) {
         Map<String, Object> filter = new HashMap<String, Object>();
 

@@ -21,7 +21,7 @@ public class ${nameFirLetterUc} {
     }
 
     public ${field.fieldType} get${field.fieldName?cap_first}() {
-            return this.${field.fieldName};
+         return this.${field.fieldName};
     }
 
     </#list>

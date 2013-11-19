@@ -38,7 +38,7 @@ public class ResourceLogDao {
     }
 
     public List<ResourceLog> query(Map<String, Object> filter) {
-        return (List<ResourceLog>) sqlSessionTemplate.selectList(NAMESPACE + "select", filter);
+        return sqlSessionTemplate.selectList(NAMESPACE + "select", filter);
     }
 
 }

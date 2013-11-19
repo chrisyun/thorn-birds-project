@@ -74,7 +74,7 @@
         delete from ${tableName} where
         <#list fields as field>
             <#if field.key>
-                ${field.fieldName} in <foreach collection="list" item="item" open="(" close=")"separator=",">
+                ${field.fieldName} in <foreach collection="list" item="item" open="(" close=")" separator=",">
                             ${"#"}{item,jdbcType=VARCHAR}
                            </foreach>
             </#if>

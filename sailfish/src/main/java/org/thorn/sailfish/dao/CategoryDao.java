@@ -38,7 +38,7 @@ public class CategoryDao {
     }
 
     public List<Category> query(Map<String, Object> filter) {
-        return (List<Category>) sqlSessionTemplate.selectList(NAMESPACE + "select", filter);
+        return sqlSessionTemplate.selectList(NAMESPACE + "select", filter);
     }
 
 }

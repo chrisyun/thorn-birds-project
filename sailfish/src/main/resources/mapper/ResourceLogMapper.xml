@@ -92,7 +92,7 @@
 
     <delete id="delete">
         delete from resource_log where
-                id in <foreach collection="list" item="item" open="(" close=")"separator=",">
+                id in <foreach collection="list" item="item" open="(" close=")" separator=",">
                             #{item,jdbcType=VARCHAR}
                            </foreach>
     </delete>
