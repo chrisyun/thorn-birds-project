@@ -49,8 +49,14 @@ public class CategoryService {
        }
     }
 
-    public List<Category> queryById(String enName) {
-        return queryList(enName, null);
+    public Category queryById(String enName) {
+        List<Category> list = queryList(enName, null);
+
+        if(list == null || list.size() == 0) {
+            return null;
+        }
+
+        return list.get(0);
     }
 
     public List<Category> queryByParent(String parent) {

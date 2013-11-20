@@ -33,3 +33,13 @@ create table category
    hidden               int,
    primary key (enName)
 );
+
+文章ID
+栏目ID
+标题
+内容
+创建时间
+上次更新时间
+创建人
+是否删除
+星级
