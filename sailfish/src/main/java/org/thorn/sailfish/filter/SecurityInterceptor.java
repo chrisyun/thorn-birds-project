@@ -4,8 +4,8 @@ import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.thorn.sailfish.core.Configuration;
-import org.thorn.sailfish.entity.SessionData;
-import org.thorn.sailfish.entity.Status;
+import org.thorn.sailfish.core.SessionData;
+import org.thorn.sailfish.core.Status;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

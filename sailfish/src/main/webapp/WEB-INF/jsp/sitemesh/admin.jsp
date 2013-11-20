@@ -38,13 +38,15 @@
 
     <link rel="stylesheet" href="<%=path%>/plugins/bootstrap/css/bootstrap-theme.min.css">
     <script src="<%=path%>/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="<%=path%>/plugins/jquery-form/jquery.form.js" type="text/javascript"></script>
 
     <script src="<%=path%>/plugins/func/utils.js" type="text/javascript"></script>
     <script src="<%=path%>/plugins/func/dialog.js" type="text/javascript"></script>
     <script src="<%=path%>/plugins/func/request.js" type="text/javascript"></script>
     <script src="<%=path%>/plugins/func/validate.js" type="text/javascript"></script>
     <script src="<%=path%>/plugins/func/alert.js" type="text/javascript"></script>
-    <script src="<%=path%>/plugins/jquery-form/jquery.form.js" type="text/javascript"></script>
+    <script src="<%=path%>/plugins/func/form.js" type="text/javascript"></script>
+
 
     <decorator:head />
 
@@ -64,7 +66,7 @@
                     <div class="collapse navbar-collapse">
                         <ul class="nav navbar-nav" id="moduleNav">
                             <li><a href="/am/index">首页</a></li>
-                            <li><a href="#">栏目</a></li>
+                            <li><a href="/am/category/index">栏目</a></li>
                             <li><a href="/am/rs/index">资源与模板</a></li>
                             <li><a href="#">访问URL</a></li>
                             <li><a href="#">广告</a></li>

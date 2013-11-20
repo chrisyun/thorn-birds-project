@@ -11,6 +11,10 @@
                 return true;
             }
         },
+        number : {
+            text : "该输入项必须为数字",
+            regexp: /^\d*$/
+        },
         length : {
             text : "字段长度在{0}-{1}之间",
             regexp : function(field, args) {

@@ -1,5 +1,8 @@
 package org.thorn.sailfish.entity;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.thorn.sailfish.enums.YesOrNoEnum;
+
 /**
  * @Author: yfchenyun
  * @Since: 2013-10-30 13:58:11
@@ -110,5 +113,19 @@ public class Category {
 
     public void setHidden(Integer hidden) {
         this.hidden = hidden;
+    }
+
+    public String getIsHidden() {
+
+        if(hidden != null) {
+            return YesOrNoEnum.getNameByCode(hidden);
+        }
+
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }

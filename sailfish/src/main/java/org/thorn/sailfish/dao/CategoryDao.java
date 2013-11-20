@@ -29,8 +29,16 @@ public class CategoryDao {
         return sqlSessionTemplate.insert(NAMESPACE + "update", category);
     }
 
-    public int delete(List<String> ids) {
-        return sqlSessionTemplate.delete(NAMESPACE + "delete", ids);
+    public int delete(String id) {
+        return sqlSessionTemplate.delete(NAMESPACE + "delete", id);
+    }
+
+    public int deleteByIds(Map<String, Object> filter) {
+        return sqlSessionTemplate.delete(NAMESPACE + "deleteNoParent", filter);
+    }
+
+    public List<String> queryNoParent(String root) {
+        return sqlSessionTemplate.selectList(NAMESPACE + "selectNoParent", root);
     }
 
     public long count(Map<String, Object> filter) {

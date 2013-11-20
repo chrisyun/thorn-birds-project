@@ -19,7 +19,9 @@ public class Configuration {
 
     public static final String STATIC_RESOURCE_PATH = File.separator + "cms";
 
-    public static final String FORMWORK_PATH = File.separator + "WEB-INF" + File.separator + "flt";
+    public static final String TEMPLATE_PATH = File.separator + "WEB-INF" + File.separator + "flt";
+
+    public static final String TEMPLATE_SUFFIX = ".flt";
 
     /** 分页查询的start参数 */
     public final static String PAGE_START = "start";

@@ -89,12 +89,23 @@
             <if test="articleTemplate != null and articleTemplate != ''">ARTICLETEMPLATE = #{articleTemplate,jdbcType=VARCHAR},</if>
             <if test="indexTemplate != null and indexTemplate != ''">INDEXTEMPLATE = #{indexTemplate,jdbcType=VARCHAR},</if>
         </set>
-        where <include refid="Where_Clause" />
+        where ENNAME = #{enName,jdbcType=VARCHAR}
     </update>
 
     <delete id="delete">
-        delete from category where enName in
-        <foreach collection="list" item="item" open="(" close=")" separator=",">#{item,jdbcType=VARCHAR}</foreach>
+        delete from category where enName = #{enName,jdbcType=VARCHAR}
+    </delete>
+
+    <select id="selectNoParent" resultType="String">
+        SELECT c.ENNAME FROM category c WHERE c.PARENT != #{root,jdbcType=VARCHAR} AND
+        NOT EXISTS ( SELECT c1.ENNAME FROM category c1 WHERE c1.ENNAME = c.PARENT )
+    </select>
+
+    <delete id="deleteNoParent" parameterType="hashmap">
+        delete from category where PARENT != #{root,jdbcType=VARCHAR} and ENNAME in
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item,jdbcType=VARCHAR}
+        </foreach>
     </delete>
 
 	<select id="select" resultMap="CategoryMap" parameterType="hashmap">
