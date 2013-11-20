@@ -1,4 +1,4 @@
-package org.thorn.sailfish.entity;
+package org.thorn.sailfish.core;
 
 import java.util.ArrayList;
 import java.util.List;

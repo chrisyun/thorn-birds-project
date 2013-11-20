@@ -3,7 +3,7 @@ package org.thorn.sailfish.service;
 import org.thorn.sailfish.entity.${nameFirLetterUc};
 import org.thorn.sailfish.dao.${nameFirLetterUc}Dao;
 import org.thorn.sailfish.core.Configuration;
-import org.thorn.sailfish.entity.Page;
+import org.thorn.sailfish.core.Page;
 
 import java.util.HashMap;
 import java.util.List;

@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.thorn.sailfish.core.Configuration;
+import org.thorn.sailfish.core.JsonResponse;
+import org.thorn.sailfish.core.SessionData;
+import org.thorn.sailfish.core.Status;
 import org.thorn.sailfish.entity.*;
 import org.thorn.sailfish.enums.OperateEnum;
 import org.thorn.sailfish.service.ResourceLogService;
@@ -115,7 +118,7 @@ public class ResourceController {
             childFolder.setName("模板库 - CMS/FLT");
             childFolder.setPath(FLT_TAG);
 
-            File fwFile = new File(PathUtils.getContextPath(session) + Configuration.FORMWORK_PATH);
+            File fwFile = new File(PathUtils.getContextPath(session) + Configuration.TEMPLATE_PATH);
             childFolder.setFileNumber(fwFile.list().length);
             resourceFolder.getChildFolders().add(childFolder);
         }
@@ -283,7 +286,7 @@ public class ResourceController {
                 SessionData sessionData = (SessionData) session.getAttribute(Configuration.SESSION_USER);
                 resourceLog.setModifier(sessionData.getUserId());
                 resourceLog.setName(resourceName);
-                resourceLog.setPath(resource.getParent());
+                resourceLog.setPath(p);
                 resourceLog.setOperateType(OperateEnum.SAVE.getCode());
                 resourceLog.setContent(new String(file.getBytes(), "UTF-8"));
                 resourceLogService.save(resourceLog);
@@ -323,7 +326,7 @@ public class ResourceController {
             SessionData sessionData = (SessionData) session.getAttribute(Configuration.SESSION_USER);
             resourceLog.setModifier(sessionData.getUserId());
             resourceLog.setName(name);
-            resourceLog.setPath(file.getParent());
+            resourceLog.setPath(p);
             resourceLog.setOperateType(OperateEnum.DELETE.getCode());
             resourceLogService.save(resourceLog);
         }
@@ -446,7 +449,7 @@ public class ResourceController {
                 resourceLog.setModifier(sessionData.getUserId());
                 resourceLog.setName(newName);
                 resourceLog.setLastName(name);
-                resourceLog.setPath(file.getParent());
+                resourceLog.setPath(p);
                 resourceLog.setOperateType(OperateEnum.MODIFY.getCode());
                 resourceLog.setContent(content);
                 resourceLogService.save(resourceLog);
@@ -486,7 +489,7 @@ public class ResourceController {
         //特殊处理 {CMS}、{CMS}/{FLT}
         String realPath = PathUtils.getContextPath(session);
         if (StringUtils.startsWith(p, FLT_TAG)) {
-            realPath = realPath + Configuration.FORMWORK_PATH + StringUtils.removeStart(p, FLT_TAG);
+            realPath = realPath + Configuration.TEMPLATE_PATH + StringUtils.removeStart(p, FLT_TAG);
         } else {
             realPath = realPath + Configuration.STATIC_RESOURCE_PATH + StringUtils.removeStart(p, CMS_TAG);
         }

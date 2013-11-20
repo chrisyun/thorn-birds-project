@@ -1,5 +1,6 @@
 package org.thorn.sailfish.service;
 
+import org.thorn.sailfish.core.Page;
 import org.thorn.sailfish.entity.Category;
 import org.thorn.sailfish.dao.CategoryDao;
 import org.thorn.sailfish.core.Configuration;
@@ -12,7 +13,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.thorn.sailfish.entity.Page;
 
 /**
  * @Author: yfchenyun
@@ -33,15 +33,38 @@ public class CategoryService {
         categoryDao.modify(category);
     }
 
-    public void delete(String ids) {
-        String[] array = StringUtils.split(ids, ',');
-        if(array == null || array.length == 0) {
-            return ;
-        }
+    public void delete(String enName, String root) {
+        categoryDao.delete(enName);
 
-        List<String> list = Arrays.asList(array);
-        categoryDao.delete(list);
+       List<String> list = categoryDao.queryNoParent(root);
+       Map<String, Object> filter = new HashMap<String, Object>();
+       filter.put("root", root);
+       while (list != null && list.size() > 0) {
+           filter.put("list", list);
+           if(categoryDao.deleteByIds(filter) <= 0) {
+               break;
+           }
+
+           list = categoryDao.queryNoParent(root);
+       }
     }
+
+    public List<Category> queryById(String enName) {
+        return queryList(enName, null);
+    }
+
+    public List<Category> queryByParent(String parent) {
+        return queryList(null, parent);
+    }
+
+    public List<Category> queryList(String enName, String parent) {
+        Map<String, Object> filter = new HashMap<String, Object>();
+        filter.put("parent", parent);
+        filter.put("enName", enName);
+
+        return categoryDao.query(filter);
+    }
+
 
     public Page<Category> queryPage(long start, long limit, String sort, String dir) {
         Map<String, Object> filter = new HashMap<String, Object>();
