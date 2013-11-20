@@ -34,12 +34,21 @@ create table category
    primary key (enName)
 );
 
-文章ID
-栏目ID
-标题
-内容
-创建时间
-上次更新时间
-创建人
-是否删除
-星级
+drop table if exists article;
+
+/*==============================================================*/
+/* Table: article                                               */
+/*==============================================================*/
+create table article
+(
+   id                   int not null auto_increment,
+   category             varchar(100) comment '栏目代码',
+   title                title comment '标题',
+   content              content comment '内容',
+   createTime           timestamp comment '创建时间',
+   modifyTime           timestamp comment '更新时间',
+   status               int comment '0:未发表;1:已发表:2:已删除',
+   creater              varchar(100) comment '创建人',
+   starLevel            int comment '星级',
+   primary key (id)
+);
