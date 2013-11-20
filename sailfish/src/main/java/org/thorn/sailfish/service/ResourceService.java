@@ -28,6 +28,7 @@ public class ResourceService {
             String path = list.get(i);
 
             path = StringUtils.removeStart(path, absPath);
+            path = path.replaceAll("\\\\", "/");
             list.set(i, path);
         }
 

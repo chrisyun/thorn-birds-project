@@ -96,24 +96,24 @@
 </ol>
 
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-9">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <div class="panel-title">
-                    上级栏目：<a href="/am/category/index?parent=${parent}">${parent}</a>
-                    <button type="button" onclick="addCategory();" id="addCategoryBtn" class="btn btn-warning btn-sm">新建</button>
+                    上级栏目：<a href="/am/category/index?parent=${grandparent}">${parent}</a>
+                    <button type="button" onclick="addCategory();" id="addCategoryBtn" class="btn btn-warning btn-sm pull-right">创建栏目</button>
                 </div>
             </div>
             <div class="panel-body">
                 <table class="table table-striped table-bordered table-hover table-condensed">
                     <thead>
                     <tr>
-                        <th width="10%">栏目代码</th>
-                        <th width="20%">栏目名</th>
+                        <th width="15%">栏目代码</th>
+                        <th width="15%">栏目名</th>
                         <th width="20%">访问路径</th>
-                        <th width="20%">父栏目</th>
+                        <th width="15%">父栏目</th>
                         <th width="10%">是否隐藏</th>
-                        <th width="5%">排序号</th>
+                        <th width="10%">排序号</th>
                         <th width="15%" style="text-align: center;">操作</th>
                     </tr>
                     </thead>
@@ -134,6 +134,14 @@
                     </c:forEach>
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="panel panel-info">
+            <div style="margin: 5px;">
+                <p>说明：</p>
+                <p>1、xxxxx</p>
             </div>
         </div>
     </div>
@@ -162,8 +170,8 @@
     <div class="form-group">
         <label class="col-sm-3 control-label">是否隐藏</label>
         <div class="col-sm-9">
-            <label class="pr30 pl30"><input type="radio" name="hidden" value="0" checked>显示</label>
-            <label class="pl30"><input type="radio" name="hidden" value="1">隐藏</label>
+            <label class="pr30 pl30"><input type="radio" name="hidden" value="1" checked>显示</label>
+            <label class="pl30"><input type="radio" name="hidden" value="0">隐藏</label>
         </div>
     </div>
     <div class="form-group">

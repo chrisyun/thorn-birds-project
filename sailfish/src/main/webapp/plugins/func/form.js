@@ -13,9 +13,9 @@
 
             $(this).find(":radio,:checkbox").each(function() {
                 var _name = $(this).attr("name");
-                var value = data[_name];
+                var value = data[_name] + "";
 
-                if (value.indexOf($(this).val()) >= 0) {
+                if (value != "" && value.indexOf($(this).val()) >= 0) {
                     $(this).attr("checked", true);
                 }
             });

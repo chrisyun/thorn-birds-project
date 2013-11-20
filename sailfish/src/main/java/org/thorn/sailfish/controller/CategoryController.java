@@ -44,9 +44,19 @@ public class CategoryController {
             parent = CATEGORY_ROOT;
         }
 
+        String grandparent = parent;
+        if(!grandparent.equals(CATEGORY_ROOT)) {
+            Category category = categoryService.queryById(parent);
+            if(category != null) {
+                grandparent = category.getParent();
+            }
+        }
+
+
         List<Category> list = categoryService.queryByParent(parent);
         modelMap.put("list", list);
         modelMap.put("parent", parent);
+        modelMap.put("grandparent", grandparent);
 
         List<String> templates = resourceService.getAllTemplates(PathUtils.getContextPath(session));
         modelMap.put("templates", templates);
@@ -125,13 +135,13 @@ public class CategoryController {
         JsonResponse<Category> jsonResponse = new JsonResponse<Category>();
 
         try {
-            List<Category> list = categoryService.queryById(enName);
+            Category category = categoryService.queryById(enName);
 
-            if(list == null || list.size() == 0) {
+            if(category == null) {
                 jsonResponse.setSuccess(false);
                 jsonResponse.setMessage("栏目未找到");
             } else {
-                jsonResponse.setData(list.get(0));
+                jsonResponse.setData(category);
                 jsonResponse.setMessage("数据加载成功");
             }
 
