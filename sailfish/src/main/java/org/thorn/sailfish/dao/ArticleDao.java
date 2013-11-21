@@ -1,6 +1,6 @@
 package org.thorn.sailfish.dao;
 
-import org.thorn.sailfish.entity.${nameFirLetterUc};
+import org.thorn.sailfish.entity.Article;
 
 import java.util.List;
 import java.util.Map;
@@ -10,23 +10,23 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 /**
  * @Author: yfchenyun
- * @Since: ${.now}
+ * @Since: 2013-11-21 10:12:23
  * @Version: 1.0
  */
 @Service
-public class ${nameFirLetterUc}Dao {
+public class ArticleDao {
 
-    private static final String NAMESPACE = "${nameFirLetterUc}Mapper.";
+    private static final String NAMESPACE = "ArticleMapper.";
 
     @Autowired
     private SqlSessionTemplate sqlSessionTemplate;
 
-    public int save(${nameFirLetterUc} ${name}) {
-        return sqlSessionTemplate.insert(NAMESPACE + "insert", ${name});
+    public int save(Article article) {
+        return sqlSessionTemplate.insert(NAMESPACE + "insert", article);
     }
 
-    public int modify(${nameFirLetterUc} ${name}) {
-        return sqlSessionTemplate.insert(NAMESPACE + "update", ${name});
+    public int modify(Article article) {
+        return sqlSessionTemplate.insert(NAMESPACE + "update", article);
     }
 
     public int delete(List<String> ids) {
@@ -37,7 +37,7 @@ public class ${nameFirLetterUc}Dao {
         return (Long) sqlSessionTemplate.selectOne(NAMESPACE + "count", filter);
     }
 
-    public List<${nameFirLetterUc}> query(Map<String, Object> filter) {
+    public List<Article> query(Map<String, Object> filter) {
         return sqlSessionTemplate.selectList(NAMESPACE + "select", filter);
     }
 

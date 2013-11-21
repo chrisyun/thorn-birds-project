@@ -63,7 +63,11 @@ public class CategoryService {
         return queryList(null, parent);
     }
 
-    public List<Category> queryList(String enName, String parent) {
+    public List<Category> queryAll() {
+        return queryList(null, null);
+    }
+
+    private List<Category> queryList(String enName, String parent) {
         Map<String, Object> filter = new HashMap<String, Object>();
         filter.put("parent", parent);
         filter.put("enName", enName);

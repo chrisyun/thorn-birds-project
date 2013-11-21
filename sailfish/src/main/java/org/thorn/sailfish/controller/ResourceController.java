@@ -289,6 +289,7 @@ public class ResourceController {
                 resourceLog.setPath(p);
                 resourceLog.setOperateType(OperateEnum.SAVE.getCode());
                 resourceLog.setContent(new String(file.getBytes(), "UTF-8"));
+                resourceLog.setModifyTime(new Date());
                 resourceLogService.save(resourceLog);
             }
 
@@ -328,6 +329,7 @@ public class ResourceController {
             resourceLog.setName(name);
             resourceLog.setPath(p);
             resourceLog.setOperateType(OperateEnum.DELETE.getCode());
+            resourceLog.setModifyTime(new Date());
             resourceLogService.save(resourceLog);
         }
 
@@ -452,6 +454,7 @@ public class ResourceController {
                 resourceLog.setPath(p);
                 resourceLog.setOperateType(OperateEnum.MODIFY.getCode());
                 resourceLog.setContent(content);
+                resourceLog.setModifyTime(new Date());
                 resourceLogService.save(resourceLog);
             }
 
