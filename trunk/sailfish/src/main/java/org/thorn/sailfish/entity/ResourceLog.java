@@ -1,5 +1,7 @@
 package org.thorn.sailfish.entity;
 
+import java.util.Date;
+
 /**
  * @Author: yfchenyun
  * @Since: 2013-10-29 15:33:00
@@ -35,7 +37,7 @@ public class ResourceLog {
     /**
      * 修改时间
      */
-    private String modifyTime;
+    private Date modifyTime;
 
     /**
      * 0：新增；1：修改；2：删除
@@ -88,11 +90,11 @@ public class ResourceLog {
         return this.modifier;
     }
 
-    public void setModifyTime(String modifyTime) {
+    public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
     }
 
-    public String getModifyTime() {
+    public Date getModifyTime() {
         return this.modifyTime;
     }
 

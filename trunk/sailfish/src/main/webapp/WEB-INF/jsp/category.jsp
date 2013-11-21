@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>管理后台 - 首页</title>
+    <title>管理后台 - 栏目</title>
     <script type="text/javascript">
         var validator;
 
@@ -170,8 +170,8 @@
     <div class="form-group">
         <label class="col-sm-3 control-label">是否隐藏</label>
         <div class="col-sm-9">
-            <label class="pr30 pl30"><input type="radio" name="hidden" value="1" checked>显示</label>
-            <label class="pl30"><input type="radio" name="hidden" value="0">隐藏</label>
+            <label class="pr30 pl30 radio-inline"><input type="radio" name="hidden" value="1" checked>显示</label>
+            <label class="pl30 radio-inline"><input type="radio" name="hidden" value="0">隐藏</label>
         </div>
     </div>
     <div class="form-group">
