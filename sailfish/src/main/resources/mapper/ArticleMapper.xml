@@ -19,7 +19,6 @@
             ID,
             CATEGORY,
             TITLE,
-            CONTENT,
             CREATETIME,
             MODIFYTIME,
             STATUS,
@@ -118,5 +117,11 @@
 		select count(*) from article t
 		<include refid="Where_Clause" />
 	</select>
+
+    <select id="selectContent" resultMap="ArticleMap" parameterType="hashmap">
+        select
+        <include refid="Column" />,CONTENT
+        from article t <include refid="Where_Clause" />
+     </select>
 
 </mapper>
