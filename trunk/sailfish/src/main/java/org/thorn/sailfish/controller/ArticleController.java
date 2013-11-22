@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.thorn.sailfish.core.Page;
 import org.thorn.sailfish.entity.Article;
@@ -61,6 +62,29 @@ public class ArticleController {
         }
 
         return "article";
+    }
+
+    @RequestMapping("/index/{id}")
+    public String editArticle(@PathVariable("id") Integer id, ModelMap modelMap) {
+
+        try {
+            if(id != null) {
+                Article article = articleService.queryArticle(id);
+                if(article != null) {
+                    id = article.getId();
+                    modelMap.put("id", id);
+                    modelMap.put("article", article);
+                }
+            }
+
+            List<Category> categories = categoryService.queryAll();
+            modelMap.put("categories", categories);
+
+        } catch (Exception e) {
+            log.error("editArticle[" + id + "]", e);
+        }
+
+        return "articleEditor";
     }
 
 }
