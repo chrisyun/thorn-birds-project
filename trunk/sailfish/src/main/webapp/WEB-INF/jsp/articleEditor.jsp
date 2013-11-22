@@ -21,6 +21,8 @@
             var editor;
             KindEditor.ready(function(K) {
                 editor = K.create('textarea[name="content"]', {
+                    uploadJson : "/am/article/upload",
+                    fileManagerJson : "/am/article/fileManager",
                     allowFileManager : true
                 });
             });
@@ -81,7 +83,7 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-12">
-                    <textarea class="form-control" name="content" rows="25">${article.content}</textarea>
+                    <textarea class="form-control" name="content" rows="25"><c:out value="${article.content}"/></textarea>
                 </div>
             </div>
             <div class="form-group">
