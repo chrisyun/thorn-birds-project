@@ -41,4 +41,8 @@ public class ArticleDao {
         return sqlSessionTemplate.selectList(NAMESPACE + "select", filter);
     }
 
+    public List<Article> queryArticleContent(Map<String, Object> filter) {
+        return sqlSessionTemplate.selectList(NAMESPACE + "selectContent", filter);
+    }
+
 }

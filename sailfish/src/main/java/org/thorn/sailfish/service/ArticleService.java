@@ -39,6 +39,18 @@ public class ArticleService {
         articleDao.delete(list);
     }
 
+    public Article queryArticle(Integer id) {
+        Map<String, Object> filter = new HashMap<String, Object>();
+        filter.put("id", id);
+
+        List<Article> list = articleDao.queryArticleContent(filter);
+        if(list == null || list.size() == 0) {
+            return null;
+        } else {
+            return list.get(0);
+        }
+    }
+
     public void queryPage(Page<Article> page, String title, Integer status,
                                    String category, Date startTime, Date endTime) {
         Map<String, Object> filter = new HashMap<String, Object>();
