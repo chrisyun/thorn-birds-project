@@ -21,8 +21,8 @@
             var editor;
             KindEditor.ready(function(K) {
                 editor = K.create('textarea[name="content"]', {
-                    uploadJson : "/am/article/upload",
-                    fileManagerJson : "/am/article/fileManager",
+                    uploadJson : "/am/ke/upload",
+                    fileManagerJson : "/am/ke/list",
                     allowFileManager : true
                 });
             });

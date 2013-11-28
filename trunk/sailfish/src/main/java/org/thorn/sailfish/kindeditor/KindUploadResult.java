@@ -39,4 +39,14 @@ public class KindUploadResult {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    public void setError(String message) {
+        this.error = 1;
+        this.message = message;
+    }
+
+    public void setSuccess(String url) {
+        this.error = 0;
+        this.url = url;
+    }
 }
