@@ -1,5 +1,6 @@
 package org.thorn.sailfish.entity;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.thorn.sailfish.enums.ArticleStatusEnum;
 
 import java.util.Date;
@@ -131,6 +132,11 @@ public class Article {
 
     public Integer getStarLevel() {
          return this.starLevel;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 
 }

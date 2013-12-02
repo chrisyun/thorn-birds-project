@@ -108,9 +108,9 @@
         // 画页面
         var pageBar = $('<ul class="pagination"></ul>');
         if (options.align == "right") {
-            pageBar.addClass("");
-        } else if (options.align == "center") {
-            pageBar.addClass("");
+            pageBar.addClass("pull-right");
+        } else if (options.align == "left") {
+            pageBar.addClass("pull-left");
         }
 
         if (showPre) {

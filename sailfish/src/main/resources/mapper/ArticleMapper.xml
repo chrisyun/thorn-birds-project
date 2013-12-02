@@ -96,6 +96,13 @@
         where ID = #{id,jdbcType=INTEGER}
     </update>
 
+    <update id="updateStatus" parameterType="hashmap">
+        update article set STATUS = #{status,jdbcType=INTEGER} where id in
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
     <delete id="delete">
         delete from article where
                 id in <foreach collection="list" item="item" open="(" close=")" separator=",">

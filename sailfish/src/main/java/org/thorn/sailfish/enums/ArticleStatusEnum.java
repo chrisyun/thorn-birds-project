@@ -52,4 +52,15 @@ public enum ArticleStatusEnum {
         }
     }
 
+    public static ArticleStatusEnum getEnumByCode(int code) {
+        if(code == UN_PUBLISH.getCode()) {
+            return UN_PUBLISH;
+        } else if(code == PUBLISH.getCode()) {
+            return PUBLISH;
+        } else if(code == DELETE.getCode()) {
+            return DELETE;
+        } else {
+            return null;
+        }
+    }
 }
