@@ -10,6 +10,8 @@ import java.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.thorn.sailfish.enums.ArticleStatusEnum;
+
 /**
  * @Author: yfchenyun
  * @Since: 2013-11-21 10:12:23
@@ -35,8 +37,12 @@ public class ArticleService {
             return ;
         }
 
+        Map<String, Object> filter = new HashMap<String, Object>();
         List<String> list = Arrays.asList(array);
-        articleDao.delete(list);
+        filter.put("list", list);
+        filter.put("status", ArticleStatusEnum.DELETE.getCode());
+
+        articleDao.modifyStatus(filter);
     }
 
     public Article queryArticle(Integer id) {

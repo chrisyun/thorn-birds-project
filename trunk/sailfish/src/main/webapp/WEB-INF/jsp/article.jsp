@@ -29,6 +29,22 @@
                 dateFormat : "yy-mm-dd"
             });
         });
+
+        function deleteArticle(id) {
+            $.confirm("是否确认删除该文章？", function() {
+
+                $.request.ajax({
+                    url : "/am/article/delete",
+                    data : {ids : id},
+                    onSuccess : function(msg, data) {
+                        $.alert.Success(msg, function(){
+                            $.utils.refreshPage();
+                        });
+                    }
+                });
+            });
+        }
+
     </script>
 </head>
 
@@ -85,7 +101,7 @@
                         </select>
                     </div>
                     <button type="submit" class="btn btn-default mr50">查询</button>
-                    <button type="button" class="btn btn-warning">写新文章</button>
+                    <a class="btn btn-warning" href="/am/article/index/one">写新文章</a>
                 </p>
             </div>
         </form>
@@ -98,13 +114,13 @@
         <table class="table table-striped table-bordered table-hover table-condensed">
             <thead>
             <tr>
-                <th width="15%">文章标题</th>
+                <th width="20%">文章标题</th>
                 <th width="10%">所属栏目</th>
                 <th width="10%">状态</th>
                 <th width="10%">创建人</th>
                 <th width="15%">创建时间</th>
                 <th width="15%">修改时间</th>
-                <th width="10%">星级</th>
+                <th width="5%">星级</th>
                 <th width="15%" style="text-align: center;">操作</th>
             </tr>
             </thead>
@@ -115,12 +131,12 @@
                     <td>${article.category}</td>
                     <td>${article.articleStatus}</td>
                     <td>${article.creater}</td>
-                    <td><fmt:formatDate value="${article.createTime}" pattern="yyyy年MM月dd日 HH:mm:ss" /></td>
-                    <td><fmt:formatDate value="${article.modifyTime}" pattern="yyyy年MM月dd日 HH:mm:ss" /></td>
-                    <td><span class="badge">${article.starLevel}</span></td>
+                    <td><fmt:formatDate value="${article.createTime}" pattern="yyyy/MM/dd HH:mm" /></td>
+                    <td><fmt:formatDate value="${article.modifyTime}" pattern="yyyy/MM/dd HH:mm" /></td>
+                    <td class="center"><span class="badge">${article.starLevel}</span></td>
                     <td style="text-align: center;">
-                        <a href="#" onclick="editArticle('${category.id}')"><span class="glyphicon glyphicon-edit mr30"></span></a>
-                        <a href="#" onclick="deleteArticle('${category.id}')"><span class="glyphicon glyphicon-trash"></span></a>
+                        <a href="/am/article/index/${article.id}" ><span class="glyphicon glyphicon-edit mr30"></span></a>
+                        <a href="#" onclick="deleteArticle('${article.id}')"><span class="glyphicon glyphicon-trash"></span></a>
                     </td>
                 </tr>
             </c:forEach>

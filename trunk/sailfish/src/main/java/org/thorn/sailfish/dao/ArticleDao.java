@@ -29,6 +29,10 @@ public class ArticleDao {
         return sqlSessionTemplate.insert(NAMESPACE + "update", article);
     }
 
+    public int modifyStatus(Map<String, Object> filter) {
+        return sqlSessionTemplate.insert(NAMESPACE + "updateStatus", filter);
+    }
+
     public int delete(List<String> ids) {
         return sqlSessionTemplate.delete(NAMESPACE + "delete", ids);
     }

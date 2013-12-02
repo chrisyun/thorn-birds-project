@@ -26,6 +26,36 @@
                     allowFileManager : true
                 });
             });
+
+            var validator = $("#articleForm").validate();
+
+            $("#publishBtn").click(function() {
+                $("#opType").val(1);
+                submitForm("发布");
+            });
+
+            $("#saveBtn").click(function() {
+                $("#opType").val(0);
+                submitForm("保存");
+            });
+
+            function submitForm(tip) {
+                if(!validator.validated()) {
+                    return ;
+                }
+
+                editor.sync();
+                $("#articleForm").submitForm({
+                    progress : true,
+                    onSuccess : function(msg, data) {
+                        $.alert.Success("文章" + tip + "成功。");
+                    },
+                    onFailure : function(msg, data) {
+                        $.alert.Error("文章" + tip + "失败。");
+                    }
+                })
+            }
+
         });
     </script>
 
@@ -42,7 +72,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <form role="form"  class="form-horizontal" action="/am/article/editFile" method="post" id="articleForm">
+        <form role="form"  class="form-horizontal" action="/am/article/saveOrModify" method="post" id="articleForm">
             <div class="form-group">
                 <label class="col-sm-1 control-label">所属栏目</label>
                 <div class="col-sm-3">
@@ -88,8 +118,9 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-12" style="text-align: center;">
-                    <button type="button" class="btn btn-default ml200">保存文章</button>
-                    <button type="button" class="btn btn-primary">立即发表</button>
+                    <button type="button" id="saveBtn" class="btn btn-default ml200">保存文章</button>
+                    <button type="button" id="publishBtn" class="btn btn-primary">立即发表</button>
+                    <input type="hidden" name="opType" id="opType">
                 </div>
             </div>
         </form>
