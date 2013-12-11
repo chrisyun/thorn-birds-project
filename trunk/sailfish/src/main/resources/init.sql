@@ -52,3 +52,11 @@ create table article
    starLevel            int comment '星级',
    primary key (id)
 );
+
+DROP TABLE IF EXISTS `article_static`;
+CREATE TABLE `article_static` (
+  `id` int(11) NOT NULL,
+  `htmlPath` varchar(500) comment '静态页面地址',
+  `modifyTime` timestamp comment '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

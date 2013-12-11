@@ -46,6 +46,9 @@
             <if test="status != null">
                 and t.STATUS = #{status,jdbcType=INTEGER}
             </if>
+            <if test="notStatus != null">
+                and t.STATUS &lt;&gt; #{notStatus,jdbcType=INTEGER}
+            </if>
             <if test="creater != null and creater != ''">
                 and t.CREATER = #{creater,jdbcType=VARCHAR}
             </if>
