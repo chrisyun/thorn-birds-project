@@ -12,7 +12,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-version>3.1.1.RELEASE</spring-version>
         <mybatis-version>3.1.1</mybatis-version>
-        <freemaker-version>2.3.9</freemaker-version>
+        <freemarker-version>2.3.20</freemarker-version>
     </properties>
 
     <dependencies>
@@ -105,9 +105,9 @@
         </dependency>
 
         <dependency>
-            <groupId>freemarker</groupId>
+            <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
-            <version>${freemaker-version}</version>
+            <version>${freemarker-version}</version>
         </dependency>
         <dependency>
             <groupId>opensymphony</groupId>

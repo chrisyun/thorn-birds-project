@@ -17,6 +17,8 @@ public class Configuration {
 
     public static final String ADMIN_PASSWORD = "_PL<)OKM";
 
+    public static final String CATEGORY_ROOT = "ROOT";
+
     public static final String STATIC_RESOURCE_PATH = File.separator + "cms";
 
     public static final String STATIC_ATTACH_PATH = File.separator + "attached";

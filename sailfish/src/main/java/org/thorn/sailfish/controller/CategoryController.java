@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.thorn.sailfish.core.Configuration;
 import org.thorn.sailfish.core.JsonResponse;
 import org.thorn.sailfish.core.Status;
 import org.thorn.sailfish.entity.Category;
@@ -29,8 +30,6 @@ public class CategoryController {
 
     static Logger log = LoggerFactory.getLogger(CategoryController.class);
 
-    private static final String CATEGORY_ROOT = "ROOT";
-
     @Autowired
     private CategoryService categoryService;
 
@@ -41,11 +40,11 @@ public class CategoryController {
     public String index(String parent, HttpSession session, ModelMap modelMap) {
 
         if(StringUtils.isBlank(parent)) {
-            parent = CATEGORY_ROOT;
+            parent = Configuration.CATEGORY_ROOT;
         }
 
         String grandparent = parent;
-        if(!grandparent.equals(CATEGORY_ROOT)) {
+        if(!grandparent.equals(Configuration.CATEGORY_ROOT)) {
             Category category = categoryService.queryById(parent);
             if(category != null) {
                 grandparent = category.getParent();
@@ -70,7 +69,7 @@ public class CategoryController {
         Status status = new Status();
 
         if(StringUtils.isBlank(category.getParent())) {
-            category.setParent(CATEGORY_ROOT);
+            category.setParent(Configuration.CATEGORY_ROOT);
         }
 
         try {
@@ -91,7 +90,7 @@ public class CategoryController {
         Status status = new Status();
 
         if(StringUtils.isBlank(category.getParent())) {
-            category.setParent(CATEGORY_ROOT);
+            category.setParent(Configuration.CATEGORY_ROOT);
         }
 
         try {
@@ -118,7 +117,7 @@ public class CategoryController {
         }
 
         try {
-            categoryService.delete(enName, CATEGORY_ROOT);
+            categoryService.delete(enName, Configuration.CATEGORY_ROOT);
             status.setMessage("栏目删除成功");
         } catch (Exception e) {
             log.error("deleteCategory[" + enName + "]", e);
