@@ -13,6 +13,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.thorn.sailfish.enums.YesOrNoEnum;
 
 /**
  * @Author: yfchenyun
@@ -50,7 +51,7 @@ public class CategoryService {
     }
 
     public Category queryById(String enName) {
-        List<Category> list = queryList(enName, null);
+        List<Category> list = queryList(enName, null, null);
 
         if(list == null || list.size() == 0) {
             return null;
@@ -60,17 +61,22 @@ public class CategoryService {
     }
 
     public List<Category> queryByParent(String parent) {
-        return queryList(null, parent);
+        return queryList(null, parent, null);
+    }
+
+    public List<Category> queryAllShowByParent(String parent) {
+        return queryList(null, parent, YesOrNoEnum.NO.getCode());
     }
 
     public List<Category> queryAll() {
-        return queryList(null, null);
+        return queryList(null, null, null);
     }
 
-    private List<Category> queryList(String enName, String parent) {
+    private List<Category> queryList(String enName, String parent, Integer hidden) {
         Map<String, Object> filter = new HashMap<String, Object>();
         filter.put("parent", parent);
         filter.put("enName", enName);
+        filter.put("hidden", hidden);
 
         return categoryDao.query(filter);
     }

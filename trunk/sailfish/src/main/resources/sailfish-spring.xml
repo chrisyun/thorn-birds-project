@@ -68,5 +68,6 @@
     </bean>
     <!-- ###########################mybatis########################### -->
 
+    <bean id="category_list_label" class="org.thorn.sailfish.label.CategoryListLabel" />
 
 </beans>
