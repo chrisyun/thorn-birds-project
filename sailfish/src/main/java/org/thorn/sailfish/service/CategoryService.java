@@ -51,7 +51,17 @@ public class CategoryService {
     }
 
     public Category queryById(String enName) {
-        List<Category> list = queryList(enName, null, null);
+        List<Category> list = queryList(enName, null, null, null);
+
+        if(list == null || list.size() == 0) {
+            return null;
+        }
+
+        return list.get(0);
+    }
+
+    public Category queryByPath(String path) {
+        List<Category> list = queryList(null, null, null, path);
 
         if(list == null || list.size() == 0) {
             return null;
@@ -61,22 +71,23 @@ public class CategoryService {
     }
 
     public List<Category> queryByParent(String parent) {
-        return queryList(null, parent, null);
+        return queryList(null, parent, null, null);
     }
 
     public List<Category> queryAllShowByParent(String parent) {
-        return queryList(null, parent, YesOrNoEnum.NO.getCode());
+        return queryList(null, parent, YesOrNoEnum.NO.getCode(), null);
     }
 
     public List<Category> queryAll() {
-        return queryList(null, null, null);
+        return queryList(null, null, null, null);
     }
 
-    private List<Category> queryList(String enName, String parent, Integer hidden) {
+    private List<Category> queryList(String enName, String parent, Integer hidden, String path) {
         Map<String, Object> filter = new HashMap<String, Object>();
         filter.put("parent", parent);
         filter.put("enName", enName);
         filter.put("hidden", hidden);
+        filter.put("path", path);
 
         return categoryDao.query(filter);
     }
