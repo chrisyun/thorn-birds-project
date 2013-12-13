@@ -80,39 +80,47 @@ public class RenderController {
         }
     }
 
+    private void copyMap(HttpServletRequest request, ModelMap modelMap) {
+        Enumeration<String> e = request.getParameterNames();
+
+        while(e.hasMoreElements()) {
+            String name = e.nextElement();
+            String[] values = request.getParameterValues(name);
+
+            if(values == null || values.length == 0) {
+                continue;
+            }
+
+            if(values.length == 1) {
+                modelMap.put(name, values[0]);
+            } else {
+                modelMap.put(name, values);
+            }
+        }
+    }
+
     @RequestMapping("/{categoryPath}/index")
-    public String categoryIndex(@PathVariable("categoryPath") String categoryPath, Long pageIndex, Long pageSize,
+    public String categoryIndex(@PathVariable("categoryPath") String categoryPath,
                                 HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
         String path = null;
 
         try {
-            List<Category> categories = categoryService.queryAll();
-            Category currentCategory = null;
-
-            for (Category cate : categories) {
-                if (StringUtils.equalsIgnoreCase(categoryPath, cate.getPath())) {
-                    currentCategory = cate;
-                    break;
-                }
-            }
+            Category currentCategory = categoryService.queryByPath(categoryPath);
 
             if (currentCategory == null) {
                 // 路径错误
                 return "redirect:/web/page?t=404";
             }
 
-            List<CategoryNode> nodes = sortCategory(categories);
-            sortCategoryLeaves(nodes);
+            String ctxPath = request.getContextPath();
+            String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + ctxPath + "/";
 
-            Page<Article> articlePage = new Page<Article>(pageIndex, pageSize);
-            articleService.queryPage(articlePage, null, ArticleStatusEnum.PUBLISH.getCode(),
-                    currentCategory.getEnName(), null, null);
-
-            modelMap.put("articlePage", articlePage);
-            modelMap.put("categoryTree", nodes);
+            modelMap.put("path", ctxPath);
+            modelMap.put("basePath", basePath);
+            modelMap.put("res", request.getContextPath() + "cms");
             modelMap.put("category", currentCategory);
 
-            modelMap.put("resource", "/cms");
+            copyMap(request, modelMap);
 
             path = currentCategory.getIndexTemplate();
         } catch (Exception e) {
@@ -130,14 +138,53 @@ public class RenderController {
     }
 
     @RequestMapping("/content/{id}")
-    public void article(@PathVariable("id") int id,
+    public String article(@PathVariable("id") int id, ModelMap modelMap,
                         HttpServletRequest request, HttpServletResponse response) {
+        String path = null;
 
+        try {
+            Article article = articleService.queryArticle(id);
+
+            if (article == null) {
+                // 路径错误
+                return "redirect:/web/page?t=404";
+            }
+
+            Category category = categoryService.queryById(article.getCategory());
+
+            String ctxPath = request.getContextPath();
+            String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + ctxPath + "/";
+
+            modelMap.put("path", ctxPath);
+            modelMap.put("basePath", basePath);
+            modelMap.put("res", request.getContextPath() + "cms");
+            modelMap.put("article", article);
+            modelMap.put("category", category);
+
+            copyMap(request, modelMap);
+
+            path = category.getArticleTemplate();
+        } catch (Exception e) {
+            log.error("article Exception[" + id + "]", e);
+            request.setAttribute("exception", e);
+            path = "forward:/web/page?t=500";
+        }
+
+        return path;
     }
 
     @RequestMapping("/page")
-    public void alone(String t, HttpServletRequest request, HttpServletResponse response) {
+    public String alone(String t, HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
+        String ctxPath = request.getContextPath();
+        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + ctxPath + "/";
 
+        modelMap.put("path", ctxPath);
+        modelMap.put("basePath", basePath);
+        modelMap.put("res", request.getContextPath() + "cms");
+
+        copyMap(request, modelMap);
+
+        return t;
     }
 
 }
