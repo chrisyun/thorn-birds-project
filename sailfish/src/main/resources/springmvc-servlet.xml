@@ -44,6 +44,11 @@
                 <prop key="number_format">#.##</prop>
             </props>
         </property>
+        <property name="freemarkerVariables">
+            <map>
+                <entry key="category_list" value-ref="category_list_label" />
+            </map>
+        </property>
     </bean>
 
     <bean id="FTLviewResolver"
