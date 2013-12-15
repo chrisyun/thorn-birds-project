@@ -117,7 +117,7 @@ public class RenderController {
 
             modelMap.put("path", ctxPath);
             modelMap.put("basePath", basePath);
-            modelMap.put("res", request.getContextPath() + "cms");
+            modelMap.put("res", request.getContextPath() + "/cms");
             modelMap.put("category", currentCategory);
 
             copyMap(request, modelMap);
@@ -129,7 +129,7 @@ public class RenderController {
             path = "forward:/web/page?t=500";
         }
 
-        return path;
+        return StringUtils.removeEnd(path, Configuration.TEMPLATE_SUFFIX);
     }
 
     @RequestMapping("/{category}")
@@ -157,7 +157,7 @@ public class RenderController {
 
             modelMap.put("path", ctxPath);
             modelMap.put("basePath", basePath);
-            modelMap.put("res", request.getContextPath() + "cms");
+            modelMap.put("res", request.getContextPath() + "/cms");
             modelMap.put("article", article);
             modelMap.put("category", category);
 
@@ -170,7 +170,7 @@ public class RenderController {
             path = "forward:/web/page?t=500";
         }
 
-        return path;
+        return StringUtils.removeEnd(path, Configuration.TEMPLATE_SUFFIX);
     }
 
     @RequestMapping("/page")
@@ -180,7 +180,7 @@ public class RenderController {
 
         modelMap.put("path", ctxPath);
         modelMap.put("basePath", basePath);
-        modelMap.put("res", request.getContextPath() + "cms");
+        modelMap.put("res", request.getContextPath() + "/cms");
 
         copyMap(request, modelMap);
 

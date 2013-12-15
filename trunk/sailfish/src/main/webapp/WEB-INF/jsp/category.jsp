@@ -49,7 +49,7 @@
             $("#categoryForm [name=parent]").val("${parent}");
             $("#categoryForm").attr("action", "/am/category/create");
 
-            $("#categoryForm [name=enName]").removeAttr("disabled");
+            $("#categoryForm [name=enName]").removeAttr("readonly");
             $("#categoryForm").formDialog();
         }
 
@@ -57,7 +57,7 @@
             validator.clear();
             $("#categoryForm").resetForm();
             $("#categoryForm").attr("action", "/am/category/edit");
-            $("#categoryForm [name=enName]").attr("disabled", "disabled");
+            $("#categoryForm [name=enName]").attr("readonly", "readonly");
 
             $.request.ajax({
                 url : "/am/category/get",
@@ -170,8 +170,8 @@
     <div class="form-group">
         <label class="col-sm-3 control-label">是否隐藏</label>
         <div class="col-sm-9">
-            <label class="pr30 pl30 radio-inline"><input type="radio" name="hidden" value="1" checked>显示</label>
-            <label class="pl30 radio-inline"><input type="radio" name="hidden" value="0">隐藏</label>
+            <label class="pr30 pl30 radio-inline"><input type="radio" name="hidden" value="0" checked>是</label>
+            <label class="pl30 radio-inline"><input type="radio" name="hidden" value="1">否</label>
         </div>
     </div>
     <div class="form-group">
