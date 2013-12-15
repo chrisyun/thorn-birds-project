@@ -29,7 +29,8 @@ public class CategoryListLabel implements TemplateDirectiveModel {
 
         List<Category> list = null;
         if(map.containsKey(KEY) && map.get(KEY) != null) {
-            String parent = (String) map.get(KEY);
+            SimpleScalar scalar = (SimpleScalar) map.get(KEY);
+            String parent = scalar.getAsString();
             list = service.queryAllShowByParent(parent);
         } else {
             list = service.queryAllShowByParent(Configuration.CATEGORY_ROOT);
