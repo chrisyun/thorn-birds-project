@@ -12,6 +12,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ *  <@category_list parent="">
+ *      <#list list as c></#list>
+ *  </@category_list>
+ *  列出栏目的下级可显示栏目
  * @Author: yfchenyun
  * @Since: 13-12-6 下午3:44
  * @Version: 1.0

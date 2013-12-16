@@ -1,6 +1,7 @@
 package org.thorn.sailfish.controller;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -265,6 +266,14 @@ public class ResourceController {
         FileItem fileItem = file.getFileItem();
         String resourceName = fileItem.getName();
 
+        // 模板只允许上传.flt文件
+        if(StringUtils.contains(realPath, Configuration.TEMPLATE_PATH)
+                && !StringUtils.endsWithIgnoreCase(resourceName, Configuration.TEMPLATE_SUFFIX)) {
+            status.setSuccess(false);
+            status.setMessage("模板文件只允许上传" + Configuration.TEMPLATE_SUFFIX + "文件");
+            return status;
+        }
+
         File resource = new File(realPath, resourceName);
         if(resource.exists()) {
             status.setSuccess(false);
@@ -308,6 +317,13 @@ public class ResourceController {
         Status status = validatePath(p);
 
         if(!status.isSuccess()) {
+            return status;
+        }
+
+        if(StringUtils.equals(p, FLT_TAG)
+                && ArrayUtils.contains(Configuration.TEMPLATE_SYSTEM, name)) {
+            status.setSuccess(false);
+            status.setMessage("系统级模板不允许删除");
             return status;
         }
 
@@ -409,7 +425,6 @@ public class ResourceController {
             status.setMessage("非文本文件不能编辑");
             return status;
         }
-
 
         String realPath = getRealPath(p, session);
 

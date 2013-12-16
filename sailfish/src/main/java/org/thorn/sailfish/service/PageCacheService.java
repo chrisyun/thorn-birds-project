@@ -39,6 +39,15 @@ public class PageCacheService {
         pageCacheDao.modify(pageCache);
     }
 
+    public void setCache(int id, String path) {
+        PageCache pageCache = new PageCache();
+        pageCache.setId(id);
+        pageCache.setHtmlPath(path);
+        pageCache.setModifyTime(new Date());
+
+        pageCacheDao.modify(pageCache);
+    }
+
     public String getCachePage(int id) {
         Map<String, Object> filter = new HashMap<String, Object>();
         filter.put("id", id);

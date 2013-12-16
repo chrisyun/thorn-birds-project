@@ -19,6 +19,7 @@ import org.thorn.sailfish.entity.Category;
 import org.thorn.sailfish.enums.ArticleStatusEnum;
 import org.thorn.sailfish.service.ArticleService;
 import org.thorn.sailfish.service.CategoryService;
+import org.thorn.sailfish.service.PageCacheService;
 import org.thorn.sailfish.utils.DateTimeUtils;
 
 import javax.servlet.http.HttpSession;
@@ -42,6 +43,9 @@ public class ArticleController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private PageCacheService cacheService;
 
     @RequestMapping("/index")
     public String index(Long pageIndex, Long pageSize, String title, Integer status, String category,
@@ -128,6 +132,8 @@ public class ArticleController {
 
                 articleService.save(article);
                 status.setMessage("文章保存成功");
+
+                cacheService.saveCache(article.getId(), "");
             } else {
                 if(statusEnum == ArticleStatusEnum.PUBLISH) {
                     article.setStatus(statusEnum.getCode());
@@ -135,6 +141,8 @@ public class ArticleController {
 
                 articleService.modify(article);
                 status.setMessage("文章修改成功");
+
+                cacheService.clearCache(article.getId());
             }
         } catch (Exception e) {
             log.error("saveOrModifyArticle" + article.toString(), e);
