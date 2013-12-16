@@ -58,7 +58,8 @@
 		</where>
 	</sql>
 
-    <insert id="insert" parameterType="org.thorn.sailfish.entity.Article">
+    <insert id="insert" parameterType="org.thorn.sailfish.entity.Article"
+            useGeneratedKeys="true" keyProperty="id">
         insert into article
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">ID,</if>

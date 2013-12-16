@@ -33,7 +33,7 @@
 
     <bean id="freemarkerConfig"
           class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
-        <property name="templateLoaderPath" value="/WEB-INF/flt/"/>
+        <property name="templateLoaderPath" value="/WEB-INF/"/>
         <property name="defaultEncoding" value="utf-8"/>
         <property name="freemarkerSettings">
             <props>
@@ -47,6 +47,9 @@
         <property name="freemarkerVariables">
             <map>
                 <entry key="category_list" value-ref="category_list_label" />
+                <entry key="category" value-ref="category_label" />
+                <entry key="article" value-ref="article_label" />
+                <entry key="category_article" value-ref="category_article_label" />
             </map>
         </property>
     </bean>
