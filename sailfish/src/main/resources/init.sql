@@ -65,3 +65,14 @@ create table article_static
    modifyTime           timestamp comment '更新时间',
    primary key (id)
 );
+
+DROP TABLE IF EXISTS `ad_script`;
+CREATE TABLE `ad_script` (
+  `code` varchar(100) NOT NULL comment '广告编号',
+  `remark` varchar(300) NOT NULL comment '说明',
+  `html` varchar(2000)  comment '广告代码',
+  modifyTime timestamp comment '更新时间',
+  createTime timestamp comment '创建时间',
+  hidden  int comment '0:隐藏 1:显示',
+  PRIMARY KEY (`code`)
+)

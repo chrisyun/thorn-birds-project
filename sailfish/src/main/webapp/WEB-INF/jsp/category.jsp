@@ -170,8 +170,8 @@
     <div class="form-group">
         <label class="col-sm-3 control-label">是否隐藏</label>
         <div class="col-sm-9">
-            <label class="pr30 pl30 radio-inline"><input type="radio" name="hidden" value="0" checked>是</label>
-            <label class="pl30 radio-inline"><input type="radio" name="hidden" value="1">否</label>
+            <label class="pr30 pl30 radio-inline"><input type="radio" name="hidden" value="0">是</label>
+            <label class="pl30 radio-inline"><input type="radio" name="hidden" value="1" checked>否</label>
         </div>
     </div>
     <div class="form-group">
