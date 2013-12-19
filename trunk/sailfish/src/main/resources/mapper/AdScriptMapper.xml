@@ -73,7 +73,7 @@
             <if test="createTime != null">CREATETIME = #{createTime,jdbcType=TIMESTAMP},</if>
             <if test="hidden != null">HIDDEN = #{hidden,jdbcType=INTEGER},</if>
         </set>
-        where <include refid="Where_Clause" />
+        where CODE = #{code,jdbcType=VARCHAR}
     </update>
 
     <delete id="delete">
