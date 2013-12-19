@@ -50,6 +50,7 @@
                 <entry key="category" value-ref="category_label" />
                 <entry key="article" value-ref="article_label" />
                 <entry key="category_article" value-ref="category_article_label" />
+                <entry key="ad" value-ref="ad_label" />
             </map>
         </property>
     </bean>
