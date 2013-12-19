@@ -72,5 +72,6 @@
     <bean id="category_label" class="org.thorn.sailfish.label.CategoryLabel" />
     <bean id="article_label" class="org.thorn.sailfish.label.ArticleLabel" />
     <bean id="category_article_label" class="org.thorn.sailfish.label.ArticleListLabel" />
+    <bean id="ad_label" class="org.thorn.sailfish.label.AdScriptLabel" />
 
 </beans>
