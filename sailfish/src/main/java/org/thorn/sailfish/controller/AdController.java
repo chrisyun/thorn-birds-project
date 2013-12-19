@@ -41,7 +41,7 @@ public class AdController {
             log.error("Query adScript page", e);
         }
 
-        return "ad";
+        return "adScript";
     }
 
     @RequestMapping("/create")

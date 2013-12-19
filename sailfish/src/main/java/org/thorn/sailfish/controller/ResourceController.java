@@ -55,7 +55,7 @@ public class ResourceController {
             p = CMS_TAG;
         }
 
-        if (p.indexOf(CMS_TAG) < 0 || StringUtils.equalsIgnoreCase(p, CMS_TAG)) {
+        if (p.indexOf(CMS_TAG) < 0 || !StringUtils.equalsIgnoreCase(p, CMS_TAG)) {
             p = CMS_TAG;
         }
 
@@ -72,7 +72,9 @@ public class ResourceController {
         //获取目录下的文件信息
         //获取目录下的文件夹信息及文件夹的数量
         File folder = new File(realPath);
-        if (!folder.exists()) {
+        if(!folder.exists() && p == CMS_TAG) {
+            folder.mkdirs();
+        } else if (!folder.exists()) {
             return "redirect:/am/rs/index";
         }
 

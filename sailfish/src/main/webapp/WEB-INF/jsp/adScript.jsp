@@ -1,5 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>管理后台 - 广告</title>
@@ -66,7 +68,7 @@
             $("#adForm [name=code]").attr("readonly", "readonly");
 
             $.request.ajax({
-                url : "/am/category/get",
+                url : "/am/ad/get",
                 data : {code : code},
                 onSuccess : function(msg, data) {
                     $("#adForm").setFormValues(data);
@@ -122,18 +124,18 @@
                     </select>
                 </div>
                 <button type="submit" class="btn btn-default mr50">查询</button>
-                <a class="btn btn-warning" href="#" onclick="addAd();">写新文章</a>
+                <a class="btn btn-warning" href="#" onclick="addAd();">创建广告脚本</a>
             </div>
         </form>
 
         <table class="table table-striped table-bordered table-hover table-condensed">
             <thead>
                 <tr>
-                    <th width="20%">广告编号</th>
-                    <th width="10%">说明</th>
+                    <th width="15%">广告编号</th>
+                    <th width="30%">说明</th>
                     <th width="15%">创建时间</th>
                     <th width="15%">修改时间</th>
-                    <th width="5%">是否隐藏</th>
+                    <th width="10%">是否隐藏</th>
                     <th width="15%" style="text-align: center;">操作</th>
                 </tr>
             </thead>
@@ -147,7 +149,7 @@
                     <td>${ad.isHidden}</td>
                     <td style="text-align: center;">
                         <a href="#" onclick="editAd('${ad.code}')"><span class="glyphicon glyphicon-edit mr30"></span></a>
-                        <a href="#" onclick="deleteAde('${ad.code}')"><span class="glyphicon glyphicon-trash"></span></a>
+                        <a href="#" onclick="deleteAd('${ad.code}')"><span class="glyphicon glyphicon-trash"></span></a>
                     </td>
                 </tr>
             </c:forEach>
@@ -156,7 +158,6 @@
 
         <div id="page"></div>
     </div>
-
     <div class="col-md-3">
         <div class="panel panel-info">
             <div style="margin: 5px;">
@@ -165,6 +166,7 @@
             </div>
         </div>
     </div>
+
 </div>
 
 <form class="form-horizontal" role="form" action="" method="post" id="adForm">
@@ -190,7 +192,7 @@
     <div class="form-group">
         <label class="col-sm-3 control-label">广告脚本</label>
         <div class="col-sm-9">
-            <textarea validate="required" class="form-control" name="html"></textarea>
+            <textarea validate="required" class="form-control" name="html" rows="10"></textarea>
         </div>
     </div>
 </form>
