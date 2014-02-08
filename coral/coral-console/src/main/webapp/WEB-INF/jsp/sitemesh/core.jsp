@@ -26,6 +26,7 @@
 
     <link rel="stylesheet" href="<%=path%>/plugins/jquery-easyui-1.3.5/themes/default/easyui.css">
     <link rel="stylesheet" href="<%=path%>/plugins/jquery-easyui-1.3.5/themes/icon.css">
+    <link rel="stylesheet" href="<%=path%>/css/coral.css">
 
     <script src="<%=path%>/plugins/jquery.min.js" type="text/javascript"></script>
     <script src="<%=path%>/plugins/jquery-easyui-1.3.5/jquery.easyui.min.js" type="text/javascript"></script>
