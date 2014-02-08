@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemesh>
+
+	<decorators>
+		<decorator name="main" page="/WEB-INF/jsp/sitemesh/core.jsp">
+          <pattern>/**</pattern>
+      	</decorator>
+	</decorators>
+
+</sitemesh>

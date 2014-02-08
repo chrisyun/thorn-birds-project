@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+    <context:annotation-config/>
+    <context:component-scan base-package="org.thorn.coral" />
+
+    <bean class="org.thorn.coral.agent.SpringContext" />
+
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:config.xml</value>
+            </list>
+        </property>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+    </bean>
+
+    <bean id="agentService" class="org.thorn.coral.agent.AgentFacadeImpl">
+        <property name="dir" value="${jar.dir}" />
+    </bean>
+
+    <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+        <property name="service" ref="agentService" />
+        <property name="serviceInterface" value="org.thorn.coral.facade.agent.AgentFacade" />
+        <property name="registryPort" value="${server.port}" />
+        <property name="serviceName" value="AgentService" />
+    </bean>
+
+    <bean class="org.thorn.coral.agent.AgentZKClient">
+        <constructor-arg index="0" value="${zk.servers}"/>
+        <constructor-arg index="1" value="${zk.namespace}"/>
+        <constructor-arg index="2" value="${zk.session.timeout}"/>
+        <constructor-arg index="3" value="${zk.connection.timeout}"/>
+        <constructor-arg index="4" value="${server.url}"/>
+    </bean>
+
+
+</beans>
