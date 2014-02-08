@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <entry key="jar.dir">d:\\jars</entry>
+    <entry key="server.port">1200</entry>
+    <entry key="server.url">rmi://127.0.0.1:1200/AgentService</entry>
+    <entry key="zk.servers">192.168.207.56:2181,192.168.207.57:2181,192.168.207.58:2181</entry>
+    <entry key="zk.namespace">coral</entry>
+    <entry key="zk.session.timeout">6000</entry>
+    <entry key="zk.connection.timeout">6000</entry>
+</properties>
