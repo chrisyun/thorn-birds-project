@@ -1,4 +1,25 @@
-.center {
-    margin-right: auto;
-    margin-left: auto;
+.logo-font {
+    font-size: 25px;
+    font-weight: bold;
+    font-style: italic;
+    color: #0088CC;
+    padding-left: 20px;
+    padding-top: 10px;
+    margin: 0;
+}
+
+.logo-setting {
+    font-size: 15px;
+    color: #ffa8a8;
+    padding-right: 20px;
+    text-align: right;
+    padding-top: 30px;
+    margin: 0;
+}
+
+.foot-font {
+    font-size: 14px;
+    color: #0088CC;
+    text-align: center;
+    margin: 12px;
 }
