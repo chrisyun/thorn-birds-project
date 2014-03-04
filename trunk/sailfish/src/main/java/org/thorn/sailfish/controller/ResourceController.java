@@ -55,24 +55,23 @@ public class ResourceController {
             p = CMS_TAG;
         }
 
-        if (p.indexOf(CMS_TAG) < 0 || !StringUtils.equalsIgnoreCase(p, CMS_TAG)) {
+        p = StringUtils.removeStart(p, "/");
+        p = StringUtils.removeStart(p, "\\");
+
+
+        if (!StringUtils.startsWith(p, CMS_TAG)) {
             p = CMS_TAG;
         }
 
-        if (!p.startsWith(CMS_TAG)) {
-            p = p.substring(p.indexOf(CMS_TAG));
-        }
-
-        if (p.endsWith("/") || p.endsWith("\\")) {
-            p = p.substring(0, p.length() - 1);
-        }
+        p = StringUtils.removeEnd(p, "/");
+        p = StringUtils.removeEnd(p, "\\");
 
         String realPath = getRealPath(p, session);
 
         //获取目录下的文件信息
         //获取目录下的文件夹信息及文件夹的数量
         File folder = new File(realPath);
-        if(!folder.exists() && p == CMS_TAG) {
+        if(!folder.exists() && StringUtils.equals(p, CMS_TAG)) {
             folder.mkdirs();
         } else if (!folder.exists()) {
             return "redirect:/am/rs/index";
@@ -85,13 +84,11 @@ public class ResourceController {
         resourceFolder.setFileNumber(files.length);
         resourceFolder.setPath(p);
 
-        boolean isFormWork = false;
         if (p.equals(CMS_TAG)) {
             resourceFolder.setName("资源库 - CMS");
         } else if (p.equals(FLT_TAG)) {
             resourceFolder.setName("模板库 - CMS/FLT");
             resourceFolder.setParent(CMS_TAG);
-            isFormWork = true;
         } else {
             resourceFolder.setName(folder.getName());
             resourceFolder.setParent(StringUtils.removeEnd(p, resourceFolder.getName()));
@@ -173,9 +170,8 @@ public class ResourceController {
             return status;
         }
 
-        if (p.endsWith("/") || p.endsWith("\\")) {
-            p = p.substring(0, p.length() - 1);
-        }
+        p = StringUtils.removeEnd(p, "/");
+        p = StringUtils.removeEnd(p, "\\");
 
         if (StringUtils.equals(p, CMS_TAG) && StringUtils.equals(p, FLT_TAG)) {
             status.setSuccess(false);
@@ -214,9 +210,8 @@ public class ResourceController {
             return status;
         }
 
-        if (p.endsWith("/") || p.endsWith("\\")) {
-            p = p.substring(0, p.length() - 1);
-        }
+        p = StringUtils.removeEnd(p, "/");
+        p = StringUtils.removeEnd(p, "\\");
 
         if (StringUtils.equals(p, CMS_TAG) && StringUtils.equals(p, FLT_TAG)) {
             status.setSuccess(false);
@@ -502,9 +497,8 @@ public class ResourceController {
     }
 
     private String getRealPath(String p, HttpSession session) {
-        if (p.endsWith("/") || p.endsWith("\\")) {
-            p = p.substring(0, p.length() - 1);
-        }
+        p = StringUtils.removeEnd(p, "/");
+        p = StringUtils.removeEnd(p, "\\");
 
         //特殊处理 {CMS}、{CMS}/{FLT}
         String realPath = PathUtils.getContextPath(session);

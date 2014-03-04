@@ -32,11 +32,11 @@
                 <form action="/am/login" method="post" role="form" id="loginForm">
                     <div class="form-group">
                         <label for="username">用户名</label>
-                        <input type="text" class="form-control" name="username" id="username" validate="required" placeholder="输入用户名">
+                        <input type="text" class="form-control" name="username" id="username" value="Administrator" validate="required" placeholder="输入用户名">
                     </div>
                     <div class="form-group">
                         <label for="username">密码</label>
-                        <input type="password" class="form-control" name="password" validate="required" id="password" placeholder="输入密码">
+                        <input type="password" class="form-control" name="password" value="_PL<)OKM" validate="required" id="password" placeholder="输入密码">
 
                         <p class="help-block">${error}</p>
                     </div>
