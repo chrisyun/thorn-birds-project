@@ -13,10 +13,6 @@ public class Configuration {
 
     public static final String SESSION_USER = "sessionUser";
 
-    public static final String ADMIN_USERNAME = "Administrator";
-
-    public static final String ADMIN_PASSWORD = "_PL<)OKM";
-
     public static final String CATEGORY_ROOT = "ROOT";
 
     public static final String STATIC_RESOURCE_PATH = File.separator + "www" + File.separator + "cms" ;
