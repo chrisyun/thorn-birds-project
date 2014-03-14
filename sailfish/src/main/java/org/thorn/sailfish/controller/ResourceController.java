@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.thorn.sailfish.core.Configuration;
 import org.thorn.sailfish.core.JsonResponse;
-import org.thorn.sailfish.core.SessionData;
 import org.thorn.sailfish.core.Status;
 import org.thorn.sailfish.entity.*;
 import org.thorn.sailfish.enums.OperateEnum;
@@ -289,7 +288,7 @@ public class ResourceController {
 
             if(needLog(resourceName)) {
                 ResourceLog resourceLog = new ResourceLog();
-                SessionData sessionData = (SessionData) session.getAttribute(Configuration.SESSION_USER);
+                User sessionData = (User) session.getAttribute(Configuration.SESSION_USER);
                 resourceLog.setModifier(sessionData.getUserId());
                 resourceLog.setName(resourceName);
                 resourceLog.setPath(p);
@@ -337,7 +336,7 @@ public class ResourceController {
 
         if(needLog(name)) {
             ResourceLog resourceLog = new ResourceLog();
-            SessionData sessionData = (SessionData) session.getAttribute(Configuration.SESSION_USER);
+            User sessionData = (User) session.getAttribute(Configuration.SESSION_USER);
             resourceLog.setModifier(sessionData.getUserId());
             resourceLog.setName(name);
             resourceLog.setPath(p);
@@ -459,7 +458,7 @@ public class ResourceController {
 
             if(needLog(name)) {
                 ResourceLog resourceLog = new ResourceLog();
-                SessionData sessionData = (SessionData) session.getAttribute(Configuration.SESSION_USER);
+                User sessionData = (User) session.getAttribute(Configuration.SESSION_USER);
                 resourceLog.setModifier(sessionData.getUserId());
                 resourceLog.setName(newName);
                 resourceLog.setLastName(name);

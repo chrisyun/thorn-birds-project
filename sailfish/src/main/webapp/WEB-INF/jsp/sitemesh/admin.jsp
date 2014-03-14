@@ -70,6 +70,7 @@
                             <li><a href="/am/rs/index">资源与模板</a></li>
                             <li><a href="/am/ad/index">广告</a></li>
                             <li><a href="/am/article/index">文章</a></li>
+                            <li><a href="/am/user/index">用户</a></li>
                         </ul>
 
                         <ul class="nav navbar-nav navbar-right">

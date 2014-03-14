@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.thorn.sailfish.core.Configuration;
 import org.thorn.sailfish.core.Page;
-import org.thorn.sailfish.core.SessionData;
 import org.thorn.sailfish.core.Status;
 import org.thorn.sailfish.entity.Article;
 import org.thorn.sailfish.entity.Category;
+import org.thorn.sailfish.entity.User;
 import org.thorn.sailfish.enums.ArticleStatusEnum;
 import org.thorn.sailfish.service.ArticleService;
 import org.thorn.sailfish.service.CategoryService;
@@ -23,7 +23,6 @@ import org.thorn.sailfish.service.PageCacheService;
 import org.thorn.sailfish.utils.DateTimeUtils;
 
 import javax.servlet.http.HttpSession;
-import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -126,7 +125,7 @@ public class ArticleController {
         try {
             if(article.getId() == null) {
                 article.setCreateTime(new Date());
-                SessionData sessionData = (SessionData) session.getAttribute(Configuration.SESSION_USER);
+                User sessionData = (User) session.getAttribute(Configuration.SESSION_USER);
                 article.setCreater(sessionData.getUserId());
                 article.setStatus(statusEnum.getCode());
 

@@ -75,4 +75,18 @@ CREATE TABLE `ad_script` (
   createTime timestamp comment '创建时间',
   hidden  int comment '0:隐藏 1:显示',
   PRIMARY KEY (`code`)
-)
+);
+
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+  `userId` varchar(50) NOT NULL COMMENT '用户ID',
+  `userName` varchar(200) COMMENT '用户名',
+  `password` varchar(200) COMMENT '密码',
+  `defaultRole` varchar(50) COMMENT '默认角色',
+  `available` int(10) COMMENT '是否可用,0可用,1不可用',
+  `modifyTime` timestamp COMMENT '修改时间',
+  `lastLoginTime` timestamp COMMENT '上次登录时间',
+  PRIMARY KEY (`userId`)
+);
+
+INSERT USER VALUES('admin', '系统管理员', md5('111111'), 'ADMIN', 0, now(), now());

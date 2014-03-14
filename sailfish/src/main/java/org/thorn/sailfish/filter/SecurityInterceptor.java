@@ -4,8 +4,8 @@ import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.thorn.sailfish.core.Configuration;
-import org.thorn.sailfish.core.SessionData;
 import org.thorn.sailfish.core.Status;
+import org.thorn.sailfish.entity.User;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,7 +33,7 @@ public class SecurityInterceptor extends HandlerInterceptorAdapter {
             return true;
         }
 
-        SessionData sessionData = (SessionData) request.getSession().getAttribute(Configuration.SESSION_USER);
+        User sessionData = (User) request.getSession().getAttribute(Configuration.SESSION_USER);
 
         if (sessionData != null && !StringUtils.isEmpty(sessionData.getUserId())) {
             return true;
